@@ -3,6 +3,7 @@
   "style": "default",
   "rsc": true,
   "tsx": true,
+  "installCommand": "npm install",
   "tailwind": {
     "config": "tailwind.config.ts",
     "css": "app/globals.css",
