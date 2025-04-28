@@ -10,6 +10,7 @@ import {
   ClipboardEdit,
   Command,
   GalleryVerticalEnd,
+  Hourglass,
   Star,
 } from "lucide-react"
 
@@ -65,11 +66,15 @@ const data = {
       icon: Clock,
       items: [
         {
-          title: "Semanal",
+          title: "Carta Horaria",
           url: "#",
         },
         {
-          title: "Mensual",
+          title: "Carta Trópica",
+          url: "#",
+        },
+        {
+          title: "Carta Dracónica",
           url: "#",
         },
       ],
@@ -109,9 +114,9 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Horas Planetarias",
       url: "#",
-      icon: Bot,
+      icon: Hourglass,
       items: [
         {
           title: "Genesis",
@@ -123,29 +128,6 @@ const data = {
         },
         {
           title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
           url: "#",
         },
       ],
