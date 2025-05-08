@@ -13,6 +13,7 @@ import {
   getYear,
   getMonth,
   format,
+  parseISO,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -70,4 +71,30 @@ export function getMonthNumber(date: Date): number {
 // Get the year
 export function getYearNumber(date: Date): number {
   return getYear(date);
+}
+
+/**
+ * Convierte una fecha/hora UTC a formato local legible
+ * @param utcDateTimeString - Fecha y hora en formato UTC (YYYY-MM-DDTHH:MM:SSZ)
+ * @returns Fecha y hora formateada en hora local (DD/MM/YYYY - HH:MM)
+ */
+export function formatLocalDateTime(utcDateTimeString: string): string {
+  const date = new Date(utcDateTimeString);
+  
+  // Formato: "DD/MM/YYYY - HH:MM"
+  return `${date.getDate().toString().padStart(2, '0')}/${
+    (date.getMonth() + 1).toString().padStart(2, '0')}/${
+    date.getFullYear()} - ${
+    date.getHours().toString().padStart(2, '0')}:${
+    date.getMinutes().toString().padStart(2, '0')}`;
+}
+
+/**
+ * Convierte una fecha y hora UTC a un objeto Date
+ * @param dateUtc - Fecha en formato YYYY-MM-DD
+ * @param timeUtc - Hora en formato HH:MM
+ * @returns Objeto Date con la fecha y hora convertida
+ */
+export function createDateFromUtc(dateUtc: string, timeUtc: string): Date {
+  return new Date(`${dateUtc}T${timeUtc}:00Z`);
 }

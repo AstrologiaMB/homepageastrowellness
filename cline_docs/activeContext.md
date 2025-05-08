@@ -10,6 +10,11 @@ The primary focus has been on setting up the foundational navigation and layout 
 *   **Sidebar Menu Updated:** Modified `components/app-sidebar.tsx` to update menu items ("Cartas" sub-options, "Models" renamed to "Horas Planetarias", "Documentation" removed) and their corresponding URLs to align with the new routing structure. Added the `isHomepage` prop to `AppSidebar`.
 *   **Collapsed Sidebar Flyout Implemented:** Created `components/sidebar-flyout.tsx` and integrated it into `components/nav-main.tsx` to provide hover-triggered flyout menus for sidebar items with sub-options when the sidebar is collapsed.
 *   **"Calendario General" Component (Phase 1):** Implemented the basic layout, week navigation, "Back to Today" functionality, and date selection menu (month/week selection with correct sequential numbering) in `components/calendario-general.tsx`. Created `lib/date-utils.ts` for date calculations. Ensured vertical scrolling for the week display on both mobile and desktop.
+*   **Implementación de tarjetas de eventos astrológicos:** Creado el componente `EventoAstrologico` que muestra cada evento con su tipo, hora y descripción en un formato compacto y legible. El diseño optimiza el espacio mostrando "Tipo de evento a las HH:MM" en una sola línea.
+*   **Integración de datos JSON:** Creada la carpeta `/data` y configurada la importación del archivo JSON con eventos astrológicos. Añadido archivo de declaración de tipos para TypeScript.
+*   **Mejora del componente CalendarioGeneral:** Actualizado para mostrar eventos astrológicos reales desde el archivo JSON, con scroll horizontal para días con múltiples eventos. Implementada la lógica para filtrar eventos por día.
+*   **Funciones de conversión de timezone:** Añadidas funciones en `lib/date-utils.ts` para convertir fechas UTC a hora local del dispositivo del usuario.
+*   **Documentación de manejo de zonas horarias:** Creado `cline_docs/timezone-handling.md` para documentar la implementación actual y propuestas futuras para un manejo más robusto de zonas horarias.
 *   **Welcome View Implemented:** Updated `app/page.tsx` to display a welcome message card as the default view for the root route (`/`).
 *   **Dynamic Routing Structure Created:** Created nested directories and placeholder `page.tsx` files for key sections like Calendario (`app/calendario/general/page.tsx`, `app/calendario/personal/page.tsx`) and Cartas (`app/cartas/horaria/page.tsx`, `app/cartas/tropica/page.tsx`, `app/cartas/draconica/page.tsx`). Integrated the `CalendarioGeneral` component into `app/calendario/general/page.tsx`.
 *   **Dynamic Breadcrumb Implemented:** Created `components/breadcrumb-dynamic.tsx` and integrated it into the header within the shared layout.
@@ -25,7 +30,7 @@ The primary focus has been on setting up the foundational navigation and layout 
 
 ## Next Steps
 
-*   Proceed with the next phases of the "Calendario General" implementation (defining the event card, reading CSV data, rendering events) once the event card design is ready.
+*   Refinar la implementación del "Calendario General" con posibles mejoras visuales y de usabilidad basadas en feedback de usuarios.
 *   Migrate other functional components to their respective route files following the established pattern and the provided checklist.
 *   Apply route protection using `getServerSession()` and `redirect()` to other private pages as they are developed.
 *   Implemented the authentication fix by creating `components/session-handler.tsx` and `components/session-wrapper.tsx`, and modifying `app/layout.tsx` to use these components and remove the direct `getServerSession` call.

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -10,18 +10,41 @@ import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, ChevronRight } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area"; // Assuming ScrollArea might be useful for month/week lists
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber } from '@/lib/date-utils';
-import { useIsMobile } from '@/hooks/use-mobile'; // Assuming this hook exists for mobile detection
+import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { EventoAstrologico } from './evento-astrologico';
+
+// Importar los datos de eventos astrológicos
+import eventosData from '@/data/eventos_astrologicos_UTC_2025.json';
+
+// Definir la interfaz para los eventos
+interface EventoAstrologico {
+  fecha_utc: string;
+  hora_utc: string;
+  tipo_evento: string;
+  descripcion: string;
+  planeta1?: string;
+  planeta2?: string;
+  posicion1?: string;
+  posicion2?: string;
+  [key: string]: any; // Para otros campos que puedan variar según el tipo de evento
+}
 
 export function CalendarioGeneral() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
+  const [eventos, setEventos] = useState<EventoAstrologico[]>([]);
 
   const today = new Date();
-  const isMobile = useIsMobile(); // Use the mobile hook
+  const isMobile = useIsMobile();
+
+  // Cargar los eventos al montar el componente
+  useEffect(() => {
+    setEventos(eventosData as EventoAstrologico[]);
+  }, []);
 
   const handlePreviousWeek = () => {
     setCurrentWeekStart(subWeeks(currentWeekStart, 1));
@@ -171,23 +194,43 @@ export function CalendarioGeneral() {
 
       {/* Week Display */}
       <div className="flex flex-col gap-4">
-        {weekDays.map((day) => (
-          <Card
-            key={day.toISOString()}
-            className={`flex-none w-64 md:w-auto p-4 ${isSameDay(day, today) ? 'border-primary' : ''}`} // Highlight today
-          >
-            <h3 className="font-semibold">
-              {format(day, 'EEEE d', { locale: es })}
-              {isSameDay(day, today) && ' (Hoy)'}
-            </h3>
-            <Separator className="my-2" />
-            {/* Placeholder for events */}
-            <p className="text-muted-foreground">
-              {/* Logic to check for events for this day */}
-              (No hay eventos)
-            </p>
-          </Card>
-        ))}
+        {weekDays.map((day) => {
+          // Filtrar eventos para este día
+          const eventosDelDia = eventos.filter(evento => {
+            const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
+            return isSameDay(fechaEvento, day);
+          });
+
+          return (
+            <Card
+              key={day.toISOString()}
+              className={`flex-none w-64 md:w-auto p-4 ${isSameDay(day, today) ? 'border-primary' : ''}`}
+            >
+              <h3 className="font-semibold">
+                {format(day, 'EEEE d', { locale: es })}
+                {isSameDay(day, today) && ' (Hoy)'}
+              </h3>
+              <Separator className="my-2" />
+              
+              {eventosDelDia.length > 0 ? (
+                <ScrollArea className="w-full">
+                  <div className="flex space-x-4 pb-2 overflow-x-auto">
+                    {eventosDelDia.map((evento, index) => (
+                      <EventoAstrologico 
+                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`} 
+                        evento={evento} 
+                      />
+                    ))}
+                  </div>
+                </ScrollArea>
+              ) : (
+                <p className="text-muted-foreground">
+                  (No hay eventos)
+                </p>
+              )}
+            </Card>
+          );
+        })}
       </div>
 
       {/* Back to Today Button */}
