@@ -109,6 +109,7 @@ const data = {
         },
         {
           title: "Referencias",
+          url: "#",
         },
       ],
     },
@@ -148,7 +149,7 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       {/* Removed the conditionally rendered SidebarTrigger */}
       <SidebarRail />
