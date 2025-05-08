@@ -14,10 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { useSidebar } from "@/components/ui/sidebar"
 
 export function NavUser() {
   const { data: session } = useSession()
   const router = useRouter()
+  const { state } = useSidebar()
 
   if (!session?.user) {
     return (
@@ -36,7 +38,7 @@ export function NavUser() {
         }} 
         className="w-full justify-start"
       >
-        Ingresar / Registrarse
+        {state === "expanded" ? "Ingresar / Registrarse" : "Login"}
       </Button>
     )
   }
@@ -51,14 +53,16 @@ export function NavUser() {
               {session.user.name?.[0] ?? "U"}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col text-left">
-            <span className="text-sm font-medium truncate">
-              {session.user.name}
-            </span>
-            <span className="text-xs text-muted-foreground truncate">
-              {session.user.email}
-            </span>
-          </div>
+          {state === "expanded" && (
+            <div className="flex flex-col text-left">
+              <span className="text-sm font-medium truncate">
+                {session.user.name}
+              </span>
+              <span className="text-xs text-muted-foreground truncate">
+                {session.user.email}
+              </span>
+            </div>
+          )}
         </div>
       </DropdownMenuTrigger>
 
