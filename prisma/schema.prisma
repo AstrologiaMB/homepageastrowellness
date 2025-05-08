@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -31,4 +32,27 @@ model User {
   residenceCity    String?
   residenceCountry String?
   timezone         String? // Calculado automáticamente
+  
+  // Datos para rectificación de carta
+  rectificationRequested       Boolean  @default(false)
+  rectificationAcceptedUncertainty Boolean  @default(false)
+  rectificationStatus          String?  // "pending", "in_progress", "completed", "rejected"
+  rectificationRequestDate     DateTime?
+  
+  // Relaciones
+  rectificationEvents          RectificationEvent[]
+}
+
+model RectificationEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  eventType   String   // "sad" o "happy"
+  description String
+  eventDate   DateTime
+  notes       String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

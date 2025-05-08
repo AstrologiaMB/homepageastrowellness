@@ -81,18 +81,9 @@ const data = {
     },
     {
       title: "Rectificacion Carta",
-      url: "#",
+      url: "/rectificacion-carta",
       icon: ClipboardEdit,
-      items: [
-        {
-          title: "Pendientes",
-          url: "#",
-        },
-        {
-          title: "Historial",
-          url: "#",
-        },
-      ],
+      items: [], // Sin submenús
     },
     {
       title: "Astrogematria",

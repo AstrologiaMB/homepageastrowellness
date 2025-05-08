@@ -21,7 +21,7 @@ export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyout
   const [open, setOpen] = useState(false)
 
   // Si el sidebar no está colapsado o no hay ítems, no renderizar nada
-  if (!isCollapsed || !items.length) return null
+  if (!isCollapsed || !Array.isArray(items) || !items.length) return null
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,16 +54,18 @@ export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyout
           {label}
         </div>
         <div className="flex flex-col gap-1">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "text-sm px-2 py-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors"
-              )}
-            >
-              {item.label}
-            </Link>
+          {Array.isArray(items) && items.map((item) => (
+            item && item.href && item.label ? (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "text-sm px-2 py-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors"
+                )}
+              >
+                {item.label}
+              </Link>
+            ) : null
           ))}
         </div>
       </PopoverContent>

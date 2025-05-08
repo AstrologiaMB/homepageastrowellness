@@ -39,7 +39,7 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => {
           // Render SidebarFlyout if the item has sub-items AND the sidebar is collapsed
-          if (item.items && item.items.length > 0 && isSidebarCollapsed) {
+          if (item.items && Array.isArray(item.items) && item.items.length > 0 && isSidebarCollapsed) {
             // Ensure we have a valid icon before trying to render it
             const iconElement = item.icon ? <item.icon /> : null;
             
@@ -48,17 +48,19 @@ export function NavMain({
                 key={item.title}
                 icon={iconElement}
                 label={item.title}
-                items={item.items.map(subItem => ({
-                  label: subItem.title,
-                  href: subItem.url,
-                }))}
+                items={Array.isArray(item.items) ? item.items.map(subItem => 
+                  subItem && subItem.title && subItem.url ? {
+                    label: subItem.title,
+                    href: subItem.url,
+                  } : null
+                ).filter(Boolean) as { label: string; href: string; }[] : []}
                 isCollapsed={isSidebarCollapsed}
               />
             );
           }
 
           // Render Collapsible if the item has sub-items AND the sidebar is expanded
-          if (item.items && item.items.length > 0 && !isSidebarCollapsed) {
+          if (item.items && Array.isArray(item.items) && item.items.length > 0 && !isSidebarCollapsed) {
              return (
                <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
                  <SidebarMenuItem>
@@ -71,14 +73,16 @@ export function NavMain({
                    </CollapsibleTrigger>
                    <CollapsibleContent>
                      <SidebarMenuSub>
-                       {item.items?.map((subItem) => (
-                         <SidebarMenuSubItem key={subItem.title}>
-                           <SidebarMenuSubButton asChild>
-                             <Link href={subItem.url}>
-                               <span>{subItem.title}</span>
-                             </Link>
-                           </SidebarMenuSubButton>
-                         </SidebarMenuSubItem>
+                       {Array.isArray(item.items) && item.items.map((subItem) => (
+                         subItem && subItem.title && subItem.url ? (
+                           <SidebarMenuSubItem key={subItem.title}>
+                             <SidebarMenuSubButton asChild>
+                               <Link href={subItem.url}>
+                                 <span>{subItem.title}</span>
+                               </Link>
+                             </SidebarMenuSubButton>
+                           </SidebarMenuSubItem>
+                         ) : null
                        ))}
                      </SidebarMenuSub>
                    </CollapsibleContent>
@@ -89,7 +93,7 @@ export function NavMain({
 
 
           // Render a standard menu item if the item has no sub-items (regardless of collapsed state)
-          if (!item.items || item.items.length === 0) {
+          if (!item.items || !Array.isArray(item.items) || item.items.length === 0) {
              return (
                <SidebarMenuItem key={item.title}>
                  <SidebarMenuButton tooltip={item.title} asChild>
