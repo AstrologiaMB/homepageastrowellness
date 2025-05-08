@@ -20,7 +20,8 @@ interface SidebarFlyoutProps {
 export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyoutProps) {
   const [open, setOpen] = useState(false)
 
-  if (!isCollapsed) return null
+  // Si el sidebar no está colapsado o no hay ítems, no renderizar nada
+  if (!isCollapsed || !items.length) return null
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

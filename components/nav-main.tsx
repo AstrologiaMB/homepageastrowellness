@@ -40,16 +40,19 @@ export function NavMain({
         {items.map((item) => {
           // Render SidebarFlyout if the item has sub-items AND the sidebar is collapsed
           if (item.items && item.items.length > 0 && isSidebarCollapsed) {
+            // Ensure we have a valid icon before trying to render it
+            const iconElement = item.icon ? <item.icon /> : null;
+            
             return (
               <SidebarFlyout
                 key={item.title}
-                icon={item.icon ? <item.icon /> : null} // Pass the icon component
-                label={item.title} // Pass the main item title as the flyout label
-                items={item.items.map(subItem => ({ // Map sub-items to the expected format
+                icon={iconElement}
+                label={item.title}
+                items={item.items.map(subItem => ({
                   label: subItem.title,
                   href: subItem.url,
                 }))}
-                isCollapsed={isSidebarCollapsed} // Pass the collapsed state
+                isCollapsed={isSidebarCollapsed}
               />
             );
           }
