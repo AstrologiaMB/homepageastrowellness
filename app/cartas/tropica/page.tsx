@@ -3,9 +3,10 @@
  * 
  * Esta página muestra una carta natal trópica utilizando datos de ejemplo.
  * La página está protegida y requiere autenticación y datos de usuario completos.
+ * Incluye tanto la visualización gráfica como una tabla de datos.
  * 
  * @author Astrowellness Team
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 import { getServerSession } from "next-auth";
@@ -14,6 +15,7 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import cartaNatalData from '@/data/cartas/carta_natal_ejemplo.json';
 import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
+import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 
 /**
  * Componente de página para la carta natal trópica.
@@ -48,7 +50,15 @@ export default async function CartasTropicaPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
-      <CartaNatalWrapper chartData={cartaNatalData} />
+      
+      {/* Visualización gráfica de la carta natal */}
+      <div className="mb-8">
+        <h2 className="text-xl font-bold mb-4">Gráfico</h2>
+        <CartaNatalWrapper chartData={cartaNatalData} />
+      </div>
+      
+      {/* Tabla de datos de la carta natal */}
+      <CartaNatalTabla chartData={cartaNatalData} />
     </div>
   );
 }
