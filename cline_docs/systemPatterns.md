@@ -93,3 +93,27 @@ Para asegurar la compatibilidad con Prisma y el formato ISO-8601:
 3. **Al recuperar datos**:
    - Se convierte de ISO-8601 a formato de fecha simple para el input type="date"
    - Se extraen hora y minuto para los selectores correspondientes
+
+## Patrón de Visualización de Datos Astrológicos
+
+Para la visualización de datos astrológicos complejos como cartas natales, se sigue el siguiente patrón:
+
+1. **Componente de Renderizado:** Un componente cliente que utiliza bibliotecas especializadas (como @astrodraw/astrochart).
+2. **Wrapper con Carga Dinámica:** Un componente wrapper que utiliza `dynamic import` con `{ ssr: false }` para evitar problemas de renderizado en el servidor.
+3. **Datos Estructurados:** Datos en formato JSON con una estructura específica para cada tipo de visualización.
+4. **Página Protegida:** Páginas que requieren autenticación y datos de usuario completos.
+
+### Implementación para Cartas Natales
+
+| Componente                    | Propósito                                                                |
+| :---------------------------- | :----------------------------------------------------------------------- |
+| `components/carta-natal.tsx`  | Renderiza la carta natal usando la biblioteca @astrodraw/astrochart      |
+| `components/carta-natal-wrapper.tsx` | Carga dinámicamente el componente principal con `{ ssr: false }`  |
+| `data/cartas/*.json`          | Almacena los datos de posiciones planetarias y cúspides de casas         |
+| `app/cartas/*/page.tsx`       | Páginas protegidas que muestran diferentes tipos de cartas astrológicas  |
+
+Este patrón permite:
+- Evitar problemas de renderizado en el servidor con bibliotecas que manipulan el DOM
+- Cargar los datos de manera eficiente
+- Reutilizar componentes para diferentes tipos de cartas (trópica, dracónica, etc.)
+- Proteger el acceso a las visualizaciones según el estado de autenticación del usuario

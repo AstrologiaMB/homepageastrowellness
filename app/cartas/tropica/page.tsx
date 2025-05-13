@@ -1,3 +1,13 @@
+/**
+ * Página para mostrar la carta natal trópica.
+ * 
+ * Esta página muestra una carta natal trópica utilizando datos de ejemplo.
+ * La página está protegida y requiere autenticación y datos de usuario completos.
+ * 
+ * @author Astrowellness Team
+ * @version 1.0.0
+ */
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -5,6 +15,11 @@ import prisma from "@/lib/prisma";
 import cartaNatalData from '@/data/cartas/carta_natal_ejemplo.json';
 import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
 
+/**
+ * Componente de página para la carta natal trópica.
+ * 
+ * @returns {JSX.Element} - Elemento JSX que contiene la página de carta natal trópica.
+ */
 export default async function CartasTropicaPage() {
   // Verificar si el usuario está autenticado
   const session = await getServerSession(authOptions);
@@ -26,6 +41,9 @@ export default async function CartasTropicaPage() {
       redirect("/completar-datos");
     }
   }
+
+  // Nota: En el futuro, aquí se generarán los datos de la carta natal
+  // basados en los datos de nacimiento del usuario en lugar de usar datos de ejemplo.
 
   return (
     <div className="p-4">

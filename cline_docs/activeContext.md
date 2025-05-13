@@ -28,6 +28,18 @@ The primary focus has been on setting up the foundational navigation and layout 
 *   **Creación de endpoint para perfil de usuario:** Implementado un nuevo endpoint en `app/api/user/profile/route.ts` que devuelve los datos del usuario autenticado para su uso en formularios y perfiles.
 *   **Precarga de datos en el formulario:** Modificado el formulario de completar datos para cargar y mostrar los datos existentes del usuario cuando ya los ha ingresado previamente, mejorando la experiencia de usuario al editar información.
 
+## Implementación de Carta Natal
+
+* **Biblioteca Utilizada:** @astrodraw/astrochart versión 3.0.2 para renderizar cartas natales en SVG.
+* **Componentes Creados:**
+  - `components/carta-natal.tsx`: Componente principal que utiliza la API de Chart de AstroChart para renderizar la carta natal.
+  - `components/carta-natal-wrapper.tsx`: Wrapper que carga el componente CartaNatal dinámicamente con `dynamic import` y `{ ssr: false }` para evitar problemas de renderizado en el servidor.
+* **Estructura de Datos:** Los datos de la carta natal se proporcionan en formato JSON con la siguiente estructura:
+  - `planets`: Objeto con posiciones planetarias en grados (0-359) y flags de retrogradación (-0.1).
+  - `cusps`: Array de 12 valores numéricos representando las cúspides de las casas.
+* **Integración:** Implementada en `app/cartas/tropica/page.tsx` con datos de ejemplo desde `data/cartas/carta_natal_ejemplo.json`.
+* **Protección de Ruta:** La página de carta natal está protegida y requiere autenticación y datos de usuario completos.
+
 ## Next Steps
 
 *   Refinar la implementación del "Calendario General" con posibles mejoras visuales y de usabilidad basadas en feedback de usuarios.

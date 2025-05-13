@@ -22,6 +22,7 @@
 *   **Formulario de Datos Personales Mejorado:** El formulario ahora incluye campos para la hora exacta de nacimiento y precarga los datos existentes del usuario para facilitar modificaciones.
 *   **Endpoint de Perfil de Usuario:** Implementado un nuevo endpoint en `app/api/user/profile/route.ts` que permite obtener los datos del usuario autenticado para mostrarlos en el formulario.
 *   **Manejo de Fechas Optimizado:** Corregido el formato de fechas para asegurar compatibilidad con Prisma y el almacenamiento correcto en la base de datos.
+*   **Carta Natal Trópica:** Implementada la visualización de la carta natal utilizando @astrodraw/astrochart. La carta muestra correctamente los planetas, sus posiciones, indicadores de retrogradación y las cúspides de las casas. La implementación utiliza carga dinámica para evitar problemas de renderizado en el servidor.
 
 ## What's Left to Build / Refine
 
@@ -32,3 +33,6 @@
 *   **Refine Styling and Responsiveness:** Further refine the UI and ensure full responsiveness across all components and layouts.
 *   **Integración con Backend:** Implementar la integración con un backend para datos personalizados, incorporando el estado de autenticación para mostrar eventos generales o personalizados según las reglas de autenticación.
 *   **Manejo Avanzado de Zonas Horarias:** Considerar la implementación de un selector de zona horaria para usuarios que viajan frecuentemente, como se documenta en `cline_docs/timezone-handling.md`.
+*   **Personalización de Cartas Natales:** Implementar la generación de cartas natales basadas en los datos de nacimiento del usuario en lugar de usar datos de ejemplo.
+*   **Cartas Dracónicas:** Completar la implementación de la visualización de cartas dracónicas siguiendo el patrón establecido para las cartas trópicas.
+*   **Interpretaciones:** Añadir interpretaciones textuales de los aspectos y posiciones planetarias junto a la visualización gráfica.
