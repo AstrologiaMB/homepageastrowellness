@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
+import cartaNatalData from '@/data/cartas/carta_natal_ejemplo.json';
+import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
 
 export default async function CartasTropicaPage() {
   // Verificar si el usuario está autenticado
@@ -26,6 +28,9 @@ export default async function CartasTropicaPage() {
   }
 
   return (
-    <h1>Cartas Trópica Page</h1>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
+      <CartaNatalWrapper chartData={cartaNatalData} />
+    </div>
   );
 }
