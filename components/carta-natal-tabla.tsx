@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { AstroSymbol } from "@/components/astro-symbol";
 
 /**
  * Interfaz para los datos de la carta natal.
@@ -29,76 +30,63 @@ interface CartaNatalTablaProps {
   };
 }
 
-// Mapeo de nombres de planetas a sus símbolos
-const planetSymbols: Record<string, string> = {
-  "Sun": "☉",
-  "Moon": "☽",
-  "Mercury": "☿",
-  "Venus": "♀",
-  "Mars": "♂",
-  "Jupiter": "♃",
-  "Saturn": "♄",
-  "Uranus": "♅",
-  "Neptune": "♆",
-  "Pluto": "♇",
-  "NNode": "☊",
-  "Lilith": "⚸",
-  "Chiron": "⚷"
-};
-
-// Mapeo de grados a signos zodiacales
-const zodiacSigns: [string, number][] = [
-  ["♈", 0],   // Aries
-  ["♉", 30],  // Tauro
-  ["♊", 60],  // Géminis
-  ["♋", 90],  // Cáncer
-  ["♌", 120], // Leo
-  ["♍", 150], // Virgo
-  ["♎", 180], // Libra
-  ["♏", 210], // Escorpio
-  ["♐", 240], // Sagitario
-  ["♑", 270], // Capricornio
-  ["♒", 300], // Acuario
-  ["♓", 330]  // Piscis
+// Mapeo de grados a nombres de signos zodiacales
+const zodiacSignNames: [string, number][] = [
+  ["Aries", 0],
+  ["Taurus", 30],
+  ["Gemini", 60],
+  ["Cancer", 90],
+  ["Leo", 120],
+  ["Virgo", 150],
+  ["Libra", 180],
+  ["Scorpio", 210],
+  ["Sagittarius", 240],
+  ["Capricorn", 270],
+  ["Aquarius", 300],
+  ["Pisces", 330]
 ];
 
 /**
  * Convierte grados decimales a formato sexagesimal (grados y minutos)
+ * relativos al signo zodiacal
  * 
- * @param {number} decimal - Grados en formato decimal
- * @returns {string} - Grados y minutos en formato "XX° XX'"
+ * @param {number} decimal - Grados en formato decimal (0-359)
+ * @returns {string} - Grados y minutos en formato "XX° XX'" (0-29°)
  */
 function decimalToSexagesimal(decimal: number): string {
   // Normalizar a 0-360
   const normalizedDecimal = ((decimal % 360) + 360) % 360;
   
+  // Obtener grados relativos al signo (0-29)
+  const relativePosition = normalizedDecimal % 30;
+  
   // Obtener grados (parte entera)
-  const degrees = Math.floor(normalizedDecimal);
+  const degrees = Math.floor(relativePosition);
   
   // Obtener minutos (parte decimal convertida a minutos)
-  const minutes = Math.floor((normalizedDecimal - degrees) * 60);
+  const minutes = Math.floor((relativePosition - degrees) * 60);
   
   return `${degrees}° ${minutes.toString().padStart(2, '0')}'`;
 }
 
 /**
- * Determina el signo zodiacal basado en los grados
+ * Determina el nombre del signo zodiacal basado en los grados
  * 
  * @param {number} degrees - Grados (0-359)
- * @returns {string} - Símbolo del signo zodiacal
+ * @returns {string} - Nombre del signo zodiacal
  */
-function getZodiacSign(degrees: number): string {
+function getZodiacSignName(degrees: number): string {
   // Normalizar a 0-360
   const normalizedDegrees = ((degrees % 360) + 360) % 360;
   
   // Encontrar el signo correspondiente
-  for (let i = zodiacSigns.length - 1; i >= 0; i--) {
-    if (normalizedDegrees >= zodiacSigns[i][1]) {
-      return zodiacSigns[i][0];
+  for (let i = zodiacSignNames.length - 1; i >= 0; i--) {
+    if (normalizedDegrees >= zodiacSignNames[i][1]) {
+      return zodiacSignNames[i][0];
     }
   }
   
-  return zodiacSigns[0][0]; // Default a Aries si algo sale mal
+  return zodiacSignNames[0][0]; // Default a Aries si algo sale mal
 }
 
 /**
@@ -179,17 +167,27 @@ export function CartaNatalTabla({ chartData }: CartaNatalTablaProps) {
                   const position = data[0];
                   const isRetrograde = data.length > 1 && data[1] === -0.1;
                   const house = getHouse(position, chartData.cusps);
+                  const signName = getZodiacSignName(position);
                   
                   return (
                     <TableRow key={planet}>
-                      <TableCell className={fontLoaded ? "font-astronomicon" : ""}>
-                        {planetSymbols[planet] || planet}
+                      <TableCell>
+                        {planet === "NNode" ? <AstroSymbol type="lunar" name={planet} /> :
+                         planet === "Lilith" ? <AstroSymbol type="lunar" name={planet} /> :
+                         planet === "Chiron" ? <AstroSymbol type="asteroid" name={planet} /> :
+                         <AstroSymbol type="planet" name={planet} />}
                       </TableCell>
-                      <TableCell className={fontLoaded ? "font-astronomicon" : ""}>
-                        {getZodiacSign(position)}
+                      <TableCell>
+                        <AstroSymbol type="sign" name={signName} />
                       </TableCell>
                       <TableCell>{decimalToSexagesimal(position)}</TableCell>
-                      <TableCell>{house}</TableCell>
+                      <TableCell>
+                        {house === 1 ? <AstroSymbol type="angle" name="ASC" /> :
+                         house === 4 ? <AstroSymbol type="angle" name="IC" /> :
+                         house === 7 ? <AstroSymbol type="angle" name="DSC" /> :
+                         house === 10 ? <AstroSymbol type="angle" name="MC" /> :
+                         house}
+                      </TableCell>
                       <TableCell>{isRetrograde ? "Rx" : ""}</TableCell>
                     </TableRow>
                   );
@@ -214,15 +212,38 @@ export function CartaNatalTabla({ chartData }: CartaNatalTablaProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {chartData.cusps.map((cusp, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell className={fontLoaded ? "font-astronomicon" : ""}>
-                      {getZodiacSign(cusp)}
-                    </TableCell>
-                    <TableCell>{decimalToSexagesimal(cusp)}</TableCell>
-                  </TableRow>
-                ))}
+                {chartData.cusps.map((cusp, index) => {
+                  const signName = getZodiacSignName(cusp);
+                  
+                  // Determinar si es un ángulo astrológico principal
+                  let houseLabel;
+                  switch (index) {
+                    case 0:
+                      houseLabel = <AstroSymbol type="angle" name="ASC" />;
+                      break;
+                    case 3:
+                      houseLabel = <AstroSymbol type="angle" name="IC" />;
+                      break;
+                    case 6:
+                      houseLabel = <AstroSymbol type="angle" name="DSC" />;
+                      break;
+                    case 9:
+                      houseLabel = <AstroSymbol type="angle" name="MC" />;
+                      break;
+                    default:
+                      houseLabel = index + 1;
+                  }
+                  
+                  return (
+                    <TableRow key={index}>
+                      <TableCell>{houseLabel}</TableCell>
+                      <TableCell>
+                        <AstroSymbol type="sign" name={signName} />
+                      </TableCell>
+                      <TableCell>{decimalToSexagesimal(cusp)}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </CardContent>
