@@ -40,6 +40,20 @@ The primary focus has been on setting up the foundational navigation and layout 
 * **Integración:** Implementada en `app/cartas/tropica/page.tsx` con datos de ejemplo desde `data/cartas/carta_natal_ejemplo.json`.
 * **Protección de Ruta:** La página de carta natal está protegida y requiere autenticación y datos de usuario completos.
 
+## Corrección de Errores de Claves Duplicadas en Navegación
+
+Se ha resuelto un problema crítico relacionado con claves duplicadas en los componentes de navegación:
+
+* **Problema Identificado:** Error "Encountered two children with the same key, `#`" en la consola del navegador, causado por elementos con la misma URL "#" utilizados como claves en React.
+* **Componentes Afectados:** 
+  - `components/nav-main.tsx`: Utilizaba `item.title` como clave para elementos del menú.
+  - `components/sidebar-flyout.tsx`: Utilizaba `item.href` como clave para enlaces en menús desplegables.
+* **Solución Implementada:**
+  - Modificados ambos componentes para usar claves compuestas que combinan múltiples propiedades: título, URL e índice.
+  - Añadido el parámetro `index` a las funciones de mapeo para utilizarlo en las claves.
+  - Documentado el patrón en `cline_docs/systemPatterns.md` para su uso consistente en futuros componentes.
+* **Resultado:** La navegación ahora funciona correctamente sin errores de claves duplicadas, mejorando la estabilidad y el rendimiento de la aplicación.
+
 ## Next Steps
 
 *   Refinar la implementación del "Calendario General" con posibles mejoras visuales y de usabilidad basadas en feedback de usuarios.
@@ -59,3 +73,4 @@ The primary focus has been on setting up the foundational navigation and layout 
 *   Implementar mejoras adicionales en el formulario de datos personales, como validaciones más robustas y mensajes de error más descriptivos.
 *   Considerar la implementación de un sistema de notificaciones para informar al usuario sobre el estado de sus acciones (guardado exitoso, errores, etc.).
 *   Address the `disableToggle` functionality for the sidebar on the homepage if it's deemed necessary and requires modification of the `SidebarProvider` component.
+*   Continuar aplicando el patrón de claves únicas en futuros componentes que rendericen listas de elementos.

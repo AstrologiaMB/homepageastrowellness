@@ -117,3 +117,35 @@ Este patrón permite:
 - Cargar los datos de manera eficiente
 - Reutilizar componentes para diferentes tipos de cartas (trópica, dracónica, etc.)
 - Proteger el acceso a las visualizaciones según el estado de autenticación del usuario
+
+## Patrón de Navegación y Manejo de Claves en Listas
+
+Para la navegación lateral y los menús desplegables, se sigue un patrón específico para evitar problemas con claves duplicadas en React:
+
+### Componentes de Navegación
+
+| Componente                      | Propósito                                                                |
+| :------------------------------ | :----------------------------------------------------------------------- |
+| `components/app-sidebar.tsx`    | Contenedor principal de la barra lateral con datos de navegación         |
+| `components/nav-main.tsx`       | Renderiza los elementos principales del menú de navegación               |
+| `components/sidebar-flyout.tsx` | Muestra menús desplegables al pasar el cursor sobre ítems colapsados     |
+
+### Patrón de Claves Únicas
+
+Para evitar el error "Encountered two children with the same key" en listas de React, especialmente cuando hay URLs duplicadas como "#", se implementa el siguiente patrón:
+
+1. **Claves Compuestas:** Se utilizan claves compuestas que combinan múltiples propiedades del elemento:
+   ```jsx
+   key={`${item.title}-${item.url}-${index}`}
+   ```
+
+2. **Inclusión del Índice:** Se incluye el índice del elemento en la clave para garantizar unicidad incluso cuando otras propiedades son idénticas:
+   ```jsx
+   {items.map((item, index) => (
+     <Component key={`${item.property}-${index}`} />
+   ))}
+   ```
+
+3. **Consistencia en Componentes Anidados:** Este patrón se aplica de manera consistente en todos los componentes que renderizan listas, incluyendo submenús y elementos anidados.
+
+Este enfoque garantiza que cada elemento tenga una clave única, lo que permite a React mantener correctamente la identidad de los componentes durante las actualizaciones y evita problemas de renderizado y comportamiento inesperado.

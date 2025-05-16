@@ -23,6 +23,7 @@
 *   **Endpoint de Perfil de Usuario:** Implementado un nuevo endpoint en `app/api/user/profile/route.ts` que permite obtener los datos del usuario autenticado para mostrarlos en el formulario.
 *   **Manejo de Fechas Optimizado:** Corregido el formato de fechas para asegurar compatibilidad con Prisma y el almacenamiento correcto en la base de datos.
 *   **Carta Natal Trópica:** Implementada la visualización de la carta natal utilizando @astrodraw/astrochart. La carta muestra correctamente los planetas, sus posiciones, indicadores de retrogradación y las cúspides de las casas. La implementación utiliza carga dinámica para evitar problemas de renderizado en el servidor.
+*   **Navegación Mejorada con Claves Únicas:** Resuelto el problema de claves duplicadas en los componentes de navegación (`nav-main.tsx` y `sidebar-flyout.tsx`) implementando un patrón de claves compuestas que combina título, URL e índice. Este patrón está documentado en `cline_docs/systemPatterns.md` para asegurar su uso consistente en futuros componentes.
 
 ## What's Left to Build / Refine
 
