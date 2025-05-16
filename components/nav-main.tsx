@@ -37,7 +37,7 @@ export function NavMain({
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => {
+        {items.map((item, index) => {
           // Render SidebarFlyout if the item has sub-items AND the sidebar is collapsed
           if (item.items && Array.isArray(item.items) && item.items.length > 0 && isSidebarCollapsed) {
             // Ensure we have a valid icon before trying to render it
@@ -45,7 +45,7 @@ export function NavMain({
             
             return (
               <SidebarFlyout
-                key={item.title}
+                key={`${item.title}-${item.url}-${index}`}
                 icon={iconElement}
                 label={item.title}
                 items={Array.isArray(item.items) ? item.items.map(subItem => 
@@ -62,7 +62,7 @@ export function NavMain({
           // Render Collapsible if the item has sub-items AND the sidebar is expanded
           if (item.items && Array.isArray(item.items) && item.items.length > 0 && !isSidebarCollapsed) {
              return (
-               <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
+               <Collapsible key={`${item.title}-${item.url}-${index}`} asChild defaultOpen={item.isActive} className="group/collapsible">
                  <SidebarMenuItem>
                    <CollapsibleTrigger asChild>
                      <SidebarMenuButton tooltip={item.title}>
@@ -73,9 +73,9 @@ export function NavMain({
                    </CollapsibleTrigger>
                    <CollapsibleContent>
                      <SidebarMenuSub>
-                       {Array.isArray(item.items) && item.items.map((subItem) => (
+                       {Array.isArray(item.items) && item.items.map((subItem, subIndex) => (
                          subItem && subItem.title && subItem.url ? (
-                           <SidebarMenuSubItem key={subItem.title}>
+                           <SidebarMenuSubItem key={`${subItem.title}-${subItem.url}-${subIndex}`}>
                              <SidebarMenuSubButton asChild>
                                <Link href={subItem.url}>
                                  <span>{subItem.title}</span>
@@ -95,7 +95,7 @@ export function NavMain({
           // Render a standard menu item if the item has no sub-items (regardless of collapsed state)
           if (!item.items || !Array.isArray(item.items) || item.items.length === 0) {
              return (
-               <SidebarMenuItem key={item.title}>
+               <SidebarMenuItem key={`${item.title}-${item.url}-${index}`}>
                  <SidebarMenuButton tooltip={item.title} asChild>
                     <Link href={item.url}>
                        {item.icon && <item.icon />}

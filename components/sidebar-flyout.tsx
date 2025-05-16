@@ -54,10 +54,10 @@ export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyout
           {label}
         </div>
         <div className="flex flex-col gap-1">
-          {Array.isArray(items) && items.map((item) => (
+          {Array.isArray(items) && items.map((item, index) => (
             item && item.href && item.label ? (
               <Link
-                key={item.href}
+                key={`${item.href}-${item.label}-${index}`}
                 href={item.href}
                 className={cn(
                   "text-sm px-2 py-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors"
