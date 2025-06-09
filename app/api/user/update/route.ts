@@ -40,6 +40,7 @@ export async function POST(req: Request) {
           birthHour: data.knowsBirthTime ? Number(data.birthHour) : null,
           birthMinute: data.knowsBirthTime ? Number(data.birthMinute) : null,
           knowsBirthTime: Boolean(data.knowsBirthTime),
+          gender: data.gender as string,
           residenceCity: data.residenceCity as string,
           residenceCountry: data.residenceCountry as string,
           // Omitimos timezone por ahora

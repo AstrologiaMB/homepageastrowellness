@@ -21,6 +21,7 @@ export async function GET(req: Request) {
         birthHour: true,
         birthMinute: true,
         knowsBirthTime: true,
+        gender: true,
         residenceCity: true,
         residenceCountry: true,
       },

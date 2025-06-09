@@ -16,6 +16,7 @@ export default function CompletarDatosPage() {
     birthHour: 0,
     birthMinute: 0,
     knowsBirthTime: false,
+    gender: "",
     residenceCity: "",
     residenceCountry: "",
   });
@@ -60,6 +61,7 @@ export default function CompletarDatosPage() {
       birthHour: knowsBirthTime ? Number(formData.get("birthHour")) : null,
       birthMinute: knowsBirthTime ? Number(formData.get("birthMinute")) : null,
       knowsBirthTime: knowsBirthTime,
+      gender: formData.get("gender"),
       residenceCity: formData.get("residenceCity"),
       residenceCountry: formData.get("residenceCountry"),
     };
@@ -190,6 +192,34 @@ export default function CompletarDatosPage() {
             required 
             defaultValue={userData.birthCountry || ""}
           />
+        </div>
+        
+        <div>
+          <label className="block mb-2">Género</label>
+          <div className="flex gap-4">
+            <label className="flex items-center">
+              <input 
+                type="radio" 
+                name="gender" 
+                value="masculino" 
+                className="mr-2"
+                required
+                defaultChecked={userData.gender === "masculino"}
+              />
+              Masculino
+            </label>
+            <label className="flex items-center">
+              <input 
+                type="radio" 
+                name="gender" 
+                value="femenino" 
+                className="mr-2"
+                required
+                defaultChecked={userData.gender === "femenino"}
+              />
+              Femenino
+            </label>
+          </div>
         </div>
         
         <div>

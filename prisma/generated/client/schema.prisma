@@ -21,6 +21,7 @@ model User {
   birthHour                        Int?
   birthMinute                      Int?
   knowsBirthTime                   Boolean              @default(true)
+  gender                           String? // "masculino" o "femenino"
   residenceCity                    String?
   residenceCountry                 String?
   timezone                         String?

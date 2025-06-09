@@ -1125,6 +1125,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean | null
+    gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
     timezone: string | null
@@ -1147,6 +1148,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean | null
+    gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
     timezone: string | null
@@ -1169,6 +1171,7 @@ export namespace Prisma {
     birthHour: number
     birthMinute: number
     knowsBirthTime: number
+    gender: number
     residenceCity: number
     residenceCountry: number
     timezone: number
@@ -1203,6 +1206,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    gender?: true
     residenceCity?: true
     residenceCountry?: true
     timezone?: true
@@ -1225,6 +1229,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    gender?: true
     residenceCity?: true
     residenceCountry?: true
     timezone?: true
@@ -1247,6 +1252,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    gender?: true
     residenceCity?: true
     residenceCountry?: true
     timezone?: true
@@ -1356,6 +1362,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean
+    gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
     timezone: string | null
@@ -1397,6 +1404,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
     timezone?: boolean
@@ -1422,6 +1430,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
     timezone?: boolean
@@ -1444,6 +1453,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
     timezone?: boolean
@@ -1466,6 +1476,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
     timezone?: boolean
@@ -1475,7 +1486,7 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -1503,6 +1514,7 @@ export namespace Prisma {
       birthHour: number | null
       birthMinute: number | null
       knowsBirthTime: boolean
+      gender: string | null
       residenceCity: string | null
       residenceCountry: string | null
       timezone: string | null
@@ -1947,6 +1959,7 @@ export namespace Prisma {
     readonly birthHour: FieldRef<"User", 'Int'>
     readonly birthMinute: FieldRef<"User", 'Int'>
     readonly knowsBirthTime: FieldRef<"User", 'Boolean'>
+    readonly gender: FieldRef<"User", 'String'>
     readonly residenceCity: FieldRef<"User", 'String'>
     readonly residenceCountry: FieldRef<"User", 'String'>
     readonly timezone: FieldRef<"User", 'String'>
@@ -4633,6 +4646,7 @@ export namespace Prisma {
     birthHour: 'birthHour',
     birthMinute: 'birthMinute',
     knowsBirthTime: 'knowsBirthTime',
+    gender: 'gender',
     residenceCity: 'residenceCity',
     residenceCountry: 'residenceCountry',
     timezone: 'timezone',
@@ -4749,6 +4763,7 @@ export namespace Prisma {
     birthHour?: IntNullableFilter<"User"> | number | null
     birthMinute?: IntNullableFilter<"User"> | number | null
     knowsBirthTime?: BoolFilter<"User"> | boolean
+    gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
     timezone?: StringNullableFilter<"User"> | string | null
@@ -4773,6 +4788,7 @@ export namespace Prisma {
     birthHour?: SortOrderInput | SortOrder
     birthMinute?: SortOrderInput | SortOrder
     knowsBirthTime?: SortOrder
+    gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
@@ -4800,6 +4816,7 @@ export namespace Prisma {
     birthHour?: IntNullableFilter<"User"> | number | null
     birthMinute?: IntNullableFilter<"User"> | number | null
     knowsBirthTime?: BoolFilter<"User"> | boolean
+    gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
     timezone?: StringNullableFilter<"User"> | string | null
@@ -4824,6 +4841,7 @@ export namespace Prisma {
     birthHour?: SortOrderInput | SortOrder
     birthMinute?: SortOrderInput | SortOrder
     knowsBirthTime?: SortOrder
+    gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
@@ -4854,6 +4872,7 @@ export namespace Prisma {
     birthHour?: IntNullableWithAggregatesFilter<"User"> | number | null
     birthMinute?: IntNullableWithAggregatesFilter<"User"> | number | null
     knowsBirthTime?: BoolWithAggregatesFilter<"User"> | boolean
+    gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCity?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCountry?: StringNullableWithAggregatesFilter<"User"> | string | null
     timezone?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -5022,6 +5041,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -5046,6 +5066,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -5070,6 +5091,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5094,6 +5116,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5118,6 +5141,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -5140,6 +5164,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5162,6 +5187,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5434,6 +5460,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
     timezone?: SortOrder
@@ -5461,6 +5488,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
     timezone?: SortOrder
@@ -5483,6 +5511,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
     timezone?: SortOrder
@@ -6112,6 +6141,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -6135,6 +6165,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -6174,6 +6205,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6197,6 +6229,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6220,6 +6253,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -6243,6 +6277,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
     timezone?: string | null
@@ -6282,6 +6317,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6305,6 +6341,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
