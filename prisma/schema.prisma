@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                               String               @id @default(cuid())
+  email                            String               @unique
+  name                             String?
+  image                            String?
+  createdAt                        DateTime             @default(now())
+  updatedAt                        DateTime             @updatedAt
+  birthDate                        DateTime?
+  birthCity                        String?
+  birthCountry                     String?
+  birthHour                        Int?
+  birthMinute                      Int?
+  knowsBirthTime                   Boolean              @default(true)
+  residenceCity                    String?
+  residenceCountry                 String?
+  timezone                         String?
+  rectificationRequested           Boolean              @default(false)
+  rectificationAcceptedUncertainty Boolean              @default(false)
+  rectificationStatus              String?
+  rectificationRequestDate         DateTime?
+  rectificationEvents              RectificationEvent[]
+  cartasNatales                    CartaNatal[]
+}
+
+model RectificationEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  eventType   String
+  description String
+  eventDate   DateTime
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CartaNatal {
+  id              String   @id @default(cuid())
+  userId          String
+  tipo            String   // "tropical" o "draconica"
+  dataCompleta    String   // JSON con datos completos
+  dataReducida    String   // JSON con datos reducidos para AstroChart
+  fechaNacimiento DateTime
+  lugarNacimiento String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, tipo, fechaNacimiento, lugarNacimiento])
+}

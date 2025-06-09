@@ -2,52 +2,154 @@
 
 ## What Works
 
-*   **Basic Project Structure:** Next.js App Router is set up with a root layout and nested routes for Calendario and Cartas sections.
-*   **Welcome View:** The homepage (`/`) correctly displays the welcome message card.
-*   **Shared Layout:** The `app/layout.tsx` is in place to provide a persistent sidebar and header structure. Intermediate `layout.tsx` files ensure the main layout is applied to section routes.
-*   **Sidebar Navigation:** The sidebar menu items and their URLs are updated for Calendario and Cartas sections.
-*   **Dynamic Routing:** Navigating to `/calendario/general`, `/calendario/personal`, `/cartas/horaria`, `/cartas/tropica`, and `/cartas/draconica` loads the corresponding placeholder pages (or the integrated `CalendarioGeneral` component for `/calendario/general`).
-*   **Dynamic Breadcrumb:** The `DynamicBreadcrumb` component is created and integrated into the header, and it should update based on the current route.
-*   **"Calendario General" (Fase 1 y 2):** Implementado el layout básico, navegación por semana, "Volver a Hoy", y menú de selección de fecha. Añadida la visualización de eventos astrológicos con tarjetas personalizadas que muestran el tipo de evento, hora y descripción. Los eventos se filtran por día y se muestran con scroll horizontal cuando hay múltiples eventos en un día.
-*   **Manejo de datos JSON:** Configurada la importación y procesamiento de datos desde archivos JSON para eventos astrológicos. Creada la estructura de carpetas `/data` y el archivo de declaración de tipos.
-*   **Conversión de zonas horarias:** Implementada la conversión automática de horas UTC a la zona horaria local del usuario. Documentado el enfoque actual y propuestas futuras en `cline_docs/timezone-handling.md`.
-*   **Collapsed Sidebar Flyout (Hover):** The `SidebarFlyout` component is implemented to provide hover-triggered flyout menus for items with sub-options when the sidebar is collapsed.
-*   **Homepage Layout Behavior:** The sidebar starts expanded on the homepage, and the sidebar toggle icon and breadcrumb are hidden on the homepage.
-*   **Authentication System Implemented:** The authentication fix has been implemented by creating `components/session-handler.tsx` and `components/session-wrapper.tsx`, and modifying `app/layout.tsx` to use these components and remove the direct `getServerSession` call. The consultant's simplified `components/session-wrapper.tsx` has been implemented, and `components/session-handler.tsx` has been adjusted to remove the use of `headers()` as recommended by the consultant. The `tsconfig.json` has been updated, and the authentication system has been documented in `cline_docs/systemPatterns.md`.
-*   **Middleware para Redirecciones:** Implementado un middleware centralizado (`middleware.ts`) que maneja todas las redirecciones basadas en autenticación y estado de datos del usuario, reemplazando la verificación por página.
-*   **Callbacks de NextAuth Mejorados:** Añadidos callbacks `jwt` y `session` para incluir información sobre datos completos en el token y la sesión, evitando consultas innecesarias a la base de datos.
-*   **Manejo de Errores Mejorado:** El botón de login ahora incluye manejo de errores y logging para proporcionar mejor feedback al usuario.
-*   **API de Actualización Mejorada:** La API de actualización de usuario ahora devuelve información sobre el estado de los datos del usuario.
-*   **Resolución de Conflictos de Dependencias:** Resueltos los conflictos entre `react-day-picker` y `date-fns`, así como con React 19, permitiendo una instalación limpia de dependencias.
-*   **Formulario de Datos Personales Mejorado:** El formulario ahora incluye campos para la hora exacta de nacimiento y precarga los datos existentes del usuario para facilitar modificaciones.
-*   **Endpoint de Perfil de Usuario:** Implementado un nuevo endpoint en `app/api/user/profile/route.ts` que permite obtener los datos del usuario autenticado para mostrarlos en el formulario.
-*   **Manejo de Fechas Optimizado:** Corregido el formato de fechas para asegurar compatibilidad con Prisma y el almacenamiento correcto en la base de datos.
-*   **Carta Natal Trópica:** Implementada la visualización de la carta natal utilizando @astrodraw/astrochart. La carta muestra correctamente los planetas, sus posiciones, indicadores de retrogradación y las cúspides de las casas. La implementación utiliza carga dinámica para evitar problemas de renderizado en el servidor.
-*   **Navegación Mejorada con Claves Únicas:** Resuelto el problema de claves duplicadas en los componentes de navegación (`nav-main.tsx` y `sidebar-flyout.tsx`) implementando un patrón de claves compuestas que combina título, URL e índice. Este patrón está documentado en `cline_docs/systemPatterns.md` para asegurar su uso consistente en futuros componentes.
-*   **Diseño de Arquitectura de Integración FastAPI:** Diseñada la arquitectura para integrar la aplicación Next.js con los programas Python mediante FastAPI. La arquitectura incluye un script adaptador, sistema de caché y manejo de errores.
-*   **Análisis de Compatibilidad de Formatos:** Confirmado que el formato de datos generado por el programa Python (`carta_astrochart_tropical_*.json`) es compatible con el componente CartaNatal, lo que simplifica la integración.
-*   **Plan de Implementación por Fases:** Definido un plan de implementación incremental para la integración con FastAPI, comenzando con la carta natal trópica como primer caso de uso.
+### **Frontend Next.js (sidebar-fastapi) - COMPLETAMENTE FUNCIONAL**
+*   **Estructura del Proyecto:** Next.js 15.2.4 + React 19 con App Router configurado correctamente
+*   **Sistema de Autenticación Robusto:** 
+    - NextAuth 4.24.11 con Google OAuth
+    - Middleware centralizado para protección de rutas
+    - Callbacks JWT/session con información de datos completos
+    - Redirecciones automáticas basadas en estado de autenticación
+*   **Layout y Navegación:**
+    - Sidebar responsive con comportamiento condicional (expandido en homepage)
+    - Breadcrumbs dinámicos
+    - Navegación sin errores de claves duplicadas (problema resuelto)
+    - Flyout menus para sidebar colapsado
+*   **Calendario General Implementado:**
+    - Visualización de eventos astrológicos por semana
+    - Navegación temporal con "Volver a Hoy"
+    - Scroll horizontal para múltiples eventos por día
+    - Conversión automática UTC a zona horaria local
+    - Selección de fechas con popover/sheet responsive
+*   **Carta Natal Trópica Funcional:**
+    - Renderizada con @astrodraw/astrochart v3.0.2
+    - Carga dinámica (SSR disabled) para compatibilidad
+    - Visualización de planetas, casas, aspectos y retrogradaciones
+    - Datos estáticos funcionando correctamente
+*   **Formulario de Datos Personales:**
+    - Precarga de datos existentes del usuario
+    - Campos para hora exacta de nacimiento
+    - Validación robusta y manejo de errores
+    - Integración con base de datos Prisma
+*   **Base de Datos Prisma:**
+    - Schema actualizado con modelos User y RectificationEvent
+    - APIs funcionales: `/api/user/profile`, `/api/user/update`
+    - Manejo correcto de fechas ISO-8601
 
-## What's Left to Build / Refine
+### **Backend Python (calculo-carta-natal-api) - PROGRAMA BASE COMPLETO**
+*   **Programa Python Completamente Funcional:**
+    - `main.py` con cálculo de cartas tropicales y dracónicas
+    - Biblioteca `immanuel` para cálculos astrológicos precisos
+    - Geocodificación automática con `geopy` y `timezonefinder`
+    - Función `calcular_carta_natal()` robusta con manejo de errores
+*   **Formato de Datos Optimizado:**
+    - Función `generar_json_reducido()` compatible con AstroChart
+    - Conversión automática a formato requerido por frontend
+    - Archivos de ejemplo generados y probados
+*   **Entorno Técnico:**
+    - Virtual environment configurado con todas las dependencias
+    - Archivos JSON de prueba disponibles
+    - Código probado y funcional
 
-*   **Implementar la Integración con FastAPI:**
-    - Configurar el entorno FastAPI
-    - Crear script adaptador para el programa Python
-    - Implementar endpoints en FastAPI
-    - Actualizar el esquema Prisma con modelo de caché
-    - Crear API endpoint en Next.js
-    - Modificar componentes para usar datos dinámicos
+## What's Left to Build
 
-*   **Verify Layout and Navigation in Browser:** Confirm that the shared layout, sidebar behavior (expanded on homepage, collapsible elsewhere, hover flyouts), and dynamic breadcrumb are working correctly across all relevant routes in the browser.
-*   **Implement `disableToggle` for Sidebar:** If needed, modify the `SidebarProvider` component to support disabling the toggle functionality on the homepage.
-*   **Refinar el Calendario General:** Implementar posibles mejoras visuales y de usabilidad basadas en feedback de usuarios.
-*   **Implement Other Section Components:** Develop the functional components for other sections (Calendario Personal, Cartas, Rectificacion Carta, Astrogematria, Horas Planetarias) and integrate them into their respective `page.tsx` files.
-*   **Refine Styling and Responsiveness:** Further refine the UI and ensure full responsiveness across all components and layouts.
-*   **Integración con Backend:** Implementar la integración con un backend para datos personalizados, incorporando el estado de autenticación para mostrar eventos generales o personalizados según las reglas de autenticación.
-*   **Manejo Avanzado de Zonas Horarias:** Considerar la implementación de un selector de zona horaria para usuarios que viajan frecuentemente, como se documenta en `cline_docs/timezone-handling.md`.
-*   **Personalización de Cartas Natales:** Implementar la generación de cartas natales basadas en los datos de nacimiento del usuario en lugar de usar datos de ejemplo.
-*   **Cartas Dracónicas:** Completar la implementación de la visualización de cartas dracónicas siguiendo el patrón establecido para las cartas trópicas.
-*   **Interpretaciones:** Añadir interpretaciones textuales de los aspectos y posiciones planetarias junto a la visualización gráfica.
-*   **Sistema de Caché Avanzado:** Implementar un sistema de caché más avanzado con limpieza programada y versiones de algoritmos.
-*   **Optimización de Rendimiento:** Mejorar el rendimiento de la aplicación, especialmente para cálculos astrológicos complejos.
-*   **Despliegue en Producción:** Preparar la aplicación para su despliegue en producción, incluyendo configuración de HTTPS y optimización de recursos.
+### **PRIORIDAD 1: Integración FastAPI (INMEDIATO)**
+
+#### **Fase 1: Implementar FastAPI en calculo-carta-natal-api**
+1. **Crear FastAPI wrapper:**
+   - `app.py` - Aplicación FastAPI principal
+   - `models.py` - Modelos Pydantic para requests/responses
+   - `config.py` - Configuración del servicio
+   - `requirements.txt` - Dependencias FastAPI
+
+2. **Endpoints HTTP:**
+   - `POST /carta-natal/tropical` - Calcular carta natal trópica
+   - `POST /carta-natal/draconica` - Calcular carta dracónica
+   - `GET /health` - Health check
+   - `GET /` - Información del servicio
+
+3. **Configuración:**
+   - CORS para sidebar-fastapi (localhost:3000)
+   - Puerto 8001 (evitar conflicto con Next.js)
+   - Logging estructurado
+   - Manejo de errores HTTP
+
+#### **Fase 2: API Gateway en sidebar-fastapi**
+1. **Endpoint Next.js:**
+   - `app/api/cartas/tropical/route.ts`
+   - `app/api/cartas/draconica/route.ts`
+   - Integración con sistema de autenticación
+   - Verificación de datos de usuario completos
+
+2. **Sistema de Caché:**
+   - Modelo Prisma para caché de cartas natales
+   - Lógica de invalidación de caché
+   - Fallback a datos locales en caso de error
+
+3. **Manejo de Errores:**
+   - Estados de loading en frontend
+   - Error boundaries
+   - Mensajes de error user-friendly
+
+#### **Fase 3: Actualización de Frontend**
+1. **Modificar Componentes:**
+   - Actualizar `app/cartas/tropica/page.tsx` para usar API dinámica
+   - Implementar loading states
+   - Manejo de errores con fallback
+
+2. **Testing End-to-End:**
+   - Probar flujo completo: autenticación → datos → cálculo → visualización
+   - Validar performance y manejo de errores
+   - Testing en diferentes dispositivos
+
+### **PRIORIDAD 2: Expansión de Servicios**
+*   **Carta Dracónica:** Implementar página y componentes siguiendo patrón de carta trópica
+*   **Cartas Horarias:** Desarrollar funcionalidad para cartas horarias
+*   **Calendario Personal:** Implementar eventos personalizados basados en datos del usuario
+*   **Interpretaciones:** Añadir interpretaciones textuales de aspectos y posiciones
+
+### **PRIORIDAD 3: Optimización y Escalabilidad**
+*   **Performance:** Optimizar cálculos astrológicos y tiempos de respuesta
+*   **Caché Avanzado:** Implementar limpieza programada y versiones de algoritmos
+*   **Monitoreo:** Logging y métricas de performance
+*   **Documentación:** OpenAPI/Swagger para APIs
+
+### **PRIORIDAD 4: Funcionalidades Avanzadas**
+*   **PWA:** Configurar manifest y service workers para instalación móvil
+*   **Notificaciones:** Sistema de notificaciones para usuarios
+*   **Múltiples Microservicios:** Preparar arquitectura para futuros servicios Python
+*   **Despliegue:** Configuración para producción con HTTPS
+
+## Arquitectura Actual
+
+```
+Astrowellness (Proyecto Principal)
+├── sidebar-fastapi/ (Frontend Next.js + API Gateway)
+│   ├── ✅ Autenticación completa
+│   ├── ✅ UI/UX responsive
+│   ├── ✅ Base de datos Prisma
+│   ├── ❌ Endpoints para microservicios (pendiente)
+│   └── ❌ Sistema de caché (pendiente)
+└── calculo-carta-natal-api/ (Microservicio Python #1)
+    ├── ✅ Programa Python funcional
+    ├── ✅ Cálculos astrológicos precisos
+    ├── ✅ Formato de datos compatible
+    ├── ❌ FastAPI wrapper (pendiente)
+    └── ❌ Endpoints HTTP (pendiente)
+```
+
+## Estado de Integración
+
+- **Frontend:** ✅ 100% funcional con datos estáticos
+- **Backend Python:** ✅ 100% funcional como programa CLI
+- **Integración FastAPI:** ❌ 0% - Próximo paso crítico
+- **API Gateway:** ❌ 0% - Dependiente de FastAPI
+- **Sistema Completo:** ❌ Pendiente de integración
+
+## Decisiones Técnicas Confirmadas
+
+- **Arquitectura de Microservicios:** Confirmada y documentada
+- **Reutilización de Código Python:** Mantener main.py intacto, crear wrapper FastAPI
+- **Formato de Datos:** Función generar_json_reducido() ya resuelve compatibilidad
+- **Tecnologías:** Next.js 15.2.4, React 19, NextAuth 4.24.11, FastAPI, Prisma
+- **Puertos:** Next.js (3000), FastAPI (8001)
+- **Caché:** Implementar en sidebar-fastapi usando Prisma

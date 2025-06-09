@@ -1,0 +1,190 @@
+{
+  "titulo": "Informe Astrológico para Lmyahora",
+  "tipo": "individual",
+  "llm": "openai",
+  "interpretaciones": [
+    {
+      "titulo": "Tu Sol se encuentra a 5° 17' de Capricornio",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Tú, que tienes el Sol en Capricornio, te destacas por tu integridad y seriedad. Eres paciente, trabajador y siempre te esfuerzas por hacer las cosas bien. Tu ambición está destinada a metas prácticas, y eres tan responsable como exigente. Sabes adaptarte a cualquier circunstancia para lograr tus objetivos. Para ti, la ambición es una virtud, no un defecto. Siempre organizas y planificas las cosas, y sabes cómo y cuándo decir lo justo para causar la impresión correcta en los demás.",
+      "planeta": "Sol",
+      "signo": "Capricornio",
+      "grados": "5° 17'"
+    },
+    {
+      "titulo": "Tu Luna se encuentra a 19° 32' de Libra",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Tú, al tener la Luna en Libra, sientes una fuerte necesidad de vivir en armonía. Siempre buscas equilibrar y armonizar tu entorno para sentirte tranquilo. Durante tu infancia, la cultura y los valores estéticos fueron importantes, especialmente para tu madre, lo que te lleva a necesitar estar en entornos armoniosos y estéticos. Tu sensibilidad te abre puertas en el mundo del arte, la decoración y la estética en general. Eres muy sociable, tienes facilidad para establecer relaciones armoniosas y diplomáticas. Evitas los conflictos y haces todo lo posible por mantener un ambiente de paz y tranquilidad. Sin embargo, debes aprender a poner límites y decir \"no\" cuando sea necesario para evitar caer en una trampa que te impida satisfacer tus propias necesidades.",
+      "planeta": "Luna",
+      "signo": "Libra",
+      "grados": "19° 32'"
+    },
+    {
+      "titulo": "Tu Mercurio se encuentra a 18° 56' de Sagitario",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Tú, con Mercurio en Sagitario, tienes una tendencia idealista y noble. Te encanta dialogar y te interesas por temas como la cultura, la filosofía o los viajes. Te sientes cómodo con ideas abstractas y disfrutas aprendiendo sobre las costumbres y hábitos de otras culturas. El extranjero es una pasión para ti.",
+      "planeta": "Mercurio",
+      "signo": "Sagitario",
+      "grados": "18° 56'"
+    },
+    {
+      "titulo": "Tu Venus se encuentra a 9° 37' de Sagitario",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Eres optimista y generoso en lo afectivo. Tu buen humor natural, junto con tu encanto y sociabilidad, te hacen fácil hacer amigos y te dota de suerte en las relaciones en general. Sabes disfrutar de la vida y te encanta relacionarte con personas de diferentes culturas o creencias para expandir tu horizonte.",
+      "planeta": "Venus",
+      "signo": "Sagitario",
+      "grados": "9° 37'"
+    },
+    {
+      "titulo": "Tu Marte se encuentra a 22° 20' de Virgo",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Tú, con Marte en Virgo, eres conservador y práctico en tu accionar. Tu atención al detalle te hace ser laborioso, exigente y a veces un poco vueltero. No subestimes tu propia capacidad, ya que Virgo es un signo humilde y servicial que no busca llamar la atención.",
+      "planeta": "Marte",
+      "signo": "Virgo",
+      "grados": "22° 20'"
+    },
+    {
+      "titulo": "Tu Ascendente se encuentra a 22° 26' de Cáncer",
+      "tipo": "PlanetaEnSigno",
+      "interpretacion": "Tú, con el ascendente en Cáncer, eres una persona muy familiar y sensible. Te sientes muy conectado con tu madre y tu familia, y valoras mucho las tradiciones y el pasado. Tiendes a refugiarte en tu hogar y en tus seres queridos cuando las cosas se ponen difíciles. Tu sensibilidad te permite entender las necesidades de los demás y cuidar de ellos. Tu estado de ánimo varía según tus emociones, al igual que la Luna, que es la regente de Cáncer. En (nombrar casa), expresas tu curiosidad y versatilidad de manera especial.",
+      "planeta": "Ascendente",
+      "signo": "Cáncer",
+      "grados": "22° 26'"
+    },
+    {
+      "titulo": "Tu Sol en Casa 6",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con el Sol en la casa seis, probablemente gozas de buena salud pero puedes somatizar desajustes emocionales. Te interesan la salud, la higiene y las dietas depurativas. Tu punto débil son el corazón y el sistema circulatorio. Afianzas tu sentido de tí mismo a través del servicio que prestas a los demás, siendo muy organizado en tu trabajo. Prefieres colaborar con otros y aportar algo útil, en lugar de buscar puestos altos de trabajo.",
+      "planeta": "Sol",
+      "casa": 6
+    },
+    {
+      "titulo": "Tu Luna en Casa 3",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con la Luna en la casa tres, tienes una gran imaginación y capacidad para comunicar tus emociones y experiencias personales. Es probable que te interese el pasado, como la historia, la genealogía o la arqueología. Tu memoria retentiva es excelente, por lo que una vez que aprendes algo, es probable que lo recuerdes por mucho tiempo.",
+      "planeta": "Luna",
+      "casa": 3
+    },
+    {
+      "titulo": "Tu Mercurio en Casa 5",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú brillas al expresar tus ideas y tienes habilidad para comunicar conocimientos, haciéndote escuchar. Te encantan los juegos de ingenio y disfrutas generando conversaciones polémicas o discusiones que te hagan pensar. Si tienes hijos, seguramente te apoyas en la lógica para educarlos.",
+      "planeta": "Mercurio",
+      "casa": 5
+    },
+    {
+      "titulo": "Tu Marte en Casa 2",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con Marte en casa dos, ves en ti mismo y en los demás la capacidad de generar riqueza como símbolo de poder. El dinero es para ti una manera de afirmación ante la vida.",
+      "planeta": "Marte",
+      "casa": 2
+    },
+    {
+      "titulo": "Tu Júpiter en Casa 10",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con Júpiter en casa diez, sientes que te expandes y encuentras el sentido de la vida a través de tus logros. Esta posición facilita la realización de tus proyectos.",
+      "planeta": "Júpiter",
+      "casa": 10
+    },
+    {
+      "titulo": "Tu Saturno en Casa 7",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "**Saturno en casa 7**\n\n**Saturno, el planeta de los límites, en la casa siete**, te brinda la capacidad de establecer límites claros en tus relaciones personales. Eres una persona que busca la estabilidad y la seriedad en tus asociaciones, lo que puede llevarte a ser exigente en este aspecto. Es importante que aprendas a equilibrar tu necesidad de control con la libertad y la colaboración en tus relaciones.",
+      "planeta": "Saturno",
+      "casa": 7
+    },
+    {
+      "titulo": "Tu Urano en Casa 2",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con Urano en la casa dos, necesitas libertad en tus finanzas. Debes cuidar que tu situación económica no sea inestable ni esté sujeta a cambios repentinos.",
+      "planeta": "Urano",
+      "casa": 2
+    },
+    {
+      "titulo": "Tu Neptuno en Casa 4",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con Neptuno en casa cuatro, puede que no te resulte fácil separarte de tu familia de origen. Es posible que vengas de una familia de artistas y que idealices a tu padre. Es común que tu vida diaria sea caótica, por lo que es importante que te esfuerces por cumplir con los horarios y hábitos que te ordenan.",
+      "planeta": "Neptuno",
+      "casa": 4
+    },
+    {
+      "titulo": "Tu Plutón en Casa 2",
+      "tipo": "PlanetaEnCasa",
+      "interpretacion": "Tú, con Plutón en casa dos, te caracterizas por tu fuerza y tenacidad, especialmente en el ámbito del dinero. Tu ambición es muy marcada y tienes una gran capacidad de estabilidad. Además, posees una fuerte sexualidad y anhelas sentirte seguro y autosuficiente. Es probable que te identifiques demasiado con los bienes materiales, ya sea acumulando dinero de forma compulsiva o gastando de manera exagerada. Esta tendencia te lleva a nunca estar satisfecho con lo que tienes y a siempre querer más.",
+      "planeta": "Plutón",
+      "casa": 2
+    },
+    {
+      "titulo": "Aspecto: Tu Marte en Conjunción con tu Plutón",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, con el aspecto de Marte conjunción a Plutón, tienes un impulso poderoso y emociones intensas que te llevan a profundizar en cada situación. Cuando te enojas, lo haces con ira, y cuando te propones algo, no te detienes hasta lograrlo. A veces, este extremismo puede llevarte a perder la proporción, pero tu fuerza, deseo y enojo son cualidades positivas que te brindan una gran resistencia. No necesitas cambiar, solo enfocarte en cosas constructivas. Eres valiente y fuerte, lo que te permitirá alcanzar grandes metas en tu vida.",
+      "planeta1": "Marte",
+      "planeta2": "Plutón",
+      "aspecto": "Conjunción"
+    },
+    {
+      "titulo": "Aspecto: Tu Marte en Conjunción con tu Urano",
+      "tipo": "Aspecto",
+      "interpretacion": "La excelente relación que hay entre Marte y Urano, el planeta que simboliza lo distinto, te llevará a actuar de manera rápida y decidida, interesándote siempre por cosas nuevas. Amarás tu independencia y libertad personal porque te llevarán a vivir experiencias inusuales y originales. Tu talento estará en la capacidad de abrir caminos, de ser el primero en llevar a cabo ideas nuevas.",
+      "planeta1": "Marte",
+      "planeta2": "Urano",
+      "aspecto": "Conjunción"
+    },
+    {
+      "titulo": "Aspecto: Tu Mercurio en Cuadratura con tu Plutón",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, con el aspecto Mercurio cuadratura a Plutón, puedes experimentar momentos de intensidad en tu comunicación y pensamiento. Es importante que aprendas a manejar esta energía para evitar conflictos y malentendidos. Trabaja en ser más consciente de tus palabras y en no caer en la manipulación o en la obsesión por el control. Recuerda que la comunicación honesta y clara es clave para evitar malentendidos y fortalecer tus relaciones interpersonales. ¡Sé consciente de cómo utilizas tu poder mental y verbal!",
+      "planeta1": "Mercurio",
+      "planeta2": "Plutón",
+      "aspecto": "Cuadratura"
+    },
+    {
+      "titulo": "Aspecto: Tu Mercurio en Cuadratura con tu Urano",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, cuando Mercurio está en cuadratura con Urano, puedes sentir momentos de inspiración, pero a veces te resulta difícil darle forma a esas ideas. Puedes experimentar frustración al intentar plasmar tus pensamientos, sintiendo que no son tan originales como esperabas. Es importante recordar que es normal sentirse así y no desmotivarse. Recuerda que tienes la capacidad de ser receptivo a las ideas que están en el aire y transmitir mensajes importantes, aunque el desafío está en hacerlo de manera original y sin caer en patrones predecibles. ¡Confía en tu creatividad y en tu capacidad para comunicar de forma única!",
+      "planeta1": "Mercurio",
+      "planeta2": "Urano",
+      "aspecto": "Cuadratura"
+    },
+    {
+      "titulo": "Aspecto: Tu Marte en Trígono con tu Júpiter",
+      "tipo": "Aspecto",
+      "interpretacion": "Tienes una conexión armoniosa entre Marte y Júpiter en tu Carta, lo que te dota de entusiasmo y te ayuda a valerte por ti mismo. Destacas por tu generosidad, franqueza y capacidad de goce, así como por tus aptitudes de líder. Tu temperamento es activo y voluntarioso.",
+      "planeta1": "Marte",
+      "planeta2": "Júpiter",
+      "aspecto": "Trígono"
+    },
+    {
+      "titulo": "Aspecto: Tu Sol en Trígono con tu Urano",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú puedes expresar tu costado más liberal o atípico sin que esto implique tensiones.",
+      "planeta1": "Sol",
+      "planeta2": "Urano",
+      "aspecto": "Trígono"
+    },
+    {
+      "titulo": "Aspecto: Tu Marte en Sextil con tu Neptuno",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, la conexión entre Marte y Neptuno en tu Carta hace que combines armónicamente sensibilidad con la capacidad de lograr objetivos y hacerte valer. Es probable que te sientas atraído por todo lo relacionado con el mar debido al símbolo de Neptuno.",
+      "planeta1": "Marte",
+      "planeta2": "Neptuno",
+      "aspecto": "Sextil"
+    },
+    {
+      "titulo": "Aspecto: Tu Luna en Sextil con tu Mercurio",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, con el aspecto de la Luna en sextil a Mercurio, tienes la capacidad de comunicarte de manera fluida y emocionalmente receptiva. Esta conexión te permite expresar tus sentimientos de forma clara y comprensible, lo que facilita la comunicación con los demás. Aprovecha esta habilidad para conectar con los demás de manera empática y sincera.",
+      "planeta1": "Luna",
+      "planeta2": "Mercurio",
+      "aspecto": "Sextil"
+    },
+    {
+      "titulo": "Aspecto: Tu Sol en Sextil con tu Saturno",
+      "tipo": "Aspecto",
+      "interpretacion": "Tú, con el aspecto Sol sextil a Saturno, tienes la capacidad de combinar tu creatividad y vitalidad con la disciplina y la responsabilidad. Esto te permite alcanzar tus metas de manera metódica y perseverante, destacándote por tu seriedad y compromiso en todo lo que emprendes. Es importante que sigas cultivando esta conexión entre tu fuerza interior y tu capacidad de organización para lograr el éxito en tus proyectos a largo plazo. ¡Sigue adelante con determinación y constancia!",
+      "planeta1": "Sol",
+      "planeta2": "Saturno",
+      "aspecto": "Sextil"
+    }
+  ]
+}
