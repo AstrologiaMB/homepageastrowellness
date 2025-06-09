@@ -131,21 +131,6 @@ function getHouse(position: number, cusps: number[]): number {
  * @returns {JSX.Element} - Elemento JSX que contiene las tablas de datos.
  */
 export function CartaNatalTabla({ chartData }: CartaNatalTablaProps) {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  
-  useEffect(() => {
-    // Cargar la fuente Astronomicon
-    const font = new FontFace('Astronomicon', 'url(/fonts/Astronomicon.ttf)');
-    
-    font.load().then(() => {
-      document.fonts.add(font);
-      setFontLoaded(true);
-    }).catch(err => {
-      console.error('Error cargando la fuente Astronomicon:', err);
-      // Usar símbolos Unicode como fallback
-      setFontLoaded(true);
-    });
-  }, []);
   
   // Validación defensiva: verificar que chartData tiene la estructura esperada
   if (!chartData || !chartData.points || !chartData.houses) {

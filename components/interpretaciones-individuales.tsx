@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import { AstroSymbol } from "@/components/astro-symbol"
 
 interface InterpretacionItem {
   titulo: string
@@ -75,34 +74,11 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
           </Badge>
         </div>
         
-        {/* Mostrar símbolos astrológicos si están disponibles */}
-        <div className="flex items-center space-x-2 mt-2">
-          {item.planeta && (
-            <div className="flex items-center space-x-1">
-              <div className="w-4 h-4 flex items-center justify-center">
-                <AstroSymbol type="planet" name={item.planeta} />
-              </div>
-              <span className="text-xs text-muted-foreground">{item.planeta}</span>
-            </div>
-          )}
-          {item.signo && (
-            <div className="flex items-center space-x-1">
-              <div className="w-4 h-4 flex items-center justify-center">
-                <AstroSymbol type="sign" name={item.signo} />
-              </div>
-              <span className="text-xs text-muted-foreground">{item.signo}</span>
-            </div>
-          )}
-          {item.casa && (
-            <div className="flex items-center space-x-1">
-              <span className="text-xs font-mono bg-gray-100 px-1 rounded">Casa {item.casa}</span>
-            </div>
-          )}
-          {item.grados && (
-            <div className="flex items-center space-x-1">
-              <span className="text-xs text-muted-foreground">{item.grados}</span>
-            </div>
-          )}
+        {/* Información astrológica en texto simple */}
+        <div className="text-xs text-muted-foreground mt-2">
+          {item.planeta && item.signo && `${item.planeta} en ${item.signo}`}
+          {item.grados && ` ${item.grados}`}
+          {item.casa && ` • Casa ${item.casa}`}
         </div>
       </CardHeader>
       

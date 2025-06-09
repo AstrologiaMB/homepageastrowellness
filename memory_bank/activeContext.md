@@ -81,6 +81,36 @@ Astrowellness (Proyecto Principal)
 - **Sistema de Caché:** Implementar en sidebar-fastapi usando Prisma para optimizar performance
 - **Manejo de Errores:** Fallback a datos locales en caso de error en microservicios
 
+## Últimas Implementaciones Completadas
+
+### ✅ **Solución Casa en Subtítulos** - COMPLETADO (9 Enero 2025)
+**Problema resuelto:** Los subtítulos de interpretaciones individuales no mostraban información de casa astrológica.
+
+**Causa identificada:** Datos separados en dos registros en `InterpretacionCache`:
+- "PlanetaEnSigno": tenía planeta, signo, grados pero `casa: null`
+- "PlanetaEnCasa": tenía planeta, casa pero `signo: null`, `grados: null`
+
+**Solución implementada:**
+- Función `combinarInformacionCasa()` en `app/api/interpretaciones/route.ts`
+- Combina información de ambos registros automáticamente
+- Aplica tanto a datos desde cache como interpretaciones nuevas
+
+**Resultado:**
+- ANTES: "Sol en Capricornio 5° 17'"
+- AHORA: "Sol en Capricornio 5° 17' • Casa 6"
+
+**Documentación:** `CASA_SUBTITULO_DOCUMENTATION.md`
+
+### ✅ **Simplificación de Símbolos Astrológicos** - COMPLETADO
+**Problema resuelto:** Conversión problemática de símbolos astrológicos en subtítulos.
+
+**Solución implementada:**
+- Eliminación completa de conversiones automáticas
+- Texto simple y limpio en `components/interpretaciones-individuales.tsx`
+- Removido `replaceAstroWords()` y `font-astronomicon`
+
+**Resultado:** Subtítulos legibles sin símbolos problemáticos.
+
 ## Aprendizajes del Proyecto
 
 - El programa Python en calculo-carta-natal-api está más avanzado de lo documentado inicialmente
@@ -88,3 +118,5 @@ Astrowellness (Proyecto Principal)
 - La arquitectura de microservicios permite escalabilidad y mantenimiento independiente
 - El frontend Next.js está completamente funcional y listo para la integración
 - La integración será más directa de lo anticipado debido al código Python existente
+- **Los datos de casa astrológica estaban disponibles en Prisma pero separados en registros diferentes**
+- **La combinación de datos en el API es más eficiente que modificar la estructura de base de datos**

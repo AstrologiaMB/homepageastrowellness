@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fuente Astronomicon para símbolos astrológicos */
+@font-face {
+  font-family: 'Astronomicon';
+  src: url('/fonts/Astronomicon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Preload de la fuente para mejor rendimiento */
+@layer base {
+  .font-astronomicon {
+    font-family: 'Astronomicon', 'Times New Roman', serif;
+    font-feature-settings: normal;
+    font-variant: normal;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

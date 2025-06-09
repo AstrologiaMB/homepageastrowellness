@@ -32,6 +32,33 @@ interface CartaNatalData {
 
 const RAG_SERVICE_URL = 'http://localhost:8002'
 
+// Función para combinar información de casa con planetas en signo
+function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): InterpretacionItem[] {
+  // Crear un mapa de planetas en casa
+  const planetasEnCasa = new Map<string, string>()
+  
+  // Buscar todos los registros "PlanetaEnCasa" y mapear planeta -> casa
+  interpretaciones.forEach(item => {
+    if (item.tipo === 'PlanetaEnCasa' && item.planeta && item.casa) {
+      planetasEnCasa.set(item.planeta, item.casa)
+    }
+  })
+  
+  // Combinar información: agregar casa a los registros "PlanetaEnSigno"
+  return interpretaciones.map(item => {
+    if (item.tipo === 'PlanetaEnSigno' && item.planeta && !item.casa) {
+      const casa = planetasEnCasa.get(item.planeta)
+      if (casa) {
+        return {
+          ...item,
+          casa: casa
+        }
+      }
+    }
+    return item
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Verificar autenticación
@@ -97,9 +124,13 @@ export async function POST(request: NextRequest) {
       if (diasDesdeCreacion < 30) {
         console.log('📋 Devolviendo interpretación desde cache')
         
+        // Combinar información de casa con planetas en signo
+        const interpretacionesIndividuales = JSON.parse(cacheExistente.interpretacionesIndividuales)
+        const interpretacionesCombinadas = combinarInformacionCasa(interpretacionesIndividuales)
+        
         return NextResponse.json({
           interpretacion_narrativa: JSON.parse(cacheExistente.interpretacionNarrativa),
-          interpretaciones_individuales: JSON.parse(cacheExistente.interpretacionesIndividuales),
+          interpretaciones_individuales: interpretacionesCombinadas,
           tiempo_generacion: cacheExistente.tiempoGeneracion,
           desde_cache: true
         })
@@ -180,10 +211,13 @@ export async function POST(request: NextRequest) {
       // No fallar la request por error de cache
     }
 
+    // Combinar información de casa con planetas en signo para interpretaciones nuevas
+    const interpretacionesCombinadas = combinarInformacionCasa(interpretacionData.interpretaciones_individuales)
+
     // Devolver interpretación
     return NextResponse.json({
       interpretacion_narrativa: interpretacionData.interpretacion_narrativa,
-      interpretaciones_individuales: interpretacionData.interpretaciones_individuales,
+      interpretaciones_individuales: interpretacionesCombinadas,
       tiempo_generacion: interpretacionData.tiempo_generacion,
       desde_cache: false
     })

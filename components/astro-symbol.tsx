@@ -10,8 +10,6 @@
  * @version 1.0.0
  */
 
-import { useEffect, useState } from 'react';
-
 /**
  * Interfaz para las propiedades del componente AstroSymbol.
  * 
@@ -136,21 +134,6 @@ const pointMap: Record<string, string> = {
  * @returns {JSX.Element} - Elemento JSX que contiene el símbolo astrológico.
  */
 export function AstroSymbol({ type, name }: AstroSymbolProps) {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  
-  useEffect(() => {
-    // Cargar la fuente Astronomicon
-    const font = new FontFace('Astronomicon', 'url(/fonts/Astronomicon.ttf)');
-    
-    font.load().then(() => {
-      document.fonts.add(font);
-      setFontLoaded(true);
-    }).catch(err => {
-      console.error('Error cargando la fuente Astronomicon:', err);
-      // Usar símbolos Unicode como fallback
-      setFontLoaded(true);
-    });
-  }, []);
   
   // Seleccionar el mapa adecuado según el tipo
   let map: Record<string, string>;
@@ -190,7 +173,7 @@ export function AstroSymbol({ type, name }: AstroSymbolProps) {
   const symbol = map[name] || name;
   
   return (
-    <span className={fontLoaded ? "font-astronomicon" : ""}>
+    <span className="font-astronomicon text-lg leading-none inline-block">
       {symbol}
     </span>
   );
