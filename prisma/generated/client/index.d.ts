@@ -28,6 +28,11 @@ export type RectificationEvent = $Result.DefaultSelection<Prisma.$RectificationE
  * 
  */
 export type CartaNatal = $Result.DefaultSelection<Prisma.$CartaNatalPayload>
+/**
+ * Model InterpretacionCache
+ * 
+ */
+export type InterpretacionCache = $Result.DefaultSelection<Prisma.$InterpretacionCachePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -183,6 +188,16 @@ export class PrismaClient<
     * ```
     */
   get cartaNatal(): Prisma.CartaNatalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.interpretacionCache`: Exposes CRUD operations for the **InterpretacionCache** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InterpretacionCaches
+    * const interpretacionCaches = await prisma.interpretacionCache.findMany()
+    * ```
+    */
+  get interpretacionCache(): Prisma.InterpretacionCacheDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -625,7 +640,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     RectificationEvent: 'RectificationEvent',
-    CartaNatal: 'CartaNatal'
+    CartaNatal: 'CartaNatal',
+    InterpretacionCache: 'InterpretacionCache'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -644,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "rectificationEvent" | "cartaNatal"
+      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -870,6 +886,80 @@ export namespace Prisma {
           }
         }
       }
+      InterpretacionCache: {
+        payload: Prisma.$InterpretacionCachePayload<ExtArgs>
+        fields: Prisma.InterpretacionCacheFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InterpretacionCacheFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InterpretacionCacheFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          findFirst: {
+            args: Prisma.InterpretacionCacheFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InterpretacionCacheFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          findMany: {
+            args: Prisma.InterpretacionCacheFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>[]
+          }
+          create: {
+            args: Prisma.InterpretacionCacheCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          createMany: {
+            args: Prisma.InterpretacionCacheCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InterpretacionCacheCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>[]
+          }
+          delete: {
+            args: Prisma.InterpretacionCacheDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          update: {
+            args: Prisma.InterpretacionCacheUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          deleteMany: {
+            args: Prisma.InterpretacionCacheDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InterpretacionCacheUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InterpretacionCacheUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>[]
+          }
+          upsert: {
+            args: Prisma.InterpretacionCacheUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterpretacionCachePayload>
+          }
+          aggregate: {
+            args: Prisma.InterpretacionCacheAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInterpretacionCache>
+          }
+          groupBy: {
+            args: Prisma.InterpretacionCacheGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InterpretacionCacheGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InterpretacionCacheCountArgs<ExtArgs>
+            result: $Utils.Optional<InterpretacionCacheCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -957,6 +1047,7 @@ export namespace Prisma {
     user?: UserOmit
     rectificationEvent?: RectificationEventOmit
     cartaNatal?: CartaNatalOmit
+    interpretacionCache?: InterpretacionCacheOmit
   }
 
   /* Types for Logging */
@@ -1053,11 +1144,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     rectificationEvents: number
     cartasNatales: number
+    interpretaciones: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | UserCountOutputTypeCountRectificationEventsArgs
     cartasNatales?: boolean | UserCountOutputTypeCountCartasNatalesArgs
+    interpretaciones?: boolean | UserCountOutputTypeCountInterpretacionesArgs
   }
 
   // Custom InputTypes
@@ -1083,6 +1176,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCartasNatalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartaNatalWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInterpretacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InterpretacionCacheWhereInput
   }
 
 
@@ -1414,6 +1514,7 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
+    interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1490,6 +1591,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
+    interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1500,6 +1602,7 @@ export namespace Prisma {
     objects: {
       rectificationEvents: Prisma.$RectificationEventPayload<ExtArgs>[]
       cartasNatales: Prisma.$CartaNatalPayload<ExtArgs>[]
+      interpretaciones: Prisma.$InterpretacionCachePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1918,6 +2021,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     rectificationEvents<T extends User$rectificationEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$rectificationEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RectificationEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cartasNatales<T extends User$cartasNatalesArgs<ExtArgs> = {}>(args?: Subset<T, User$cartasNatalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartaNatalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interpretaciones<T extends User$interpretacionesArgs<ExtArgs> = {}>(args?: Subset<T, User$interpretacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2398,6 +2502,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CartaNatalScalarFieldEnum | CartaNatalScalarFieldEnum[]
+  }
+
+  /**
+   * User.interpretaciones
+   */
+  export type User$interpretacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    where?: InterpretacionCacheWhereInput
+    orderBy?: InterpretacionCacheOrderByWithRelationInput | InterpretacionCacheOrderByWithRelationInput[]
+    cursor?: InterpretacionCacheWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InterpretacionCacheScalarFieldEnum | InterpretacionCacheScalarFieldEnum[]
   }
 
   /**
@@ -4623,6 +4751,1174 @@ export namespace Prisma {
 
 
   /**
+   * Model InterpretacionCache
+   */
+
+  export type AggregateInterpretacionCache = {
+    _count: InterpretacionCacheCountAggregateOutputType | null
+    _avg: InterpretacionCacheAvgAggregateOutputType | null
+    _sum: InterpretacionCacheSumAggregateOutputType | null
+    _min: InterpretacionCacheMinAggregateOutputType | null
+    _max: InterpretacionCacheMaxAggregateOutputType | null
+  }
+
+  export type InterpretacionCacheAvgAggregateOutputType = {
+    tiempoGeneracion: number | null
+  }
+
+  export type InterpretacionCacheSumAggregateOutputType = {
+    tiempoGeneracion: number | null
+  }
+
+  export type InterpretacionCacheMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fechaNacimiento: Date | null
+    lugarNacimiento: string | null
+    gender: string | null
+    tipo: string | null
+    interpretacionNarrativa: string | null
+    interpretacionesIndividuales: string | null
+    tiempoGeneracion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InterpretacionCacheMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fechaNacimiento: Date | null
+    lugarNacimiento: string | null
+    gender: string | null
+    tipo: string | null
+    interpretacionNarrativa: string | null
+    interpretacionesIndividuales: string | null
+    tiempoGeneracion: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InterpretacionCacheCountAggregateOutputType = {
+    id: number
+    userId: number
+    fechaNacimiento: number
+    lugarNacimiento: number
+    gender: number
+    tipo: number
+    interpretacionNarrativa: number
+    interpretacionesIndividuales: number
+    tiempoGeneracion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InterpretacionCacheAvgAggregateInputType = {
+    tiempoGeneracion?: true
+  }
+
+  export type InterpretacionCacheSumAggregateInputType = {
+    tiempoGeneracion?: true
+  }
+
+  export type InterpretacionCacheMinAggregateInputType = {
+    id?: true
+    userId?: true
+    fechaNacimiento?: true
+    lugarNacimiento?: true
+    gender?: true
+    tipo?: true
+    interpretacionNarrativa?: true
+    interpretacionesIndividuales?: true
+    tiempoGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InterpretacionCacheMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    fechaNacimiento?: true
+    lugarNacimiento?: true
+    gender?: true
+    tipo?: true
+    interpretacionNarrativa?: true
+    interpretacionesIndividuales?: true
+    tiempoGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InterpretacionCacheCountAggregateInputType = {
+    id?: true
+    userId?: true
+    fechaNacimiento?: true
+    lugarNacimiento?: true
+    gender?: true
+    tipo?: true
+    interpretacionNarrativa?: true
+    interpretacionesIndividuales?: true
+    tiempoGeneracion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InterpretacionCacheAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InterpretacionCache to aggregate.
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InterpretacionCaches to fetch.
+     */
+    orderBy?: InterpretacionCacheOrderByWithRelationInput | InterpretacionCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InterpretacionCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InterpretacionCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InterpretacionCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InterpretacionCaches
+    **/
+    _count?: true | InterpretacionCacheCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InterpretacionCacheAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InterpretacionCacheSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InterpretacionCacheMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InterpretacionCacheMaxAggregateInputType
+  }
+
+  export type GetInterpretacionCacheAggregateType<T extends InterpretacionCacheAggregateArgs> = {
+        [P in keyof T & keyof AggregateInterpretacionCache]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInterpretacionCache[P]>
+      : GetScalarType<T[P], AggregateInterpretacionCache[P]>
+  }
+
+
+
+
+  export type InterpretacionCacheGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InterpretacionCacheWhereInput
+    orderBy?: InterpretacionCacheOrderByWithAggregationInput | InterpretacionCacheOrderByWithAggregationInput[]
+    by: InterpretacionCacheScalarFieldEnum[] | InterpretacionCacheScalarFieldEnum
+    having?: InterpretacionCacheScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InterpretacionCacheCountAggregateInputType | true
+    _avg?: InterpretacionCacheAvgAggregateInputType
+    _sum?: InterpretacionCacheSumAggregateInputType
+    _min?: InterpretacionCacheMinAggregateInputType
+    _max?: InterpretacionCacheMaxAggregateInputType
+  }
+
+  export type InterpretacionCacheGroupByOutputType = {
+    id: string
+    userId: string
+    fechaNacimiento: Date
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt: Date
+    updatedAt: Date
+    _count: InterpretacionCacheCountAggregateOutputType | null
+    _avg: InterpretacionCacheAvgAggregateOutputType | null
+    _sum: InterpretacionCacheSumAggregateOutputType | null
+    _min: InterpretacionCacheMinAggregateOutputType | null
+    _max: InterpretacionCacheMaxAggregateOutputType | null
+  }
+
+  type GetInterpretacionCacheGroupByPayload<T extends InterpretacionCacheGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InterpretacionCacheGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InterpretacionCacheGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InterpretacionCacheGroupByOutputType[P]>
+            : GetScalarType<T[P], InterpretacionCacheGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InterpretacionCacheSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fechaNacimiento?: boolean
+    lugarNacimiento?: boolean
+    gender?: boolean
+    tipo?: boolean
+    interpretacionNarrativa?: boolean
+    interpretacionesIndividuales?: boolean
+    tiempoGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interpretacionCache"]>
+
+  export type InterpretacionCacheSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fechaNacimiento?: boolean
+    lugarNacimiento?: boolean
+    gender?: boolean
+    tipo?: boolean
+    interpretacionNarrativa?: boolean
+    interpretacionesIndividuales?: boolean
+    tiempoGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interpretacionCache"]>
+
+  export type InterpretacionCacheSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fechaNacimiento?: boolean
+    lugarNacimiento?: boolean
+    gender?: boolean
+    tipo?: boolean
+    interpretacionNarrativa?: boolean
+    interpretacionesIndividuales?: boolean
+    tiempoGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interpretacionCache"]>
+
+  export type InterpretacionCacheSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    fechaNacimiento?: boolean
+    lugarNacimiento?: boolean
+    gender?: boolean
+    tipo?: boolean
+    interpretacionNarrativa?: boolean
+    interpretacionesIndividuales?: boolean
+    tiempoGeneracion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InterpretacionCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fechaNacimiento" | "lugarNacimiento" | "gender" | "tipo" | "interpretacionNarrativa" | "interpretacionesIndividuales" | "tiempoGeneracion" | "createdAt" | "updatedAt", ExtArgs["result"]["interpretacionCache"]>
+  export type InterpretacionCacheInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InterpretacionCacheIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InterpretacionCacheIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InterpretacionCachePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InterpretacionCache"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      fechaNacimiento: Date
+      lugarNacimiento: string
+      gender: string
+      tipo: string
+      interpretacionNarrativa: string
+      interpretacionesIndividuales: string
+      tiempoGeneracion: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["interpretacionCache"]>
+    composites: {}
+  }
+
+  type InterpretacionCacheGetPayload<S extends boolean | null | undefined | InterpretacionCacheDefaultArgs> = $Result.GetResult<Prisma.$InterpretacionCachePayload, S>
+
+  type InterpretacionCacheCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InterpretacionCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InterpretacionCacheCountAggregateInputType | true
+    }
+
+  export interface InterpretacionCacheDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InterpretacionCache'], meta: { name: 'InterpretacionCache' } }
+    /**
+     * Find zero or one InterpretacionCache that matches the filter.
+     * @param {InterpretacionCacheFindUniqueArgs} args - Arguments to find a InterpretacionCache
+     * @example
+     * // Get one InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InterpretacionCacheFindUniqueArgs>(args: SelectSubset<T, InterpretacionCacheFindUniqueArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InterpretacionCache that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InterpretacionCacheFindUniqueOrThrowArgs} args - Arguments to find a InterpretacionCache
+     * @example
+     * // Get one InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InterpretacionCacheFindUniqueOrThrowArgs>(args: SelectSubset<T, InterpretacionCacheFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InterpretacionCache that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheFindFirstArgs} args - Arguments to find a InterpretacionCache
+     * @example
+     * // Get one InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InterpretacionCacheFindFirstArgs>(args?: SelectSubset<T, InterpretacionCacheFindFirstArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InterpretacionCache that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheFindFirstOrThrowArgs} args - Arguments to find a InterpretacionCache
+     * @example
+     * // Get one InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InterpretacionCacheFindFirstOrThrowArgs>(args?: SelectSubset<T, InterpretacionCacheFindFirstOrThrowArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InterpretacionCaches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InterpretacionCaches
+     * const interpretacionCaches = await prisma.interpretacionCache.findMany()
+     * 
+     * // Get first 10 InterpretacionCaches
+     * const interpretacionCaches = await prisma.interpretacionCache.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const interpretacionCacheWithIdOnly = await prisma.interpretacionCache.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InterpretacionCacheFindManyArgs>(args?: SelectSubset<T, InterpretacionCacheFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InterpretacionCache.
+     * @param {InterpretacionCacheCreateArgs} args - Arguments to create a InterpretacionCache.
+     * @example
+     * // Create one InterpretacionCache
+     * const InterpretacionCache = await prisma.interpretacionCache.create({
+     *   data: {
+     *     // ... data to create a InterpretacionCache
+     *   }
+     * })
+     * 
+     */
+    create<T extends InterpretacionCacheCreateArgs>(args: SelectSubset<T, InterpretacionCacheCreateArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InterpretacionCaches.
+     * @param {InterpretacionCacheCreateManyArgs} args - Arguments to create many InterpretacionCaches.
+     * @example
+     * // Create many InterpretacionCaches
+     * const interpretacionCache = await prisma.interpretacionCache.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InterpretacionCacheCreateManyArgs>(args?: SelectSubset<T, InterpretacionCacheCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InterpretacionCaches and returns the data saved in the database.
+     * @param {InterpretacionCacheCreateManyAndReturnArgs} args - Arguments to create many InterpretacionCaches.
+     * @example
+     * // Create many InterpretacionCaches
+     * const interpretacionCache = await prisma.interpretacionCache.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InterpretacionCaches and only return the `id`
+     * const interpretacionCacheWithIdOnly = await prisma.interpretacionCache.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InterpretacionCacheCreateManyAndReturnArgs>(args?: SelectSubset<T, InterpretacionCacheCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InterpretacionCache.
+     * @param {InterpretacionCacheDeleteArgs} args - Arguments to delete one InterpretacionCache.
+     * @example
+     * // Delete one InterpretacionCache
+     * const InterpretacionCache = await prisma.interpretacionCache.delete({
+     *   where: {
+     *     // ... filter to delete one InterpretacionCache
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InterpretacionCacheDeleteArgs>(args: SelectSubset<T, InterpretacionCacheDeleteArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InterpretacionCache.
+     * @param {InterpretacionCacheUpdateArgs} args - Arguments to update one InterpretacionCache.
+     * @example
+     * // Update one InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InterpretacionCacheUpdateArgs>(args: SelectSubset<T, InterpretacionCacheUpdateArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InterpretacionCaches.
+     * @param {InterpretacionCacheDeleteManyArgs} args - Arguments to filter InterpretacionCaches to delete.
+     * @example
+     * // Delete a few InterpretacionCaches
+     * const { count } = await prisma.interpretacionCache.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InterpretacionCacheDeleteManyArgs>(args?: SelectSubset<T, InterpretacionCacheDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InterpretacionCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InterpretacionCaches
+     * const interpretacionCache = await prisma.interpretacionCache.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InterpretacionCacheUpdateManyArgs>(args: SelectSubset<T, InterpretacionCacheUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InterpretacionCaches and returns the data updated in the database.
+     * @param {InterpretacionCacheUpdateManyAndReturnArgs} args - Arguments to update many InterpretacionCaches.
+     * @example
+     * // Update many InterpretacionCaches
+     * const interpretacionCache = await prisma.interpretacionCache.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InterpretacionCaches and only return the `id`
+     * const interpretacionCacheWithIdOnly = await prisma.interpretacionCache.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InterpretacionCacheUpdateManyAndReturnArgs>(args: SelectSubset<T, InterpretacionCacheUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InterpretacionCache.
+     * @param {InterpretacionCacheUpsertArgs} args - Arguments to update or create a InterpretacionCache.
+     * @example
+     * // Update or create a InterpretacionCache
+     * const interpretacionCache = await prisma.interpretacionCache.upsert({
+     *   create: {
+     *     // ... data to create a InterpretacionCache
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InterpretacionCache we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InterpretacionCacheUpsertArgs>(args: SelectSubset<T, InterpretacionCacheUpsertArgs<ExtArgs>>): Prisma__InterpretacionCacheClient<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InterpretacionCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheCountArgs} args - Arguments to filter InterpretacionCaches to count.
+     * @example
+     * // Count the number of InterpretacionCaches
+     * const count = await prisma.interpretacionCache.count({
+     *   where: {
+     *     // ... the filter for the InterpretacionCaches we want to count
+     *   }
+     * })
+    **/
+    count<T extends InterpretacionCacheCountArgs>(
+      args?: Subset<T, InterpretacionCacheCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InterpretacionCacheCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InterpretacionCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InterpretacionCacheAggregateArgs>(args: Subset<T, InterpretacionCacheAggregateArgs>): Prisma.PrismaPromise<GetInterpretacionCacheAggregateType<T>>
+
+    /**
+     * Group by InterpretacionCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterpretacionCacheGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InterpretacionCacheGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InterpretacionCacheGroupByArgs['orderBy'] }
+        : { orderBy?: InterpretacionCacheGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InterpretacionCacheGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInterpretacionCacheGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InterpretacionCache model
+   */
+  readonly fields: InterpretacionCacheFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InterpretacionCache.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InterpretacionCacheClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InterpretacionCache model
+   */
+  interface InterpretacionCacheFieldRefs {
+    readonly id: FieldRef<"InterpretacionCache", 'String'>
+    readonly userId: FieldRef<"InterpretacionCache", 'String'>
+    readonly fechaNacimiento: FieldRef<"InterpretacionCache", 'DateTime'>
+    readonly lugarNacimiento: FieldRef<"InterpretacionCache", 'String'>
+    readonly gender: FieldRef<"InterpretacionCache", 'String'>
+    readonly tipo: FieldRef<"InterpretacionCache", 'String'>
+    readonly interpretacionNarrativa: FieldRef<"InterpretacionCache", 'String'>
+    readonly interpretacionesIndividuales: FieldRef<"InterpretacionCache", 'String'>
+    readonly tiempoGeneracion: FieldRef<"InterpretacionCache", 'Float'>
+    readonly createdAt: FieldRef<"InterpretacionCache", 'DateTime'>
+    readonly updatedAt: FieldRef<"InterpretacionCache", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InterpretacionCache findUnique
+   */
+  export type InterpretacionCacheFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which InterpretacionCache to fetch.
+     */
+    where: InterpretacionCacheWhereUniqueInput
+  }
+
+  /**
+   * InterpretacionCache findUniqueOrThrow
+   */
+  export type InterpretacionCacheFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which InterpretacionCache to fetch.
+     */
+    where: InterpretacionCacheWhereUniqueInput
+  }
+
+  /**
+   * InterpretacionCache findFirst
+   */
+  export type InterpretacionCacheFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which InterpretacionCache to fetch.
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InterpretacionCaches to fetch.
+     */
+    orderBy?: InterpretacionCacheOrderByWithRelationInput | InterpretacionCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InterpretacionCaches.
+     */
+    cursor?: InterpretacionCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InterpretacionCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InterpretacionCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InterpretacionCaches.
+     */
+    distinct?: InterpretacionCacheScalarFieldEnum | InterpretacionCacheScalarFieldEnum[]
+  }
+
+  /**
+   * InterpretacionCache findFirstOrThrow
+   */
+  export type InterpretacionCacheFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which InterpretacionCache to fetch.
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InterpretacionCaches to fetch.
+     */
+    orderBy?: InterpretacionCacheOrderByWithRelationInput | InterpretacionCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InterpretacionCaches.
+     */
+    cursor?: InterpretacionCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InterpretacionCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InterpretacionCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InterpretacionCaches.
+     */
+    distinct?: InterpretacionCacheScalarFieldEnum | InterpretacionCacheScalarFieldEnum[]
+  }
+
+  /**
+   * InterpretacionCache findMany
+   */
+  export type InterpretacionCacheFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which InterpretacionCaches to fetch.
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InterpretacionCaches to fetch.
+     */
+    orderBy?: InterpretacionCacheOrderByWithRelationInput | InterpretacionCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InterpretacionCaches.
+     */
+    cursor?: InterpretacionCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InterpretacionCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InterpretacionCaches.
+     */
+    skip?: number
+    distinct?: InterpretacionCacheScalarFieldEnum | InterpretacionCacheScalarFieldEnum[]
+  }
+
+  /**
+   * InterpretacionCache create
+   */
+  export type InterpretacionCacheCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InterpretacionCache.
+     */
+    data: XOR<InterpretacionCacheCreateInput, InterpretacionCacheUncheckedCreateInput>
+  }
+
+  /**
+   * InterpretacionCache createMany
+   */
+  export type InterpretacionCacheCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InterpretacionCaches.
+     */
+    data: InterpretacionCacheCreateManyInput | InterpretacionCacheCreateManyInput[]
+  }
+
+  /**
+   * InterpretacionCache createManyAndReturn
+   */
+  export type InterpretacionCacheCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * The data used to create many InterpretacionCaches.
+     */
+    data: InterpretacionCacheCreateManyInput | InterpretacionCacheCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InterpretacionCache update
+   */
+  export type InterpretacionCacheUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InterpretacionCache.
+     */
+    data: XOR<InterpretacionCacheUpdateInput, InterpretacionCacheUncheckedUpdateInput>
+    /**
+     * Choose, which InterpretacionCache to update.
+     */
+    where: InterpretacionCacheWhereUniqueInput
+  }
+
+  /**
+   * InterpretacionCache updateMany
+   */
+  export type InterpretacionCacheUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InterpretacionCaches.
+     */
+    data: XOR<InterpretacionCacheUpdateManyMutationInput, InterpretacionCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which InterpretacionCaches to update
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * Limit how many InterpretacionCaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InterpretacionCache updateManyAndReturn
+   */
+  export type InterpretacionCacheUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * The data used to update InterpretacionCaches.
+     */
+    data: XOR<InterpretacionCacheUpdateManyMutationInput, InterpretacionCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which InterpretacionCaches to update
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * Limit how many InterpretacionCaches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InterpretacionCache upsert
+   */
+  export type InterpretacionCacheUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InterpretacionCache to update in case it exists.
+     */
+    where: InterpretacionCacheWhereUniqueInput
+    /**
+     * In case the InterpretacionCache found by the `where` argument doesn't exist, create a new InterpretacionCache with this data.
+     */
+    create: XOR<InterpretacionCacheCreateInput, InterpretacionCacheUncheckedCreateInput>
+    /**
+     * In case the InterpretacionCache was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InterpretacionCacheUpdateInput, InterpretacionCacheUncheckedUpdateInput>
+  }
+
+  /**
+   * InterpretacionCache delete
+   */
+  export type InterpretacionCacheDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+    /**
+     * Filter which InterpretacionCache to delete.
+     */
+    where: InterpretacionCacheWhereUniqueInput
+  }
+
+  /**
+   * InterpretacionCache deleteMany
+   */
+  export type InterpretacionCacheDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InterpretacionCaches to delete
+     */
+    where?: InterpretacionCacheWhereInput
+    /**
+     * Limit how many InterpretacionCaches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InterpretacionCache without action
+   */
+  export type InterpretacionCacheDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InterpretacionCache
+     */
+    select?: InterpretacionCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InterpretacionCache
+     */
+    omit?: InterpretacionCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterpretacionCacheInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4686,6 +5982,23 @@ export namespace Prisma {
   };
 
   export type CartaNatalScalarFieldEnum = (typeof CartaNatalScalarFieldEnum)[keyof typeof CartaNatalScalarFieldEnum]
+
+
+  export const InterpretacionCacheScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    fechaNacimiento: 'fechaNacimiento',
+    lugarNacimiento: 'lugarNacimiento',
+    gender: 'gender',
+    tipo: 'tipo',
+    interpretacionNarrativa: 'interpretacionNarrativa',
+    interpretacionesIndividuales: 'interpretacionesIndividuales',
+    tiempoGeneracion: 'tiempoGeneracion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InterpretacionCacheScalarFieldEnum = (typeof InterpretacionCacheScalarFieldEnum)[keyof typeof InterpretacionCacheScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4773,6 +6086,7 @@ export namespace Prisma {
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
+    interpretaciones?: InterpretacionCacheListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4798,6 +6112,7 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrderInput | SortOrder
     rectificationEvents?: RectificationEventOrderByRelationAggregateInput
     cartasNatales?: CartaNatalOrderByRelationAggregateInput
+    interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4826,6 +6141,7 @@ export namespace Prisma {
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
+    interpretaciones?: InterpretacionCacheListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -5028,6 +6344,94 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"CartaNatal"> | Date | string
   }
 
+  export type InterpretacionCacheWhereInput = {
+    AND?: InterpretacionCacheWhereInput | InterpretacionCacheWhereInput[]
+    OR?: InterpretacionCacheWhereInput[]
+    NOT?: InterpretacionCacheWhereInput | InterpretacionCacheWhereInput[]
+    id?: StringFilter<"InterpretacionCache"> | string
+    userId?: StringFilter<"InterpretacionCache"> | string
+    fechaNacimiento?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
+    gender?: StringFilter<"InterpretacionCache"> | string
+    tipo?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
+    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
+    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type InterpretacionCacheOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fechaNacimiento?: SortOrder
+    lugarNacimiento?: SortOrder
+    gender?: SortOrder
+    tipo?: SortOrder
+    interpretacionNarrativa?: SortOrder
+    interpretacionesIndividuales?: SortOrder
+    tiempoGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type InterpretacionCacheWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_fechaNacimiento_lugarNacimiento_gender_tipo?: InterpretacionCacheUserIdFechaNacimientoLugarNacimientoGenderTipoCompoundUniqueInput
+    AND?: InterpretacionCacheWhereInput | InterpretacionCacheWhereInput[]
+    OR?: InterpretacionCacheWhereInput[]
+    NOT?: InterpretacionCacheWhereInput | InterpretacionCacheWhereInput[]
+    userId?: StringFilter<"InterpretacionCache"> | string
+    fechaNacimiento?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
+    gender?: StringFilter<"InterpretacionCache"> | string
+    tipo?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
+    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
+    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_fechaNacimiento_lugarNacimiento_gender_tipo">
+
+  export type InterpretacionCacheOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fechaNacimiento?: SortOrder
+    lugarNacimiento?: SortOrder
+    gender?: SortOrder
+    tipo?: SortOrder
+    interpretacionNarrativa?: SortOrder
+    interpretacionesIndividuales?: SortOrder
+    tiempoGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InterpretacionCacheCountOrderByAggregateInput
+    _avg?: InterpretacionCacheAvgOrderByAggregateInput
+    _max?: InterpretacionCacheMaxOrderByAggregateInput
+    _min?: InterpretacionCacheMinOrderByAggregateInput
+    _sum?: InterpretacionCacheSumOrderByAggregateInput
+  }
+
+  export type InterpretacionCacheScalarWhereWithAggregatesInput = {
+    AND?: InterpretacionCacheScalarWhereWithAggregatesInput | InterpretacionCacheScalarWhereWithAggregatesInput[]
+    OR?: InterpretacionCacheScalarWhereWithAggregatesInput[]
+    NOT?: InterpretacionCacheScalarWhereWithAggregatesInput | InterpretacionCacheScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    userId?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    fechaNacimiento?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
+    lugarNacimiento?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    gender?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    tipo?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    interpretacionesIndividuales?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    tiempoGeneracion?: FloatWithAggregatesFilter<"InterpretacionCache"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -5051,6 +6455,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -5076,6 +6481,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -5101,6 +6507,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5126,6 +6533,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -5356,6 +6764,103 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InterpretacionCacheCreateInput = {
+    id?: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutInterpretacionesInput
+  }
+
+  export type InterpretacionCacheUncheckedCreateInput = {
+    id?: string
+    userId: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterpretacionCacheUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInterpretacionesNestedInput
+  }
+
+  export type InterpretacionCacheUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterpretacionCacheCreateManyInput = {
+    id?: string
+    userId: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterpretacionCacheUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterpretacionCacheUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -5434,6 +6939,12 @@ export namespace Prisma {
     none?: CartaNatalWhereInput
   }
 
+  export type InterpretacionCacheListRelationFilter = {
+    every?: InterpretacionCacheWhereInput
+    some?: InterpretacionCacheWhereInput
+    none?: InterpretacionCacheWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -5444,6 +6955,10 @@ export namespace Prisma {
   }
 
   export type CartaNatalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InterpretacionCacheOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5693,6 +7208,91 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type InterpretacionCacheUserIdFechaNacimientoLugarNacimientoGenderTipoCompoundUniqueInput = {
+    userId: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+  }
+
+  export type InterpretacionCacheCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fechaNacimiento?: SortOrder
+    lugarNacimiento?: SortOrder
+    gender?: SortOrder
+    tipo?: SortOrder
+    interpretacionNarrativa?: SortOrder
+    interpretacionesIndividuales?: SortOrder
+    tiempoGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterpretacionCacheAvgOrderByAggregateInput = {
+    tiempoGeneracion?: SortOrder
+  }
+
+  export type InterpretacionCacheMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fechaNacimiento?: SortOrder
+    lugarNacimiento?: SortOrder
+    gender?: SortOrder
+    tipo?: SortOrder
+    interpretacionNarrativa?: SortOrder
+    interpretacionesIndividuales?: SortOrder
+    tiempoGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterpretacionCacheMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fechaNacimiento?: SortOrder
+    lugarNacimiento?: SortOrder
+    gender?: SortOrder
+    tipo?: SortOrder
+    interpretacionNarrativa?: SortOrder
+    interpretacionesIndividuales?: SortOrder
+    tiempoGeneracion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterpretacionCacheSumOrderByAggregateInput = {
+    tiempoGeneracion?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type RectificationEventCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -5707,6 +7307,13 @@ export namespace Prisma {
     connect?: CartaNatalWhereUniqueInput | CartaNatalWhereUniqueInput[]
   }
 
+  export type InterpretacionCacheCreateNestedManyWithoutUserInput = {
+    create?: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput> | InterpretacionCacheCreateWithoutUserInput[] | InterpretacionCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InterpretacionCacheCreateOrConnectWithoutUserInput | InterpretacionCacheCreateOrConnectWithoutUserInput[]
+    createMany?: InterpretacionCacheCreateManyUserInputEnvelope
+    connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+  }
+
   export type RectificationEventUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -5719,6 +7326,13 @@ export namespace Prisma {
     connectOrCreate?: CartaNatalCreateOrConnectWithoutUserInput | CartaNatalCreateOrConnectWithoutUserInput[]
     createMany?: CartaNatalCreateManyUserInputEnvelope
     connect?: CartaNatalWhereUniqueInput | CartaNatalWhereUniqueInput[]
+  }
+
+  export type InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput> | InterpretacionCacheCreateWithoutUserInput[] | InterpretacionCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InterpretacionCacheCreateOrConnectWithoutUserInput | InterpretacionCacheCreateOrConnectWithoutUserInput[]
+    createMany?: InterpretacionCacheCreateManyUserInputEnvelope
+    connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5777,6 +7391,20 @@ export namespace Prisma {
     deleteMany?: CartaNatalScalarWhereInput | CartaNatalScalarWhereInput[]
   }
 
+  export type InterpretacionCacheUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput> | InterpretacionCacheCreateWithoutUserInput[] | InterpretacionCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InterpretacionCacheCreateOrConnectWithoutUserInput | InterpretacionCacheCreateOrConnectWithoutUserInput[]
+    upsert?: InterpretacionCacheUpsertWithWhereUniqueWithoutUserInput | InterpretacionCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InterpretacionCacheCreateManyUserInputEnvelope
+    set?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    disconnect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    delete?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    update?: InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput | InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InterpretacionCacheUpdateManyWithWhereWithoutUserInput | InterpretacionCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
+  }
+
   export type RectificationEventUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -5805,6 +7433,20 @@ export namespace Prisma {
     deleteMany?: CartaNatalScalarWhereInput | CartaNatalScalarWhereInput[]
   }
 
+  export type InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput> | InterpretacionCacheCreateWithoutUserInput[] | InterpretacionCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InterpretacionCacheCreateOrConnectWithoutUserInput | InterpretacionCacheCreateOrConnectWithoutUserInput[]
+    upsert?: InterpretacionCacheUpsertWithWhereUniqueWithoutUserInput | InterpretacionCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InterpretacionCacheCreateManyUserInputEnvelope
+    set?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    disconnect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    delete?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+    update?: InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput | InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InterpretacionCacheUpdateManyWithWhereWithoutUserInput | InterpretacionCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutRectificationEventsInput = {
     create?: XOR<UserCreateWithoutRectificationEventsInput, UserUncheckedCreateWithoutRectificationEventsInput>
     connectOrCreate?: UserCreateOrConnectWithoutRectificationEventsInput
@@ -5831,6 +7473,28 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCartasNatalesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCartasNatalesInput, UserUpdateWithoutCartasNatalesInput>, UserUncheckedUpdateWithoutCartasNatalesInput>
+  }
+
+  export type UserCreateNestedOneWithoutInterpretacionesInput = {
+    create?: XOR<UserCreateWithoutInterpretacionesInput, UserUncheckedCreateWithoutInterpretacionesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInterpretacionesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutInterpretacionesNestedInput = {
+    create?: XOR<UserCreateWithoutInterpretacionesInput, UserUncheckedCreateWithoutInterpretacionesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInterpretacionesInput
+    upsert?: UserUpsertWithoutInterpretacionesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInterpretacionesInput, UserUpdateWithoutInterpretacionesInput>, UserUncheckedUpdateWithoutInterpretacionesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6007,6 +7671,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type RectificationEventCreateWithoutUserInput = {
     id?: string
     eventType: string
@@ -6065,6 +7756,41 @@ export namespace Prisma {
 
   export type CartaNatalCreateManyUserInputEnvelope = {
     data: CartaNatalCreateManyUserInput | CartaNatalCreateManyUserInput[]
+  }
+
+  export type InterpretacionCacheCreateWithoutUserInput = {
+    id?: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterpretacionCacheUncheckedCreateWithoutUserInput = {
+    id?: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterpretacionCacheCreateOrConnectWithoutUserInput = {
+    where: InterpretacionCacheWhereUniqueInput
+    create: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type InterpretacionCacheCreateManyUserInputEnvelope = {
+    data: InterpretacionCacheCreateManyUserInput | InterpretacionCacheCreateManyUserInput[]
   }
 
   export type RectificationEventUpsertWithWhereUniqueWithoutUserInput = {
@@ -6128,6 +7854,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"CartaNatal"> | Date | string
   }
 
+  export type InterpretacionCacheUpsertWithWhereUniqueWithoutUserInput = {
+    where: InterpretacionCacheWhereUniqueInput
+    update: XOR<InterpretacionCacheUpdateWithoutUserInput, InterpretacionCacheUncheckedUpdateWithoutUserInput>
+    create: XOR<InterpretacionCacheCreateWithoutUserInput, InterpretacionCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput = {
+    where: InterpretacionCacheWhereUniqueInput
+    data: XOR<InterpretacionCacheUpdateWithoutUserInput, InterpretacionCacheUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InterpretacionCacheUpdateManyWithWhereWithoutUserInput = {
+    where: InterpretacionCacheScalarWhereInput
+    data: XOR<InterpretacionCacheUpdateManyMutationInput, InterpretacionCacheUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type InterpretacionCacheScalarWhereInput = {
+    AND?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
+    OR?: InterpretacionCacheScalarWhereInput[]
+    NOT?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
+    id?: StringFilter<"InterpretacionCache"> | string
+    userId?: StringFilter<"InterpretacionCache"> | string
+    fechaNacimiento?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
+    gender?: StringFilter<"InterpretacionCache"> | string
+    tipo?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
+    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
+    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+    updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
+  }
+
   export type UserCreateWithoutRectificationEventsInput = {
     id?: string
     email: string
@@ -6150,6 +7909,7 @@ export namespace Prisma {
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRectificationEventsInput = {
@@ -6174,6 +7934,7 @@ export namespace Prisma {
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRectificationEventsInput = {
@@ -6214,6 +7975,7 @@ export namespace Prisma {
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRectificationEventsInput = {
@@ -6238,6 +8000,7 @@ export namespace Prisma {
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartasNatalesInput = {
@@ -6262,6 +8025,7 @@ export namespace Prisma {
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartasNatalesInput = {
@@ -6286,6 +8050,7 @@ export namespace Prisma {
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartasNatalesInput = {
@@ -6326,6 +8091,7 @@ export namespace Prisma {
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartasNatalesInput = {
@@ -6350,6 +8116,123 @@ export namespace Prisma {
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutInterpretacionesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInterpretacionesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInterpretacionesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInterpretacionesInput, UserUncheckedCreateWithoutInterpretacionesInput>
+  }
+
+  export type UserUpsertWithoutInterpretacionesInput = {
+    update: XOR<UserUpdateWithoutInterpretacionesInput, UserUncheckedUpdateWithoutInterpretacionesInput>
+    create: XOR<UserCreateWithoutInterpretacionesInput, UserUncheckedCreateWithoutInterpretacionesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInterpretacionesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInterpretacionesInput, UserUncheckedUpdateWithoutInterpretacionesInput>
+  }
+
+  export type UserUpdateWithoutInterpretacionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInterpretacionesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RectificationEventCreateManyUserInput = {
@@ -6369,6 +8252,19 @@ export namespace Prisma {
     dataReducida: string
     fechaNacimiento: Date | string
     lugarNacimiento: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterpretacionCacheCreateManyUserInput = {
+    id?: string
+    fechaNacimiento: Date | string
+    lugarNacimiento: string
+    gender: string
+    tipo: string
+    interpretacionNarrativa: string
+    interpretacionesIndividuales: string
+    tiempoGeneracion: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6432,6 +8328,45 @@ export namespace Prisma {
     dataReducida?: StringFieldUpdateOperationsInput | string
     fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterpretacionCacheUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterpretacionCacheUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterpretacionCacheUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fechaNacimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugarNacimiento?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
+    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
+    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

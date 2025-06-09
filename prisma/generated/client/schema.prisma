@@ -9,28 +9,29 @@ datasource db {
 }
 
 model User {
-  id                               String               @id @default(cuid())
-  email                            String               @unique
+  id                               String                @id @default(cuid())
+  email                            String                @unique
   name                             String?
   image                            String?
-  createdAt                        DateTime             @default(now())
-  updatedAt                        DateTime             @updatedAt
+  createdAt                        DateTime              @default(now())
+  updatedAt                        DateTime              @updatedAt
   birthDate                        DateTime?
   birthCity                        String?
   birthCountry                     String?
   birthHour                        Int?
   birthMinute                      Int?
-  knowsBirthTime                   Boolean              @default(true)
+  knowsBirthTime                   Boolean               @default(true)
   gender                           String? // "masculino" o "femenino"
   residenceCity                    String?
   residenceCountry                 String?
   timezone                         String?
-  rectificationRequested           Boolean              @default(false)
-  rectificationAcceptedUncertainty Boolean              @default(false)
+  rectificationRequested           Boolean               @default(false)
+  rectificationAcceptedUncertainty Boolean               @default(false)
   rectificationStatus              String?
   rectificationRequestDate         DateTime?
   rectificationEvents              RectificationEvent[]
   cartasNatales                    CartaNatal[]
+  interpretaciones                 InterpretacionCache[]
 }
 
 model RectificationEvent {
@@ -58,4 +59,21 @@ model CartaNatal {
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, tipo, fechaNacimiento, lugarNacimiento])
+}
+
+model InterpretacionCache {
+  id                           String   @id @default(cuid())
+  userId                       String
+  fechaNacimiento              DateTime
+  lugarNacimiento              String
+  gender                       String // "masculino" o "femenino"
+  tipo                         String // "tropical" o "draconica"
+  interpretacionNarrativa      String // JSON con interpretación narrativa
+  interpretacionesIndividuales String // JSON con array de interpretaciones individuales
+  tiempoGeneracion             Float // Tiempo que tomó generar en segundos
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
+  user                         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])
 }

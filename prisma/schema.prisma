@@ -31,6 +31,7 @@ model User {
   rectificationRequestDate         DateTime?
   rectificationEvents              RectificationEvent[]
   cartasNatales                    CartaNatal[]
+  interpretaciones                 InterpretacionCache[]
 }
 
 model RectificationEvent {
@@ -58,4 +59,21 @@ model CartaNatal {
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@unique([userId, tipo, fechaNacimiento, lugarNacimiento])
+}
+
+model InterpretacionCache {
+  id                        String   @id @default(cuid())
+  userId                    String
+  fechaNacimiento           DateTime
+  lugarNacimiento           String
+  gender                    String   // "masculino" o "femenino"
+  tipo                      String   // "tropical" o "draconica"
+  interpretacionNarrativa   String   // JSON con interpretación narrativa
+  interpretacionesIndividuales String // JSON con array de interpretaciones individuales
+  tiempoGeneracion          Float    // Tiempo que tomó generar en segundos
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+  user                      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])
 }

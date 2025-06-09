@@ -15,9 +15,12 @@ import { useState } from 'react';
 import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
 import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { CartaNatalInterpretacion } from "@/components/carta-natal-interpretacion";
+import { InterpretacionNarrativa } from "@/components/interpretacion-narrativa";
+import { InterpretacionesIndividuales } from "@/components/interpretaciones-individuales";
+import { useInterpretaciones } from "@/hooks/use-interpretaciones";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Calculator, Clock } from "lucide-react";
+import { Loader2, Calculator, Clock, RefreshCw } from "lucide-react";
 
 interface CartaNatalData {
   success: boolean;
@@ -41,6 +44,15 @@ export default function CartasTropicaPage() {
   const [cached, setCached] = useState(false);
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
   const [clearingCache, setClearingCache] = useState(false);
+
+  // Hook para interpretaciones RAG
+  const {
+    interpretaciones,
+    loading: interpretacionesLoading,
+    error: interpretacionesError,
+    refetch: refetchInterpretaciones,
+    clearCache: clearInterpretacionesCache
+  } = useInterpretaciones(cartaCompleta, 'tropical');
 
   const limpiarCache = async () => {
     setClearingCache(true);
@@ -200,13 +212,60 @@ export default function CartasTropicaPage() {
             <CartaNatalTabla chartData={cartaCompleta} />
           </div>
           
-          {/* Nota sobre interpretación */}
-          <Alert className="mb-4">
-            <AlertDescription>
-              📝 <strong>Próximamente:</strong> Interpretación automática de la carta natal basada en IA.
-              Por ahora, puedes analizar los datos de planetas, casas y aspectos mostrados arriba.
-            </AlertDescription>
-          </Alert>
+          {/* Sección de Interpretaciones */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={refetchInterpretaciones} 
+                  disabled={interpretacionesLoading}
+                  variant="outline"
+                  size="sm"
+                >
+                  {interpretacionesLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                      Generando...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="mr-2 h-3 w-3" />
+                      Regenerar
+                    </>
+                  )}
+                </Button>
+                <Button 
+                  onClick={clearInterpretacionesCache} 
+                  disabled={interpretacionesLoading}
+                  variant="outline"
+                  size="sm"
+                >
+                  🗑️ Limpiar Cache
+                </Button>
+              </div>
+            </div>
+            
+            {/* Interpretación Narrativa */}
+            <div className="mb-8">
+              <InterpretacionNarrativa
+                interpretacion={interpretaciones?.interpretacion_narrativa || null}
+                loading={interpretacionesLoading}
+                error={interpretacionesError}
+                tiempoGeneracion={interpretaciones?.tiempo_generacion}
+                desdeCache={interpretaciones?.desde_cache}
+              />
+            </div>
+            
+            {/* Interpretaciones Individuales */}
+            <div className="mb-8">
+              <InterpretacionesIndividuales
+                interpretaciones={interpretaciones?.interpretaciones_individuales || null}
+                loading={interpretacionesLoading}
+                error={interpretacionesError}
+              />
+            </div>
+          </div>
         </>
       )}
       

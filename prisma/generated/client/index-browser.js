@@ -163,6 +163,20 @@ exports.Prisma.CartaNatalScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InterpretacionCacheScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fechaNacimiento: 'fechaNacimiento',
+  lugarNacimiento: 'lugarNacimiento',
+  gender: 'gender',
+  tipo: 'tipo',
+  interpretacionNarrativa: 'interpretacionNarrativa',
+  interpretacionesIndividuales: 'interpretacionesIndividuales',
+  tiempoGeneracion: 'tiempoGeneracion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -177,7 +191,8 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   User: 'User',
   RectificationEvent: 'RectificationEvent',
-  CartaNatal: 'CartaNatal'
+  CartaNatal: 'CartaNatal',
+  InterpretacionCache: 'InterpretacionCache'
 };
 
 /**
