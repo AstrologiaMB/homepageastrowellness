@@ -92,7 +92,7 @@ const data = {
       items: [
         {
           title: "Cálculos",
-          url: "#",
+          url: "/astrogematria/calculos",
         },
         {
           title: "Interpretaciones",

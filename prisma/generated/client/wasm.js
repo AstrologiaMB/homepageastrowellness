@@ -177,6 +177,19 @@ exports.Prisma.InterpretacionCacheScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AstrogematriaCacheScalarFieldEnum = {
+  id: 'id',
+  palabra: 'palabra',
+  palabraProcesada: 'palabraProcesada',
+  valorTotal: 'valorTotal',
+  reduccionZodiacal: 'reduccionZodiacal',
+  signo: 'signo',
+  grados: 'grados',
+  posicionCompleta: 'posicionCompleta',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -192,7 +205,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   RectificationEvent: 'RectificationEvent',
   CartaNatal: 'CartaNatal',
-  InterpretacionCache: 'InterpretacionCache'
+  InterpretacionCache: 'InterpretacionCache',
+  AstrogematriaCache: 'AstrogematriaCache'
 };
 
 /**

@@ -77,3 +77,16 @@ model InterpretacionCache {
 
   @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])
 }
+
+model AstrogematriaCache {
+  id                String   @id @default(cuid())
+  palabra           String   @unique
+  palabraProcesada  String
+  valorTotal        Int
+  reduccionZodiacal Int
+  signo             String
+  grados            Int
+  posicionCompleta  String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

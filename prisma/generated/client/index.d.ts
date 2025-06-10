@@ -33,6 +33,11 @@ export type CartaNatal = $Result.DefaultSelection<Prisma.$CartaNatalPayload>
  * 
  */
 export type InterpretacionCache = $Result.DefaultSelection<Prisma.$InterpretacionCachePayload>
+/**
+ * Model AstrogematriaCache
+ * 
+ */
+export type AstrogematriaCache = $Result.DefaultSelection<Prisma.$AstrogematriaCachePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -198,6 +203,16 @@ export class PrismaClient<
     * ```
     */
   get interpretacionCache(): Prisma.InterpretacionCacheDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.astrogematriaCache`: Exposes CRUD operations for the **AstrogematriaCache** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AstrogematriaCaches
+    * const astrogematriaCaches = await prisma.astrogematriaCache.findMany()
+    * ```
+    */
+  get astrogematriaCache(): Prisma.AstrogematriaCacheDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -641,7 +656,8 @@ export namespace Prisma {
     User: 'User',
     RectificationEvent: 'RectificationEvent',
     CartaNatal: 'CartaNatal',
-    InterpretacionCache: 'InterpretacionCache'
+    InterpretacionCache: 'InterpretacionCache',
+    AstrogematriaCache: 'AstrogematriaCache'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +676,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache"
+      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -960,6 +976,80 @@ export namespace Prisma {
           }
         }
       }
+      AstrogematriaCache: {
+        payload: Prisma.$AstrogematriaCachePayload<ExtArgs>
+        fields: Prisma.AstrogematriaCacheFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AstrogematriaCacheFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AstrogematriaCacheFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          findFirst: {
+            args: Prisma.AstrogematriaCacheFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AstrogematriaCacheFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          findMany: {
+            args: Prisma.AstrogematriaCacheFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>[]
+          }
+          create: {
+            args: Prisma.AstrogematriaCacheCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          createMany: {
+            args: Prisma.AstrogematriaCacheCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AstrogematriaCacheCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>[]
+          }
+          delete: {
+            args: Prisma.AstrogematriaCacheDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          update: {
+            args: Prisma.AstrogematriaCacheUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          deleteMany: {
+            args: Prisma.AstrogematriaCacheDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AstrogematriaCacheUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AstrogematriaCacheUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>[]
+          }
+          upsert: {
+            args: Prisma.AstrogematriaCacheUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AstrogematriaCachePayload>
+          }
+          aggregate: {
+            args: Prisma.AstrogematriaCacheAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAstrogematriaCache>
+          }
+          groupBy: {
+            args: Prisma.AstrogematriaCacheGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AstrogematriaCacheGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AstrogematriaCacheCountArgs<ExtArgs>
+            result: $Utils.Optional<AstrogematriaCacheCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1048,6 +1138,7 @@ export namespace Prisma {
     rectificationEvent?: RectificationEventOmit
     cartaNatal?: CartaNatalOmit
     interpretacionCache?: InterpretacionCacheOmit
+    astrogematriaCache?: AstrogematriaCacheOmit
   }
 
   /* Types for Logging */
@@ -5919,6 +6010,1106 @@ export namespace Prisma {
 
 
   /**
+   * Model AstrogematriaCache
+   */
+
+  export type AggregateAstrogematriaCache = {
+    _count: AstrogematriaCacheCountAggregateOutputType | null
+    _avg: AstrogematriaCacheAvgAggregateOutputType | null
+    _sum: AstrogematriaCacheSumAggregateOutputType | null
+    _min: AstrogematriaCacheMinAggregateOutputType | null
+    _max: AstrogematriaCacheMaxAggregateOutputType | null
+  }
+
+  export type AstrogematriaCacheAvgAggregateOutputType = {
+    valorTotal: number | null
+    reduccionZodiacal: number | null
+    grados: number | null
+  }
+
+  export type AstrogematriaCacheSumAggregateOutputType = {
+    valorTotal: number | null
+    reduccionZodiacal: number | null
+    grados: number | null
+  }
+
+  export type AstrogematriaCacheMinAggregateOutputType = {
+    id: string | null
+    palabra: string | null
+    palabraProcesada: string | null
+    valorTotal: number | null
+    reduccionZodiacal: number | null
+    signo: string | null
+    grados: number | null
+    posicionCompleta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AstrogematriaCacheMaxAggregateOutputType = {
+    id: string | null
+    palabra: string | null
+    palabraProcesada: string | null
+    valorTotal: number | null
+    reduccionZodiacal: number | null
+    signo: string | null
+    grados: number | null
+    posicionCompleta: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AstrogematriaCacheCountAggregateOutputType = {
+    id: number
+    palabra: number
+    palabraProcesada: number
+    valorTotal: number
+    reduccionZodiacal: number
+    signo: number
+    grados: number
+    posicionCompleta: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AstrogematriaCacheAvgAggregateInputType = {
+    valorTotal?: true
+    reduccionZodiacal?: true
+    grados?: true
+  }
+
+  export type AstrogematriaCacheSumAggregateInputType = {
+    valorTotal?: true
+    reduccionZodiacal?: true
+    grados?: true
+  }
+
+  export type AstrogematriaCacheMinAggregateInputType = {
+    id?: true
+    palabra?: true
+    palabraProcesada?: true
+    valorTotal?: true
+    reduccionZodiacal?: true
+    signo?: true
+    grados?: true
+    posicionCompleta?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AstrogematriaCacheMaxAggregateInputType = {
+    id?: true
+    palabra?: true
+    palabraProcesada?: true
+    valorTotal?: true
+    reduccionZodiacal?: true
+    signo?: true
+    grados?: true
+    posicionCompleta?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AstrogematriaCacheCountAggregateInputType = {
+    id?: true
+    palabra?: true
+    palabraProcesada?: true
+    valorTotal?: true
+    reduccionZodiacal?: true
+    signo?: true
+    grados?: true
+    posicionCompleta?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AstrogematriaCacheAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AstrogematriaCache to aggregate.
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AstrogematriaCaches to fetch.
+     */
+    orderBy?: AstrogematriaCacheOrderByWithRelationInput | AstrogematriaCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AstrogematriaCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AstrogematriaCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AstrogematriaCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AstrogematriaCaches
+    **/
+    _count?: true | AstrogematriaCacheCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AstrogematriaCacheAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AstrogematriaCacheSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AstrogematriaCacheMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AstrogematriaCacheMaxAggregateInputType
+  }
+
+  export type GetAstrogematriaCacheAggregateType<T extends AstrogematriaCacheAggregateArgs> = {
+        [P in keyof T & keyof AggregateAstrogematriaCache]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAstrogematriaCache[P]>
+      : GetScalarType<T[P], AggregateAstrogematriaCache[P]>
+  }
+
+
+
+
+  export type AstrogematriaCacheGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AstrogematriaCacheWhereInput
+    orderBy?: AstrogematriaCacheOrderByWithAggregationInput | AstrogematriaCacheOrderByWithAggregationInput[]
+    by: AstrogematriaCacheScalarFieldEnum[] | AstrogematriaCacheScalarFieldEnum
+    having?: AstrogematriaCacheScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AstrogematriaCacheCountAggregateInputType | true
+    _avg?: AstrogematriaCacheAvgAggregateInputType
+    _sum?: AstrogematriaCacheSumAggregateInputType
+    _min?: AstrogematriaCacheMinAggregateInputType
+    _max?: AstrogematriaCacheMaxAggregateInputType
+  }
+
+  export type AstrogematriaCacheGroupByOutputType = {
+    id: string
+    palabra: string
+    palabraProcesada: string
+    valorTotal: number
+    reduccionZodiacal: number
+    signo: string
+    grados: number
+    posicionCompleta: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AstrogematriaCacheCountAggregateOutputType | null
+    _avg: AstrogematriaCacheAvgAggregateOutputType | null
+    _sum: AstrogematriaCacheSumAggregateOutputType | null
+    _min: AstrogematriaCacheMinAggregateOutputType | null
+    _max: AstrogematriaCacheMaxAggregateOutputType | null
+  }
+
+  type GetAstrogematriaCacheGroupByPayload<T extends AstrogematriaCacheGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AstrogematriaCacheGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AstrogematriaCacheGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AstrogematriaCacheGroupByOutputType[P]>
+            : GetScalarType<T[P], AstrogematriaCacheGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AstrogematriaCacheSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    palabra?: boolean
+    palabraProcesada?: boolean
+    valorTotal?: boolean
+    reduccionZodiacal?: boolean
+    signo?: boolean
+    grados?: boolean
+    posicionCompleta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["astrogematriaCache"]>
+
+  export type AstrogematriaCacheSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    palabra?: boolean
+    palabraProcesada?: boolean
+    valorTotal?: boolean
+    reduccionZodiacal?: boolean
+    signo?: boolean
+    grados?: boolean
+    posicionCompleta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["astrogematriaCache"]>
+
+  export type AstrogematriaCacheSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    palabra?: boolean
+    palabraProcesada?: boolean
+    valorTotal?: boolean
+    reduccionZodiacal?: boolean
+    signo?: boolean
+    grados?: boolean
+    posicionCompleta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["astrogematriaCache"]>
+
+  export type AstrogematriaCacheSelectScalar = {
+    id?: boolean
+    palabra?: boolean
+    palabraProcesada?: boolean
+    valorTotal?: boolean
+    reduccionZodiacal?: boolean
+    signo?: boolean
+    grados?: boolean
+    posicionCompleta?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AstrogematriaCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "palabra" | "palabraProcesada" | "valorTotal" | "reduccionZodiacal" | "signo" | "grados" | "posicionCompleta" | "createdAt" | "updatedAt", ExtArgs["result"]["astrogematriaCache"]>
+
+  export type $AstrogematriaCachePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AstrogematriaCache"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      palabra: string
+      palabraProcesada: string
+      valorTotal: number
+      reduccionZodiacal: number
+      signo: string
+      grados: number
+      posicionCompleta: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["astrogematriaCache"]>
+    composites: {}
+  }
+
+  type AstrogematriaCacheGetPayload<S extends boolean | null | undefined | AstrogematriaCacheDefaultArgs> = $Result.GetResult<Prisma.$AstrogematriaCachePayload, S>
+
+  type AstrogematriaCacheCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AstrogematriaCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AstrogematriaCacheCountAggregateInputType | true
+    }
+
+  export interface AstrogematriaCacheDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AstrogematriaCache'], meta: { name: 'AstrogematriaCache' } }
+    /**
+     * Find zero or one AstrogematriaCache that matches the filter.
+     * @param {AstrogematriaCacheFindUniqueArgs} args - Arguments to find a AstrogematriaCache
+     * @example
+     * // Get one AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AstrogematriaCacheFindUniqueArgs>(args: SelectSubset<T, AstrogematriaCacheFindUniqueArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AstrogematriaCache that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AstrogematriaCacheFindUniqueOrThrowArgs} args - Arguments to find a AstrogematriaCache
+     * @example
+     * // Get one AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AstrogematriaCacheFindUniqueOrThrowArgs>(args: SelectSubset<T, AstrogematriaCacheFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AstrogematriaCache that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheFindFirstArgs} args - Arguments to find a AstrogematriaCache
+     * @example
+     * // Get one AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AstrogematriaCacheFindFirstArgs>(args?: SelectSubset<T, AstrogematriaCacheFindFirstArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AstrogematriaCache that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheFindFirstOrThrowArgs} args - Arguments to find a AstrogematriaCache
+     * @example
+     * // Get one AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AstrogematriaCacheFindFirstOrThrowArgs>(args?: SelectSubset<T, AstrogematriaCacheFindFirstOrThrowArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AstrogematriaCaches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AstrogematriaCaches
+     * const astrogematriaCaches = await prisma.astrogematriaCache.findMany()
+     * 
+     * // Get first 10 AstrogematriaCaches
+     * const astrogematriaCaches = await prisma.astrogematriaCache.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const astrogematriaCacheWithIdOnly = await prisma.astrogematriaCache.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AstrogematriaCacheFindManyArgs>(args?: SelectSubset<T, AstrogematriaCacheFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AstrogematriaCache.
+     * @param {AstrogematriaCacheCreateArgs} args - Arguments to create a AstrogematriaCache.
+     * @example
+     * // Create one AstrogematriaCache
+     * const AstrogematriaCache = await prisma.astrogematriaCache.create({
+     *   data: {
+     *     // ... data to create a AstrogematriaCache
+     *   }
+     * })
+     * 
+     */
+    create<T extends AstrogematriaCacheCreateArgs>(args: SelectSubset<T, AstrogematriaCacheCreateArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AstrogematriaCaches.
+     * @param {AstrogematriaCacheCreateManyArgs} args - Arguments to create many AstrogematriaCaches.
+     * @example
+     * // Create many AstrogematriaCaches
+     * const astrogematriaCache = await prisma.astrogematriaCache.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AstrogematriaCacheCreateManyArgs>(args?: SelectSubset<T, AstrogematriaCacheCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AstrogematriaCaches and returns the data saved in the database.
+     * @param {AstrogematriaCacheCreateManyAndReturnArgs} args - Arguments to create many AstrogematriaCaches.
+     * @example
+     * // Create many AstrogematriaCaches
+     * const astrogematriaCache = await prisma.astrogematriaCache.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AstrogematriaCaches and only return the `id`
+     * const astrogematriaCacheWithIdOnly = await prisma.astrogematriaCache.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AstrogematriaCacheCreateManyAndReturnArgs>(args?: SelectSubset<T, AstrogematriaCacheCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AstrogematriaCache.
+     * @param {AstrogematriaCacheDeleteArgs} args - Arguments to delete one AstrogematriaCache.
+     * @example
+     * // Delete one AstrogematriaCache
+     * const AstrogematriaCache = await prisma.astrogematriaCache.delete({
+     *   where: {
+     *     // ... filter to delete one AstrogematriaCache
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AstrogematriaCacheDeleteArgs>(args: SelectSubset<T, AstrogematriaCacheDeleteArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AstrogematriaCache.
+     * @param {AstrogematriaCacheUpdateArgs} args - Arguments to update one AstrogematriaCache.
+     * @example
+     * // Update one AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AstrogematriaCacheUpdateArgs>(args: SelectSubset<T, AstrogematriaCacheUpdateArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AstrogematriaCaches.
+     * @param {AstrogematriaCacheDeleteManyArgs} args - Arguments to filter AstrogematriaCaches to delete.
+     * @example
+     * // Delete a few AstrogematriaCaches
+     * const { count } = await prisma.astrogematriaCache.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AstrogematriaCacheDeleteManyArgs>(args?: SelectSubset<T, AstrogematriaCacheDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AstrogematriaCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AstrogematriaCaches
+     * const astrogematriaCache = await prisma.astrogematriaCache.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AstrogematriaCacheUpdateManyArgs>(args: SelectSubset<T, AstrogematriaCacheUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AstrogematriaCaches and returns the data updated in the database.
+     * @param {AstrogematriaCacheUpdateManyAndReturnArgs} args - Arguments to update many AstrogematriaCaches.
+     * @example
+     * // Update many AstrogematriaCaches
+     * const astrogematriaCache = await prisma.astrogematriaCache.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AstrogematriaCaches and only return the `id`
+     * const astrogematriaCacheWithIdOnly = await prisma.astrogematriaCache.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AstrogematriaCacheUpdateManyAndReturnArgs>(args: SelectSubset<T, AstrogematriaCacheUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AstrogematriaCache.
+     * @param {AstrogematriaCacheUpsertArgs} args - Arguments to update or create a AstrogematriaCache.
+     * @example
+     * // Update or create a AstrogematriaCache
+     * const astrogematriaCache = await prisma.astrogematriaCache.upsert({
+     *   create: {
+     *     // ... data to create a AstrogematriaCache
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AstrogematriaCache we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AstrogematriaCacheUpsertArgs>(args: SelectSubset<T, AstrogematriaCacheUpsertArgs<ExtArgs>>): Prisma__AstrogematriaCacheClient<$Result.GetResult<Prisma.$AstrogematriaCachePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AstrogematriaCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheCountArgs} args - Arguments to filter AstrogematriaCaches to count.
+     * @example
+     * // Count the number of AstrogematriaCaches
+     * const count = await prisma.astrogematriaCache.count({
+     *   where: {
+     *     // ... the filter for the AstrogematriaCaches we want to count
+     *   }
+     * })
+    **/
+    count<T extends AstrogematriaCacheCountArgs>(
+      args?: Subset<T, AstrogematriaCacheCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AstrogematriaCacheCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AstrogematriaCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AstrogematriaCacheAggregateArgs>(args: Subset<T, AstrogematriaCacheAggregateArgs>): Prisma.PrismaPromise<GetAstrogematriaCacheAggregateType<T>>
+
+    /**
+     * Group by AstrogematriaCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AstrogematriaCacheGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AstrogematriaCacheGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AstrogematriaCacheGroupByArgs['orderBy'] }
+        : { orderBy?: AstrogematriaCacheGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AstrogematriaCacheGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAstrogematriaCacheGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AstrogematriaCache model
+   */
+  readonly fields: AstrogematriaCacheFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AstrogematriaCache.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AstrogematriaCacheClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AstrogematriaCache model
+   */
+  interface AstrogematriaCacheFieldRefs {
+    readonly id: FieldRef<"AstrogematriaCache", 'String'>
+    readonly palabra: FieldRef<"AstrogematriaCache", 'String'>
+    readonly palabraProcesada: FieldRef<"AstrogematriaCache", 'String'>
+    readonly valorTotal: FieldRef<"AstrogematriaCache", 'Int'>
+    readonly reduccionZodiacal: FieldRef<"AstrogematriaCache", 'Int'>
+    readonly signo: FieldRef<"AstrogematriaCache", 'String'>
+    readonly grados: FieldRef<"AstrogematriaCache", 'Int'>
+    readonly posicionCompleta: FieldRef<"AstrogematriaCache", 'String'>
+    readonly createdAt: FieldRef<"AstrogematriaCache", 'DateTime'>
+    readonly updatedAt: FieldRef<"AstrogematriaCache", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AstrogematriaCache findUnique
+   */
+  export type AstrogematriaCacheFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter, which AstrogematriaCache to fetch.
+     */
+    where: AstrogematriaCacheWhereUniqueInput
+  }
+
+  /**
+   * AstrogematriaCache findUniqueOrThrow
+   */
+  export type AstrogematriaCacheFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter, which AstrogematriaCache to fetch.
+     */
+    where: AstrogematriaCacheWhereUniqueInput
+  }
+
+  /**
+   * AstrogematriaCache findFirst
+   */
+  export type AstrogematriaCacheFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter, which AstrogematriaCache to fetch.
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AstrogematriaCaches to fetch.
+     */
+    orderBy?: AstrogematriaCacheOrderByWithRelationInput | AstrogematriaCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AstrogematriaCaches.
+     */
+    cursor?: AstrogematriaCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AstrogematriaCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AstrogematriaCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AstrogematriaCaches.
+     */
+    distinct?: AstrogematriaCacheScalarFieldEnum | AstrogematriaCacheScalarFieldEnum[]
+  }
+
+  /**
+   * AstrogematriaCache findFirstOrThrow
+   */
+  export type AstrogematriaCacheFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter, which AstrogematriaCache to fetch.
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AstrogematriaCaches to fetch.
+     */
+    orderBy?: AstrogematriaCacheOrderByWithRelationInput | AstrogematriaCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AstrogematriaCaches.
+     */
+    cursor?: AstrogematriaCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AstrogematriaCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AstrogematriaCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AstrogematriaCaches.
+     */
+    distinct?: AstrogematriaCacheScalarFieldEnum | AstrogematriaCacheScalarFieldEnum[]
+  }
+
+  /**
+   * AstrogematriaCache findMany
+   */
+  export type AstrogematriaCacheFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter, which AstrogematriaCaches to fetch.
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AstrogematriaCaches to fetch.
+     */
+    orderBy?: AstrogematriaCacheOrderByWithRelationInput | AstrogematriaCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AstrogematriaCaches.
+     */
+    cursor?: AstrogematriaCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AstrogematriaCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AstrogematriaCaches.
+     */
+    skip?: number
+    distinct?: AstrogematriaCacheScalarFieldEnum | AstrogematriaCacheScalarFieldEnum[]
+  }
+
+  /**
+   * AstrogematriaCache create
+   */
+  export type AstrogematriaCacheCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AstrogematriaCache.
+     */
+    data: XOR<AstrogematriaCacheCreateInput, AstrogematriaCacheUncheckedCreateInput>
+  }
+
+  /**
+   * AstrogematriaCache createMany
+   */
+  export type AstrogematriaCacheCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AstrogematriaCaches.
+     */
+    data: AstrogematriaCacheCreateManyInput | AstrogematriaCacheCreateManyInput[]
+  }
+
+  /**
+   * AstrogematriaCache createManyAndReturn
+   */
+  export type AstrogematriaCacheCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * The data used to create many AstrogematriaCaches.
+     */
+    data: AstrogematriaCacheCreateManyInput | AstrogematriaCacheCreateManyInput[]
+  }
+
+  /**
+   * AstrogematriaCache update
+   */
+  export type AstrogematriaCacheUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AstrogematriaCache.
+     */
+    data: XOR<AstrogematriaCacheUpdateInput, AstrogematriaCacheUncheckedUpdateInput>
+    /**
+     * Choose, which AstrogematriaCache to update.
+     */
+    where: AstrogematriaCacheWhereUniqueInput
+  }
+
+  /**
+   * AstrogematriaCache updateMany
+   */
+  export type AstrogematriaCacheUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AstrogematriaCaches.
+     */
+    data: XOR<AstrogematriaCacheUpdateManyMutationInput, AstrogematriaCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which AstrogematriaCaches to update
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * Limit how many AstrogematriaCaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AstrogematriaCache updateManyAndReturn
+   */
+  export type AstrogematriaCacheUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * The data used to update AstrogematriaCaches.
+     */
+    data: XOR<AstrogematriaCacheUpdateManyMutationInput, AstrogematriaCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which AstrogematriaCaches to update
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * Limit how many AstrogematriaCaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AstrogematriaCache upsert
+   */
+  export type AstrogematriaCacheUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AstrogematriaCache to update in case it exists.
+     */
+    where: AstrogematriaCacheWhereUniqueInput
+    /**
+     * In case the AstrogematriaCache found by the `where` argument doesn't exist, create a new AstrogematriaCache with this data.
+     */
+    create: XOR<AstrogematriaCacheCreateInput, AstrogematriaCacheUncheckedCreateInput>
+    /**
+     * In case the AstrogematriaCache was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AstrogematriaCacheUpdateInput, AstrogematriaCacheUncheckedUpdateInput>
+  }
+
+  /**
+   * AstrogematriaCache delete
+   */
+  export type AstrogematriaCacheDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+    /**
+     * Filter which AstrogematriaCache to delete.
+     */
+    where: AstrogematriaCacheWhereUniqueInput
+  }
+
+  /**
+   * AstrogematriaCache deleteMany
+   */
+  export type AstrogematriaCacheDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AstrogematriaCaches to delete
+     */
+    where?: AstrogematriaCacheWhereInput
+    /**
+     * Limit how many AstrogematriaCaches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AstrogematriaCache without action
+   */
+  export type AstrogematriaCacheDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AstrogematriaCache
+     */
+    select?: AstrogematriaCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AstrogematriaCache
+     */
+    omit?: AstrogematriaCacheOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5999,6 +7190,22 @@ export namespace Prisma {
   };
 
   export type InterpretacionCacheScalarFieldEnum = (typeof InterpretacionCacheScalarFieldEnum)[keyof typeof InterpretacionCacheScalarFieldEnum]
+
+
+  export const AstrogematriaCacheScalarFieldEnum: {
+    id: 'id',
+    palabra: 'palabra',
+    palabraProcesada: 'palabraProcesada',
+    valorTotal: 'valorTotal',
+    reduccionZodiacal: 'reduccionZodiacal',
+    signo: 'signo',
+    grados: 'grados',
+    posicionCompleta: 'posicionCompleta',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AstrogematriaCacheScalarFieldEnum = (typeof AstrogematriaCacheScalarFieldEnum)[keyof typeof AstrogematriaCacheScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6432,6 +7639,85 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
   }
 
+  export type AstrogematriaCacheWhereInput = {
+    AND?: AstrogematriaCacheWhereInput | AstrogematriaCacheWhereInput[]
+    OR?: AstrogematriaCacheWhereInput[]
+    NOT?: AstrogematriaCacheWhereInput | AstrogematriaCacheWhereInput[]
+    id?: StringFilter<"AstrogematriaCache"> | string
+    palabra?: StringFilter<"AstrogematriaCache"> | string
+    palabraProcesada?: StringFilter<"AstrogematriaCache"> | string
+    valorTotal?: IntFilter<"AstrogematriaCache"> | number
+    reduccionZodiacal?: IntFilter<"AstrogematriaCache"> | number
+    signo?: StringFilter<"AstrogematriaCache"> | string
+    grados?: IntFilter<"AstrogematriaCache"> | number
+    posicionCompleta?: StringFilter<"AstrogematriaCache"> | string
+    createdAt?: DateTimeFilter<"AstrogematriaCache"> | Date | string
+    updatedAt?: DateTimeFilter<"AstrogematriaCache"> | Date | string
+  }
+
+  export type AstrogematriaCacheOrderByWithRelationInput = {
+    id?: SortOrder
+    palabra?: SortOrder
+    palabraProcesada?: SortOrder
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    signo?: SortOrder
+    grados?: SortOrder
+    posicionCompleta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AstrogematriaCacheWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    palabra?: string
+    AND?: AstrogematriaCacheWhereInput | AstrogematriaCacheWhereInput[]
+    OR?: AstrogematriaCacheWhereInput[]
+    NOT?: AstrogematriaCacheWhereInput | AstrogematriaCacheWhereInput[]
+    palabraProcesada?: StringFilter<"AstrogematriaCache"> | string
+    valorTotal?: IntFilter<"AstrogematriaCache"> | number
+    reduccionZodiacal?: IntFilter<"AstrogematriaCache"> | number
+    signo?: StringFilter<"AstrogematriaCache"> | string
+    grados?: IntFilter<"AstrogematriaCache"> | number
+    posicionCompleta?: StringFilter<"AstrogematriaCache"> | string
+    createdAt?: DateTimeFilter<"AstrogematriaCache"> | Date | string
+    updatedAt?: DateTimeFilter<"AstrogematriaCache"> | Date | string
+  }, "id" | "palabra">
+
+  export type AstrogematriaCacheOrderByWithAggregationInput = {
+    id?: SortOrder
+    palabra?: SortOrder
+    palabraProcesada?: SortOrder
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    signo?: SortOrder
+    grados?: SortOrder
+    posicionCompleta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AstrogematriaCacheCountOrderByAggregateInput
+    _avg?: AstrogematriaCacheAvgOrderByAggregateInput
+    _max?: AstrogematriaCacheMaxOrderByAggregateInput
+    _min?: AstrogematriaCacheMinOrderByAggregateInput
+    _sum?: AstrogematriaCacheSumOrderByAggregateInput
+  }
+
+  export type AstrogematriaCacheScalarWhereWithAggregatesInput = {
+    AND?: AstrogematriaCacheScalarWhereWithAggregatesInput | AstrogematriaCacheScalarWhereWithAggregatesInput[]
+    OR?: AstrogematriaCacheScalarWhereWithAggregatesInput[]
+    NOT?: AstrogematriaCacheScalarWhereWithAggregatesInput | AstrogematriaCacheScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AstrogematriaCache"> | string
+    palabra?: StringWithAggregatesFilter<"AstrogematriaCache"> | string
+    palabraProcesada?: StringWithAggregatesFilter<"AstrogematriaCache"> | string
+    valorTotal?: IntWithAggregatesFilter<"AstrogematriaCache"> | number
+    reduccionZodiacal?: IntWithAggregatesFilter<"AstrogematriaCache"> | number
+    signo?: StringWithAggregatesFilter<"AstrogematriaCache"> | string
+    grados?: IntWithAggregatesFilter<"AstrogematriaCache"> | number
+    posicionCompleta?: StringWithAggregatesFilter<"AstrogematriaCache"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AstrogematriaCache"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AstrogematriaCache"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -6857,6 +8143,97 @@ export namespace Prisma {
     interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
     interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
     tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AstrogematriaCacheCreateInput = {
+    id?: string
+    palabra: string
+    palabraProcesada: string
+    valorTotal: number
+    reduccionZodiacal: number
+    signo: string
+    grados: number
+    posicionCompleta: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AstrogematriaCacheUncheckedCreateInput = {
+    id?: string
+    palabra: string
+    palabraProcesada: string
+    valorTotal: number
+    reduccionZodiacal: number
+    signo: string
+    grados: number
+    posicionCompleta: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AstrogematriaCacheUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    palabra?: StringFieldUpdateOperationsInput | string
+    palabraProcesada?: StringFieldUpdateOperationsInput | string
+    valorTotal?: IntFieldUpdateOperationsInput | number
+    reduccionZodiacal?: IntFieldUpdateOperationsInput | number
+    signo?: StringFieldUpdateOperationsInput | string
+    grados?: IntFieldUpdateOperationsInput | number
+    posicionCompleta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AstrogematriaCacheUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    palabra?: StringFieldUpdateOperationsInput | string
+    palabraProcesada?: StringFieldUpdateOperationsInput | string
+    valorTotal?: IntFieldUpdateOperationsInput | number
+    reduccionZodiacal?: IntFieldUpdateOperationsInput | number
+    signo?: StringFieldUpdateOperationsInput | string
+    grados?: IntFieldUpdateOperationsInput | number
+    posicionCompleta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AstrogematriaCacheCreateManyInput = {
+    id?: string
+    palabra: string
+    palabraProcesada: string
+    valorTotal: number
+    reduccionZodiacal: number
+    signo: string
+    grados: number
+    posicionCompleta: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AstrogematriaCacheUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    palabra?: StringFieldUpdateOperationsInput | string
+    palabraProcesada?: StringFieldUpdateOperationsInput | string
+    valorTotal?: IntFieldUpdateOperationsInput | number
+    reduccionZodiacal?: IntFieldUpdateOperationsInput | number
+    signo?: StringFieldUpdateOperationsInput | string
+    grados?: IntFieldUpdateOperationsInput | number
+    posicionCompleta?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AstrogematriaCacheUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    palabra?: StringFieldUpdateOperationsInput | string
+    palabraProcesada?: StringFieldUpdateOperationsInput | string
+    valorTotal?: IntFieldUpdateOperationsInput | number
+    reduccionZodiacal?: IntFieldUpdateOperationsInput | number
+    signo?: StringFieldUpdateOperationsInput | string
+    grados?: IntFieldUpdateOperationsInput | number
+    posicionCompleta?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7293,6 +8670,84 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type AstrogematriaCacheCountOrderByAggregateInput = {
+    id?: SortOrder
+    palabra?: SortOrder
+    palabraProcesada?: SortOrder
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    signo?: SortOrder
+    grados?: SortOrder
+    posicionCompleta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AstrogematriaCacheAvgOrderByAggregateInput = {
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    grados?: SortOrder
+  }
+
+  export type AstrogematriaCacheMaxOrderByAggregateInput = {
+    id?: SortOrder
+    palabra?: SortOrder
+    palabraProcesada?: SortOrder
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    signo?: SortOrder
+    grados?: SortOrder
+    posicionCompleta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AstrogematriaCacheMinOrderByAggregateInput = {
+    id?: SortOrder
+    palabra?: SortOrder
+    palabraProcesada?: SortOrder
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    signo?: SortOrder
+    grados?: SortOrder
+    posicionCompleta?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AstrogematriaCacheSumOrderByAggregateInput = {
+    valorTotal?: SortOrder
+    reduccionZodiacal?: SortOrder
+    grados?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type RectificationEventCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -7497,6 +8952,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInterpretacionesInput, UserUpdateWithoutInterpretacionesInput>, UserUncheckedUpdateWithoutInterpretacionesInput>
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -7696,6 +9159,22 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type RectificationEventCreateWithoutUserInput = {
