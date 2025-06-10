@@ -63,48 +63,101 @@ export function CartaNatalAstrogematria({ chartData, astrogematriaData }: CartaN
         // Crear nuevo gráfico con el ID único
         const chart = new Chart(uniqueChartId, 800, 800);
         
-        // Crear datos modificados que incluyan el punto astrogematrícico
-        const modifiedChartData = {
+        // 🔧 SOLUCIÓN: Renderizar carta SIN punto astrogematrícico
+        // Usar solo los datos originales, sin agregar ASTROGEMATRIA
+        const cleanChartData = {
           ...chartData,
-          planets: {
-            ...chartData.planets,
-            // Agregar el punto astrogematrícico como un "planeta" especial
-            'ASTROGEMATRIA': [astrogematriaData.grados]
-          }
+          planets: { ...chartData.planets } // Solo planetas reales
         };
         
-        // Renderizar la carta natal con los datos modificados
-        chart.radix(modifiedChartData);
+        // 🔍 DEBUG: Verificar datos limpios
+        console.log('📊 Datos limpios (sin ASTROGEMATRIA):', cleanChartData.planets);
+        console.log('📊 Grados astrogematría para overlay:', astrogematriaData.grados);
+        console.log('📊 ID del chart:', uniqueChartId);
         
-        // Agregar estilo personalizado para el punto astrogematrícico
+        // Renderizar la carta natal limpia
+        chart.radix(cleanChartData);
+        
+        // 🔧 OVERLAY MANUAL: Agregar punto astrogematrícico después
         setTimeout(() => {
           const svgElement = chartRef.current?.querySelector('svg');
           if (svgElement) {
-            // Buscar el elemento del punto astrogematrícico y aplicar estilo dorado
-            const astrogematriaElements = svgElement.querySelectorAll('[data-planet="ASTROGEMATRIA"], circle[fill*="ASTROGEMATRIA"]');
-            astrogematriaElements.forEach(element => {
-              element.setAttribute('fill', '#FFD700');
-              element.setAttribute('stroke', '#FF8C00');
-              element.setAttribute('stroke-width', '3');
-              element.setAttribute('r', '8'); // Hacer el círculo más grande
-            });
+            // 🔧 FÓRMULA EXACTA DE @astrodraw/astrochart
+            // Basada en el código fuente: utils.ts getPointPosition()
             
-            // Agregar un efecto de glow
-            const defs = svgElement.querySelector('defs') || svgElement.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'defs'));
-            const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-            filter.setAttribute('id', 'astrogematria-glow');
-            filter.innerHTML = `
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            `;
-            defs.appendChild(filter);
+            // Configuración exacta de la biblioteca
+            const SHIFT_IN_DEGREES = 180; // 0° está en el Oeste
+            const MARGIN = 50; // Margen del chart
+            const chartSize = 800; // Tamaño del SVG
             
-            astrogematriaElements.forEach(element => {
-              element.setAttribute('filter', 'url(#astrogematria-glow)');
-            });
+            // Cálculos exactos como en la biblioteca
+            const cx = chartSize / 2; // 400
+            const cy = chartSize / 2; // 400
+            const radius = chartSize / 2 - MARGIN; // 350
+            
+            // 🔧 CORRECCIÓN: Convertir grados del signo a grados absolutos del zodíaco
+            const signosBase: Record<string, number> = {
+              'Aries': 0, 'Tauro': 30, 'Géminis': 60, 'Cáncer': 90,
+              'Leo': 120, 'Virgo': 150, 'Libra': 180, 'Escorpio': 210,
+              'Sagitario': 240, 'Capricornio': 270, 'Acuario': 300, 'Piscis': 330
+            };
+            
+            // Extraer signo de la posición completa
+            const signo = astrogematriaData.signo || astrogematriaData.posicion_completa.split(' de ')[1];
+            const gradosBase = signosBase[signo] || 0;
+            const gradosAbsolutos = gradosBase + astrogematriaData.grados;
+            
+            // 🎯 FÓRMULA EXACTA DE @astrodraw/astrochart CON SHIFT
+            // Basada en radix.ts: this.shift = deg360 - this.data.cusps[0]
+            // Y en drawPoints(): this.data.planets[planet][0] + this.shift
+            
+            // Calcular el shift como lo hace la biblioteca
+            const deg360 = 360; // radiansToDegree(2 * Math.PI)
+            const ascendente = cleanChartData.cusps[0]; // Tu Ascendente
+            const shift = deg360 - ascendente;
+            
+            // Aplicar el shift a los grados absolutos como hace la biblioteca
+            const gradosConShift = gradosAbsolutos + shift;
+            
+            // Aplicar la fórmula exacta de getPointPosition()
+            const angleInRadians = (SHIFT_IN_DEGREES - gradosConShift) * Math.PI / 180;
+            const x = cx + radius * Math.cos(angleInRadians);
+            const y = cy + radius * Math.sin(angleInRadians);
+            
+            console.log('🎯 Calculando posición overlay (FÓRMULA EXACTA CON SHIFT):');
+            console.log('   - Configuración: cx =', cx, ', cy =', cy, ', radius =', radius);
+            console.log('   - SHIFT_IN_DEGREES:', SHIFT_IN_DEGREES);
+            console.log('   - Ascendente (cusps[0]):', ascendente);
+            console.log('   - Shift calculado:', shift);
+            console.log('   - Grados en signo:', astrogematriaData.grados);
+            console.log('   - Signo:', signo);
+            console.log('   - Grados base del signo:', gradosBase);
+            console.log('   - Grados absolutos:', gradosAbsolutos);
+            console.log('   - Grados con shift:', gradosConShift);
+            console.log('   - Ángulo en radianes:', angleInRadians);
+            console.log('   - Coordenadas finales: x =', x, ', y =', y);
+            console.log('   - Posición esperada:', astrogematriaData.posicion_completa);
+            
+            // Crear círculo overlay
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x.toString());
+            circle.setAttribute('cy', y.toString());
+            circle.setAttribute('r', '8');
+            circle.setAttribute('fill', 'red');
+            circle.setAttribute('stroke', 'darkred');
+            circle.setAttribute('stroke-width', '2');
+            circle.setAttribute('id', 'astrogematria-overlay-point');
+            
+            // Eliminar punto anterior si existe
+            const existingPoint = svgElement.querySelector('#astrogematria-overlay-point');
+            if (existingPoint) {
+              existingPoint.remove();
+            }
+            
+            // Agregar nuevo punto
+            svgElement.appendChild(circle);
+            
+            console.log('✅ Punto overlay agregado en:', x, y);
           }
         }, 100);
         

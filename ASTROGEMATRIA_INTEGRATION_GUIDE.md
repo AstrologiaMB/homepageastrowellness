@@ -241,3 +241,33 @@ La integración de astrogematría está **100% completada** y funcional:
 - ✅ **Testing** completo y exitoso
 
 El sistema está listo para uso en producción y sigue todos los patrones establecidos en el proyecto Astrowellness.
+
+## 🎯 Posicionamiento Visual en Cartas Natales
+
+### **Problema Resuelto**
+Se implementó una solución completa para mostrar visualmente las posiciones astrogematrícicas en cartas natales usando @astrodraw/astrochart.
+
+### **Componente Principal**
+- `components/carta-natal-astrogematria.tsx` - Renderiza carta natal con punto astrogematrícico
+- Usa overlay manual con fórmula exacta de la biblioteca
+- Considera el shift del Ascendente para orientación correcta
+
+### **Fórmula Implementada**
+```typescript
+// Shift basado en Ascendente (como en radix.ts)
+const shift = 360 - ascendente;
+const gradosConShift = gradosAbsolutos + shift;
+
+// Fórmula exacta de getPointPosition()
+const angleInRadians = (SHIFT_IN_DEGREES - gradosConShift) * Math.PI / 180;
+const x = cx + radius * Math.cos(angleInRadians);
+const y = cy + radius * Math.sin(angleInRadians);
+```
+
+### **Documentación Técnica**
+Ver `ASTROGEMATRIA_POSITIONING_SOLUTION.md` para análisis completo del código fuente de @astrodraw/astrochart y la solución implementada.
+
+### **Resultado**
+✅ Posicionamiento preciso para cualquier palabra en cualquier carta natal
+✅ Funciona con cualquier Ascendente
+✅ Basado en código fuente oficial de la biblioteca

@@ -347,11 +347,12 @@ export default function AstrogematriaCalculosPage() {
           )}
 
           {cartaNatal && !cartaNatalLoading && !cartaNatalError && (
-            <CartaNatalAstrogematriaWrapper 
-              key={`${resultado.palabra_original}-${resultado.grados}`}
-              chartData={cartaNatal}
-              astrogematriaData={resultado}
-            />
+            <div key={`force-remount-${resultado.palabra_original}-${Date.now()}`}>
+              <CartaNatalAstrogematriaWrapper 
+                chartData={cartaNatal}
+                astrogematriaData={resultado}
+              />
+            </div>
           )}
         </div>
       )}
