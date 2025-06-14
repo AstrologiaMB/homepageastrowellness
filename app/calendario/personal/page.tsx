@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
+import { CalendarioPersonal } from "@/components/calendario-personal";
 
 export default async function CalendarioPersonalPage() {
   // Verificar si el usuario está autenticado
@@ -25,7 +26,5 @@ export default async function CalendarioPersonalPage() {
     }
   }
 
-  return (
-    <h1>Calendario Personal Page</h1>
-  );
+  return <CalendarioPersonal />;
 }
