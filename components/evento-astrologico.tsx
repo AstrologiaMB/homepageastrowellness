@@ -12,6 +12,15 @@ interface EventoAstrologicoProps {
     planeta2?: string;
     posicion1?: string;
     posicion2?: string;
+    house_transits?: Array<{
+      tipo: string;
+      planeta: string;
+      simbolo: string;
+      signo?: string;
+      grado?: number;
+      casa: number;
+      casa_significado: string;
+    }>;
     // Otros campos opcionales según el tipo de evento
   };
 }
@@ -19,32 +28,8 @@ interface EventoAstrologicoProps {
 export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
   // Handle special case for house transits
   if (evento.tipo_evento === "Tránsito Casa Estado") {
-    // Parse house transit information from description
-    const parseHouseTransits = (descripcion: string) => {
-      // Extract house transit info from the enhanced description
-      // Format: "Estado actual de tránsitos por casas: ♃ Júpiter en Casa 10 (Carrera y Reputación) | ♄ Saturno en Casa 5 (Creatividad y Romance) | ..."
-      const parts = descripcion.split(': ');
-      if (parts.length > 1) {
-        const transitsText = parts[1];
-        const transits = transitsText.split(' | ').map(transit => {
-          // Parse each transit: "♃ Júpiter en Casa 10 (Carrera y Reputación)"
-          const match = transit.match(/^(.) (.+) en Casa (\d+) \((.+)\)$/);
-          if (match) {
-            return {
-              symbol: match[1],
-              planet: match[2],
-              house: match[3],
-              meaning: match[4]
-            };
-          }
-          return null;
-        }).filter((transit): transit is { symbol: string; planet: string; house: string; meaning: string } => transit !== null);
-        return transits;
-      }
-      return [];
-    };
-
-    const houseTransits = parseHouseTransits(evento.descripcion);
+    // Use structured data for house transits and progressed moon
+    const houseTransits = evento.house_transits || [];
 
     return (
       <div className="w-full">
@@ -52,10 +37,13 @@ export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
           {houseTransits.map((transit, index) => (
             <div key={index} className="text-sm bg-white/50 rounded p-2 border border-purple-200">
               <div className="font-medium text-purple-700">
-                {transit.symbol} {transit.planet}
+                {transit.simbolo} {transit.planeta}
+                {transit.tipo === 'luna_progresada' && transit.signo && (
+                  <span className="ml-1">en {transit.signo} {transit.grado}°</span>
+                )}
               </div>
               <div className="text-xs text-purple-600">
-                Casa {transit.house} - {transit.meaning}
+                Casa {transit.casa} - {transit.casa_significado}
               </div>
             </div>
           ))}
