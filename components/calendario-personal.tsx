@@ -364,11 +364,40 @@ export function CalendarioPersonal() {
         </Alert>
       )}
 
+      {/* House Transits State Card */}
+      {(() => {
+        const eventosEspeciales = eventos.filter(evento => 
+          evento.tipo_evento === "Tránsito Casa Estado"
+        );
+        
+        if (eventosEspeciales.length > 0) {
+          return (
+            <Card className="p-4 mb-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
+              <h3 className="font-semibold text-lg mb-3 text-purple-800">
+                Estado Actual de Tránsitos por Casas
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {eventosEspeciales.map((evento, index) => (
+                  <EventoAstrologico 
+                    key={`house-transit-${index}`} 
+                    evento={evento} 
+                  />
+                ))}
+              </div>
+            </Card>
+          );
+        }
+        return null;
+      })()}
+
       {/* Week Display */}
       <div className="flex flex-col gap-4">
         {weekDays.map((day) => {
-          // Filtrar eventos para este día
-          const eventosDelDia = eventos.filter(evento => {
+          // Filtrar eventos para este día (excluyendo eventos especiales)
+          const eventosNormales = eventos.filter(evento => 
+            evento.tipo_evento !== "Tránsito Casa Estado"
+          );
+          const eventosDelDia = eventosNormales.filter(evento => {
             const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
             return isSameDay(fechaEvento, day);
           });
