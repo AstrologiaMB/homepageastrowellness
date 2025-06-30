@@ -1,0 +1,147 @@
+{
+  "anexo_a3_casos_de_prueba": {
+    "descripcion": "Casos de prueba para validar la corrección de Luna Progresada",
+    "version": "1.0",
+    "fecha": "2025-06-27",
+    
+    "caso_principal": {
+      "nombre": "Luis Minvielle - Caso de Referencia",
+      "descripcion": "Caso principal usado para identificar y validar la corrección",
+      "datos_entrada": {
+        "name": "Luis Minvielle",
+        "birth_date": "1964-12-26",
+        "birth_time": "21:12",
+        "location": {
+          "latitude": -34.6118,
+          "longitude": -58.3960,
+          "name": "Buenos Aires",
+          "timezone": "America/Argentina/Buenos_Aires"
+        },
+        "year": 2025
+      },
+      "resultados_esperados": {
+        "sol_natal": {
+          "longitud_absoluta": 275.267,
+          "posicion_signo": "5°16'15\" Capricornio",
+          "fuente": "AstroSeek"
+        },
+        "luna_progresada": {
+          "longitud_absoluta": 275.3,
+          "posicion_signo": "5°17' Capricornio",
+          "metodo": "ARMC 1 Naibod",
+          "fuente": "AstroSeek"
+        }
+      },
+      "resultados_actuales_incorrectos": {
+        "sol_natal": {
+          "longitud_absoluta": 271.0,
+          "diferencia": -4.267
+        },
+        "luna_progresada": {
+          "longitud_absoluta": 271.0,
+          "posicion_signo": "1° Capricornio",
+          "diferencia": -4.3
+        }
+      }
+    },
+    
+    "casos_adicionales": [
+      {
+        "nombre": "Caso Validación 1",
+        "descripcion": "Persona nacida en hemisferio norte para validar zonas horarias",
+        "datos_entrada": {
+          "name": "Test User North",
+          "birth_date": "1990-06-21",
+          "birth_time": "12:00",
+          "location": {
+            "latitude": 40.7128,
+            "longitude": -74.0060,
+            "name": "New York",
+            "timezone": "America/New_York"
+          },
+          "year": 2025
+        },
+        "objetivo": "Validar que la corrección funciona en diferentes zonas horarias"
+      },
+      {
+        "nombre": "Caso Validación 2", 
+        "descripcion": "Persona nacida en Europa para validar zonas horarias positivas",
+        "datos_entrada": {
+          "name": "Test User Europe",
+          "birth_date": "1985-03-15",
+          "birth_time": "18:30",
+          "location": {
+            "latitude": 48.8566,
+            "longitude": 2.3522,
+            "name": "Paris",
+            "timezone": "Europe/Paris"
+          },
+          "year": 2025
+        },
+        "objetivo": "Validar que la corrección funciona con UTC+1/+2"
+      }
+    ],
+    
+    "endpoints_a_probar": {
+      "endpoint_dinamico": {
+        "url": "http://localhost:8004/calculate-personal-calendar-dynamic",
+        "metodo": "POST",
+        "descripcion": "Endpoint que usa calcular_carta_natal() - PROBLEMÁTICO",
+        "curl_ejemplo": "curl -X POST \"http://localhost:8004/calculate-personal-calendar-dynamic\" -H \"Content-Type: application/json\" -d '{\"name\": \"Luis Minvielle\", \"birth_date\": \"1964-12-26\", \"birth_time\": \"21:12\", \"location\": {\"latitude\": -34.6118, \"longitude\": -58.3960, \"name\": \"Buenos Aires\", \"timezone\": \"America/Argentina/Buenos_Aires\"}, \"year\": 2025}'"
+      },
+      "endpoint_legacy": {
+        "url": "http://localhost:8004/calculate-personal-calendar",
+        "metodo": "POST", 
+        "descripcion": "Endpoint que usa datos pre-calculados - DEBERÍA FUNCIONAR",
+        "curl_ejemplo": "curl -X POST \"http://localhost:8004/calculate-personal-calendar\" -H \"Content-Type: application/json\" -d '{\"points\": {\"Sun\": {\"longitude\": 275.267}}, \"houses\": {}, \"location\": {}, \"hora_local\": \"1964-12-26T21:12:00\", \"name\": \"Luis Minvielle\", \"year\": 2025}'"
+      }
+    },
+    
+    "validaciones_automaticas": {
+      "precision_sol_natal": {
+        "descripcion": "Validar que el Sol natal esté en 275.267° ± 0.1°",
+        "tolerancia": 0.1,
+        "unidad": "grados"
+      },
+      "precision_luna_progresada": {
+        "descripcion": "Validar que la Luna Progresada esté en ~5°17' Capricornio",
+        "tolerancia": 0.2,
+        "unidad": "grados"
+      },
+      "consistencia_astroseek": {
+        "descripcion": "Resultados deben ser consistentes con AstroSeek",
+        "referencia": "AstroSeek.com"
+      }
+    },
+    
+    "scripts_de_prueba": {
+      "test_unitario": {
+        "archivo": "test_progressed_moon_position.py",
+        "descripcion": "Test que funciona correctamente con datos hardcodeados",
+        "comando": "cd ../astro-calendar-personal-fastapi && python test_progressed_moon_position.py",
+        "resultado_esperado": "Luna Progresada = 5.30° Capricornio"
+      },
+      "test_api_dinamico": {
+        "descripcion": "Test del endpoint dinámico problemático",
+        "comando": "curl -X POST http://localhost:8004/calculate-personal-calendar-dynamic ...",
+        "resultado_actual": "grado: 1",
+        "resultado_esperado": "grado: 5"
+      }
+    },
+    
+    "metricas_de_exito": {
+      "criterios_aceptacion": [
+        "Sol natal = 275.267° ± 0.1°",
+        "Luna Progresada = 5°17' Capricornio ± 0.2°",
+        "Tiempo de respuesta < 2 segundos",
+        "Error rate = 0% en 100 requests"
+      ],
+      "validacion_post_implementacion": [
+        "Ejecutar test_progressed_moon_position.py",
+        "Probar endpoint dinámico con curl",
+        "Comparar resultados con AstroSeek",
+        "Verificar que no hay regresiones en otros cálculos"
+      ]
+    }
+  }
+}

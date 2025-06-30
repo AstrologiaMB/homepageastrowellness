@@ -1,0 +1,1116 @@
+# TÍTULOS COMPLETOS DE EVENTOS PERSONALES
+# Microservicio: /Users/apple/astro-calendar-personal-fastapi
+# Generado: 24/06/2025
+# 
+# Este archivo contiene TODOS los títulos posibles de eventos personales
+# que detecta y calcula el microservicio de calendario personal.
+# Estos títulos servirán para crear las interpretaciones correspondientes
+# en el microservicio de interpretación RAG.
+
+================================================================================
+1. TRÁNSITOS PLANETARIOS - ASPECTOS EXACTOS Y ESTACIONARIOS
+================================================================================
+
+# FORMATO: "[Planeta] en tránsito [aspecto] [Planeta/Punto] natal"
+# ASPECTOS: Conjunción, Cuadratura, Oposición
+# PLANETAS TRANSITANTES: Sol, Mercurio, Venus, Marte, Júpiter, Saturno, Urano, Neptuno, Plutón
+# PLANETAS/PUNTOS NATALES: Sol, Luna, Mercurio, Venus, Marte, Júpiter, Saturno, Urano, Neptuno, Plutón, Ascendente, MC
+
+## 1.1 SOL EN TRÁNSITO (33 aspectos)
+Sol en tránsito conjunción Sol natal
+Sol en tránsito conjunción Luna natal
+Sol en tránsito conjunción Mercurio natal
+Sol en tránsito conjunción Venus natal
+Sol en tránsito conjunción Marte natal
+Sol en tránsito conjunción Júpiter natal
+Sol en tránsito conjunción Saturno natal
+Sol en tránsito conjunción Urano natal
+Sol en tránsito conjunción Neptuno natal
+Sol en tránsito conjunción Plutón natal
+Sol en tránsito conjunción Ascendente natal
+Sol en tránsito cuadratura Sol natal
+Sol en tránsito cuadratura Luna natal
+Sol en tránsito cuadratura Mercurio natal
+Sol en tránsito cuadratura Venus natal
+Sol en tránsito cuadratura Marte natal
+Sol en tránsito cuadratura Júpiter natal
+Sol en tránsito cuadratura Saturno natal
+Sol en tránsito cuadratura Urano natal
+Sol en tránsito cuadratura Neptuno natal
+Sol en tránsito cuadratura Plutón natal
+Sol en tránsito cuadratura Ascendente natal
+Sol en tránsito oposición Sol natal
+Sol en tránsito oposición Luna natal
+Sol en tránsito oposición Mercurio natal
+Sol en tránsito oposición Venus natal
+Sol en tránsito oposición Marte natal
+Sol en tránsito oposición Júpiter natal
+Sol en tránsito oposición Saturno natal
+Sol en tránsito oposición Urano natal
+Sol en tránsito oposición Neptuno natal
+Sol en tránsito oposición Plutón natal
+Sol en tránsito oposición Ascendente natal
+
+## 1.2 MERCURIO EN TRÁNSITO (33 aspectos)
+Mercurio en tránsito conjunción Sol natal
+Mercurio en tránsito conjunción Luna natal
+Mercurio en tránsito conjunción Mercurio natal
+Mercurio en tránsito conjunción Venus natal
+Mercurio en tránsito conjunción Marte natal
+Mercurio en tránsito conjunción Júpiter natal
+Mercurio en tránsito conjunción Saturno natal
+Mercurio en tránsito conjunción Urano natal
+Mercurio en tránsito conjunción Neptuno natal
+Mercurio en tránsito conjunción Plutón natal
+Mercurio en tránsito conjunción Ascendente natal
+Mercurio en tránsito cuadratura Sol natal
+Mercurio en tránsito cuadratura Luna natal
+Mercurio en tránsito cuadratura Mercurio natal
+Mercurio en tránsito cuadratura Venus natal
+Mercurio en tránsito cuadratura Marte natal
+Mercurio en tránsito cuadratura Júpiter natal
+Mercurio en tránsito cuadratura Saturno natal
+Mercurio en tránsito cuadratura Urano natal
+Mercurio en tránsito cuadratura Neptuno natal
+Mercurio en tránsito cuadratura Plutón natal
+Mercurio en tránsito cuadratura Ascendente natal
+Mercurio en tránsito oposición Sol natal
+Mercurio en tránsito oposición Luna natal
+Mercurio en tránsito oposición Mercurio natal
+Mercurio en tránsito oposición Venus natal
+Mercurio en tránsito oposición Marte natal
+Mercurio en tránsito oposición Júpiter natal
+Mercurio en tránsito oposición Saturno natal
+Mercurio en tránsito oposición Urano natal
+Mercurio en tránsito oposición Neptuno natal
+Mercurio en tránsito oposición Plutón natal
+Mercurio en tránsito oposición Ascendente natal
+
+## 1.3 VENUS EN TRÁNSITO (33 aspectos)
+Venus en tránsito conjunción Sol natal
+Venus en tránsito conjunción Luna natal
+Venus en tránsito conjunción Mercurio natal
+Venus en tránsito conjunción Venus natal
+Venus en tránsito conjunción Marte natal
+Venus en tránsito conjunción Júpiter natal
+Venus en tránsito conjunción Saturno natal
+Venus en tránsito conjunción Urano natal
+Venus en tránsito conjunción Neptuno natal
+Venus en tránsito conjunción Plutón natal
+Venus en tránsito conjunción Ascendente natal
+Venus en tránsito cuadratura Sol natal
+Venus en tránsito cuadratura Luna natal
+Venus en tránsito cuadratura Mercurio natal
+Venus en tránsito cuadratura Venus natal
+Venus en tránsito cuadratura Marte natal
+Venus en tránsito cuadratura Júpiter natal
+Venus en tránsito cuadratura Saturno natal
+Venus en tránsito cuadratura Urano natal
+Venus en tránsito cuadratura Neptuno natal
+Venus en tránsito cuadratura Plutón natal
+Venus en tránsito cuadratura Ascendente natal
+Venus en tránsito oposición Sol natal
+Venus en tránsito oposición Luna natal
+Venus en tránsito oposición Mercurio natal
+Venus en tránsito oposición Venus natal
+Venus en tránsito oposición Marte natal
+Venus en tránsito oposición Júpiter natal
+Venus en tránsito oposición Saturno natal
+Venus en tránsito oposición Urano natal
+Venus en tránsito oposición Neptuno natal
+Venus en tránsito oposición Plutón natal
+Venus en tránsito oposición Ascendente natal
+
+## 1.4 MARTE EN TRÁNSITO (33 aspectos)
+Marte en tránsito conjunción Sol natal
+Marte en tránsito conjunción Luna natal
+Marte en tránsito conjunción Mercurio natal
+Marte en tránsito conjunción Venus natal
+Marte en tránsito conjunción Marte natal
+Marte en tránsito conjunción Júpiter natal
+Marte en tránsito conjunción Saturno natal
+Marte en tránsito conjunción Urano natal
+Marte en tránsito conjunción Neptuno natal
+Marte en tránsito conjunción Plutón natal
+Marte en tránsito conjunción Ascendente natal
+Marte en tránsito cuadratura Sol natal
+Marte en tránsito cuadratura Luna natal
+Marte en tránsito cuadratura Mercurio natal
+Marte en tránsito cuadratura Venus natal
+Marte en tránsito cuadratura Marte natal
+Marte en tránsito cuadratura Júpiter natal
+Marte en tránsito cuadratura Saturno natal
+Marte en tránsito cuadratura Urano natal
+Marte en tránsito cuadratura Neptuno natal
+Marte en tránsito cuadratura Plutón natal
+Marte en tránsito cuadratura Ascendente natal
+Marte en tránsito oposición Sol natal
+Marte en tránsito oposición Luna natal
+Marte en tránsito oposición Mercurio natal
+Marte en tránsito oposición Venus natal
+Marte en tránsito oposición Marte natal
+Marte en tránsito oposición Júpiter natal
+Marte en tránsito oposición Saturno natal
+Marte en tránsito oposición Urano natal
+Marte en tránsito oposición Neptuno natal
+Marte en tránsito oposición Plutón natal
+Marte en tránsito oposición Ascendente natal
+
+## 1.5 JÚPITER EN TRÁNSITO (33 aspectos)
+Júpiter en tránsito conjunción Sol natal
+Júpiter en tránsito conjunción Luna natal
+Júpiter en tránsito conjunción Mercurio natal
+Júpiter en tránsito conjunción Venus natal
+Júpiter en tránsito conjunción Marte natal
+Júpiter en tránsito conjunción Júpiter natal
+Júpiter en tránsito conjunción Saturno natal
+Júpiter en tránsito conjunción Urano natal
+Júpiter en tránsito conjunción Neptuno natal
+Júpiter en tránsito conjunción Plutón natal
+Júpiter en tránsito conjunción Ascendente natal
+Júpiter en tránsito cuadratura Sol natal
+Júpiter en tránsito cuadratura Luna natal
+Júpiter en tránsito cuadratura Mercurio natal
+Júpiter en tránsito cuadratura Venus natal
+Júpiter en tránsito cuadratura Marte natal
+Júpiter en tránsito cuadratura Júpiter natal
+Júpiter en tránsito cuadratura Saturno natal
+Júpiter en tránsito cuadratura Urano natal
+Júpiter en tránsito cuadratura Neptuno natal
+Júpiter en tránsito cuadratura Plutón natal
+Júpiter en tránsito cuadratura Ascendente natal
+Júpiter en tránsito oposición Sol natal
+Júpiter en tránsito oposición Luna natal
+Júpiter en tránsito oposición Mercurio natal
+Júpiter en tránsito oposición Venus natal
+Júpiter en tránsito oposición Marte natal
+Júpiter en tránsito oposición Júpiter natal
+Júpiter en tránsito oposición Saturno natal
+Júpiter en tránsito oposición Urano natal
+Júpiter en tránsito oposición Neptuno natal
+Júpiter en tránsito oposición Plutón natal
+Júpiter en tránsito oposición Ascendente natal
+
+## 1.6 SATURNO EN TRÁNSITO (33 aspectos)
+Saturno en tránsito conjunción Sol natal
+Saturno en tránsito conjunción Luna natal
+Saturno en tránsito conjunción Mercurio natal
+Saturno en tránsito conjunción Venus natal
+Saturno en tránsito conjunción Marte natal
+Saturno en tránsito conjunción Júpiter natal
+Saturno en tránsito conjunción Saturno natal
+Saturno en tránsito conjunción Urano natal
+Saturno en tránsito conjunción Neptuno natal
+Saturno en tránsito conjunción Plutón natal
+Saturno en tránsito conjunción Ascendente natal
+Saturno en tránsito cuadratura Sol natal
+Saturno en tránsito cuadratura Luna natal
+Saturno en tránsito cuadratura Mercurio natal
+Saturno en tránsito cuadratura Venus natal
+Saturno en tránsito cuadratura Marte natal
+Saturno en tránsito cuadratura Júpiter natal
+Saturno en tránsito cuadratura Saturno natal
+Saturno en tránsito cuadratura Urano natal
+Saturno en tránsito cuadratura Neptuno natal
+Saturno en tránsito cuadratura Plutón natal
+Saturno en tránsito cuadratura Ascendente natal
+Saturno en tránsito oposición Sol natal
+Saturno en tránsito oposición Luna natal
+Saturno en tránsito oposición Mercurio natal
+Saturno en tránsito oposición Venus natal
+Saturno en tránsito oposición Marte natal
+Saturno en tránsito oposición Júpiter natal
+Saturno en tránsito oposición Saturno natal
+Saturno en tránsito oposición Urano natal
+Saturno en tránsito oposición Neptuno natal
+Saturno en tránsito oposición Plutón natal
+Saturno en tránsito oposición Ascendente natal
+
+## 1.7 URANO EN TRÁNSITO (33 aspectos)
+Urano en tránsito conjunción Sol natal
+Urano en tránsito conjunción Luna natal
+Urano en tránsito conjunción Mercurio natal
+Urano en tránsito conjunción Venus natal
+Urano en tránsito conjunción Marte natal
+Urano en tránsito conjunción Júpiter natal
+Urano en tránsito conjunción Saturno natal
+Urano en tránsito conjunción Urano natal
+Urano en tránsito conjunción Neptuno natal
+Urano en tránsito conjunción Plutón natal
+Urano en tránsito conjunción Ascendente natal
+Urano en tránsito cuadratura Sol natal
+Urano en tránsito cuadratura Luna natal
+Urano en tránsito cuadratura Mercurio natal
+Urano en tránsito cuadratura Venus natal
+Urano en tránsito cuadratura Marte natal
+Urano en tránsito cuadratura Júpiter natal
+Urano en tránsito cuadratura Saturno natal
+Urano en tránsito cuadratura Urano natal
+Urano en tránsito cuadratura Neptuno natal
+Urano en tránsito cuadratura Plutón natal
+Urano en tránsito cuadratura Ascendente natal
+Urano en tránsito oposición Sol natal
+Urano en tránsito oposición Luna natal
+Urano en tránsito oposición Mercurio natal
+Urano en tránsito oposición Venus natal
+Urano en tránsito oposición Marte natal
+Urano en tránsito oposición Júpiter natal
+Urano en tránsito oposición Saturno natal
+Urano en tránsito oposición Urano natal
+Urano en tránsito oposición Neptuno natal
+Urano en tránsito oposición Plutón natal
+Urano en tránsito oposición Ascendente natal
+
+## 1.8 NEPTUNO EN TRÁNSITO (33 aspectos)
+Neptuno en tránsito conjunción Sol natal
+Neptuno en tránsito conjunción Luna natal
+Neptuno en tránsito conjunción Mercurio natal
+Neptuno en tránsito conjunción Venus natal
+Neptuno en tránsito conjunción Marte natal
+Neptuno en tránsito conjunción Júpiter natal
+Neptuno en tránsito conjunción Saturno natal
+Neptuno en tránsito conjunción Urano natal
+Neptuno en tránsito conjunción Neptuno natal
+Neptuno en tránsito conjunción Plutón natal
+Neptuno en tránsito conjunción Ascendente natal
+Neptuno en tránsito cuadratura Sol natal
+Neptuno en tránsito cuadratura Luna natal
+Neptuno en tránsito cuadratura Mercurio natal
+Neptuno en tránsito cuadratura Venus natal
+Neptuno en tránsito cuadratura Marte natal
+Neptuno en tránsito cuadratura Júpiter natal
+Neptuno en tránsito cuadratura Saturno natal
+Neptuno en tránsito cuadratura Urano natal
+Neptuno en tránsito cuadratura Neptuno natal
+Neptuno en tránsito cuadratura Plutón natal
+Neptuno en tránsito cuadratura Ascendente natal
+Neptuno en tránsito oposición Sol natal
+Neptuno en tránsito oposición Luna natal
+Neptuno en tránsito oposición Mercurio natal
+Neptuno en tránsito oposición Venus natal
+Neptuno en tránsito oposición Marte natal
+Neptuno en tránsito oposición Júpiter natal
+Neptuno en tránsito oposición Saturno natal
+Neptuno en tránsito oposición Urano natal
+Neptuno en tránsito oposición Neptuno natal
+Neptuno en tránsito oposición Plutón natal
+Neptuno en tránsito oposición Ascendente natal
+
+## 1.9 PLUTÓN EN TRÁNSITO (33 aspectos)
+Plutón en tránsito conjunción Sol natal
+Plutón en tránsito conjunción Luna natal
+Plutón en tránsito conjunción Mercurio natal
+Plutón en tránsito conjunción Venus natal
+Plutón en tránsito conjunción Marte natal
+Plutón en tránsito conjunción Júpiter natal
+Plutón en tránsito conjunción Saturno natal
+Plutón en tránsito conjunción Urano natal
+Plutón en tránsito conjunción Neptuno natal
+Plutón en tránsito conjunción Plutón natal
+Plutón en tránsito conjunción Ascendente natal
+Plutón en tránsito cuadratura Sol natal
+Plutón en tránsito cuadratura Luna natal
+Plutón en tránsito cuadratura Mercurio natal
+Plutón en tránsito cuadratura Venus natal
+Plutón en tránsito cuadratura Marte natal
+Plutón en tránsito cuadratura Júpiter natal
+Plutón en tránsito cuadratura Saturno natal
+Plutón en tránsito cuadratura Urano natal
+Plutón en tránsito cuadratura Neptuno natal
+Plutón en tránsito cuadratura Plutón natal
+Plutón en tránsito cuadratura Ascendente natal
+Plutón en tránsito oposición Sol natal
+Plutón en tránsito oposición Luna natal
+Plutón en tránsito oposición Mercurio natal
+Plutón en tránsito oposición Venus natal
+Plutón en tránsito oposición Marte natal
+Plutón en tránsito oposición Júpiter natal
+Plutón en tránsito oposición Saturno natal
+Plutón en tránsito oposición Urano natal
+Plutón en tránsito oposición Neptuno natal
+Plutón en tránsito oposición Plutón natal
+Plutón en tránsito oposición Ascendente natal
+
+================================================================================
+2. LUNA PROGRESADA - CONJUNCIONES
+================================================================================
+
+# FORMATO: "Luna progresada conjunción [Planeta] natal"
+# ASPECTOS: Solo conjunciones (orbe 2°)
+# PLANETAS NATALES: Sol, Mercurio, Venus, Marte, Júpiter, Saturno, Urano, Neptuno, Plutón
+
+Luna progresada conjunción Sol natal
+Luna progresada conjunción Mercurio natal
+Luna progresada conjunción Venus natal
+Luna progresada conjunción Marte natal
+Luna progresada conjunción Júpiter natal
+Luna progresada conjunción Saturno natal
+Luna progresada conjunción Urano natal
+Luna progresada conjunción Neptuno natal
+Luna progresada conjunción Plutón natal
+
+================================================================================
+3. PROFECCIONES ANUALES - CAMBIOS DE SEÑOR DEL AÑO
+================================================================================
+
+# FORMATO: "Cambio de Señor del Año: [Planeta]"
+# OCURRE: En cumpleaños (cambio anual)
+# PLANETAS REGENTES: Marte, Venus, Mercurio, Luna, Sol, Júpiter, Saturno
+
+Cambio de Señor del Año: Marte
+Cambio de Señor del Año: Venus
+Cambio de Señor del Año: Mercurio
+Cambio de Señor del Año: Luna
+Cambio de Señor del Año: Sol
+Cambio de Señor del Año: Júpiter
+Cambio de Señor del Año: Saturno
+
+================================================================================
+4. FASES LUNARES CON ASPECTOS A PLANETAS NATALES
+================================================================================
+
+# FORMATO: "[Fase lunar] en [Signo] conjunción [Planeta] natal"
+# FASES: Luna Nueva, Luna Llena
+# ASPECTOS: Solo conjunciones (orbe 4°)
+# PLANETAS NATALES: Sol, Luna, Mercurio, Venus, Marte, Júpiter, Saturno, Urano, Neptuno, Plutón
+
+## 4.1 LUNA NUEVA CON ASPECTOS (120 combinaciones)
+Luna nueva en Aries conjunción Sol natal
+Luna nueva en Aries conjunción Luna natal
+Luna nueva en Aries conjunción Mercurio natal
+Luna nueva en Aries conjunción Venus natal
+Luna nueva en Aries conjunción Marte natal
+Luna nueva en Aries conjunción Júpiter natal
+Luna nueva en Aries conjunción Saturno natal
+Luna nueva en Aries conjunción Urano natal
+Luna nueva en Aries conjunción Neptuno natal
+Luna nueva en Aries conjunción Plutón natal
+Luna nueva en Tauro conjunción Sol natal
+Luna nueva en Tauro conjunción Luna natal
+Luna nueva en Tauro conjunción Mercurio natal
+Luna nueva en Tauro conjunción Venus natal
+Luna nueva en Tauro conjunción Marte natal
+Luna nueva en Tauro conjunción Júpiter natal
+Luna nueva en Tauro conjunción Saturno natal
+Luna nueva en Tauro conjunción Urano natal
+Luna nueva en Tauro conjunción Neptuno natal
+Luna nueva en Tauro conjunción Plutón natal
+Luna nueva en Géminis conjunción Sol natal
+Luna nueva en Géminis conjunción Luna natal
+Luna nueva en Géminis conjunción Mercurio natal
+Luna nueva en Géminis conjunción Venus natal
+Luna nueva en Géminis conjunción Marte natal
+Luna nueva en Géminis conjunción Júpiter natal
+Luna nueva en Géminis conjunción Saturno natal
+Luna nueva en Géminis conjunción Urano natal
+Luna nueva en Géminis conjunción Neptuno natal
+Luna nueva en Géminis conjunción Plutón natal
+Luna nueva en Cáncer conjunción Sol natal
+Luna nueva en Cáncer conjunción Luna natal
+Luna nueva en Cáncer conjunción Mercurio natal
+Luna nueva en Cáncer conjunción Venus natal
+Luna nueva en Cáncer conjunción Marte natal
+Luna nueva en Cáncer conjunción Júpiter natal
+Luna nueva en Cáncer conjunción Saturno natal
+Luna nueva en Cáncer conjunción Urano natal
+Luna nueva en Cáncer conjunción Neptuno natal
+Luna nueva en Cáncer conjunción Plutón natal
+Luna nueva en Leo conjunción Sol natal
+Luna nueva en Leo conjunción Luna natal
+Luna nueva en Leo conjunción Mercurio natal
+Luna nueva en Leo conjunción Venus natal
+Luna nueva en Leo conjunción Marte natal
+Luna nueva en Leo conjunción Júpiter natal
+Luna nueva en Leo conjunción Saturno natal
+Luna nueva en Leo conjunción Urano natal
+Luna nueva en Leo conjunción Neptuno natal
+Luna nueva en Leo conjunción Plutón natal
+Luna nueva en Virgo conjunción Sol natal
+Luna nueva en Virgo conjunción Luna natal
+Luna nueva en Virgo conjunción Mercurio natal
+Luna nueva en Virgo conjunción Venus natal
+Luna nueva en Virgo conjunción Marte natal
+Luna nueva en Virgo conjunción Júpiter natal
+Luna nueva en Virgo conjunción Saturno natal
+Luna nueva en Virgo conjunción Urano natal
+Luna nueva en Virgo conjunción Neptuno natal
+Luna nueva en Virgo conjunción Plutón natal
+Luna nueva en Libra conjunción Sol natal
+Luna nueva en Libra conjunción Luna natal
+Luna nueva en Libra conjunción Mercurio natal
+Luna nueva en Libra conjunción Venus natal
+Luna nueva en Libra conjunción Marte natal
+Luna nueva en Libra conjunción Júpiter natal
+Luna nueva en Libra conjunción Saturno natal
+Luna nueva en Libra conjunción Urano natal
+Luna nueva en Libra conjunción Neptuno natal
+Luna nueva en Libra conjunción Plutón natal
+Luna nueva en Escorpio conjunción Sol natal
+Luna nueva en Escorpio conjunción Luna natal
+Luna nueva en Escorpio conjunción Mercurio natal
+Luna nueva en Escorpio conjunción Venus natal
+Luna nueva en Escorpio conjunción Marte natal
+Luna nueva en Escorpio conjunción Júpiter natal
+Luna nueva en Escorpio conjunción Saturno natal
+Luna nueva en Escorpio conjunción Urano natal
+Luna nueva en Escorpio conjunción Neptuno natal
+Luna nueva en Escorpio conjunción Plutón natal
+Luna nueva en Sagitario conjunción Sol natal
+Luna nueva en Sagitario conjunción Luna natal
+Luna nueva en Sagitario conjunción Mercurio natal
+Luna nueva en Sagitario conjunción Venus natal
+Luna nueva en Sagitario conjunción Marte natal
+Luna nueva en Sagitario conjunción Júpiter natal
+Luna nueva en Sagitario conjunción Saturno natal
+Luna nueva en Sagitario conjunción Urano natal
+Luna nueva en Sagitario conjunción Neptuno natal
+Luna nueva en Sagitario conjunción Plutón natal
+Luna nueva en Capricornio conjunción Sol natal
+Luna nueva en Capricornio conjunción Luna natal
+Luna nueva en Capricornio conjunción Mercurio natal
+Luna nueva en Capricornio conjunción Venus natal
+Luna nueva en Capricornio conjunción Marte natal
+Luna nueva en Capricornio conjunción Júpiter natal
+Luna nueva en Capricornio conjunción Saturno natal
+Luna nueva en Capricornio conjunción Urano natal
+Luna nueva en Capricornio conjunción Neptuno natal
+Luna nueva en Capricornio conjunción Plutón natal
+Luna nueva en Acuario conjunción Sol natal
+Luna nueva en Acuario conjunción Luna natal
+Luna nueva en Acuario conjunción Mercurio natal
+Luna nueva en Acuario conjunción Venus natal
+Luna nueva en Acuario conjunción Marte natal
+Luna nueva en Acuario conjunción Júpiter natal
+Luna nueva en Acuario conjunción Saturno natal
+Luna nueva en Acuario conjunción Urano natal
+Luna nueva en Acuario conjunción Neptuno natal
+Luna nueva en Acuario conjunción Plutón natal
+Luna nueva en Piscis conjunción Sol natal
+Luna nueva en Piscis conjunción Luna natal
+Luna nueva en Piscis conjunción Mercurio natal
+Luna nueva en Piscis conjunción Venus natal
+Luna nueva en Piscis conjunción Marte natal
+Luna nueva en Piscis conjunción Júpiter natal
+Luna nueva en Piscis conjunción Saturno natal
+Luna nueva en Piscis conjunción Urano natal
+Luna nueva en Piscis conjunción Neptuno natal
+Luna nueva en Piscis conjunción Plutón natal
+
+## 4.2 LUNA LLENA CON ASPECTOS (120 combinaciones)
+Luna llena en Aries conjunción Sol natal
+Luna llena en Aries conjunción Luna natal
+Luna llena en Aries conjunción Mercurio natal
+Luna llena en Aries conjunción Venus natal
+Luna llena en Aries conjunción Marte natal
+Luna llena en Aries conjunción Júpiter natal
+Luna llena en Aries conjunción Saturno natal
+Luna llena en Aries conjunción Urano natal
+Luna llena en Aries conjunción Neptuno natal
+Luna llena en Aries conjunción Plutón natal
+Luna llena en Tauro conjunción Sol natal
+Luna llena en Tauro conjunción Luna natal
+Luna llena en Tauro conjunción Mercurio natal
+Luna llena en Tauro conjunción Venus natal
+Luna llena en Tauro conjunción Marte natal
+Luna llena en Tauro conjunción Júpiter natal
+Luna llena en Tauro conjunción Saturno natal
+Luna llena en Tauro conjunción Urano natal
+Luna llena en Tauro conjunción Neptuno natal
+Luna llena en Tauro conjunción Plutón natal
+Luna llena en Géminis conjunción Sol natal
+Luna llena en Géminis conjunción Luna natal
+Luna llena en Géminis conjunción Mercurio natal
+Luna llena en Géminis conjunción Venus natal
+Luna llena en Géminis conjunción Marte natal
+Luna llena en Géminis conjunción Júpiter natal
+Luna llena en Géminis conjunción Saturno natal
+Luna llena en Géminis conjunción Urano natal
+Luna llena en Géminis conjunción Neptuno natal
+Luna llena en Géminis conjunción Plutón natal
+Luna llena en Cáncer conjunción Sol natal
+Luna llena en Cáncer conjunción Luna natal
+Luna llena en Cáncer conjunción Mercurio natal
+Luna llena en Cáncer conjunción Venus natal
+Luna llena en Cáncer conjunción Marte natal
+Luna llena en Cáncer conjunción Júpiter natal
+Luna llena en Cáncer conjunción Saturno natal
+Luna llena en Cáncer conjunción Urano natal
+Luna llena en Cáncer conjunción Neptuno natal
+Luna llena en Cáncer conjunción Plutón natal
+Luna llena en Leo conjunción Sol natal
+Luna llena en Leo conjunción Luna natal
+Luna llena en Leo conjunción Mercurio natal
+Luna llena en Leo conjunción Venus natal
+Luna llena en Leo conjunción Marte natal
+Luna llena en Leo conjunción Júpiter natal
+Luna llena en Leo conjunción Saturno natal
+Luna llena en Leo conjunción Urano natal
+Luna llena en Leo conjunción Neptuno natal
+Luna llena en Leo conjunción Plutón natal
+Luna llena en Virgo conjunción Sol natal
+Luna llena en Virgo conjunción Luna natal
+Luna llena en Virgo conjunción Mercurio natal
+Luna llena en Virgo conjunción Venus natal
+Luna llena en Virgo conjunción Marte natal
+Luna llena en Virgo conjunción Júpiter natal
+Luna llena en Virgo conjunción Saturno natal
+Luna llena en Virgo conjunción Urano natal
+Luna llena en Virgo conjunción Neptuno natal
+Luna llena en Virgo conjunción Plutón natal
+Luna llena en Libra conjunción Sol natal
+Luna llena en Libra conjunción Luna natal
+Luna llena en Libra conjunción Mercurio natal
+Luna llena en Libra conjunción Venus natal
+Luna llena en Libra conjunción Marte natal
+Luna llena en Libra conjunción Júpiter natal
+Luna llena en Libra conjunción Saturno natal
+Luna llena en Libra conjunción Urano natal
+Luna llena en Libra conjunción Neptuno natal
+Luna llena en Libra conjunción Plutón natal
+Luna llena en Escorpio conjunción Sol natal
+Luna llena en Escorpio conjunción Luna natal
+Luna llena en Escorpio conjunción Mercurio natal
+Luna llena en Escorpio conjunción Venus natal
+Luna llena en Escorpio conjunción Marte natal
+Luna llena en Escorpio conjunción Júpiter natal
+Luna llena en Escorpio conjunción Saturno natal
+Luna llena en Escorpio conjunción Urano natal
+Luna llena en Escorpio conjunción Neptuno natal
+Luna llena en Escorpio conjunción Plutón natal
+Luna llena en Sagitario conjunción Sol natal
+Luna llena en Sagitario conjunción Luna natal
+Luna llena en Sagitario conjunción Mercurio natal
+Luna llena en Sagitario conjunción Venus natal
+Luna llena en Sagitario conjunción Marte natal
+Luna llena en Sagitario conjunción Júpiter natal
+Luna llena en Sagitario conjunción Saturno natal
+Luna llena en Sagitario conjunción Urano natal
+Luna llena en Sagitario conjunción Neptuno natal
+Luna llena en Sagitario conjunción Plutón natal
+Luna llena en Capricornio conjunción Sol natal
+Luna llena en Capricornio conjunción Luna natal
+Luna llena en Capricornio conjunción Mercurio natal
+Luna llena en Capricornio conjunción Venus natal
+Luna llena en Capricornio conjunción Marte natal
+Luna llena en Capricornio conjunción Júpiter natal
+Luna llena en Capricornio conjunción Saturno natal
+Luna llena en Capricornio conjunción Urano natal
+Luna llena en Capricornio conjunción Neptuno natal
+Luna llena en Capricornio conjunción Plutón natal
+Luna llena en Acuario conjunción Sol natal
+Luna llena en Acuario conjunción Luna natal
+Luna llena en Acuario conjunción Mercurio natal
+Luna llena en Acuario conjunción Venus natal
+Luna llena en Acuario conjunción Marte natal
+Luna llena en Acuario conjunción Júpiter natal
+Luna llena en Acuario conjunción Saturno natal
+Luna llena en Acuario conjunción Urano natal
+Luna llena en Acuario conjunción Neptuno natal
+Luna llena en Acuario conjunción Plutón natal
+Luna llena en Piscis conjunción Sol natal
+Luna llena en Piscis conjunción Luna natal
+Luna llena en Piscis conjunción Mercurio natal
+Luna llena en Piscis conjunción Venus natal
+Luna llena en Piscis conjunción Marte natal
+Luna llena en Piscis conjunción Júpiter natal
+Luna llena en Piscis conjunción Saturno natal
+Luna llena en Piscis conjunción Urano natal
+Luna llena en Piscis conjunción Neptuno natal
+Luna llena en Piscis conjunción Plutón natal
+
+5. ECLIPSES CON ASPECTOS A PLANETAS NATALES
+
+# FORMATO: "[Tipo eclipse] en [Signo] conjunción [Planeta] natal"
+# TIPOS: Eclipse Solar, Eclipse Lunar
+# ASPECTOS: Solo conjunciones (orbe 4°)
+# PLANETAS NATALES: Sol, Luna, Mercurio, Venus, Marte, Júpiter, Saturno, Urano, Neptuno, Plutón
+
+## 5.1 ECLIPSE SOLAR CON ASPECTOS (120 combinaciones)
+Eclipse solar en Aries conjunción Sol natal
+Eclipse solar en Aries conjunción Luna natal
+Eclipse solar en Aries conjunción Mercurio natal
+Eclipse solar en Aries conjunción Venus natal
+Eclipse solar en Aries conjunción Marte natal
+Eclipse solar en Aries conjunción Júpiter natal
+Eclipse solar en Aries conjunción Saturno natal
+Eclipse solar en Aries conjunción Urano natal
+Eclipse solar en Aries conjunción Neptuno natal
+Eclipse solar en Aries conjunción Plutón natal
+Eclipse solar en Tauro conjunción Sol natal
+Eclipse solar en Tauro conjunción Luna natal
+Eclipse solar en Tauro conjunción Mercurio natal
+Eclipse solar en Tauro conjunción Venus natal
+Eclipse solar en Tauro conjunción Marte natal
+Eclipse solar en Tauro conjunción Júpiter natal
+Eclipse solar en Tauro conjunción Saturno natal
+Eclipse solar en Tauro conjunción Urano natal
+Eclipse solar en Tauro conjunción Neptuno natal
+Eclipse solar en Tauro conjunción Plutón natal
+Eclipse solar en Géminis conjunción Sol natal
+Eclipse solar en Géminis conjunción Luna natal
+Eclipse solar en Géminis conjunción Mercurio natal
+Eclipse solar en Géminis conjunción Venus natal
+Eclipse solar en Géminis conjunción Marte natal
+Eclipse solar en Géminis conjunción Júpiter natal
+Eclipse solar en Géminis conjunción Saturno natal
+Eclipse solar en Géminis conjunción Urano natal
+Eclipse solar en Géminis conjunción Neptuno natal
+Eclipse solar en Géminis conjunción Plutón natal
+Eclipse solar en Cáncer conjunción Sol natal
+Eclipse solar en Cáncer conjunción Luna natal
+Eclipse solar en Cáncer conjunción Mercurio natal
+Eclipse solar en Cáncer conjunción Venus natal
+Eclipse solar en Cáncer conjunción Marte natal
+Eclipse solar en Cáncer conjunción Júpiter natal
+Eclipse solar en Cáncer conjunción Saturno natal
+Eclipse solar en Cáncer conjunción Urano natal
+Eclipse solar en Cáncer conjunción Neptuno natal
+Eclipse solar en Cáncer conjunción Plutón natal
+Eclipse solar en Leo conjunción Sol natal
+Eclipse solar en Leo conjunción Luna natal
+Eclipse solar en Leo conjunción Mercurio natal
+Eclipse solar en Leo conjunción Venus natal
+Eclipse solar en Leo conjunción Marte natal
+Eclipse solar en Leo conjunción Júpiter natal
+Eclipse solar en Leo conjunción Saturno natal
+Eclipse solar en Leo conjunción Urano natal
+Eclipse solar en Leo conjunción Neptuno natal
+Eclipse solar en Leo conjunción Plutón natal
+Eclipse solar en Virgo conjunción Sol natal
+Eclipse solar en Virgo conjunción Luna natal
+Eclipse solar en Virgo conjunción Mercurio natal
+Eclipse solar en Virgo conjunción Venus natal
+Eclipse solar en Virgo conjunción Marte natal
+Eclipse solar en Virgo conjunción Júpiter natal
+Eclipse solar en Virgo conjunción Saturno natal
+Eclipse solar en Virgo conjunción Urano natal
+Eclipse solar en Virgo conjunción Neptuno natal
+Eclipse solar en Virgo conjunción Plutón natal
+Eclipse solar en Libra conjunción Sol natal
+Eclipse solar en Libra conjunción Luna natal
+Eclipse solar en Libra conjunción Mercurio natal
+Eclipse solar en Libra conjunción Venus natal
+Eclipse solar en Libra conjunción Marte natal
+Eclipse solar en Libra conjunción Júpiter natal
+Eclipse solar en Libra conjunción Saturno natal
+Eclipse solar en Libra conjunción Urano natal
+Eclipse solar en Libra conjunción Neptuno natal
+Eclipse solar en Libra conjunción Plutón natal
+Eclipse solar en Escorpio conjunción Sol natal
+Eclipse solar en Escorpio conjunción Luna natal
+Eclipse solar en Escorpio conjunción Mercurio natal
+Eclipse solar en Escorpio conjunción Venus natal
+Eclipse solar en Escorpio conjunción Marte natal
+Eclipse solar en Escorpio conjunción Júpiter natal
+Eclipse solar en Escorpio conjunción Saturno natal
+Eclipse solar en Escorpio conjunción Urano natal
+Eclipse solar en Escorpio conjunción Neptuno natal
+Eclipse solar en Escorpio conjunción Plutón natal
+Eclipse solar en Sagitario conjunción Sol natal
+Eclipse solar en Sagitario conjunción Luna natal
+Eclipse solar en Sagitario conjunción Mercurio natal
+Eclipse solar en Sagitario conjunción Venus natal
+Eclipse solar en Sagitario conjunción Marte natal
+Eclipse solar en Sagitario conjunción Júpiter natal
+Eclipse solar en Sagitario conjunción Saturno natal
+Eclipse solar en Sagitario conjunción Urano natal
+Eclipse solar en Sagitario conjunción Neptuno natal
+Eclipse solar en Sagitario conjunción Plutón natal
+Eclipse solar en Capricornio conjunción Sol natal
+Eclipse solar en Capricornio conjunción Luna natal
+Eclipse solar en Capricornio conjunción Mercurio natal
+Eclipse solar en Capricornio conjunción Venus natal
+Eclipse solar en Capricornio conjunción Marte natal
+Eclipse solar en Capricornio conjunción Júpiter natal
+Eclipse solar en Capricornio conjunción Saturno natal
+Eclipse solar en Capricornio conjunción Urano natal
+Eclipse solar en Capricornio conjunción Neptuno natal
+Eclipse solar en Capricornio conjunción Plutón natal
+Eclipse solar en Acuario conjunción Sol natal
+Eclipse solar en Acuario conjunción Luna natal
+Eclipse solar en Acuario conjunción Mercurio natal
+Eclipse solar en Acuario conjunción Venus natal
+Eclipse solar en Acuario conjunción Marte natal
+Eclipse solar en Acuario conjunción Júpiter natal
+Eclipse solar en Acuario conjunción Saturno natal
+Eclipse solar en Acuario conjunción Urano natal
+Eclipse solar en Acuario conjunción Neptuno natal
+Eclipse solar en Acuario conjunción Plutón natal
+Eclipse solar en Piscis conjunción Sol natal
+Eclipse solar en Piscis conjunción Luna natal
+Eclipse solar en Piscis conjunción Mercurio natal
+Eclipse solar en Piscis conjunción Venus natal
+Eclipse solar en Piscis conjunción Marte natal
+Eclipse solar en Piscis conjunción Júpiter natal
+Eclipse solar en Piscis conjunción Saturno natal
+Eclipse solar en Piscis conjunción Urano natal
+Eclipse solar en Piscis conjunción Neptuno natal
+Eclipse solar en Piscis conjunción Plutón natal
+
+## 5.2 ECLIPSE LUNAR CON ASPECTOS (120 combinaciones)
+Eclipse lunar en Aries conjunción Sol natal
+Eclipse lunar en Aries conjunción Luna natal
+Eclipse lunar en Aries conjunción Mercurio natal
+Eclipse lunar en Aries conjunción Venus natal
+Eclipse lunar en Aries conjunción Marte natal
+Eclipse lunar en Aries conjunción Júpiter natal
+Eclipse lunar en Aries conjunción Saturno natal
+Eclipse lunar en Aries conjunción Urano natal
+Eclipse lunar en Aries conjunción Neptuno natal
+Eclipse lunar en Aries conjunción Plutón natal
+Eclipse lunar en Tauro conjunción Sol natal
+Eclipse lunar en Tauro conjunción Luna natal
+Eclipse lunar en Tauro conjunción Mercurio natal
+Eclipse lunar en Tauro conjunción Venus natal
+Eclipse lunar en Tauro conjunción Marte natal
+Eclipse lunar en Tauro conjunción Júpiter natal
+Eclipse lunar en Tauro conjunción Saturno natal
+Eclipse lunar en Tauro conjunción Urano natal
+Eclipse lunar en Tauro conjunción Neptuno natal
+Eclipse lunar en Tauro conjunción Plutón natal
+Eclipse lunar en Géminis conjunción Sol natal
+Eclipse lunar en Géminis conjunción Luna natal
+Eclipse lunar en Géminis conjunción Mercurio natal
+Eclipse lunar en Géminis conjunción Venus natal
+Eclipse lunar en Géminis conjunción Marte natal
+Eclipse lunar en Géminis conjunción Júpiter natal
+Eclipse lunar en Géminis conjunción Saturno natal
+Eclipse lunar en Géminis conjunción Urano natal
+Eclipse lunar en Géminis conjunción Neptuno natal
+Eclipse lunar en Géminis conjunción Plutón natal
+Eclipse lunar en Cáncer conjunción Sol natal
+Eclipse lunar en Cáncer conjunción Luna natal
+Eclipse lunar en Cáncer conjunción Mercurio natal
+Eclipse lunar en Cáncer conjunción Venus natal
+Eclipse lunar en Cáncer conjunción Marte natal
+Eclipse lunar en Cáncer conjunción Júpiter natal
+Eclipse lunar en Cáncer conjunción Saturno natal
+Eclipse lunar en Cáncer conjunción Urano natal
+Eclipse lunar en Cáncer conjunción Neptuno natal
+Eclipse lunar en Cáncer conjunción Plutón natal
+Eclipse lunar en Leo conjunción Sol natal
+Eclipse lunar en Leo conjunción Luna natal
+Eclipse lunar en Leo conjunción Mercurio natal
+Eclipse lunar en Leo conjunción Venus natal
+Eclipse lunar en Leo conjunción Marte natal
+Eclipse lunar en Leo conjunción Júpiter natal
+Eclipse lunar en Leo conjunción Saturno natal
+Eclipse lunar en Leo conjunción Urano natal
+Eclipse lunar en Leo conjunción Neptuno natal
+Eclipse lunar en Leo conjunción Plutón natal
+Eclipse lunar en Virgo conjunción Sol natal
+Eclipse lunar en Virgo conjunción Luna natal
+Eclipse lunar en Virgo conjunción Mercurio natal
+Eclipse lunar en Virgo conjunción Venus natal
+Eclipse lunar en Virgo conjunción Marte natal
+Eclipse lunar en Virgo conjunción Júpiter natal
+Eclipse lunar en Virgo conjunción Saturno natal
+Eclipse lunar en Virgo conjunción Urano natal
+Eclipse lunar en Virgo conjunción Neptuno natal
+Eclipse lunar en Virgo conjunción Plutón natal
+Eclipse lunar en Libra conjunción Sol natal
+Eclipse lunar en Libra conjunción Luna natal
+Eclipse lunar en Libra conjunción Mercurio natal
+Eclipse lunar en Libra conjunción Venus natal
+Eclipse lunar en Libra conjunción Marte natal
+Eclipse lunar en Libra conjunción Júpiter natal
+Eclipse lunar en Libra conjunción Saturno natal
+Eclipse lunar en Libra conjunción Urano natal
+Eclipse lunar en Libra conjunción Neptuno natal
+Eclipse lunar en Libra conjunción Plutón natal
+Eclipse lunar en Escorpio conjunción Sol natal
+Eclipse lunar en Escorpio conjunción Luna natal
+Eclipse lunar en Escorpio conjunción Mercurio natal
+Eclipse lunar en Escorpio conjunción Venus natal
+Eclipse lunar en Escorpio conjunción Marte natal
+Eclipse lunar en Escorpio conjunción Júpiter natal
+Eclipse lunar en Escorpio conjunción Saturno natal
+Eclipse lunar en Escorpio conjunción Urano natal
+Eclipse lunar en Escorpio conjunción Neptuno natal
+Eclipse lunar en Escorpio conjunción Plutón natal
+Eclipse lunar en Sagitario conjunción Sol natal
+Eclipse lunar en Sagitario conjunción Luna natal
+Eclipse lunar en Sagitario conjunción Mercurio natal
+Eclipse lunar en Sagitario conjunción Venus natal
+Eclipse lunar en Sagitario conjunción Marte natal
+Eclipse lunar en Sagitario conjunción Júpiter natal
+Eclipse lunar en Sagitario conjunción Saturno natal
+Eclipse lunar en Sagitario conjunción Urano natal
+Eclipse lunar en Sagitario conjunción Neptuno natal
+Eclipse lunar en Sagitario conjunción Plutón natal
+Eclipse lunar en Capricornio conjunción Sol natal
+Eclipse lunar en Capricornio conjunción Luna natal
+Eclipse lunar en Capricornio conjunción Mercurio natal
+Eclipse lunar en Capricornio conjunción Venus natal
+Eclipse lunar en Capricornio conjunción Marte natal
+Eclipse lunar en Capricornio conjunción Júpiter natal
+Eclipse lunar en Capricornio conjunción Saturno natal
+Eclipse lunar en Capricornio conjunción Urano natal
+Eclipse lunar en Capricornio conjunción Neptuno natal
+Eclipse lunar en Capricornio conjunción Plutón natal
+Eclipse lunar en Acuario conjunción Sol natal
+Eclipse lunar en Acuario conjunción Luna natal
+Eclipse lunar en Acuario conjunción Mercurio natal
+Eclipse lunar en Acuario conjunción Venus natal
+Eclipse lunar en Acuario conjunción Marte natal
+Eclipse lunar en Acuario conjunción Júpiter natal
+Eclipse lunar en Acuario conjunción Saturno natal
+Eclipse lunar en Acuario conjunción Urano natal
+Eclipse lunar en Acuario conjunción Neptuno natal
+Eclipse lunar en Acuario conjunción Plutón natal
+Eclipse lunar en Piscis conjunción Sol natal
+Eclipse lunar en Piscis conjunción Luna natal
+Eclipse lunar en Piscis conjunción Mercurio natal
+Eclipse lunar en Piscis conjunción Venus natal
+Eclipse lunar en Piscis conjunción Marte natal
+Eclipse lunar en Piscis conjunción Júpiter natal
+Eclipse lunar en Piscis conjunción Saturno natal
+Eclipse lunar en Piscis conjunción Urano natal
+Eclipse lunar en Piscis conjunción Neptuno natal
+Eclipse lunar en Piscis conjunción Plutón natal
+
+6. ESTADO DE TRÁNSITOS POR CASAS NATALES
+
+# FORMATO: "[Planeta] transitando casa [número]"
+# PLANETAS: Júpiter, Saturno, Urano, Neptuno, Plutón (planetas lentos)
+# CASAS: 1-12
+
+## 6.1 JÚPITER TRANSITANDO CASAS (12 posiciones)
+Júpiter transitando casa 1
+Júpiter transitando casa 2
+Júpiter transitando casa 3
+Júpiter transitando casa 4
+Júpiter transitando casa 5
+Júpiter transitando casa 6
+Júpiter transitando casa 7
+Júpiter transitando casa 8
+Júpiter transitando casa 9
+Júpiter transitando casa 10
+Júpiter transitando casa 11
+Júpiter transitando casa 12
+
+## 6.2 SATURNO TRANSITANDO CASAS (12 posiciones)
+Saturno transitando casa 1
+Saturno transitando casa 2
+Saturno transitando casa 3
+Saturno transitando casa 4
+Saturno transitando casa 5
+Saturno transitando casa 6
+Saturno transitando casa 7
+Saturno transitando casa 8
+Saturno transitando casa 9
+Saturno transitando casa 10
+Saturno transitando casa 11
+Saturno transitando casa 12
+
+## 6.3 URANO TRANSITANDO CASAS (12 posiciones)
+Urano transitando casa 1
+Urano transitando casa 2
+Urano transitando casa 3
+Urano transitando casa 4
+Urano transitando casa 5
+Urano transitando casa 6
+Urano transitando casa 7
+Urano transitando casa 8
+Urano transitando casa 9
+Urano transitando casa 10
+Urano transitando casa 11
+Urano transitando casa 12
+
+## 6.4 NEPTUNO TRANSITANDO CASAS (12 posiciones)
+Neptuno transitando casa 1
+Neptuno transitando casa 2
+Neptuno transitando casa 3
+Neptuno transitando casa 4
+Neptuno transitando casa 5
+Neptuno transitando casa 6
+Neptuno transitando casa 7
+Neptuno transitando casa 8
+Neptuno transitando casa 9
+Neptuno transitando casa 10
+Neptuno transitando casa 11
+Neptuno transitando casa 12
+
+## 6.5 PLUTÓN TRANSITANDO CASAS (12 posiciones)
+Plutón transitando casa 1
+Plutón transitando casa 2
+Plutón transitando casa 3
+Plutón transitando casa 4
+Plutón transitando casa 5
+Plutón transitando casa 6
+Plutón transitando casa 7
+Plutón transitando casa 8
+Plutón transitando casa 9
+Plutón transitando casa 10
+Plutón transitando casa 11
+Plutón transitando casa 12
+
+## 6.6 LUNA PROGRESADA POR SIGNOS Y CASAS (144 combinaciones)
+Luna progresada en Aries transitando casa 1
+Luna progresada en Aries transitando casa 2
+Luna progresada en Aries transitando casa 3
+Luna progresada en Aries transitando casa 4
+Luna progresada en Aries transitando casa 5
+Luna progresada en Aries transitando casa 6
+Luna progresada en Aries transitando casa 7
+Luna progresada en Aries transitando casa 8
+Luna progresada en Aries transitando casa 9
+Luna progresada en Aries transitando casa 10
+Luna progresada en Aries transitando casa 11
+Luna progresada en Aries transitando casa 12
+Luna progresada en Tauro transitando casa 1
+Luna progresada en Tauro transitando casa 2
+Luna progresada en Tauro transitando casa 3
+Luna progresada en Tauro transitando casa 4
+Luna progresada en Tauro transitando casa 5
+Luna progresada en Tauro transitando casa 6
+Luna progresada en Tauro transitando casa 7
+Luna progresada en Tauro transitando casa 8
+Luna progresada en Tauro transitando casa 9
+Luna progresada en Tauro transitando casa 10
+Luna progresada en Tauro transitando casa 11
+Luna progresada en Tauro transitando casa 12
+Luna progresada en Géminis transitando casa 1
+Luna progresada en Géminis transitando casa 2
+Luna progresada en Géminis transitando casa 3
+Luna progresada en Géminis transitando casa 4
+Luna progresada en Géminis transitando casa 5
+Luna progresada en Géminis transitando casa 6
+Luna progresada en Géminis transitando casa 7
+Luna progresada en Géminis transitando casa 8
+Luna progresada en Géminis transitando casa 9
+Luna progresada en Géminis transitando casa 10
+Luna progresada en Géminis transitando casa 11
+Luna progresada en Géminis transitando casa 12
+Luna progresada en Cáncer transitando casa 1
+Luna progresada en Cáncer transitando casa 2
+Luna progresada en Cáncer transitando casa 3
+Luna progresada en Cáncer transitando casa 4
+Luna progresada en Cáncer transitando casa 5
+Luna progresada en Cáncer transitando casa 6
+Luna progresada en Cáncer transitando casa 7
+Luna progresada en Cáncer transitando casa 8
+Luna progresada en Cáncer transitando casa 9
+Luna progresada en Cáncer transitando casa 10
+Luna progresada en Cáncer transitando casa 11
+Luna progresada en Cáncer transitando casa 12
+Luna progresada en Leo transitando casa 1
+Luna progresada en Leo transitando casa 2
+Luna progresada en Leo transitando casa 3
+Luna progresada en Leo transitando casa 4
+Luna progresada en Leo transitando casa 5
+Luna progresada en Leo transitando casa 6
+Luna progresada en Leo transitando casa 7
+Luna progresada en Leo transitando casa 8
+Luna progresada en Leo transitando casa 9
+Luna progresada en Leo transitando casa 10
+Luna progresada en Leo transitando casa 11
+Luna progresada en Leo transitando casa 12
+Luna progresada en Virgo transitando casa 1
+Luna progresada en Virgo transitando casa 2
+Luna progresada en Virgo transitando casa 3
+Luna progresada en Virgo transitando casa 4
+Luna progresada en Virgo transitando casa 5
+Luna progresada en Virgo transitando casa 6
+Luna progresada en Virgo transitando casa 7
+Luna progresada en Virgo transitando casa 8
+Luna progresada en Virgo transitando casa 9
+Luna progresada en Virgo transitando casa 10
+Luna progresada en Virgo transitando casa 11
+Luna progresada en Virgo transitando casa 12
+Luna progresada en Libra transitando casa 1
+Luna progresada en Libra transitando casa 2
+Luna progresada en Libra transitando casa 3
+Luna progresada en Libra transitando casa 4
+Luna progresada en Libra transitando casa 5
+Luna progresada en Libra transitando casa 6
+Luna progresada en Libra transitando casa 7
+Luna progresada en Libra transitando casa 8
+Luna progresada en Libra transitando casa 9
+Luna progresada en Libra transitando casa 10
+Luna progresada en Libra transitando casa 11
+Luna progresada en Libra transitando casa 12
+Luna progresada en Escorpio transitando casa 1
+Luna progresada en Escorpio transitando casa 2
+Luna progresada en Escorpio transitando casa 3
+Luna progresada en Escorpio transitando casa 4
+Luna progresada en Escorpio transitando casa 5
+Luna progresada en Escorpio transitando casa 6
+Luna progresada en Escorpio transitando casa 7
+Luna progresada en Escorpio transitando casa 8
+Luna progresada en Escorpio transitando casa 9
+Luna progresada en Escorpio transitando casa 10
+Luna progresada en Escorpio transitando casa 11
+Luna progresada en Escorpio transitando casa 12
+Luna progresada en Sagitario transitando casa 1
+Luna progresada en Sagitario transitando casa 2
+Luna progresada en Sagitario transitando casa 3
+Luna progresada en Sagitario transitando casa 4
+Luna progresada en Sagitario transitando casa 5
+Luna progresada en Sagitario transitando casa 6
+Luna progresada en Sagitario transitando casa 7
+Luna progresada en Sagitario transitando casa 8
+Luna progresada en Sagitario transitando casa 9
+Luna progresada en Sagitario transitando casa 10
+Luna progresada en Sagitario transitando casa 11
+Luna progresada en Sagitario transitando casa 12
+Luna progresada en Capricornio transitando casa 1
+Luna progresada en Capricornio transitando casa 2
+Luna progresada en Capricornio transitando casa 3
+Luna progresada en Capricornio transitando casa 4
+Luna progresada en Capricornio transitando casa 5
+Luna progresada en Capricornio transitando casa 6
+Luna progresada en Capricornio transitando casa 7
+Luna progresada en Capricornio transitando casa 8
+Luna progresada en Capricornio transitando casa 9
+Luna progresada en Capricornio transitando casa 10
+Luna progresada en Capricornio transitando casa 11
+Luna progresada en Capricornio transitando casa 12
+Luna progresada en Acuario transitando casa 1
+Luna progresada en Acuario transitando casa 2
+Luna progresada en Acuario transitando casa 3
+Luna progresada en Acuario transitando casa 4
+Luna progresada en Acuario transitando casa 5
+Luna progresada en Acuario transitando casa 6
+Luna progresada en Acuario transitando casa 7
+Luna progresada en Acuario transitando casa 8
+Luna progresada en Acuario transitando casa 9
+Luna progresada en Acuario transitando casa 10
+Luna progresada en Acuario transitando casa 11
+Luna progresada en Acuario transitando casa 12
+Luna progresada en Piscis transitando casa 1
+Luna progresada en Piscis transitando casa 2
+Luna progresada en Piscis transitando casa 3
+Luna progresada en Piscis transitando casa 4
+Luna progresada en Piscis transitando casa 5
+Luna progresada en Piscis transitando casa 6
+Luna progresada en Piscis transitando casa 7
+Luna progresada en Piscis transitando casa 8
+Luna progresada en Piscis transitando casa 9
+Luna progresada en Piscis transitando casa 10
+Luna progresada en Piscis transitando casa 11
+Luna progresada en Piscis transitando casa 12
+
+RESUMEN TOTAL DE TÍTULOS
+
+1. TRÁNSITOS PLANETARIOS: 297 títulos (9 planetas × 33 aspectos cada uno)
+2. LUNA PROGRESADA: 9 títulos (conjunciones)
+3. PROFECCIONES: 7 títulos (cambios de señor del año)
+4. FASES LUNARES: 240 títulos (120 luna nueva + 120 luna llena)
+5. ECLIPSES: 240 títulos (120 eclipse solar + 120 eclipse lunar)
+6. TRÁNSITOS POR CASAS: 204 títulos (60 planetas lentos + 144 luna progresada)
+
+TOTAL GENERAL: 997 títulos únicos de eventos personales
+
+NOTAS TÉCNICAS
+
+- Todos los aspectos de tránsitos son detectados solo cuando están EXACTOS o el planeta está ESTACIONARIO
+- Las fases lunares y eclipses incluyen aspectos con orbe de 4°
+- La luna progresada usa conjunciones con orbe de 2°
+- Los tránsitos por casas representan el estado actual de largo plazo
+- El microservicio filtra automáticamente eventos duplicados
+- Solo se incluyen aspectos mayores: conjunción, cuadratura, oposición
+- Los planetas transitantes excluyen la Luna (demasiado rápida para tránsitos significativos)
+- Las profecciones cambian anualmente en el cumpleaños del usuario
+
+FIN DEL ARCHIVO

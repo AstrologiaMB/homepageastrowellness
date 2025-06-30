@@ -32,6 +32,12 @@ case "$1" in
         echo ""
         echo "Puerto 8002 (FastAPI Interpretaciones):"
         lsof -i :8002
+        echo ""
+        echo "Puerto 8003 (FastAPI Astrogematría):"
+        lsof -i :8003
+        echo ""
+        echo "Puerto 8004 (FastAPI Calendario Personal):"
+        lsof -i :8004
         ;;
     "health")
         echo "🏥 Health checks de APIs..."
@@ -41,6 +47,10 @@ case "$1" in
         curl -s http://localhost:8001/health > /dev/null && echo "✅ OK" || echo "❌ FAIL"
         echo "FastAPI Interpretaciones:"
         curl -s http://localhost:8002/health > /dev/null && echo "✅ OK" || echo "❌ FAIL"
+        echo "FastAPI Astrogematría:"
+        curl -s http://localhost:8003/health > /dev/null && echo "✅ OK" || echo "❌ FAIL"
+        echo "FastAPI Calendario Personal:"
+        curl -s http://localhost:8004/health > /dev/null && echo "✅ OK" || echo "❌ FAIL"
         ;;
     "logs")
         echo "📋 Procesos activos del proyecto:"
@@ -51,8 +61,12 @@ case "$1" in
         echo "Frontend: http://localhost:3000"
         echo "Login: http://localhost:3000/login"
         echo "Cartas: http://localhost:3000/cartas/tropica"
+        echo "Astrogematría: http://localhost:3000/astrogematria/calculos"
+        echo "Calendario Personal: http://localhost:3000/calendario/personal"
         echo "API Docs Carta Natal: http://localhost:8001/docs"
         echo "API Docs Interpretaciones: http://localhost:8002/docs"
+        echo "API Docs Astrogematría: http://localhost:8003/docs"
+        echo "API Docs Calendario Personal: http://localhost:8004/docs"
         ;;
     "test")
         echo "🧪 Test rápido de carta natal..."

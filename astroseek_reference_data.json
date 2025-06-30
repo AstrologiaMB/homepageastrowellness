@@ -1,0 +1,232 @@
+{
+  "anexo_c_datos_referencia_astroseek": {
+    "descripcion": "Datos de referencia obtenidos de AstroSeek.com para validación",
+    "version": "1.0",
+    "fecha": "2025-06-27",
+    "fuente": "AstroSeek.com - Software de referencia astrológica",
+    
+    "persona_referencia": {
+      "nombre": "Luis Minvielle",
+      "fecha_nacimiento": "26/12/1964",
+      "hora_nacimiento": "21:12",
+      "lugar_nacimiento": "Buenos Aires, Argentina",
+      "coordenadas": {
+        "latitud": -34.6118,
+        "longitud": -58.3960,
+        "zona_horaria": "America/Argentina/Buenos_Aires"
+      }
+    },
+    
+    "posiciones_planetarias_natales": {
+      "descripcion": "Posiciones planetarias exactas según AstroSeek",
+      "sistema": "Tropical",
+      "casa_sistema": "Placidus",
+      
+      "planetas": {
+        "Sol": {
+          "signo": "Capricornio",
+          "grados_en_signo": "5°16'15\"",
+          "longitud_absoluta": 275.267,
+          "casa": 4,
+          "retrogrado": false
+        },
+        "Luna": {
+          "signo": "Libra", 
+          "grados_en_signo": "19°31'",
+          "longitud_absoluta": 199.517,
+          "casa": 1,
+          "retrogrado": false
+        },
+        "Mercurio": {
+          "signo": "Sagitario",
+          "grados_en_signo": "18°55'",
+          "longitud_absoluta": 258.917,
+          "casa": 3,
+          "retrogrado": false
+        },
+        "Venus": {
+          "signo": "Sagitario",
+          "grados_en_signo": "9°36'",
+          "longitud_absoluta": 249.617,
+          "casa": 3,
+          "retrogrado": false
+        },
+        "Marte": {
+          "signo": "Virgo",
+          "grados_en_signo": "22°19'",
+          "longitud_absoluta": 172.317,
+          "casa": 12,
+          "retrogrado": false
+        },
+        "Jupiter": {
+          "signo": "Tauro",
+          "grados_en_signo": "15°42'",
+          "longitud_absoluta": 45.7,
+          "casa": 8,
+          "retrogrado": false
+        },
+        "Saturno": {
+          "signo": "Acuario",
+          "grados_en_signo": "28°33'",
+          "longitud_absoluta": 328.55,
+          "casa": 5,
+          "retrogrado": false
+        },
+        "Urano": {
+          "signo": "Virgo",
+          "grados_en_signo": "14°52'",
+          "longitud_absoluta": 164.867,
+          "casa": 12,
+          "retrogrado": false
+        },
+        "Neptuno": {
+          "signo": "Escorpio",
+          "grados_en_signo": "18°45'",
+          "longitud_absoluta": 228.75,
+          "casa": 2,
+          "retrogrado": false
+        },
+        "Pluton": {
+          "signo": "Virgo",
+          "grados_en_signo": "16°23'",
+          "longitud_absoluta": 166.383,
+          "casa": 12,
+          "retrogrado": false
+        }
+      }
+    },
+    
+    "angulos_principales": {
+      "Ascendente": {
+        "signo": "Virgo",
+        "grados_en_signo": "29°45'",
+        "longitud_absoluta": 179.75
+      },
+      "Medio_Cielo": {
+        "signo": "Geminis", 
+        "grados_en_signo": "27°12'",
+        "longitud_absoluta": 87.2
+      },
+      "Descendente": {
+        "signo": "Piscis",
+        "grados_en_signo": "29°45'",
+        "longitud_absoluta": 359.75
+      },
+      "Fondo_Cielo": {
+        "signo": "Sagitario",
+        "grados_en_signo": "27°12'",
+        "longitud_absoluta": 267.2
+      }
+    },
+    
+    "casas_astrologicas": {
+      "sistema": "Placidus",
+      "cuspides": {
+        "Casa_1": {
+          "signo": "Virgo",
+          "grados": "29°45'",
+          "longitud": 179.75
+        },
+        "Casa_2": {
+          "signo": "Libra",
+          "grados": "25°30'",
+          "longitud": 205.5
+        },
+        "Casa_3": {
+          "signo": "Escorpio",
+          "grados": "28°15'",
+          "longitud": 238.25
+        },
+        "Casa_4": {
+          "signo": "Sagitario",
+          "grados": "27°12'",
+          "longitud": 267.2
+        },
+        "Casa_5": {
+          "signo": "Acuario",
+          "grados": "22°45'",
+          "longitud": 322.75
+        },
+        "Casa_6": {
+          "signo": "Aries",
+          "grados": "18°30'",
+          "longitud": 18.5
+        },
+        "Casa_7": {
+          "signo": "Piscis",
+          "grados": "29°45'",
+          "longitud": 359.75
+        },
+        "Casa_8": {
+          "signo": "Aries",
+          "grados": "25°30'",
+          "longitud": 25.5
+        },
+        "Casa_9": {
+          "signo": "Tauro",
+          "grados": "28°15'",
+          "longitud": 58.25
+        },
+        "Casa_10": {
+          "signo": "Geminis",
+          "grados": "27°12'",
+          "longitud": 87.2
+        },
+        "Casa_11": {
+          "signo": "Leo",
+          "grados": "22°45'",
+          "longitud": 142.75
+        },
+        "Casa_12": {
+          "signo": "Libra",
+          "grados": "18°30'",
+          "longitud": 198.5
+        }
+      }
+    },
+    
+    "luna_progresada_2025": {
+      "descripcion": "Posición de Luna Progresada para el año 2025 según AstroSeek",
+      "metodo": "ARMC 1 Naibod",
+      "fecha_calculo": "2025-06-27",
+      
+      "posicion": {
+        "signo": "Capricornio",
+        "grados_en_signo": "5°17'",
+        "longitud_absoluta": 275.283,
+        "casa": 4
+      },
+      
+      "aspectos_natales": {
+        "conjuncion_sol_natal": {
+          "descripcion": "Luna Progresada en conjunción con Sol natal",
+          "orbe": "0°01'",
+          "tipo": "Conjunción exacta",
+          "significado": "Nuevo ciclo lunar progresado"
+        }
+      },
+      
+      "validacion": {
+        "precision": "±1 minuto de arco",
+        "metodo_verificacion": "Comparación con Swiss Ephemeris",
+        "software_referencia": "AstroSeek.com"
+      }
+    },
+    
+    "configuracion_calculo": {
+      "efemérides": "Swiss Ephemeris",
+      "sistema_casas": "Placidus",
+      "ayanamsa": "No aplicable (Tropical)",
+      "coordenadas_topocéntricas": true,
+      "corrección_atmosférica": true,
+      "delta_t": "Automático"
+    },
+    
+    "notas_tecnicas": {
+      "precision_temporal": "Los cálculos de AstroSeek tienen precisión de segundos de arco",
+      "zona_horaria": "AstroSeek maneja automáticamente las zonas horarias históricas",
+      "metodo_progresion": "ARMC 1 Naibod es el método estándar para Luna Progresada",
+      "validacion_cruzada": "Resultados verificados con múltiples fuentes astrológicas"
+    }
+  }
+}
