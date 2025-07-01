@@ -1,122 +1,35 @@
-# Active Context
+**Current Work:**
+Continuing to resolve the discrepancy in the Progressed Moon's degree displayed in the Astrowellness application. The backend was previously corrected for an `AttributeError` related to `immanuel` library compatibility. Unit tests confirmed the Progressed Moon calculation is accurate (~5.3° Capricorn), but the frontend still shows "13° Capricorn".
 
-## Current Work
+Investigation revealed that the API response from `http://localhost:8004/calculate-personal-calendar-dynamic` is sending `13` in the `grado` field of the `luna_progresada` object within the `Tránsito Casa Estado` event. This indicates the issue is in how the precise calculated value is formatted in the final API response.
 
-Estamos trabajando en la integración de la aplicación Next.js (sidebar-fastapi) con microservicios Python especializados mediante APIs FastAPI. El proyecto Astrowellness utiliza una arquitectura de microservicios donde sidebar-fastapi actúa como frontend y API gateway, mientras que diferentes programas Python (como calculo-carta-natal-api) proporcionan servicios especializados de cálculo astrológico.
+**Key Technical Concepts:**
+*   `immanuel` library: Python library for astrological calculations.
+*   FastAPI: Python framework for the backend microservice.
+*   Next.js / React: Frontend frameworks.
+*   Frontend/Backend Communication: REST API consumption.
+*   Progressed Moon Calculation: Specific astrological logic.
+*   JSON Response Format: Data structure expected by the frontend.
 
-**Arquitectura del Proyecto:**
-```
-Astrowellness (Proyecto Principal)
-├── sidebar-fastapi/ (Frontend Next.js + API Gateway)
-└── calculo-carta-natal-api/ (Microservicio Python #1)
-    └── [futuros microservicios Python...]
-```
+**Relevant Files and Code:**
+*   `natal_chart_corrected.py`: Corrected natal chart calculation logic.
+*   `../astro-calendar-personal-fastapi/src/calculators/natal_chart.py`: Main backend file for natal chart.
+*   `../astro-calendar-personal-fastapi/src/calculators/progressed_moon_transits.py`: Calculates progressed moon conjunctions.
+*   `../astro-calendar-personal-fastapi/src/calculators/astronomical_transits_calculator_v4.py`: **Identified as the source of the issue.** This file's `calculate_house_transits_state` method is incorrectly truncating the `moon_degree` to an integer.
+*   `../astro-calendar-personal-fastapi/app.py`: Main FastAPI application, orchestrates calculator calls.
+*   `validate_progressed_moon.sh`: Validation script.
 
-**Estado Actual de la Integración:**
-- ✅ Programa Python completamente funcional en calculo-carta-natal-api
-- ✅ Formato de datos compatible confirmado
-- ❌ FastAPI wrapper pendiente de implementación
-- ❌ Endpoints de integración en Next.js pendientes
+**Problem Solving:**
+*   **Initial Problem:** `AttributeError: 'Natal' object has no attribute 'to_dict'` in backend.
+*   **Solution Applied:** Reverted to backup and implemented `natal_chart_corrected.py` for `immanuel` compatibility.
+*   **Current Problem State:** Progressed Moon calculation is accurate in backend (~5.3° Capricorn), but API returns `13°` in the `grado` field of the `luna_progresada` object within `house_transits` for `Tránsito Casa Estado` events. This causes incorrect display in the frontend.
 
-## Recent Changes
+**Pending Tasks and Next Steps:**
+✅ **COMPLETED:** Modified `../astro-calendar-personal-fastapi/src/calculators/astronomical_transits_calculator_v4.py` to round `moon_degree` to one decimal place instead of truncating it to an integer.
+    *   **Change Applied:** Changed `moon_degree = int(progressed_moon_pos % 30)` to `moon_degree = round(progressed_moon_pos % 30, 1)`.
+    *   **Backend Service:** Restarted successfully.
 
-### **Descubrimiento del Programa Python Existente**
-*   **Programa Python Funcional:** Confirmado que `calculo-carta-natal-api/main.py` está completamente implementado con:
-    - Cálculo de cartas natales tropicales y dracónicas usando biblioteca `immanuel`
-    - Geocodificación automática con `geopy` y `timezonefinder`
-    - Función `generar_json_reducido()` que convierte datos al formato AstroChart
-    - Generación de archivos JSON compatibles con el frontend
-*   **Entorno Python Configurado:** Virtual environment activo con todas las dependencias instaladas
-*   **Archivos de Ejemplo Generados:** Disponibles archivos JSON de prueba en formato compatible
-
-### **Frontend Next.js (Completamente Funcional)**
-*   **Versiones Actualizadas:** Next.js 15.2.4 + React 19 + NextAuth 4.24.11
-*   **Sistema de Autenticación Robusto:** Middleware centralizado, callbacks JWT/session, protección de rutas
-*   **Layout y Navegación:** Sidebar responsive, breadcrumbs dinámicos, navegación sin errores de claves duplicadas
-*   **Calendario General Implementado:** Visualización de eventos astrológicos con scroll horizontal, conversión de zonas horarias
-*   **Carta Natal Trópica Funcional:** Renderizada con @astrodraw/astrochart usando datos estáticos
-*   **Formulario de Datos Personales:** Con precarga, validación y manejo de hora de nacimiento
-*   **Base de Datos Prisma:** Schema actualizado con modelos User y RectificationEvent
-
-### **Componentes UI Implementados**
-*   **CartaNatalWrapper:** Carga dinámica con SSR disabled para compatibilidad con AstroChart
-*   **EventoAstrologico:** Tarjetas optimizadas para mostrar eventos astrológicos
-*   **CalendarioGeneral:** Navegación por semanas, selección de fechas, eventos filtrados por día
-*   **Formularios:** Completar datos con precarga y validación robusta
-
-## Next Steps - Integración FastAPI
-
-### **Fase 1: Implementar FastAPI en calculo-carta-natal-api**
-1. **Crear FastAPI wrapper** alrededor del código Python existente
-2. **Implementar endpoints HTTP:**
-   - `POST /carta-natal/tropical` - Calcular carta natal trópica
-   - `POST /carta-natal/draconica` - Calcular carta dracónica
-   - `GET /health` - Health check
-3. **Configurar CORS** para permitir requests desde sidebar-fastapi
-4. **Implementar manejo de errores** y logging
-5. **Testing de endpoints** con herramientas como curl/Postman
-
-### **Fase 2: Crear API Gateway en sidebar-fastapi**
-1. **Implementar endpoint Next.js:** `app/api/cartas/tropical/route.ts`
-2. **Integrar con sistema de caché** usando Prisma
-3. **Implementar verificación de autenticación** y datos de usuario
-4. **Manejo de errores** con fallback a datos locales
-
-### **Fase 3: Actualizar Frontend**
-1. **Modificar componentes** para usar datos dinámicos en lugar de estáticos
-2. **Implementar loading states** y error handling
-3. **Testing end-to-end** de la integración completa
-
-### **Fase 4: Optimización**
-1. **Sistema de caché avanzado** con limpieza programada
-2. **Monitoreo y logging** de performance
-3. **Documentación de APIs** con OpenAPI/Swagger
-
-## Decisiones Activas
-
-- **Arquitectura de Microservicios:** sidebar-fastapi como API gateway, microservicios Python especializados
-- **Reutilización de Código:** Aprovechar el programa Python existente sin modificaciones mayores
-- **FastAPI como Wrapper:** Crear capa HTTP alrededor de la lógica existente
-- **Compatibilidad de Formatos:** Formato `carta_astrochart_*.json` ya compatible con AstroChart
-- **Sistema de Caché:** Implementar en sidebar-fastapi usando Prisma para optimizar performance
-- **Manejo de Errores:** Fallback a datos locales en caso de error en microservicios
-
-## Últimas Implementaciones Completadas
-
-### ✅ **Solución Casa en Subtítulos** - COMPLETADO (9 Enero 2025)
-**Problema resuelto:** Los subtítulos de interpretaciones individuales no mostraban información de casa astrológica.
-
-**Causa identificada:** Datos separados en dos registros en `InterpretacionCache`:
-- "PlanetaEnSigno": tenía planeta, signo, grados pero `casa: null`
-- "PlanetaEnCasa": tenía planeta, casa pero `signo: null`, `grados: null`
-
-**Solución implementada:**
-- Función `combinarInformacionCasa()` en `app/api/interpretaciones/route.ts`
-- Combina información de ambos registros automáticamente
-- Aplica tanto a datos desde cache como interpretaciones nuevas
-
-**Resultado:**
-- ANTES: "Sol en Capricornio 5° 17'"
-- AHORA: "Sol en Capricornio 5° 17' • Casa 6"
-
-**Documentación:** `CASA_SUBTITULO_DOCUMENTATION.md`
-
-### ✅ **Simplificación de Símbolos Astrológicos** - COMPLETADO
-**Problema resuelto:** Conversión problemática de símbolos astrológicos en subtítulos.
-
-**Solución implementada:**
-- Eliminación completa de conversiones automáticas
-- Texto simple y limpio en `components/interpretaciones-individuales.tsx`
-- Removido `replaceAstroWords()` y `font-astronomicon`
-
-**Resultado:** Subtítulos legibles sin símbolos problemáticos.
-
-## Aprendizajes del Proyecto
-
-- El programa Python en calculo-carta-natal-api está más avanzado de lo documentado inicialmente
-- La función `generar_json_reducido()` ya resuelve la compatibilidad de formatos
-- La arquitectura de microservicios permite escalabilidad y mantenimiento independiente
-- El frontend Next.js está completamente funcional y listo para la integración
-- La integración será más directa de lo anticipado debido al código Python existente
-- **Los datos de casa astrológica estaban disponibles en Prisma pero separados en registros diferentes**
-- **La combinación de datos en el API es más eficiente que modificar la estructura de base de datos**
+**Current Status:**
+*   **Birth Time Correction:** User provided correct birth time: 21:12 (not 12:00 as used in initial tests).
+*   **Next Step:** Test API with correct birth time (21:12) to verify the Luna Progresada shows correct position (~5.3° Capricornio).
+*   **Final Verification:** Confirm frontend displays the corrected degree value.
