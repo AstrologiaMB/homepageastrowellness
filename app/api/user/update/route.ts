@@ -17,18 +17,18 @@ export async function POST(req: Request) {
     
     // Actualizar usuario sin geocodificación
     try {
-      // Construir un objeto DateTime completo para birthDate
+      // Construir fecha UTC solo con componentes de fecha (sin hora)
       let birthDateFormatted = null;
       if (data.birthDate) {
         const dateStr = data.birthDate as string;
-        const hour = data.knowsBirthTime && data.birthHour !== null ? Number(data.birthHour) : 0;
-        const minute = data.knowsBirthTime && data.birthMinute !== null ? Number(data.birthMinute) : 0;
-        
-        // Crear fecha manteniendo la zona horaria local (sin conversión UTC)
         const [year, month, day] = dateStr.split('-').map(Number);
-        birthDateFormatted = new Date(year, month - 1, day, hour, minute, 0, 0);
-        console.log("Fecha original:", dateStr, "Hora:", hour, "Minuto:", minute);
-        console.log("Fecha formateada (local):", birthDateFormatted.toISOString());
+        
+        // Crear fecha UTC solo con componentes de fecha, siempre a 00:00:00 UTC
+        // La hora y minutos se almacenan por separado en birthHour y birthMinute
+        birthDateFormatted = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+        console.log("Fecha original:", dateStr);
+        console.log("Fecha formateada (UTC solo fecha):", birthDateFormatted.toISOString());
+        console.log("Hora y minutos por separado:", data.birthHour, data.birthMinute);
       }
 
       const updatedUser = await prisma.user.update({
