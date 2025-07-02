@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Preparar datos para FastAPI - usar fecha local sin conversión UTC
-    const fechaNacimiento = `${user.birthDate.getFullYear()}-${(user.birthDate.getMonth() + 1).toString().padStart(2, '0')}-${user.birthDate.getDate().toString().padStart(2, '0')}`;
+    // Preparar datos para FastAPI - usar métodos UTC para fecha correcta
+    const fechaNacimiento = `${user.birthDate.getUTCFullYear()}-${(user.birthDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${user.birthDate.getUTCDate().toString().padStart(2, '0')}`;
     const horaNacimiento = user.knowsBirthTime && user.birthHour !== null
       ? `${user.birthHour.toString().padStart(2, '0')}:${user.birthMinute?.toString().padStart(2, '0') || '00'}`
       : '12:00';

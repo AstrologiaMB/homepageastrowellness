@@ -31,14 +31,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
     }
 
-    // Formatear la fecha para el input type="date" (sin conversión de timezone)
+    // Formatear la fecha para el input type="date" (usando métodos UTC)
     let formattedBirthDate = null;
     if (user.birthDate) {
       const date = new Date(user.birthDate);
-      // Usar getFullYear, getMonth, getDate para evitar conversión de timezone
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
+      // Usar métodos UTC para evitar conversión de timezone
+      const year = date.getUTCFullYear();
+      const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+      const day = date.getUTCDate().toString().padStart(2, '0');
       formattedBirthDate = `${year}-${month}-${day}`; // Formato YYYY-MM-DD
     }
 
