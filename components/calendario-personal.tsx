@@ -393,11 +393,21 @@ export function CalendarioPersonal() {
       {/* Week Display */}
       <div className="flex flex-col gap-4">
         {weekDays.map((day) => {
-          // Filtrar eventos para este día (excluyendo eventos especiales)
-          const eventosNormales = eventos.filter(evento => 
-            evento.tipo_evento !== "Tránsito Casa Estado"
-          );
-          const eventosDelDia = eventosNormales.filter(evento => {
+          // Filtrar eventos para este día
+          const eventosDelDia = eventos.filter(evento => {
+            // Excluir eventos especiales que van en la tarjeta superior
+            if (evento.tipo_evento === "Tránsito Casa Estado") {
+              return false;
+            }
+            
+            // Incluir eventos de Luna Progresada que son conjunciones específicas
+            if (evento.tipo_evento === "Luna Progresada" && 
+                evento.descripcion && evento.descripcion.includes("Conjunción")) {
+              const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
+              return isSameDay(fechaEvento, day);
+            }
+            
+            // Incluir todos los demás eventos normales
             const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
             return isSameDay(fechaEvento, day);
           });

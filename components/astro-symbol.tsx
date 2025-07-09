@@ -63,7 +63,7 @@ const angleMap: Record<string, string> = {
 const lunarMap: Record<string, string> = {
   "NNode": "g", // Nodo Norte
   "SNode": "i", // Nodo Sur
-  "Lilith": ">" // Luna Negra
+  "Lilith": "z" // Luna Negra (Lilith)
 };
 
 // Mapeo de asteroides principales a sus símbolos en la fuente Astronomicon

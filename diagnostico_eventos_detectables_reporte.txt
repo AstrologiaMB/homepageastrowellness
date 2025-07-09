@@ -1,0 +1,464 @@
+================================================================================
+DIAGNÓSTICO: EVENTOS DETECTABLES POR INTERPRETADOR RAG
+================================================================================
+Fecha: Tue Jul  8 19:41:54 -03 2025
+Total de títulos objetivo cargados: 427
+
+📊 ESTADÍSTICAS POR CATEGORÍA
+----------------------------------------
+Planetas en Signos: 122 títulos
+Planetas en Casas: 126 títulos
+Aspectos: 135 títulos
+Otros: 38 títulos
+Planetas Retrógrados: 6 títulos
+
+🔍 BÚSQUEDA DE PATRONES ESPECÍFICOS
+----------------------------------------
+sol_conjuncion_lilith_con_a: ❌ NO ENCONTRADO
+sol_conjuncion_lilith_sin_a: ❌ NO ENCONTRADO
+marte_conjuncion_pluton: ❌ NO ENCONTRADO
+marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
+
+🌙 TÍTULOS RELACIONADOS CON LILITH
+----------------------------------------
+  ❌ No se encontraron títulos de Lilith
+
+📋 LISTA COMPLETA DE TÍTULOS POR CATEGORÍA
+--------------------------------------------------
+
+### PLANETAS EN SIGNOS (122 títulos)
+  • ascendente en acuario
+  • ascendente en aries
+  • ascendente en capricornio
+  • ascendente en cáncer
+  • ascendente en escorpio
+  • ascendente en géminis
+  • ascendente en leo
+  • ascendente en libra
+  • ascendente en piscis
+  • ascendente en sagitario
+  • ascendente en tauro
+  • ascendente en tauro y marte está en conjunción al sol o la luna.
+  • ascendente en virgo
+  • el sol focal en el yod
+  • ingreso proluna en acuario natal (yyyy),
+  • ingreso proluna en aries natal en (yyyy),
+  • ingreso proluna en capricornio natal (yyyy),
+  • ingreso proluna en escorpio natal (yyyy),
+  • ingreso proluna en géminis natal (yyyy)
+  • ingreso proluna en leo natal (yyyy)
+  • ingreso proluna en libra natal (yyyy),
+  • ingreso proluna en piscis natal (yyyy),
+  • ingreso proluna en sagitario natal (yyyy)
+  • ingreso proluna en tauro natal (yyyy)
+  • ingreso proluna en virgo natal (yyyy)
+  • júpiter en el ascendente
+  • luna en acuario
+  • luna en aries
+  • luna en capricornio
+  • luna en cáncer
+  • luna en el ascendente
+  • luna en escorpio
+  • luna en géminis
+  • luna en leo
+  • luna en libra
+  • luna en piscis
+  • luna en sagitario
+  • luna en tauro
+  • luna en virgo
+  • luna progresada en acuario natal
+  • luna progresada en aries natal
+  • luna progresada en capricornio natal
+  • luna progresada en cáncer natal
+  • luna progresada en escorpio natal
+  • luna progresada en géminis natal
+  • luna progresada en leo natal
+  • luna progresada en libra natal
+  • luna progresada en piscis natal
+  • luna progresada en sagitario natal
+  • luna progresada en tauro natal
+  • luna progresada en virgo natal
+  • marte en acuario
+  • marte en aries
+  • marte en capricornio
+  • marte en cáncer
+  • marte en el ascendente
+  • marte en escorpio
+  • marte en géminis
+  • marte en leo
+  • marte en libra
+  • marte en piscis
+  • marte en sagitario
+  • marte en tauro
+  • marte en virgo
+  • mercurio en acuario
+  • mercurio en aries
+  • mercurio en capricornio
+  • mercurio en cáncer
+  • mercurio en el ascendente
+  • mercurio en escorpio
+  • mercurio en géminis
+  • mercurio en leo
+  • mercurio en libra
+  • mercurio en piscis
+  • mercurio en sagitario
+  • mercurio en tauro
+  • mercurio en virgo
+  • neptuno en el ascendente
+  • neptuno en tránsito por conjunción al ascendente (ángulo)
+  • neptuno en tránsito por conjunción o cuadratura u oposición a marte natal
+  • neptuno en tránsito por conjunción o cuadratura u oposición a mercurio natal
+  • neptuno en tránsito por conjunción o cuadratura u oposición a venus natal.
+  • nodo en acuario
+  • nodo en aries
+  • nodo en capricornio
+  • nodo en cáncer
+  • nodo en escorpio
+  • nodo en géminis
+  • nodo en leo
+  • nodo en libra
+  • nodo en piscis
+  • nodo en sagitario
+  • nodo en tauro
+  • nodo en virgo
+  • plutón en el ascendente
+  • saturno en el ascendente
+  • sol en acuario
+  • sol en aries
+  • sol en capricornio
+  • sol en cáncer
+  • sol en escorpio
+  • sol en géminis
+  • sol en leo
+  • sol en libra
+  • sol en piscis
+  • sol en sagitario
+  • sol en tauro
+  • sol en virgo
+  • urano en el ascendente
+  • venus en acuario
+  • venus en aries
+  • venus en capricornio
+  • venus en cáncer
+  • venus en el ascendente
+  • venus en escorpio
+  • venus en géminis
+  • venus en leo
+  • venus en libra
+  • venus en piscis
+  • venus en sagitario
+  • venus en tauro
+  • venus en virgo
+
+### PLANETAS EN CASAS (126 títulos)
+  • ascendente en tauro y marte está en casa 1, 4, 7 o 10\.
+  • el tránsito de plutón en casa 2 natal
+  • júpiter en casa 10
+  • júpiter en casa 11
+  • júpiter en casa 12
+  • júpiter en casa 2
+  • júpiter en casa 3
+  • júpiter en casa 4
+  • júpiter en casa 5
+  • júpiter en casa 6
+  • júpiter en casa 7
+  • júpiter en casa 8
+  • júpiter en casa 9
+  • luna en casa 1
+  • luna en casa 10
+  • luna en casa 11
+  • luna en casa 12
+  • luna en casa 2
+  • luna en casa 3
+  • luna en casa 4
+  • luna en casa 5
+  • luna en casa 6
+  • luna en casa 7
+  • luna en casa 8
+  • luna en casa 9
+  • luna progresada en casa 1 natal
+  • luna progresada en casa 10 natal
+  • luna progresada en casa 11 natal
+  • luna progresada en casa 12 natal
+  • luna progresada en casa 2 natal
+  • luna progresada en casa 3 natal
+  • luna progresada en casa 4 natal
+  • luna progresada en casa 5 natal
+  • luna progresada en casa 6 natal
+  • luna progresada en casa 7 natal
+  • luna progresada en casa 8 natal
+  • luna progresada en casa 9 natal
+  • marte en casa 10
+  • marte en casa 11
+  • marte en casa 12
+  • marte en casa 2
+  • marte en casa 3
+  • marte en casa 4
+  • marte en casa 5
+  • marte en casa 6
+  • marte en casa 7
+  • marte en casa 8
+  • marte en casa 9
+  • mercurio en casa 10
+  • mercurio en casa 11
+  • mercurio en casa 12
+  • mercurio en casa 2
+  • mercurio en casa 3
+  • mercurio en casa 4
+  • mercurio en casa 5
+  • mercurio en casa 6
+  • mercurio en casa 7
+  • mercurio en casa 8
+  • mercurio en casa 9
+  • neptuno en casa 10
+  • neptuno en casa 11
+  • neptuno en casa 12
+  • neptuno en casa 2
+  • neptuno en casa 3
+  • neptuno en casa 4
+  • neptuno en casa 5
+  • neptuno en casa 6
+  • neptuno en casa 7
+  • neptuno en casa 8
+  • neptuno en casa 9
+  • nodo en casa 1
+  • nodo en casa 10
+  • nodo en casa 11
+  • nodo en casa 12
+  • nodo en casa 2
+  • nodo en casa 3
+  • nodo en casa 4
+  • nodo en casa 5
+  • nodo en casa 6
+  • nodo en casa 7
+  • nodo en casa 8
+  • nodo en casa 9
+  • plutón en casa 10
+  • plutón en casa 11
+  • plutón en casa 2
+  • plutón en casa 3
+  • plutón en casa 4
+  • plutón en casa 5
+  • plutón en casa 6
+  • plutón en casa 7
+  • plutón en casa 8
+  • plutón en casa 9
+  • saturno en casa 10
+  • saturno en casa 11
+  • saturno en casa 12
+  • saturno en casa 2
+  • saturno en casa 3
+  • saturno en casa 4
+  • saturno en casa 5
+  • saturno en casa 6
+  • saturno en casa 7
+  • saturno en casa 8
+  • saturno en casa 9
+  • sol en casa 1
+  • sol en casa 10
+  • sol en casa 11
+  • sol en casa 12
+  • sol en casa 2
+  • sol en casa 3
+  • sol en casa 4
+  • sol en casa 5
+  • sol en casa 6
+  • sol en casa 7
+  • sol en casa 8
+  • sol en casa 9
+  • urano en casa 10
+  • urano en casa 11
+  • urano en casa 12
+  • urano en casa 2
+  • urano en casa 3
+  • urano en casa 4
+  • urano en casa 5
+  • urano en casa 6
+  • urano en casa 7
+  • urano en casa 8
+  • urano en casa 9
+
+### ASPECTOS (135 títulos)
+  • aspecto armónico de la proluna a venus natal
+  • aspecto inarmónico de la proluna a la luna natal
+  • aspecto inarmónico de la proluna a mercurio
+  • aspecto luna conjunción a júpiter
+  • aspecto luna conjunción a marte
+  • aspecto luna conjunción a mercurio
+  • aspecto luna conjunción a neptuno
+  • aspecto luna conjunción a plutón
+  • aspecto luna conjunción a urano
+  • aspecto luna conjunción a venus
+  • aspecto luna conjunción o cuadratura u oposición saturno
+  • aspecto luna cuadratura a júpiter
+  • aspecto luna cuadratura a marte
+  • aspecto luna cuadratura a mercurio
+  • aspecto luna cuadratura a neptuno
+  • aspecto luna cuadratura a plutón
+  • aspecto luna cuadratura a urano
+  • aspecto luna oposición a júpiter
+  • aspecto luna oposición a marte
+  • aspecto luna oposición a mercurio
+  • aspecto luna oposición a neptuno
+  • aspecto luna oposición a plutón
+  • aspecto luna oposición a urano
+  • aspecto luna sextil a júpiter
+  • aspecto luna sextil a marte
+  • aspecto luna sextil a mercurio
+  • aspecto luna sextil a saturno
+  • aspecto luna trígono a júpiter
+  • aspecto luna trígono a marte
+  • aspecto luna trígono a mercurio
+  • aspecto luna trígono a saturno
+  • aspecto marte conjunción a júpiter
+  • aspecto marte conjunción a neptuno
+  • aspecto marte conjunción a plutón
+  • aspecto marte conjunción a saturno
+  • aspecto marte conjunción a urano
+  • aspecto marte cuadratura a júpiter
+  • aspecto marte cuadratura a neptuno
+  • aspecto marte cuadratura a plutón
+  • aspecto marte cuadratura a saturno
+  • aspecto marte cuadratura a urano
+  • aspecto marte oposición a júpiter
+  • aspecto marte oposición a neptuno
+  • aspecto marte oposición a plutón
+  • aspecto marte oposición a saturno
+  • aspecto marte oposición a urano
+  • aspecto marte sextil a júpiter
+  • aspecto marte sextil a neptuno
+  • aspecto marte sextil a saturno
+  • aspecto marte sextil a urano
+  • aspecto marte trígono a júpiter
+  • aspecto marte trígono a neptuno
+  • aspecto marte trígono a saturno
+  • aspecto marte trígono a urano
+  • aspecto mercurio conjunción a júpiter
+  • aspecto mercurio conjunción a neptuno
+  • aspecto mercurio conjunción a plutón
+  • aspecto mercurio conjunción a saturno
+  • aspecto mercurio conjunción a urano
+  • aspecto mercurio conjunción a venus
+  • aspecto mercurio cuadratura a júpiter
+  • aspecto mercurio cuadratura a neptuno
+  • aspecto mercurio cuadratura a plutón
+  • aspecto mercurio cuadratura a saturno
+  • aspecto mercurio cuadratura a urano
+  • aspecto mercurio en conjunción o cuadratura u oposición marte
+  • aspecto mercurio oposición a júpiter
+  • aspecto mercurio oposición a neptuno
+  • aspecto mercurio oposición a plutón
+  • aspecto mercurio oposición a saturno
+  • aspecto mercurio oposición a urano
+  • aspecto mercurio sextil a júpiter
+  • aspecto mercurio sextil a marte
+  • aspecto mercurio sextil a neptuno
+  • aspecto mercurio sextil a saturno
+  • aspecto mercurio sextil a urano
+  • aspecto mercurio trígono a júpiter
+  • aspecto mercurio trígono a marte
+  • aspecto mercurio trígono a neptuno
+  • aspecto mercurio trígono a saturno
+  • aspecto mercurio trígono a urano
+  • aspecto plutón en tránsito al regente del ascendente natal
+  • aspecto proluna conjunción a la
+  • aspecto proluna conjunción a mercurio
+  • aspecto proluna trígono a la
+  • aspecto proluna trígono a mercurio
+  • aspecto sol conjunción a júpiter
+  • aspecto sol conjunción a marte
+  • aspecto sol conjunción a neptuno
+  • aspecto sol conjunción a plutón
+  • aspecto sol conjunción a saturno
+  • aspecto sol conjunción a urano
+  • aspecto sol conjunción a venus
+  • aspecto sol cuadratura a júpiter
+  • aspecto sol cuadratura a neptuno
+  • aspecto sol cuadratura a plutón
+  • aspecto sol cuadratura a saturno
+  • aspecto sol cuadratura a urano
+  • aspecto sol oposición a júpiter
+  • aspecto sol oposición a neptuno
+  • aspecto sol oposición a plutón
+  • aspecto sol oposición a saturno
+  • aspecto sol oposición a urano
+  • aspecto sol sextil a júpiter
+  • aspecto sol sextil a marte
+  • aspecto sol sextil a saturno
+  • aspecto sol sextil a urano
+  • aspecto sol sextil a venus
+  • aspecto sol trígono a júpiter
+  • aspecto sol trígono a marte
+  • aspecto sol trígono a saturno
+  • aspecto sol trígono a urano
+  • aspecto venus conjunción a júpiter
+  • aspecto venus conjunción a neptuno
+  • aspecto venus conjunción a plutón
+  • aspecto venus conjunción a saturno
+  • aspecto venus conjunción a urano
+  • aspecto venus cuadratura a júpiter
+  • aspecto venus cuadratura a marte
+  • aspecto venus cuadratura a neptuno
+  • aspecto venus cuadratura a plutón
+  • aspecto venus cuadratura a saturno
+  • aspecto venus cuadratura a urano
+  • aspecto venus oposición a júpiter
+  • aspecto venus oposición a marte
+  • aspecto venus oposición a neptuno
+  • aspecto venus oposición a plutón
+  • aspecto venus oposición a saturno
+  • aspecto venus oposición a urano
+  • aspecto venus sextil a júpiter
+  • aspecto venus sextil a marte
+  • aspecto venus sextil a saturno
+  • aspecto venus trígono a júpiter
+  • aspecto venus trígono a marte
+  • aspecto venus trígono a saturno
+
+### OTROS (38 títulos)
+  • el tránsito de plutón en la casa 10 natal
+  • neptuno en transito por la casa 10 natal
+  • neptuno en transito por la casa 12 natal
+  • neptuno en tránsito por la casa 11 natal
+  • neptuno en tránsito por la casa 2 natal
+  • neptuno en tránsito por la casa 3 natal
+  • neptuno en tránsito por la casa 4 natal
+  • neptuno en tránsito por la casa 5 natal
+  • neptuno en tránsito por la casa 6 natal
+  • neptuno en tránsito por la casa 7 natal
+  • neptuno en tránsito por la casa 8 natal
+  • neptuno en tránsito por la casa 9 natal
+  • plutón en la casa 12
+  • plutón en tránsito por casa 11 natal
+  • plutón en tránsito por casa 12 natal
+  • urano en tránsito por conjunción la casa 1 natal
+  • urano en tránsito por la casa cinco natal
+  • urano en tránsito por la casa cuatro natal
+  • urano en tránsito por la casa diez natal
+  • urano en tránsito por la casa doce natal
+  • urano en tránsito por la casa dos natal
+  • urano en tránsito por la casa nueve natal
+  • urano en tránsito por la casa ocho natal
+  • urano en tránsito por la casa once natal
+  • urano en tránsito por la casa seis natal
+  • urano en tránsito por la casa siete natal
+  • urano en tránsito por la casa tres natal
+  • venus en la casa 10
+  • venus en la casa 11
+  • venus en la casa 12
+  • venus en la casa 2
+  • venus en la casa 3
+  • venus en la casa 4
+  • venus en la casa 5
+  • venus en la casa 6
+  • venus en la casa 7
+  • venus en la casa 8
+  • venus en la casa 9
+
+### PLANETAS RETRÓGRADOS (6 títulos)
+  • júpiter retrógrado
+  • marte retrógrado
+  • mercurio retrógrado
+  • plutón retrógrado
+  • urano retrógrado
+  • venus retrógrado
