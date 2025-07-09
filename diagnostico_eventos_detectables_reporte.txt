@@ -1,16 +1,16 @@
 ================================================================================
 DIAGNÓSTICO: EVENTOS DETECTABLES POR INTERPRETADOR RAG
 ================================================================================
-Fecha: Wed Jul  9 11:53:18 -03 2025
+Fecha: Wed Jul  9 12:45:18 -03 2025
 Total de títulos objetivo cargados: 486
 
 📊 ESTADÍSTICAS POR CATEGORÍA
 ----------------------------------------
-Planetas en Signos: 153 títulos
+Planetas en Signos: 150 títulos
 Planetas en Casas: 132 títulos
 Aspectos: 160 títulos
 Otros: 38 títulos
-Planetas Retrógrados: 3 títulos
+Planetas Retrógrados: 6 títulos
 
 🔍 BÚSQUEDA DE PATRONES ESPECÍFICOS
 ----------------------------------------
@@ -29,7 +29,7 @@ marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
 📋 LISTA COMPLETA DE TÍTULOS POR CATEGORÍA
 --------------------------------------------------
 
-### PLANETAS EN SIGNOS (153 títulos)
+### PLANETAS EN SIGNOS (150 títulos)
   • ascendente en acuario
   • ascendente en aries
   • ascendente en capricornio
@@ -60,7 +60,6 @@ marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
   • ingreso proluna en virgo natal (yyyy)
   • júpiter en el ascendente
   • júpiter en las casas
-  • júpiter retrógrado (atención, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • la luna en los signos
   • la luna nueva progresada está en fase balsámica, o de semicuadratura menguante (315 grados).
   • la luna nueva progresada está en fase de luna llena u oposición (180 grados),
@@ -152,7 +151,6 @@ marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
   • nodo en virgo
   • planetas ubicados en el ascendente (casa 1\)
   • plutón en el ascendente
-  • plutón retrógrado (ojo, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • saturno en el ascendente
   • saturno retrogrado (ojo, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • sol en acuario
@@ -168,7 +166,6 @@ marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
   • sol en tauro
   • sol en virgo
   • urano en el ascendente
-  • urano retrógrado (ojo, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • venus en acuario
   • venus en aries
   • venus en capricornio
@@ -520,7 +517,10 @@ marte_conjuncion_pluton_con_a: ✅ ENCONTRADO
   • venus en la casa 8
   • venus en la casa 9
 
-### PLANETAS RETRÓGRADOS (3 títulos)
+### PLANETAS RETRÓGRADOS (6 títulos)
+  • júpiter retrógrado (atención, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • marte retrógrado
   • mercurio retrógrado
+  • plutón retrógrado (ojo, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
+  • urano retrógrado (ojo, al ser lento es posible que no retome el movimiento directo por progresiones en toda la vida del individuo)
   • venus retrógrado
