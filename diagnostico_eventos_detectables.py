@@ -34,7 +34,7 @@ def load_target_titles_from_file(filepath):
         with path_obj.open('r', encoding='utf-8') as f:
             for line_num, line in enumerate(f, 1):
                 line = line.strip()
-                match_header = re.match(r"^(?:### |#### )\s*\d+(?:\.\d+)*\s+(.*)", line)
+                match_header = re.match(r"^#{2,4}\s*\d+(?:\.\d+)*\s+(.*)", line)
                 match_retrograde = re.match(r"^## \d+\.\d+\s+([A-ZÁÉÍÓÚÜÑ]+\s+RETRÓGRADO)", line)
                 title_to_process = None
 
