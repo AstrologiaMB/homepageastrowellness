@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -15,7 +15,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { EventoAstrologico } from './evento-astrologico';
+import { EventoConInterpretacion } from './evento-con-interpretacion';
 import { useUserNatalData } from '@/hooks/use-user-natal-data';
 import { fetchPersonalCalendar, checkMicroserviceHealth } from '@/lib/personal-calendar-api';
 
@@ -41,6 +41,7 @@ export function CalendarioPersonal() {
   const [eventos, setEventos] = useState<EventoPersonal[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
   const [calculationError, setCalculationError] = useState<string | null>(null);
+  const hasFetched = useRef(false); // Bandera con useRef para evitar doble llamada
   const [calculationStats, setCalculationStats] = useState<{
     total_events: number;
     calculation_time: number;
@@ -68,13 +69,15 @@ export function CalendarioPersonal() {
   // Calcular eventos personales cuando los datos natales estén disponibles
   useEffect(() => {
     async function calculatePersonalEvents() {
-      if (!natalData || !hasCompleteData || microserviceStatus !== 'available') {
+      // Solo ejecutar si los datos están listos Y si la llamada no se ha hecho antes
+      if (!natalData || !hasCompleteData || microserviceStatus !== 'available' || hasFetched.current) {
         return;
       }
 
       try {
         setIsCalculating(true);
         setCalculationError(null);
+        hasFetched.current = true; // Marcar que la llamada se ha realizado
 
         const response = await fetchPersonalCalendar(natalData);
         
@@ -90,6 +93,7 @@ export function CalendarioPersonal() {
       } catch (error) {
         console.error('Error calculating personal events:', error);
         setCalculationError(error instanceof Error ? error.message : 'Error desconocido');
+        hasFetched.current = false; // Permitir reintentar si hay un error
       } finally {
         setIsCalculating(false);
       }
@@ -378,7 +382,7 @@ export function CalendarioPersonal() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {eventosEspeciales.map((evento, index) => (
-                  <EventoAstrologico 
+                  <EventoConInterpretacion 
                     key={`house-transit-${index}`} 
                     evento={evento} 
                   />
@@ -427,7 +431,7 @@ export function CalendarioPersonal() {
                 <ScrollArea className="w-full">
                   <div className="flex space-x-4 pb-2 overflow-x-auto">
                     {eventosDelDia.map((evento, index) => (
-                      <EventoAstrologico 
+                      <EventoConInterpretacion 
                         key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`} 
                         evento={evento} 
                       />
