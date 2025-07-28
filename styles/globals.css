@@ -2,21 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Astronomicon';
-  src: url('/fonts/Astronomicon.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.font-astronomicon {
-  font-family: 'Astronomicon', Arial, sans-serif;
-}
+/* Importar variables personalizadas */
+@import './custom-variables.css';
 
 @layer utilities {
   .text-balance {
@@ -26,6 +13,7 @@ body {
 
 @layer base {
   :root {
+    /* Variables CORE de shadcn/ui */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -60,7 +48,9 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  
   .dark {
+    /* Variables para modo oscuro */
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
