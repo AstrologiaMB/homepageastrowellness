@@ -17,6 +17,7 @@ import {
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { TeamSwitcher } from "./team-switcher"
+import { ThemeToggle } from "./theme-toggle"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar" // Removed SidebarTrigger import
 
 // This is sample data.
@@ -140,7 +141,10 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <div className="flex flex-col items-center gap-2">
+          <ThemeToggle />
+          <NavUser />
+        </div>
       </SidebarFooter>
       {/* Removed the conditionally rendered SidebarTrigger */}
       <SidebarRail />
