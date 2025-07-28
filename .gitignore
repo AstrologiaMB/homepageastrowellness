@@ -28,3 +28,65 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prisma
+/prisma/prisma/dev.db
+/prisma/prisma/dev.db-journal
+/prisma/migrations/
+
+# Logs
+*.log
+logs/
+
+# Development files
+debug_*.py
+test_*.py
+test_*.js
+*_test.py
+*_test.js
+
+# Backup files
+*.backup
+*.backup-*
+*.bak
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Python virtual environments (if any)
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Documentation backups
+*_DOCUMENTATION.md
+*_ANALYSIS.md
+*_REPORT.md
+*_GUIDE.md
+*_SUMMARY.md
+*_INVESTIGATION.md
+*_FIX.md
+
+# Test data
+test_cases.json
+astroseek_reference_data.json
+debug_natal_data_comparison.py
+natal_chart_*.py
+validate_*.sh
+test_*.sh
+
+# Diagnostic files
+diagnostico_*.py
+diagnostico_*.txt
+informe_*.txt
+TITULOS_EVENTOS_*.txt
+
+# Memory bank (development only)
+memory_bank/
