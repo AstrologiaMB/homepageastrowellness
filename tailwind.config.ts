@@ -12,6 +12,8 @@ const config: Config = {
   	extend: {
   		fontFamily: {
   			'astronomicon': ['Astronomicon', 'serif'],
+  			'inter': ['var(--font-inter)', 'Inter', 'sans-serif'],
+  			'sans': ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
   		},
   		colors: {
   			background: 'hsl(var(--background))',
