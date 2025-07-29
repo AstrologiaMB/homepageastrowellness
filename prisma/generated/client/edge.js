@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -167,6 +170,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -218,18 +226,17 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": false,
+  "activeProvider": "postgresql",
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://astrowellness@localhost:5432/astrowellness_dev_clean"
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                               String                @id @default(cuid())\n  email                            String                @unique\n  name                             String?\n  image                            String?\n  createdAt                        DateTime              @default(now())\n  updatedAt                        DateTime              @updatedAt\n  birthDate                        DateTime?\n  birthCity                        String?\n  birthCountry                     String?\n  birthHour                        Int?\n  birthMinute                      Int?\n  knowsBirthTime                   Boolean               @default(true)\n  gender                           String? // \"masculino\" o \"femenino\"\n  residenceCity                    String?\n  residenceCountry                 String?\n  timezone                         String?\n  rectificationRequested           Boolean               @default(false)\n  rectificationAcceptedUncertainty Boolean               @default(false)\n  rectificationStatus              String?\n  rectificationRequestDate         DateTime?\n  rectificationEvents              RectificationEvent[]\n  cartasNatales                    CartaNatal[]\n  interpretaciones                 InterpretacionCache[]\n}\n\nmodel RectificationEvent {\n  id          String   @id @default(cuid())\n  userId      String\n  eventType   String\n  description String\n  eventDate   DateTime\n  notes       String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel CartaNatal {\n  id              String   @id @default(cuid())\n  userId          String\n  tipo            String // \"tropical\" o \"draconica\"\n  dataCompleta    String // JSON con datos completos\n  dataReducida    String // JSON con datos reducidos para AstroChart\n  fechaNacimiento DateTime\n  lugarNacimiento String\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, tipo, fechaNacimiento, lugarNacimiento])\n}\n\nmodel InterpretacionCache {\n  id                           String   @id @default(cuid())\n  userId                       String\n  fechaNacimiento              DateTime\n  lugarNacimiento              String\n  gender                       String // \"masculino\" o \"femenino\"\n  tipo                         String // \"tropical\" o \"draconica\"\n  interpretacionNarrativa      String // JSON con interpretación narrativa\n  interpretacionesIndividuales String // JSON con array de interpretaciones individuales\n  tiempoGeneracion             Float // Tiempo que tomó generar en segundos\n  createdAt                    DateTime @default(now())\n  updatedAt                    DateTime @updatedAt\n  user                         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])\n}\n\nmodel AstrogematriaCache {\n  id                String   @id @default(cuid())\n  palabra           String   @unique\n  palabraProcesada  String\n  valorTotal        Int\n  reduccionZodiacal Int\n  signo             String\n  grados            Int\n  posicionCompleta  String\n  createdAt         DateTime @default(now())\n  updatedAt         DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "815a6176a07eef8c1020a07b6ee8228d5a12a197598251132747d063a204adf6",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                               String                @id @default(cuid())\n  email                            String                @unique\n  name                             String?\n  image                            String?\n  createdAt                        DateTime              @default(now())\n  updatedAt                        DateTime              @updatedAt\n  birthDate                        DateTime?\n  birthCity                        String?\n  birthCountry                     String?\n  birthHour                        Int?\n  birthMinute                      Int?\n  knowsBirthTime                   Boolean               @default(true)\n  gender                           String? // \"masculino\" o \"femenino\"\n  residenceCity                    String?\n  residenceCountry                 String?\n  timezone                         String?\n  rectificationRequested           Boolean               @default(false)\n  rectificationAcceptedUncertainty Boolean               @default(false)\n  rectificationStatus              String?\n  rectificationRequestDate         DateTime?\n  rectificationEvents              RectificationEvent[]\n  cartasNatales                    CartaNatal[]\n  interpretaciones                 InterpretacionCache[]\n}\n\nmodel RectificationEvent {\n  id          String   @id @default(cuid())\n  userId      String\n  eventType   String\n  description String\n  eventDate   DateTime\n  notes       String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel CartaNatal {\n  id              String   @id @default(cuid())\n  userId          String\n  tipo            String // \"tropical\" o \"draconica\"\n  dataCompleta    String // JSON con datos completos\n  dataReducida    String // JSON con datos reducidos para AstroChart\n  fechaNacimiento DateTime\n  lugarNacimiento String\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, tipo, fechaNacimiento, lugarNacimiento])\n}\n\nmodel InterpretacionCache {\n  id                           String   @id @default(cuid())\n  userId                       String\n  fechaNacimiento              DateTime\n  lugarNacimiento              String\n  gender                       String // \"masculino\" o \"femenino\"\n  tipo                         String // \"tropical\" o \"draconica\"\n  interpretacionNarrativa      String // JSON con interpretación narrativa\n  interpretacionesIndividuales String // JSON con array de interpretaciones individuales\n  tiempoGeneracion             Float // Tiempo que tomó generar en segundos\n  createdAt                    DateTime @default(now())\n  updatedAt                    DateTime @updatedAt\n  user                         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])\n}\n\nmodel AstrogematriaCache {\n  id                String   @id @default(cuid())\n  palabra           String   @unique\n  palabraProcesada  String\n  valorTotal        Int\n  reduccionZodiacal Int\n  signo             String\n  grados            Int\n  posicionCompleta  String\n  createdAt         DateTime @default(now())\n  updatedAt         DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "6cae83785cf5aa56c091603c8c6e7349e8137f5a00c682d6a828a6ce70b4f873",
   "copyEngine": true
 }
 config.dirname = '/'
