@@ -49,13 +49,23 @@ export default function AstrogematriaInterpretacionesPage() {
   // BABY STEP 5: Estado para tabs de métodos de selección
   const [metodoActivo, setMetodoActivo] = useState<'ubicacion' | 'directo'>('ubicacion');
 
-  // BABY STEP 1: Función de búsqueda inversa - remedio → signo + grado
+  /**
+   * FUNCIONALIDAD DUAL DE REMEDIOS HOMEOPÁTICOS
+   * 
+   * Sistema completo que permite dos métodos de selección:
+   * 1. Búsqueda por Ubicación: Signo → Grado → Remedio (cascading)
+   * 2. Búsqueda Directa: Remedio → Auto-ubicación (reverse lookup)
+   * 
+   * Total: 354 remedios homeopáticos únicos disponibles
+   */
+
+  // Función de búsqueda inversa - remedio → signo + grado
   const buscarUbicacionRemedio = (nombreRemedio: string): RemedioLocation | null => {
     if (!nombreRemedio || remediosData.length === 0) {
       return null;
     }
 
-    // Buscar el remedio en los datos (puede haber múltiples ubicaciones)
+    // Buscar el remedio en los datos (puede haber múltiples ubicaciones, toma la primera)
     const remedioEncontrado = remediosData.find(r => 
       r.remedio.toLowerCase() === nombreRemedio.toLowerCase()
     );
