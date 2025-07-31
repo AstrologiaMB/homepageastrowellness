@@ -157,6 +157,32 @@ export default function AstrogematriaInterpretacionesPage() {
     }
   }, [remediosData]);
 
+  // BABY STEP 3: Lógica de auto-selección - conectar selector directo con búsqueda inversa
+  useEffect(() => {
+    if (remedioDirectoSeleccionado && remediosData.length > 0) {
+      const ubicacion = buscarUbicacionRemedio(remedioDirectoSeleccionado);
+      
+      if (ubicacion) {
+        // Auto-completar signo y grado basado en la búsqueda inversa
+        setSigNoSeleccionado(ubicacion.signo);
+        setGradoSeleccionado(ubicacion.grado.toString());
+        
+        // Limpiar selección de remedio cascading para evitar conflictos
+        setRemedioSeleccionado('');
+        
+        console.log('🎯 Auto-selección activada:', {
+          remedio: remedioDirectoSeleccionado,
+          signo: ubicacion.signo,
+          grado: ubicacion.grado,
+          posicion: ubicacion.posicion_completa
+        });
+      }
+    } else if (!remedioDirectoSeleccionado) {
+      // Si se limpia la selección directa, no limpiar los cascading
+      // para permitir que el usuario use ambos métodos independientemente
+    }
+  }, [remedioDirectoSeleccionado, remediosData]);
+
   // Efecto para actualizar grados disponibles cuando cambia el signo
   useEffect(() => {
     if (signoSeleccionado && remediosData.length > 0) {
