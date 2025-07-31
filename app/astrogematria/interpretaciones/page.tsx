@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Heart, Star, Clock, User, ExternalLink } from "lucide-react";
+import { Loader2, Heart, Star, Clock, User, ExternalLink, MapPin, Search } from "lucide-react";
 import { CartaNatalAstrogematriaWrapper } from "@/components/carta-natal-astrogematria-wrapper";
 import { CartaNatalRemediosWrapper } from "@/components/carta-natal-remedios-wrapper";
 import Link from "next/link";
@@ -45,6 +45,9 @@ export default function AstrogematriaInterpretacionesPage() {
   // BABY STEP 2: Estados para selector directo de remedios
   const [remedioDirectoSeleccionado, setRemedioDirectoSeleccionado] = useState<string>('');
   const [remediosAlfabeticos, setRemediosAlfabeticos] = useState<string[]>([]);
+  
+  // BABY STEP 5: Estado para tabs de métodos de selección
+  const [metodoActivo, setMetodoActivo] = useState<'ubicacion' | 'directo'>('ubicacion');
 
   // BABY STEP 1: Función de búsqueda inversa - remedio → signo + grado
   const buscarUbicacionRemedio = (nombreRemedio: string): RemedioLocation | null => {
@@ -248,7 +251,7 @@ export default function AstrogematriaInterpretacionesPage() {
         </CardContent>
       </Card>
 
-      {/* Selector de Remedios */}
+      {/* BABY STEP 5: Selector de Remedios con Tabs Mejorados */}
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -256,7 +259,7 @@ export default function AstrogematriaInterpretacionesPage() {
             Selector de Remedios
           </CardTitle>
           <CardDescription>
-            Selecciona un signo, grado y remedio para visualizar en tu carta natal
+            Elige tu método preferido para encontrar remedios homeopáticos
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -267,104 +270,145 @@ export default function AstrogematriaInterpretacionesPage() {
               </AlertDescription>
             </Alert>
           )}
-          
-          <div className="space-y-4">
-            {/* Selector de Signo */}
-            <div>
-              <Label htmlFor="signo">Signo Zodiacal</Label>
-              {remediosLoading ? (
-                <div className="flex items-center justify-center p-4">
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  <span className="text-sm text-muted-foreground">Cargando signos...</span>
-                </div>
-              ) : (
-                <Select value={signoSeleccionado} onValueChange={setSigNoSeleccionado}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Selecciona un signo zodiacal" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {signosDisponibles.map((signo) => (
-                      <SelectItem key={signo} value={signo}>
-                        {signo}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
+
+          {/* Tabs de métodos de selección */}
+          <div className="mb-6">
+            <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+              <button
+                onClick={() => setMetodoActivo('ubicacion')}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  metodoActivo === 'ubicacion'
+                    ? 'bg-white text-green-700 shadow-sm border border-green-200'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                <MapPin className="h-4 w-4" />
+                Búsqueda por Ubicación
+              </button>
+              <button
+                onClick={() => setMetodoActivo('directo')}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  metodoActivo === 'directo'
+                    ? 'bg-white text-blue-700 shadow-sm border border-blue-200'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                <Search className="h-4 w-4" />
+                Búsqueda Directa
+              </button>
             </div>
+          </div>
 
-            {/* Selector de Grado */}
-            {signoSeleccionado && (
-              <div>
-                <Label htmlFor="grado">Grado</Label>
-                <Select value={gradoSeleccionado} onValueChange={setGradoSeleccionado}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Selecciona un grado" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {gradosDisponibles.map((grado) => (
-                      <SelectItem key={grado} value={grado.toString()}>
-                        {grado}°
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+          {/* Contenido de tabs */}
+          <div className="space-y-4">
+            {metodoActivo === 'ubicacion' && (
+              <div className="space-y-4">
+                <div className="text-center p-3 bg-green-50 rounded-lg border border-green-200">
+                  <MapPin className="h-6 w-6 mx-auto mb-2 text-green-600" />
+                  <p className="text-sm font-medium text-green-800">Búsqueda por Ubicación Zodiacal</p>
+                  <p className="text-xs text-green-600 mt-1">
+                    Navega: Signo → Grado → Remedio
+                  </p>
+                </div>
 
-            {/* Selector de Remedio */}
-            {signoSeleccionado && gradoSeleccionado && (
-              <div>
-                <Label htmlFor="remedio">Remedio Homeopático</Label>
-                <Select value={remedioSeleccionado} onValueChange={setRemedioSeleccionado}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Selecciona un remedio" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {remediosDisponibles.map((remedio, index) => (
-                      <SelectItem key={index} value={remedio.remedio}>
-                        {remedio.remedio}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+                {/* Selector de Signo */}
+                <div>
+                  <Label htmlFor="signo">Signo Zodiacal</Label>
+                  {remediosLoading ? (
+                    <div className="flex items-center justify-center p-4">
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      <span className="text-sm text-muted-foreground">Cargando signos...</span>
+                    </div>
+                  ) : (
+                    <Select value={signoSeleccionado} onValueChange={setSigNoSeleccionado}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Selecciona un signo zodiacal" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {signosDisponibles.map((signo) => (
+                          <SelectItem key={signo} value={signo}>
+                            {signo}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
 
-            {/* BABY STEP 2: Selector Directo de Remedios */}
-            <div className="border-t pt-4 mt-6">
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  🔍 Búsqueda Directa por Remedio
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Selecciona directamente un remedio y el sistema encontrará su ubicación automáticamente
-                </p>
-              </div>
-              
-              <div>
-                <Label htmlFor="remedio-directo">Buscar Remedio Homeopático</Label>
-                {remediosLoading ? (
-                  <div className="flex items-center justify-center p-4">
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    <span className="text-sm text-muted-foreground">Cargando remedios...</span>
+                {/* Selector de Grado */}
+                {signoSeleccionado && (
+                  <div>
+                    <Label htmlFor="grado">Grado</Label>
+                    <Select value={gradoSeleccionado} onValueChange={setGradoSeleccionado}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Selecciona un grado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {gradosDisponibles.map((grado) => (
+                          <SelectItem key={grado} value={grado.toString()}>
+                            {grado}°
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                ) : (
-                  <Select value={remedioDirectoSeleccionado} onValueChange={setRemedioDirectoSeleccionado}>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Busca y selecciona un remedio..." />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-60">
-                      {remediosAlfabeticos.map((remedio) => (
-                        <SelectItem key={remedio} value={remedio}>
-                          {remedio}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                )}
+
+                {/* Selector de Remedio */}
+                {signoSeleccionado && gradoSeleccionado && (
+                  <div>
+                    <Label htmlFor="remedio">Remedio Homeopático</Label>
+                    <Select value={remedioSeleccionado} onValueChange={setRemedioSeleccionado}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Selecciona un remedio" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {remediosDisponibles.map((remedio, index) => (
+                          <SelectItem key={index} value={remedio.remedio}>
+                            {remedio.remedio}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 )}
               </div>
-            </div>
+            )}
+
+            {metodoActivo === 'directo' && (
+              <div className="space-y-4">
+                <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <Search className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+                  <p className="text-sm font-medium text-blue-800">Búsqueda Directa por Remedio</p>
+                  <p className="text-xs text-blue-600 mt-1">
+                    Selecciona el remedio y encuentra su ubicación automáticamente
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="remedio-directo">Buscar Remedio Homeopático</Label>
+                  {remediosLoading ? (
+                    <div className="flex items-center justify-center p-4">
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      <span className="text-sm text-muted-foreground">Cargando remedios...</span>
+                    </div>
+                  ) : (
+                    <Select value={remedioDirectoSeleccionado} onValueChange={setRemedioDirectoSeleccionado}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Busca y selecciona un remedio..." />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-60">
+                        {remediosAlfabeticos.map((remedio) => (
+                          <SelectItem key={remedio} value={remedio}>
+                            {remedio}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Resumen de selección */}
             {signoSeleccionado && gradoSeleccionado && remedioSeleccionado && (
@@ -372,7 +416,7 @@ export default function AstrogematriaInterpretacionesPage() {
                 <Heart className="h-8 w-8 mx-auto mb-2 text-green-600" />
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-green-800">
-                    Remedio Seleccionado (Por Ubicación)
+                    ✅ Remedio Seleccionado (Por Ubicación)
                   </p>
                   <div className="flex items-center justify-center gap-2">
                     <Badge variant="outline" className="text-green-700 border-green-300">
@@ -398,7 +442,7 @@ export default function AstrogematriaInterpretacionesPage() {
                 <Heart className="h-8 w-8 mx-auto mb-2 text-blue-600" />
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-blue-800">
-                    Remedio Seleccionado (Búsqueda Directa)
+                    ✅ Remedio Seleccionado (Búsqueda Directa)
                   </p>
                   <p className="text-lg font-bold text-blue-800">
                     {remedioDirectoSeleccionado}
