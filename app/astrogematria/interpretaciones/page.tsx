@@ -466,39 +466,70 @@ export default function AstrogematriaInterpretacionesPage() {
 
         {cartaNatal && !cartaNatalLoading && !cartaNatalError && (
           <>
-            {/* Mostrar carta con remedio si hay uno seleccionado */}
-            {signoSeleccionado && gradoSeleccionado && remedioSeleccionado ? (
-              <div key={`remedio-chart-${signoSeleccionado}-${gradoSeleccionado}-${remedioSeleccionado}-${Date.now()}`}>
-                <CartaNatalRemediosWrapper 
-                  chartData={cartaNatal}
-                  remedioData={{
-                    remedio: remedioSeleccionado,
-                    grado: parseInt(gradoSeleccionado),
-                    signo: signoSeleccionado,
-                    posicion_completa: `${gradoSeleccionado}° de ${signoSeleccionado}`
-                  }}
-                />
-              </div>
-            ) : (
-              /* Mostrar carta básica sin remedios */
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-green-600" />
-                    Tu Carta Natal
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center text-muted-foreground p-8">
-                    <Star className="h-12 w-12 mx-auto mb-4 text-green-600" />
-                    <p>Carta natal cargada correctamente.</p>
-                    <p className="text-sm mt-2">
-                      Selecciona un remedio homeopático arriba para verlo marcado en tu carta.
-                    </p>
+            {/* BABY STEP 4: Mostrar carta con remedio - integrar ambos métodos de selección */}
+            {(() => {
+              // Determinar qué remedio mostrar: cascading o directo
+              let remedioParaMostrar = null;
+              let metodoSeleccion = '';
+              
+              if (signoSeleccionado && gradoSeleccionado && remedioSeleccionado) {
+                // Método cascading (Signo → Grado → Remedio)
+                remedioParaMostrar = {
+                  remedio: remedioSeleccionado,
+                  grado: parseInt(gradoSeleccionado),
+                  signo: signoSeleccionado,
+                  posicion_completa: `${gradoSeleccionado}° de ${signoSeleccionado}`
+                };
+                metodoSeleccion = 'cascading';
+              } else if (remedioDirectoSeleccionado) {
+                // Método directo (Remedio → Auto-ubicación)
+                const ubicacion = buscarUbicacionRemedio(remedioDirectoSeleccionado);
+                if (ubicacion) {
+                  remedioParaMostrar = {
+                    remedio: remedioDirectoSeleccionado,
+                    grado: ubicacion.grado,
+                    signo: ubicacion.signo,
+                    posicion_completa: ubicacion.posicion_completa
+                  };
+                  metodoSeleccion = 'directo';
+                }
+              }
+              
+              if (remedioParaMostrar) {
+                return (
+                  <div key={`remedio-chart-${metodoSeleccion}-${remedioParaMostrar.remedio}-${Date.now()}`}>
+                    <CartaNatalRemediosWrapper 
+                      chartData={cartaNatal}
+                      remedioData={remedioParaMostrar}
+                    />
                   </div>
-                </CardContent>
-              </Card>
-            )}
+                );
+              } else {
+                return (
+                  /* Mostrar carta básica sin remedios */
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Star className="h-5 w-5 text-green-600" />
+                        Tu Carta Natal
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-center text-muted-foreground p-8">
+                        <Star className="h-12 w-12 mx-auto mb-4 text-green-600" />
+                        <p>Carta natal cargada correctamente.</p>
+                        <p className="text-sm mt-2">
+                          Selecciona un remedio homeopático arriba para verlo marcado en tu carta.
+                        </p>
+                        <p className="text-xs mt-1 text-blue-600">
+                          💡 Puedes usar búsqueda por ubicación (Signo → Grado → Remedio) o búsqueda directa por nombre
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              }
+            })()}
           </>
         )}
       </div>
