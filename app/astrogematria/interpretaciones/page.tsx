@@ -7,9 +7,16 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Heart, Star, Clock, User, ExternalLink } from "lucide-react";
 import { CartaNatalAstrogematriaWrapper } from "@/components/carta-natal-astrogematria-wrapper";
 import Link from "next/link";
+
+interface RemedioData {
+  grado: number;
+  signo: string;
+  remedio: string;
+}
 
 export default function AstrogematriaInterpretacionesPage() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +24,12 @@ export default function AstrogematriaInterpretacionesPage() {
   const [cartaNatal, setCartaNatal] = useState<any>(null);
   const [cartaNatalLoading, setCartaNatalLoading] = useState(false);
   const [cartaNatalError, setCartaNatalError] = useState<string | null>(null);
+  
+  // Estados para remedios
+  const [remediosData, setRemediosData] = useState<RemedioData[]>([]);
+  const [remediosLoading, setRemediosLoading] = useState(false);
+  const [signoSeleccionado, setSigNoSeleccionado] = useState<string>('');
+  const [signosDisponibles, setSignosDisponibles] = useState<string[]>([]);
 
   const obtenerCartaNatal = async () => {
     setCartaNatalLoading(true);
@@ -43,9 +56,42 @@ export default function AstrogematriaInterpretacionesPage() {
     }
   };
 
-  // Cargar carta natal al montar el componente
+  const cargarRemedios = async () => {
+    setRemediosLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/astrogematria/remedios', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      const data = await response.json();
+      
+      if (data.success && data.remedios) {
+        setRemediosData(data.remedios);
+        
+        // Extraer signos únicos
+        const signosUnicos = [...new Set(data.remedios.map((r: RemedioData) => r.signo))] as string[];
+        setSignosDisponibles(signosUnicos);
+        
+        console.log('Remedios cargados:', data.remedios.length);
+        console.log('Signos disponibles:', signosUnicos);
+      } else {
+        setError(data.error || 'Error cargando remedios');
+      }
+    } catch (err) {
+      setError('Error de conexión al cargar remedios');
+      console.error('Error remedios:', err);
+    } finally {
+      setRemediosLoading(false);
+    }
+  };
+
+  // Cargar datos al montar el componente
   useEffect(() => {
     obtenerCartaNatal();
+    cargarRemedios();
   }, []);
 
   return (
@@ -74,7 +120,7 @@ export default function AstrogematriaInterpretacionesPage() {
         </CardContent>
       </Card>
 
-      {/* Placeholder para selectores */}
+      {/* Selector de Remedios */}
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -86,11 +132,51 @@ export default function AstrogematriaInterpretacionesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {error && (
+            <Alert className="mb-4 border-red-200 bg-red-50">
+              <AlertDescription className="text-red-800">
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
+          
           <div className="space-y-4">
-            <div className="text-center text-muted-foreground p-8">
-              <Heart className="h-12 w-12 mx-auto mb-4 text-green-600" />
-              <p>Los selectores de remedios se implementarán en los próximos pasos</p>
+            {/* Selector de Signo */}
+            <div>
+              <Label htmlFor="signo">Signo Zodiacal</Label>
+              {remediosLoading ? (
+                <div className="flex items-center justify-center p-4">
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  <span className="text-sm text-muted-foreground">Cargando signos...</span>
+                </div>
+              ) : (
+                <Select value={signoSeleccionado} onValueChange={setSigNoSeleccionado}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Selecciona un signo zodiacal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {signosDisponibles.map((signo) => (
+                      <SelectItem key={signo} value={signo}>
+                        {signo}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
+
+            {/* Placeholder para próximos selectores */}
+            {signoSeleccionado && (
+              <div className="text-center text-muted-foreground p-4 bg-green-50 rounded-lg border border-green-200">
+                <Heart className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                <p className="text-sm">
+                  Signo seleccionado: <strong>{signoSeleccionado}</strong>
+                </p>
+                <p className="text-xs mt-1">
+                  Los selectores de grado y remedio se agregarán en el próximo paso
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
