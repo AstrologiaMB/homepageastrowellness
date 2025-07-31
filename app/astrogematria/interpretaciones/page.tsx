@@ -19,6 +19,12 @@ interface RemedioData {
   remedio: string;
 }
 
+interface RemedioLocation {
+  signo: string;
+  grado: number;
+  posicion_completa: string;
+}
+
 export default function AstrogematriaInterpretacionesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +41,28 @@ export default function AstrogematriaInterpretacionesPage() {
   const [gradosDisponibles, setGradosDisponibles] = useState<number[]>([]);
   const [remedioSeleccionado, setRemedioSeleccionado] = useState<string>('');
   const [remediosDisponibles, setRemediosDisponibles] = useState<RemedioData[]>([]);
+
+  // BABY STEP 1: Función de búsqueda inversa - remedio → signo + grado
+  const buscarUbicacionRemedio = (nombreRemedio: string): RemedioLocation | null => {
+    if (!nombreRemedio || remediosData.length === 0) {
+      return null;
+    }
+
+    // Buscar el remedio en los datos (puede haber múltiples ubicaciones)
+    const remedioEncontrado = remediosData.find(r => 
+      r.remedio.toLowerCase() === nombreRemedio.toLowerCase()
+    );
+
+    if (remedioEncontrado) {
+      return {
+        signo: remedioEncontrado.signo,
+        grado: remedioEncontrado.grado,
+        posicion_completa: `${remedioEncontrado.grado}° de ${remedioEncontrado.signo}`
+      };
+    }
+
+    return null;
+  };
 
   const obtenerCartaNatal = async () => {
     setCartaNatalLoading(true);
@@ -98,6 +126,19 @@ export default function AstrogematriaInterpretacionesPage() {
     obtenerCartaNatal();
     cargarRemedios();
   }, []);
+
+  // BABY STEP 1: Test de la función de búsqueda inversa
+  useEffect(() => {
+    if (remediosData.length > 0) {
+      // Probar con el ejemplo del task: "CARBO VEGETABILIS" → "Aries 15°"
+      const testResult = buscarUbicacionRemedio("CARBO VEGETABILIS");
+      console.log('🧪 Test búsqueda inversa CARBO VEGETABILIS:', testResult);
+      
+      // Probar con otro remedio
+      const testResult2 = buscarUbicacionRemedio("NUX VOMICA");
+      console.log('🧪 Test búsqueda inversa NUX VOMICA:', testResult2);
+    }
+  }, [remediosData]);
 
   // Efecto para actualizar grados disponibles cuando cambia el signo
   useEffect(() => {
