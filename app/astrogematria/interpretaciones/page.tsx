@@ -134,33 +134,17 @@ export default function AstrogematriaInterpretacionesPage() {
     cargarRemedios();
   }, []);
 
-  // BABY STEP 1: Test de la función de búsqueda inversa
-  useEffect(() => {
-    if (remediosData.length > 0) {
-      // Probar con el ejemplo del task: "CARBO VEGETABILIS" → "Aries 15°"
-      const testResult = buscarUbicacionRemedio("CARBO VEGETABILIS");
-      console.log('🧪 Test búsqueda inversa CARBO VEGETABILIS:', testResult);
-      
-      // Probar con otro remedio
-      const testResult2 = buscarUbicacionRemedio("NUX VOMICA");
-      console.log('🧪 Test búsqueda inversa NUX VOMICA:', testResult2);
-    }
-  }, [remediosData]);
-
-  // BABY STEP 2: Generar lista alfabética de remedios únicos
+  // BABY STEP 6: Generar lista alfabética de remedios únicos (producción)
   useEffect(() => {
     if (remediosData.length > 0) {
       // Extraer nombres únicos de remedios y ordenar alfabéticamente
       const remediosUnicos = [...new Set(remediosData.map(r => r.remedio))];
       const remediosOrdenados = remediosUnicos.sort((a, b) => a.localeCompare(b));
       setRemediosAlfabeticos(remediosOrdenados);
-      
-      console.log('📋 Remedios alfabéticos generados:', remediosOrdenados.length, 'remedios únicos');
-      console.log('📋 Primeros 5 remedios:', remediosOrdenados.slice(0, 5));
     }
   }, [remediosData]);
 
-  // BABY STEP 3: Lógica de auto-selección - conectar selector directo con búsqueda inversa
+  // BABY STEP 6: Lógica de auto-selección - conectar selector directo con búsqueda inversa (producción)
   useEffect(() => {
     if (remedioDirectoSeleccionado && remediosData.length > 0) {
       const ubicacion = buscarUbicacionRemedio(remedioDirectoSeleccionado);
@@ -172,17 +156,7 @@ export default function AstrogematriaInterpretacionesPage() {
         
         // Limpiar selección de remedio cascading para evitar conflictos
         setRemedioSeleccionado('');
-        
-        console.log('🎯 Auto-selección activada:', {
-          remedio: remedioDirectoSeleccionado,
-          signo: ubicacion.signo,
-          grado: ubicacion.grado,
-          posicion: ubicacion.posicion_completa
-        });
       }
-    } else if (!remedioDirectoSeleccionado) {
-      // Si se limpia la selección directa, no limpiar los cascading
-      // para permitir que el usuario use ambos métodos independientemente
     }
   }, [remedioDirectoSeleccionado, remediosData]);
 
