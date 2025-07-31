@@ -99,7 +99,7 @@ const data = {
         },
         {
           title: "Interpretaciones",
-          url: "#",
+          url: "/astrogematria/interpretaciones",
         },
         {
           title: "Referencias",
