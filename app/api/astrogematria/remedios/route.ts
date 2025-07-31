@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
 
     const resultado = await remediosResponse.json();
 
-    if (!resultado.success || !resultado.remedios) {
+    if (!resultado.success || !resultado.data || !resultado.data.remedios) {
       throw new Error('Respuesta inválida del servicio de remedios');
     }
 
     return NextResponse.json({
       success: true,
-      remedios: resultado.remedios,
+      remedios: resultado.data.remedios,
       timestamp: new Date().toISOString()
     });
 
