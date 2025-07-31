@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Heart, Star, Clock, User, ExternalLink } from "lucide-react";
 import { CartaNatalAstrogematriaWrapper } from "@/components/carta-natal-astrogematria-wrapper";
+import { CartaNatalRemediosWrapper } from "@/components/carta-natal-remedios-wrapper";
 import Link from "next/link";
 
 interface RemedioData {
@@ -324,20 +325,41 @@ export default function AstrogematriaInterpretacionesPage() {
         )}
 
         {cartaNatal && !cartaNatalLoading && !cartaNatalError && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-green-600" />
-                Tu Carta Natal
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center text-muted-foreground p-8">
-                <Star className="h-12 w-12 mx-auto mb-4 text-green-600" />
-                <p>Carta natal cargada correctamente. Los remedios seleccionados se mostrarán aquí.</p>
+          <>
+            {/* Mostrar carta con remedio si hay uno seleccionado */}
+            {signoSeleccionado && gradoSeleccionado && remedioSeleccionado ? (
+              <div key={`remedio-chart-${signoSeleccionado}-${gradoSeleccionado}-${remedioSeleccionado}-${Date.now()}`}>
+                <CartaNatalRemediosWrapper 
+                  chartData={cartaNatal}
+                  remedioData={{
+                    remedio: remedioSeleccionado,
+                    grado: parseInt(gradoSeleccionado),
+                    signo: signoSeleccionado,
+                    posicion_completa: `${gradoSeleccionado}° de ${signoSeleccionado}`
+                  }}
+                />
               </div>
-            </CardContent>
-          </Card>
+            ) : (
+              /* Mostrar carta básica sin remedios */
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Star className="h-5 w-5 text-green-600" />
+                    Tu Carta Natal
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center text-muted-foreground p-8">
+                    <Star className="h-12 w-12 mx-auto mb-4 text-green-600" />
+                    <p>Carta natal cargada correctamente.</p>
+                    <p className="text-sm mt-2">
+                      Selecciona un remedio homeopático arriba para verlo marcado en tu carta.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </>
         )}
       </div>
 
