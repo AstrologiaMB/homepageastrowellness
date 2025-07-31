@@ -30,6 +30,10 @@ export default function AstrogematriaInterpretacionesPage() {
   const [remediosLoading, setRemediosLoading] = useState(false);
   const [signoSeleccionado, setSigNoSeleccionado] = useState<string>('');
   const [signosDisponibles, setSignosDisponibles] = useState<string[]>([]);
+  const [gradoSeleccionado, setGradoSeleccionado] = useState<string>('');
+  const [gradosDisponibles, setGradosDisponibles] = useState<number[]>([]);
+  const [remedioSeleccionado, setRemedioSeleccionado] = useState<string>('');
+  const [remediosDisponibles, setRemediosDisponibles] = useState<RemedioData[]>([]);
 
   const obtenerCartaNatal = async () => {
     setCartaNatalLoading(true);
@@ -93,6 +97,45 @@ export default function AstrogematriaInterpretacionesPage() {
     obtenerCartaNatal();
     cargarRemedios();
   }, []);
+
+  // Efecto para actualizar grados disponibles cuando cambia el signo
+  useEffect(() => {
+    if (signoSeleccionado && remediosData.length > 0) {
+      const remediosDelSigno = remediosData.filter(r => r.signo === signoSeleccionado);
+      const gradosUnicos = [...new Set(remediosDelSigno.map(r => r.grado))].sort((a, b) => a - b);
+      setGradosDisponibles(gradosUnicos);
+      
+      // Limpiar selecciones posteriores
+      setGradoSeleccionado('');
+      setRemedioSeleccionado('');
+      setRemediosDisponibles([]);
+      
+      console.log('Grados disponibles para', signoSeleccionado, ':', gradosUnicos);
+    } else {
+      setGradosDisponibles([]);
+      setGradoSeleccionado('');
+      setRemedioSeleccionado('');
+      setRemediosDisponibles([]);
+    }
+  }, [signoSeleccionado, remediosData]);
+
+  // Efecto para actualizar remedios disponibles cuando cambia el grado
+  useEffect(() => {
+    if (signoSeleccionado && gradoSeleccionado && remediosData.length > 0) {
+      const remediosDisponiblesParaGrado = remediosData.filter(
+        r => r.signo === signoSeleccionado && r.grado === parseInt(gradoSeleccionado)
+      );
+      setRemediosDisponibles(remediosDisponiblesParaGrado);
+      
+      // Limpiar selección de remedio
+      setRemedioSeleccionado('');
+      
+      console.log('Remedios disponibles para', signoSeleccionado, 'grado', gradoSeleccionado, ':', remediosDisponiblesParaGrado);
+    } else {
+      setRemediosDisponibles([]);
+      setRemedioSeleccionado('');
+    }
+  }, [signoSeleccionado, gradoSeleccionado, remediosData]);
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
@@ -165,16 +208,67 @@ export default function AstrogematriaInterpretacionesPage() {
               )}
             </div>
 
-            {/* Placeholder para próximos selectores */}
+            {/* Selector de Grado */}
             {signoSeleccionado && (
-              <div className="text-center text-muted-foreground p-4 bg-green-50 rounded-lg border border-green-200">
+              <div>
+                <Label htmlFor="grado">Grado</Label>
+                <Select value={gradoSeleccionado} onValueChange={setGradoSeleccionado}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Selecciona un grado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {gradosDisponibles.map((grado) => (
+                      <SelectItem key={grado} value={grado.toString()}>
+                        {grado}°
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Selector de Remedio */}
+            {signoSeleccionado && gradoSeleccionado && (
+              <div>
+                <Label htmlFor="remedio">Remedio Homeopático</Label>
+                <Select value={remedioSeleccionado} onValueChange={setRemedioSeleccionado}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Selecciona un remedio" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {remediosDisponibles.map((remedio, index) => (
+                      <SelectItem key={index} value={remedio.remedio}>
+                        {remedio.remedio}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Resumen de selección */}
+            {signoSeleccionado && gradoSeleccionado && remedioSeleccionado && (
+              <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
                 <Heart className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                <p className="text-sm">
-                  Signo seleccionado: <strong>{signoSeleccionado}</strong>
-                </p>
-                <p className="text-xs mt-1">
-                  Los selectores de grado y remedio se agregarán en el próximo paso
-                </p>
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-green-800">
+                    Remedio Seleccionado
+                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    <Badge variant="outline" className="text-green-700 border-green-300">
+                      {signoSeleccionado}
+                    </Badge>
+                    <Badge variant="outline" className="text-green-700 border-green-300">
+                      {gradoSeleccionado}°
+                    </Badge>
+                  </div>
+                  <p className="text-lg font-bold text-green-800">
+                    {remedioSeleccionado}
+                  </p>
+                  <p className="text-xs text-green-600 mt-2">
+                    El remedio se mostrará en tu carta natal a continuación
+                  </p>
+                </div>
               </div>
             )}
           </div>
