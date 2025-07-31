@@ -41,6 +41,10 @@ export default function AstrogematriaInterpretacionesPage() {
   const [gradosDisponibles, setGradosDisponibles] = useState<number[]>([]);
   const [remedioSeleccionado, setRemedioSeleccionado] = useState<string>('');
   const [remediosDisponibles, setRemediosDisponibles] = useState<RemedioData[]>([]);
+  
+  // BABY STEP 2: Estados para selector directo de remedios
+  const [remedioDirectoSeleccionado, setRemedioDirectoSeleccionado] = useState<string>('');
+  const [remediosAlfabeticos, setRemediosAlfabeticos] = useState<string[]>([]);
 
   // BABY STEP 1: Función de búsqueda inversa - remedio → signo + grado
   const buscarUbicacionRemedio = (nombreRemedio: string): RemedioLocation | null => {
@@ -137,6 +141,19 @@ export default function AstrogematriaInterpretacionesPage() {
       // Probar con otro remedio
       const testResult2 = buscarUbicacionRemedio("NUX VOMICA");
       console.log('🧪 Test búsqueda inversa NUX VOMICA:', testResult2);
+    }
+  }, [remediosData]);
+
+  // BABY STEP 2: Generar lista alfabética de remedios únicos
+  useEffect(() => {
+    if (remediosData.length > 0) {
+      // Extraer nombres únicos de remedios y ordenar alfabéticamente
+      const remediosUnicos = [...new Set(remediosData.map(r => r.remedio))];
+      const remediosOrdenados = remediosUnicos.sort((a, b) => a.localeCompare(b));
+      setRemediosAlfabeticos(remediosOrdenados);
+      
+      console.log('📋 Remedios alfabéticos generados:', remediosOrdenados.length, 'remedios únicos');
+      console.log('📋 Primeros 5 remedios:', remediosOrdenados.slice(0, 5));
     }
   }, [remediosData]);
 
@@ -288,13 +305,48 @@ export default function AstrogematriaInterpretacionesPage() {
               </div>
             )}
 
+            {/* BABY STEP 2: Selector Directo de Remedios */}
+            <div className="border-t pt-4 mt-6">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  🔍 Búsqueda Directa por Remedio
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Selecciona directamente un remedio y el sistema encontrará su ubicación automáticamente
+                </p>
+              </div>
+              
+              <div>
+                <Label htmlFor="remedio-directo">Buscar Remedio Homeopático</Label>
+                {remediosLoading ? (
+                  <div className="flex items-center justify-center p-4">
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    <span className="text-sm text-muted-foreground">Cargando remedios...</span>
+                  </div>
+                ) : (
+                  <Select value={remedioDirectoSeleccionado} onValueChange={setRemedioDirectoSeleccionado}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Busca y selecciona un remedio..." />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-60">
+                      {remediosAlfabeticos.map((remedio) => (
+                        <SelectItem key={remedio} value={remedio}>
+                          {remedio}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            </div>
+
             {/* Resumen de selección */}
             {signoSeleccionado && gradoSeleccionado && remedioSeleccionado && (
               <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
                 <Heart className="h-8 w-8 mx-auto mb-2 text-green-600" />
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-green-800">
-                    Remedio Seleccionado
+                    Remedio Seleccionado (Por Ubicación)
                   </p>
                   <div className="flex items-center justify-center gap-2">
                     <Badge variant="outline" className="text-green-700 border-green-300">
@@ -308,6 +360,27 @@ export default function AstrogematriaInterpretacionesPage() {
                     {remedioSeleccionado}
                   </p>
                   <p className="text-xs text-green-600 mt-2">
+                    El remedio se mostrará en tu carta natal a continuación
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Resumen de selección directa */}
+            {remedioDirectoSeleccionado && (
+              <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <Heart className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-blue-800">
+                    Remedio Seleccionado (Búsqueda Directa)
+                  </p>
+                  <p className="text-lg font-bold text-blue-800">
+                    {remedioDirectoSeleccionado}
+                  </p>
+                  <p className="text-xs text-blue-600 mt-2">
+                    📍 Ubicación: {buscarUbicacionRemedio(remedioDirectoSeleccionado)?.posicion_completa || 'Calculando...'}
+                  </p>
+                  <p className="text-xs text-blue-600">
                     El remedio se mostrará en tu carta natal a continuación
                   </p>
                 </div>
