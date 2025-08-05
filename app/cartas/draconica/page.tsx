@@ -13,6 +13,7 @@
 
 import { useState } from 'react';
 import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
+import { CartaSuperpuestaWrapper } from "@/components/carta-superpuesta-wrapper";
 import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -33,8 +34,15 @@ interface CartaNatalData {
  * @returns {JSX.Element} - Elemento JSX que contiene la página de carta dracónica.
  */
 export default function CartasDraconicaPage() {
+  // Estados para carta dracónica (existentes)
   const [cartaData, setCartaData] = useState<any>(null);
   const [cartaCompleta, setCartaCompleta] = useState<any>(null);
+  
+  // Estados para carta tropical (nuevos)
+  const [cartaTropicalData, setCartaTropicalData] = useState<any>(null);
+  const [cartaTropicalCompleta, setCartaTropicalCompleta] = useState<any>(null);
+  
+  // Estados compartidos
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cached, setCached] = useState(false);
@@ -46,29 +54,43 @@ export default function CartasDraconicaPage() {
     const startTime = Date.now();
     
     try {
-      const response = await fetch('/api/cartas/draconica', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
+      // Llamadas paralelas a ambas APIs para optimizar tiempo de carga
+      const [draconicaResponse, tropicalResponse] = await Promise.all([
+        fetch('/api/cartas/draconica', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        }),
+        fetch('/api/cartas/tropical', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        })
+      ]);
       
-      const data: CartaNatalData = await response.json();
+      const draconicaData: CartaNatalData = await draconicaResponse.json();
+      const tropicalData: CartaNatalData = await tropicalResponse.json();
       
-      console.log('Respuesta de la API:', data);
+      console.log('Respuesta API Dracónica:', draconicaData);
+      console.log('Respuesta API Tropical:', tropicalData);
       
-      if (data.success) {
-        console.log('data_reducido:', data.data_reducido);
-        console.log('data completa:', data.data);
+      // Verificar que ambas APIs respondieron correctamente
+      if (draconicaData.success && tropicalData.success) {
+        // Establecer datos dracónicos (funcionalidad existente preservada)
+        setCartaData(draconicaData.data_reducido);
+        setCartaCompleta(draconicaData.data);
         
-        setCartaData(data.data_reducido);
-        setCartaCompleta(data.data);
-        setCached(data.cached || false);
+        // Establecer datos tropicales (nueva funcionalidad)
+        setCartaTropicalData(tropicalData.data_reducido);
+        setCartaTropicalCompleta(tropicalData.data);
+        
+        setCached(draconicaData.cached || tropicalData.cached || false);
         
         const endTime = Date.now();
         const duration = ((endTime - startTime) / 1000).toFixed(2);
         setCalculationTime(duration);
       } else {
-        console.error('Error en la respuesta:', data.error);
-        setError(data.error || 'Error calculando carta dracónica');
+        const errorMsg = draconicaData.error || tropicalData.error || 'Error calculando cartas';
+        console.error('Error en las respuestas:', errorMsg);
+        setError(errorMsg);
       }
     } catch (err) {
       setError('Error de conexión. Asegúrate de que el servidor FastAPI esté ejecutándose en puerto 8001.');
@@ -139,10 +161,37 @@ export default function CartasDraconicaPage() {
       
       {cartaData && (
         <>
-          {/* Visualización gráfica de la carta dracónica */}
+          {/* Layout de dos cards: Dracónica individual + Superposición */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
-            <CartaNatalWrapper chartData={cartaData} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Card izquierda: Carta dracónica individual (PRESERVADA) */}
+              <div>
+                <h3 className="text-lg font-medium mb-3">Carta Dracónica</h3>
+                <CartaNatalWrapper chartData={cartaData} chartId="draconica-individual" />
+              </div>
+              
+              {/* Card derecha: Carta superpuesta (NUEVA) */}
+              {cartaTropicalData && (
+                <div>
+                  <h3 className="text-lg font-medium mb-3">Superposición: Tropical + Dracónica</h3>
+                  <CartaSuperpuestaWrapper 
+                    tropicalData={cartaTropicalData} 
+                    draconicaData={cartaData}
+                    chartId="carta-superpuesta"
+                  />
+                </div>
+              )}
+              
+              {/* Mensaje si no hay datos tropicales */}
+              {!cartaTropicalData && (
+                <div className="flex items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
+                  <p className="text-gray-500 text-center">
+                    Cargando carta tropical para superposición...
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
           
           {/* Tabla de datos de la carta dracónica */}

@@ -20,12 +20,14 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
  * @property {Record<string, number[]>} planets - Objeto con las posiciones planetarias en grados (0-359).
  *                                               Si hay un segundo valor -0.1, indica retrogradación.
  * @property {number[]} cusps - Array de 12 valores numéricos representando las cúspides de las casas.
+ * @property {string} chartId - ID único para el contenedor del gráfico (opcional, por defecto 'chart-container').
  */
 interface CartaNatalProps {
   chartData: {
     planets: Record<string, number[]>;
     cusps: number[];
   };
+  chartId?: string;
 }
 
 /**
@@ -34,7 +36,7 @@ interface CartaNatalProps {
  * @param {CartaNatalProps} props - Propiedades del componente.
  * @returns {JSX.Element} - Elemento JSX que contiene la carta natal.
  */
-export function CartaNatal({ chartData }: CartaNatalProps) {
+export function CartaNatal({ chartData, chartId = 'chart-container' }: CartaNatalProps) {
   // Referencia al contenedor del gráfico
   const chartRef = useRef<HTMLDivElement>(null);
   
@@ -45,7 +47,7 @@ export function CartaNatal({ chartData }: CartaNatalProps) {
       
       try {
         // Crear nuevo gráfico con dimensiones 800x800
-        const chart = new Chart('chart-container', 800, 800);
+        const chart = new Chart(chartId, 800, 800);
         
         // Renderizar la carta natal con los datos proporcionados
         chart.radix(chartData);
@@ -56,7 +58,7 @@ export function CartaNatal({ chartData }: CartaNatalProps) {
         }
       }
     }
-  }, [chartData]); // Re-renderizar cuando cambien los datos
+  }, [chartData, chartId]); // Re-renderizar cuando cambien los datos o el chartId
   
   // Validación defensiva: verificar que chartData tiene la estructura esperada
   if (!chartData || !chartData.planets || !chartData.cusps) {
@@ -81,7 +83,7 @@ export function CartaNatal({ chartData }: CartaNatalProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <div id="chart-container" ref={chartRef} className="w-full max-w-3xl h-auto" />
+          <div id={chartId} ref={chartRef} className="w-full max-w-3xl h-auto" />
         </div>
       </CardContent>
     </Card>
