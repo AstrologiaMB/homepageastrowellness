@@ -62,7 +62,7 @@ export function CartaSuperpuesta({ tropicalData, draconicaData, chartId = 'carta
         const transit = radix.transit(draconicaData); // Carta exterior (dracónica)
         // Los aspectos se calculan automáticamente en el patrón transit
         
-        console.log('Carta superpuesta renderizada correctamente');
+        // Carta superpuesta renderizada correctamente
       } catch (error) {
         console.error('Error renderizando carta superpuesta:', error);
         if (chartRef.current) {

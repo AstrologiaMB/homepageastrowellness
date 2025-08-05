@@ -6,7 +6,7 @@
  * Incluye sistema de caché para optimizar el rendimiento.
  * 
  * @author Astrowellness Team
- * @version 2.0.0
+ * @version 3.0.0 - Implementación de superposición de cartas tropicales y dracónicas
  */
 
 "use client";
