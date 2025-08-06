@@ -77,11 +77,8 @@ export function CartaNatal({ chartData, chartId = 'chart-container' }: CartaNata
   }
   
   return (
-    <Card className="shadow-md">
-      <CardHeader>
-        <h2 className="text-xl font-bold">Gráfico</h2>
-      </CardHeader>
-      <CardContent>
+    <Card className="shadow-md h-full">
+      <CardContent className="p-6">
         <div className="flex flex-col items-center">
           <div id={chartId} ref={chartRef} className="w-full max-w-3xl h-auto" />
         </div>

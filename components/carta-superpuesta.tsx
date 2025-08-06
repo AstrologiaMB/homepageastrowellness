@@ -59,6 +59,16 @@ export function CartaSuperpuesta({ tropicalData, draconicaData, chartId = 'carta
         
         // Patrón Transit: carta tropical interior + dracónica exterior
         const radix = chart.radix(tropicalData);      // Carta interior (tropical)
+        
+        // Agregar puntos cardinales (AS/DS/MC/IC) para mejor referencia visual
+        // AS = cusps[0], IC = cusps[3], DS = cusps[6], MC = cusps[9]
+        radix.addPointsOfInterest({
+          "As": [tropicalData.cusps[0]],
+          "Ic": [tropicalData.cusps[3]], 
+          "Ds": [tropicalData.cusps[6]],
+          "Mc": [tropicalData.cusps[9]]
+        });
+        
         const transit = radix.transit(draconicaData); // Carta exterior (dracónica)
         // Los aspectos se calculan automáticamente en el patrón transit
         
@@ -93,16 +103,13 @@ export function CartaSuperpuesta({ tropicalData, draconicaData, chartId = 'carta
   }
   
   return (
-    <Card className="shadow-md">
-      <CardHeader>
-        <h2 className="text-xl font-bold">Superposición: Tropical + Dracónica</h2>
-        <p className="text-sm text-gray-600">
-          Interior: Carta Tropical • Exterior: Carta Dracónica • Aspectos entre ambas
-        </p>
-      </CardHeader>
-      <CardContent>
+    <Card className="shadow-md h-full">
+      <CardContent className="p-6">
         <div className="flex flex-col items-center">
           <div id={chartId} ref={chartRef} className="w-full max-w-3xl h-auto" />
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            Interior: Tropical • Exterior: Dracónica • Aspectos entre ambas
+          </p>
         </div>
       </CardContent>
     </Card>
