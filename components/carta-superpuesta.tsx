@@ -54,8 +54,8 @@ export function CartaSuperpuesta({ tropicalData, draconicaData, chartId = 'carta
       chartRef.current.innerHTML = '';
       
       try {
-        // Crear nuevo gráfico con dimensiones 800x800
-        const chart = new Chart(chartId, 800, 800);
+        // Crear nuevo gráfico con dimensiones 500x500 (optimizado para grid responsive)
+        const chart = new Chart(chartId, 500, 500);
         
         // Patrón Transit: carta tropical interior + dracónica exterior
         const radix = chart.radix(tropicalData);      // Carta interior (tropical)

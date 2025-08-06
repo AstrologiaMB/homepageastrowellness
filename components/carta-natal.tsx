@@ -46,8 +46,8 @@ export function CartaNatal({ chartData, chartId = 'chart-container' }: CartaNata
       chartRef.current.innerHTML = '';
       
       try {
-        // Crear nuevo gráfico con dimensiones 800x800
-        const chart = new Chart(chartId, 800, 800);
+        // Crear nuevo gráfico con dimensiones 500x500 (optimizado para grid responsive)
+        const chart = new Chart(chartId, 500, 500);
         
         // Renderizar la carta natal con los datos proporcionados
         chart.radix(chartData);
