@@ -55,8 +55,43 @@ export default function CartasDraconicaPage() {
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
   // Función para procesar eventos dracónicos del análisis cruzado
-  const procesarEventosDraconicos = (datosCruzados: any) => {
+  const procesarEventosDraconicos = (datosCruzados: any, cartaDraconica: any) => {
     const eventos: any[] = [];
+
+    // Agregar tarjetas básicas de posiciones dracónicas
+    const puntosBasicos = [
+      { key: 'Sun', nombre: 'Sol', icono: '☉', tipo: 'posicion_basica' },
+      { key: 'Moon', nombre: 'Luna', icono: '☽', tipo: 'posicion_basica' }
+    ];
+
+    puntosBasicos.forEach((punto, index) => {
+      if (cartaDraconica.points && cartaDraconica.points[punto.key]) {
+        const puntoData = cartaDraconica.points[punto.key];
+        eventos.push({
+          id: `posicion_${index}`,
+          tipo: punto.tipo,
+          titulo: `${punto.nombre} Dracónico en ${puntoData.sign}`,
+          descripcion: `${punto.nombre} Dracónico se encuentra en ${puntoData.sign} ${puntoData.degrees}°`,
+          icono: punto.icono,
+          orbe: undefined,
+          relevancia: 'alta'
+        });
+      }
+    });
+
+    // Agregar Ascendente dracónico
+    if (cartaDraconica.houses && cartaDraconica.houses['1']) {
+      const ascData = cartaDraconica.houses['1'];
+      eventos.push({
+        id: 'posicion_asc',
+        tipo: 'posicion_basica',
+        titulo: `Ascendente Dracónico en ${ascData.sign}`,
+        descripcion: `Ascendente Dracónico se encuentra en ${ascData.sign} ${ascData.degrees}°`,
+        icono: 'AS',
+        orbe: undefined,
+        relevancia: 'alta'
+      });
+    }
 
     // Procesar cúspides cruzadas
     if (datosCruzados.cuspides_cruzadas) {
@@ -89,8 +124,19 @@ export default function CartasDraconicaPage() {
       });
     }
 
-    // Ordenar por relevancia (alta primero) y luego por tipo
+    // Ordenar: posiciones básicas primero, luego por relevancia
     return eventos.sort((a, b) => {
+      // Posiciones básicas siempre primero
+      if (a.tipo === 'posicion_basica' && b.tipo !== 'posicion_basica') return -1;
+      if (a.tipo !== 'posicion_basica' && b.tipo === 'posicion_basica') return 1;
+
+      // Entre posiciones básicas, mantener orden: Sol, Luna, Ascendente
+      if (a.tipo === 'posicion_basica' && b.tipo === 'posicion_basica') {
+        const ordenPosiciones = ['posicion_0', 'posicion_1', 'posicion_asc'];
+        return ordenPosiciones.indexOf(a.id) - ordenPosiciones.indexOf(b.id);
+      }
+
+      // Para otros tipos, ordenar por relevancia
       const relevanciaOrder = { 'alta': 3, 'media': 2, 'baja': 1 };
       const aRelevancia = a.relevancia as keyof typeof relevanciaOrder;
       const bRelevancia = b.relevancia as keyof typeof relevanciaOrder;
@@ -98,14 +144,15 @@ export default function CartasDraconicaPage() {
       if (relevanciaOrder[aRelevancia] !== relevanciaOrder[bRelevancia]) {
         return relevanciaOrder[bRelevancia] - relevanciaOrder[aRelevancia];
       }
-      // Si misma relevancia, cúspides primero
+
+      // Si misma relevancia, cúspides primero que aspectos
       if (a.tipo === 'cuspide_cruzada' && b.tipo === 'aspecto_cruzado') return -1;
       if (a.tipo === 'aspecto_cruzado' && b.tipo === 'cuspide_cruzada') return 1;
       return 0;
     });
   };
 
-  const calcularEventosDraconicos = async () => {
+  const calcularEventosDraconicos = async (cartaDraconicaData: any) => {
     setLoadingEventos(true);
     setErrorEventos(null);
 
@@ -118,7 +165,7 @@ export default function CartasDraconicaPage() {
       const data = await response.json();
 
       if (data.success) {
-        const eventos = procesarEventosDraconicos(data.data);
+        const eventos = procesarEventosDraconicos(data.data, cartaDraconicaData);
         setEventosDraconicos(eventos);
       } else {
         setErrorEventos(data.error || 'Error calculando eventos dracónicos');
@@ -172,7 +219,7 @@ export default function CartasDraconicaPage() {
         setCartaTropicalCompleta(tropicalData.data);
 
         // Procesar y establecer eventos dracónicos
-        const eventos = procesarEventosDraconicos(cruzadaData.data);
+        const eventos = procesarEventosDraconicos(cruzadaData.data, draconicaData.data);
         setEventosDraconicos(eventos);
 
         setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);

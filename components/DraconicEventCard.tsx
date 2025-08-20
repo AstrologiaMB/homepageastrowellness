@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 interface DraconicEvent {
   id: string;
-  tipo: 'cuspide_cruzada' | 'aspecto_cruzado';
+  tipo: 'posicion_basica' | 'cuspide_cruzada' | 'aspecto_cruzado';
   titulo: string;
   descripcion: string;
   icono: string;
@@ -23,6 +23,8 @@ export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
   // Determinar colores según tipo de evento
   const getCardStyles = () => {
     switch (event.tipo) {
+      case 'posicion_basica':
+        return 'bg-gradient-to-br from-yellow-50 to-amber-50 border-yellow-200';
       case 'cuspide_cruzada':
         return 'bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200';
       case 'aspecto_cruzado':

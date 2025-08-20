@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 
 interface DraconicEvent {
   id: string;
-  tipo: 'cuspide_cruzada' | 'aspecto_cruzado';
+  tipo: 'posicion_basica' | 'cuspide_cruzada' | 'aspecto_cruzado';
   titulo: string;
   descripcion: string;
   icono: string;
@@ -55,11 +55,30 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
   }
 
   // Separar eventos por tipo para mejor organización
+  const posicionesBasicas = eventos.filter(event => event.tipo === 'posicion_basica');
   const cuspidesCruzadas = eventos.filter(event => event.tipo === 'cuspide_cruzada');
   const aspectosCruzados = eventos.filter(event => event.tipo === 'aspecto_cruzado');
 
   return (
     <div className="space-y-8">
+      {/* Posiciones Básicas Dracónicas */}
+      {posicionesBasicas.length > 0 && (
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-yellow-800 flex items-center">
+            ⭐ Posiciones Dracónicas Básicas ({posicionesBasicas.length})
+          </h3>
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+            {posicionesBasicas.map((event, index) => (
+              <DraconicEventCard
+                key={event.id}
+                event={event}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Cúspides Cruzadas */}
       {cuspidesCruzadas.length > 0 && (
         <div>
@@ -71,7 +90,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
               <DraconicEventCard
                 key={event.id}
                 event={event}
-                index={index}
+                index={index + posicionesBasicas.length}
               />
             ))}
           </div>
@@ -89,7 +108,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
               <DraconicEventCard
                 key={event.id}
                 event={event}
-                index={index + cuspidesCruzadas.length}
+                index={index + posicionesBasicas.length + cuspidesCruzadas.length}
               />
             ))}
           </div>
@@ -99,7 +118,11 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
       {/* Resumen */}
       <div className="bg-gray-50 rounded-lg p-4 border">
         <h4 className="font-semibold text-gray-800 mb-2">📊 Resumen de Eventos</h4>
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-3 gap-4 text-sm">
+          <div>
+            <span className="text-yellow-600">⭐ Básicas:</span>
+            <span className="ml-2 font-medium">{posicionesBasicas.length}</span>
+          </div>
           <div>
             <span className="text-purple-600">🏠 Cúspides:</span>
             <span className="ml-2 font-medium">{cuspidesCruzadas.length}</span>
@@ -108,7 +131,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             <span className="text-blue-600">☌ Aspectos:</span>
             <span className="ml-2 font-medium">{aspectosCruzados.length}</span>
           </div>
-          <div className="col-span-2">
+          <div className="col-span-3 pt-2 border-t">
             <span className="text-gray-600">📈 Total:</span>
             <span className="ml-2 font-bold text-lg">{eventos.length}</span>
           </div>
