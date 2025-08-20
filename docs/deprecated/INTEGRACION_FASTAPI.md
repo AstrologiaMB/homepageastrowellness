@@ -1,4 +1,12 @@
-# 🚀 Guía de Integración FastAPI - Proyecto Astrowellness
+# ⚠️ DOCUMENTO OBSOLETO - NO USAR
+
+**Este documento ha sido reemplazado por:** [INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md](../current/INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md)  
+**Fecha de deprecación:** 7 de enero de 2025  
+**Razón:** Documentación actualizada con algoritmo dracónico mejorado y correcciones de precisión
+
+---
+
+# 🚀 Guía de Integración FastAPI - Proyecto Astrowellness (OBSOLETA)
 
 ## 📋 Índice
 - [🎯 Objetivos y Arquitectura](#-objetivos-y-arquitectura)
