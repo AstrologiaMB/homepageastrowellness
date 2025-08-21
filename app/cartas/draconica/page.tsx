@@ -48,6 +48,11 @@ export default function CartasDraconicaPage() {
   const [loadingEventos, setLoadingEventos] = useState(false);
   const [errorEventos, setErrorEventos] = useState<string | null>(null);
 
+  // Estados para interpretaciones dracónicas
+  const [interpretacionDraconica, setInterpretacionDraconica] = useState<any>(null);
+  const [loadingInterpretacion, setLoadingInterpretacion] = useState(false);
+  const [errorInterpretacion, setErrorInterpretacion] = useState<string | null>(null);
+
   // Estados compartidos
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -178,6 +183,35 @@ export default function CartasDraconicaPage() {
     }
   };
 
+  const calcularInterpretacionDraconica = async (cartaDraconicaData: any) => {
+    setLoadingInterpretacion(true);
+    setErrorInterpretacion(null);
+
+    try {
+      const response = await fetch('/api/interpretaciones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cartaNatalData: cartaDraconicaData,
+          tipo: 'draco'
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.interpretacion_narrativa || data.interpretaciones_individuales) {
+        setInterpretacionDraconica(data);
+      } else {
+        setErrorInterpretacion(data.error || 'Error generando interpretación dracónica');
+      }
+    } catch (err) {
+      setErrorInterpretacion('Error de conexión al generar interpretación dracónica');
+      console.error('Error:', err);
+    } finally {
+      setLoadingInterpretacion(false);
+    }
+  };
+
   const calcularCarta = async () => {
     setLoading(true);
     setError(null);
@@ -221,6 +255,9 @@ export default function CartasDraconicaPage() {
         // Procesar y establecer eventos dracónicos
         const eventos = procesarEventosDraconicos(cruzadaData.data, draconicaData.data);
         setEventosDraconicos(eventos);
+
+        // Generar interpretación dracónica en paralelo
+        calcularInterpretacionDraconica(draconicaData.data);
 
         setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);
 
@@ -350,13 +387,87 @@ export default function CartasDraconicaPage() {
             />
           </div>
 
-          {/* Nota sobre interpretación */}
-          <Alert className="mb-4">
-            <AlertDescription>
-              📝 <strong>Próximamente:</strong> Interpretación automática de la carta dracónica basada en IA.
-              Por ahora, puedes analizar los datos de planetas, casas y aspectos mostrados arriba.
-            </AlertDescription>
-          </Alert>
+          {/* Sección de Interpretación Dracónica */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">🔮 Interpretación Dracónica</h2>
+
+            {loadingInterpretacion && (
+              <div className="flex items-center justify-center py-8">
+                <div className="flex items-center space-x-3">
+                  <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
+                  <span className="text-gray-600">Generando interpretación dracónica con IA...</span>
+                </div>
+              </div>
+            )}
+
+            {errorInterpretacion && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>
+                  <strong>Error en interpretación:</strong> {errorInterpretacion}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {interpretacionDraconica && (
+              <>
+                {/* Interpretación Narrativa */}
+                {interpretacionDraconica.interpretacion_narrativa && (
+                  <div className="mb-6">
+                    <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-purple-800 mb-3">📖 Interpretación Narrativa</h3>
+                      <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed">
+                        {interpretacionDraconica.interpretacion_narrativa.split('\n').map((paragraph: string, index: number) => (
+                          paragraph.trim() && (
+                            <p key={index} className="mb-3">
+                              {paragraph}
+                            </p>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Interpretaciones Individuales */}
+                {interpretacionDraconica.interpretaciones_individuales && interpretacionDraconica.interpretaciones_individuales.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">🔍 Análisis Detallado</h3>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                      {interpretacionDraconica.interpretaciones_individuales.map((item: any, index: number) => (
+                        <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                          <div className="flex items-start justify-between mb-2">
+                            <h4 className="font-semibold text-gray-800">{item.titulo}</h4>
+                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                              {item.tipo}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 leading-relaxed">
+                            {item.interpretacion}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tiempo de generación */}
+                {interpretacionDraconica.tiempo_generacion && (
+                  <div className="mt-4 text-xs text-gray-500 text-center">
+                    Interpretación generada en {interpretacionDraconica.tiempo_generacion.toFixed(2)}s
+                    {interpretacionDraconica.desde_cache && " (desde caché)"}
+                  </div>
+                )}
+              </>
+            )}
+
+            {!loadingInterpretacion && !errorInterpretacion && !interpretacionDraconica && (
+              <Alert>
+                <AlertDescription>
+                  Haz clic en "Calcular Carta Dracónica Dinámica" para generar la interpretación automática con IA.
+                </AlertDescription>
+              </Alert>
+            )}
+          </div>
         </>
       )}
       
