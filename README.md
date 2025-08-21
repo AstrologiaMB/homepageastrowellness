@@ -9,6 +9,14 @@
 
 Astrowellness es una plataforma web moderna de astrología que ofrece cálculos astronómicos de alta precisión, interpretaciones personalizadas con IA, y un ecosistema completo de microservicios astrológicos.
 
+### **🆕 Arquitectura Unificada (2025)**
+
+**✅ Phase 1 Completada:** Migración tropical a arquitectura unificada
+- Contenido de interpretación centralizado en `src/services/data/tropical/`
+- 22 archivos markdown de interpretación tropical consolidados
+- Sistema RAG actualizado para nueva estructura
+- Fundación preparada para Phase 2 (dracónico)
+
 ### **🚀 Características Principales**
 
 - **Cartas Natales de Alta Precisión**: Algoritmos optimizados con Swiss Ephemeris
