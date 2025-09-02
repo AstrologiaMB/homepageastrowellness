@@ -183,7 +183,7 @@ export default function CartasDraconicaPage() {
     }
   };
 
-  const calcularInterpretacionDraconica = async (cartaDraconicaData: any) => {
+  const calcularInterpretacionDraconica = async (cartaDraconicaData: any, skipCache: boolean = false) => {
     setLoadingInterpretacion(true);
     setErrorInterpretacion(null);
 
@@ -193,7 +193,8 @@ export default function CartasDraconicaPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           cartaNatalData: cartaDraconicaData,
-          tipo: 'draco'
+          tipo: 'draco',
+          skipCache: skipCache
         })
       });
 
@@ -256,8 +257,8 @@ export default function CartasDraconicaPage() {
         const eventos = procesarEventosDraconicos(cruzadaData.data, draconicaData.data);
         setEventosDraconicos(eventos);
 
-        // Generar interpretación dracónica en paralelo
-        calcularInterpretacionDraconica(draconicaData.data);
+        // Generar interpretación dracónica en paralelo (saltando cache para testing)
+        calcularInterpretacionDraconica(draconicaData.data, true);
 
         setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);
 
