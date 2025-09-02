@@ -27,8 +27,8 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
     return (
       <div className="flex items-center justify-center py-12">
         <div className="flex items-center space-x-3">
-          <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
-          <span className="text-gray-600">Calculando eventos dracónicos...</span>
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <span className="text-muted-foreground">Calculando eventos dracónicos...</span>
         </div>
       </div>
     );
@@ -64,7 +64,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
       {/* Posiciones Básicas Dracónicas */}
       {posicionesBasicas.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-yellow-800 flex items-center">
+          <h3 className="text-lg font-semibold mb-4 text-secondary flex items-center">
             ⭐ Posiciones Dracónicas Básicas ({posicionesBasicas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -82,7 +82,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
       {/* Cúspides Cruzadas */}
       {cuspidesCruzadas.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-purple-800 flex items-center">
+          <h3 className="text-lg font-semibold mb-4 text-primary flex items-center">
             🏠 Cúspides Cruzadas ({cuspidesCruzadas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -100,7 +100,7 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
       {/* Aspectos Cruzados */}
       {aspectosCruzados.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-blue-800 flex items-center">
+          <h3 className="text-lg font-semibold mb-4 text-accent flex items-center">
             ☌ Aspectos Cruzados ({aspectosCruzados.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -116,23 +116,23 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
       )}
 
       {/* Resumen */}
-      <div className="bg-gray-50 rounded-lg p-4 border">
-        <h4 className="font-semibold text-gray-800 mb-2">📊 Resumen de Eventos</h4>
+      <div className="bg-muted/30 rounded-lg p-4 border">
+        <h4 className="font-semibold text-foreground mb-2">📊 Resumen de Eventos</h4>
         <div className="grid grid-cols-3 gap-4 text-sm">
           <div>
-            <span className="text-yellow-600">⭐ Básicas:</span>
+            <span className="text-secondary">⭐ Básicas:</span>
             <span className="ml-2 font-medium">{posicionesBasicas.length}</span>
           </div>
           <div>
-            <span className="text-purple-600">🏠 Cúspides:</span>
+            <span className="text-primary">🏠 Cúspides:</span>
             <span className="ml-2 font-medium">{cuspidesCruzadas.length}</span>
           </div>
           <div>
-            <span className="text-blue-600">☌ Aspectos:</span>
+            <span className="text-accent">☌ Aspectos:</span>
             <span className="ml-2 font-medium">{aspectosCruzados.length}</span>
           </div>
           <div className="col-span-3 pt-2 border-t">
-            <span className="text-gray-600">📈 Total:</span>
+            <span className="text-muted-foreground">📈 Total:</span>
             <span className="ml-2 font-bold text-lg">{eventos.length}</span>
           </div>
         </div>

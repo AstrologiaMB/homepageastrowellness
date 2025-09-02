@@ -193,6 +193,25 @@ exports.Prisma.AstrogematriaCacheScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.HorariaRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  country: 'country',
+  acceptSingleQuestion: 'acceptSingleQuestion',
+  isFirstTime: 'isFirstTime',
+  questionCategory: 'questionCategory',
+  question: 'question',
+  context: 'context',
+  status: 'status',
+  response: 'response',
+  responseDate: 'responseDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -214,7 +233,8 @@ exports.Prisma.ModelName = {
   RectificationEvent: 'RectificationEvent',
   CartaNatal: 'CartaNatal',
   InterpretacionCache: 'InterpretacionCache',
-  AstrogematriaCache: 'AstrogematriaCache'
+  AstrogematriaCache: 'AstrogematriaCache',
+  HorariaRequest: 'HorariaRequest'
 };
 
 /**

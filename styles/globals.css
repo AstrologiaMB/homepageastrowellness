@@ -13,76 +13,77 @@
 
 @layer base {
   :root {
-    /* Variables CORE - Paleta Cósmica Minimalista Light */
-    --background: 248 50% 97%;
-    --foreground: 240 15% 15%;
-    --card: 248 50% 97%;
-    --card-foreground: 240 15% 15%;
-    --popover: 248 50% 97%;
-    --popover-foreground: 240 15% 15%;
-    --primary: 240 15% 15%;
-    --primary-foreground: 45 100% 95%;
-    --secondary: 240 10% 92%;
-    --secondary-foreground: 240 15% 15%;
-    --muted: 240 10% 92%;
-    --muted-foreground: 240 8% 55%;
-    --accent: 45 85% 88%;
-    --accent-foreground: 240 15% 15%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 15% 88%;
-    --input: 240 15% 88%;
-    --ring: 45 85% 65%;
-    --chart-1: 45 85% 65%;
-    --chart-2: 240 15% 25%;
-    --chart-3: 240 8% 45%;
-    --chart-4: 45 75% 75%;
-    --chart-5: 240 12% 35%;
-    --radius: 0rem;
-    --sidebar-background: 248 50% 95%;
-    --sidebar-foreground: 240 15% 25%;
-    --sidebar-primary: 240 15% 15%;
-    --sidebar-primary-foreground: 45 100% 95%;
-    --sidebar-accent: 45 85% 90%;
-    --sidebar-accent-foreground: 240 15% 15%;
-    --sidebar-border: 240 15% 85%;
-    --sidebar-ring: 45 85% 65%;
+    /* Variables CORE - Tema "Midnight Bloom" Light Mode - EXACTO del original */
+    --background: 0 0% 97.6471%;           /* blanco casi puro (original) */
+    --foreground: 0 0% 20%;                /* gris oscuro (original) */
+    --card: 0 0% 100%;                     /* blanco puro */
+    --card-foreground: 0 0% 20%;           /* gris oscuro */
+    --popover: 0 0% 100%;                  /* blanco puro */
+    --popover-foreground: 0 0% 20%;        /* gris oscuro */
+    --primary: 246.9065 74.3316% 63.3333%; /* #6C5CE7 - púrpura exacto */
+    --primary-foreground: 0 0% 100%;       /* blanco puro */
+    --secondary: 210.3704 75.7009% 79.0196%; /* #A1C9F2 - azul claro exacto */
+    --secondary-foreground: 0 0% 20%;      /* gris oscuro */
+    --muted: 45.0000 15.6250% 74.9020%;    /* beige/gris cálido */
+    --muted-foreground: 0 0% 43.1373%;     /* gris medio */
+    --accent: 72.0000 17.9283% 49.2157%;   /* #8B9467 - verde oliva exacto */
+    --accent-foreground: 0 0% 100%;        /* blanco puro */
+    --destructive: 0 84.2365% 60.1961%;    /* rojo estándar */
+    --destructive-foreground: 0 0% 100%;   /* blanco puro */
+    --border: 0 0% 83.1373%;               /* gris claro para bordes */
+    --input: 0 0% 83.1373%;                /* gris claro para inputs */
+    --ring: 246.9065 74.3316% 63.3333%;    /* púrpura para focus */
+    --chart-1: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --chart-2: 282.2857 43.5685% 47.2549%; /* púrpura oscuro */
+    --chart-3: 274.6154 100% 25.4902%;     /* púrpura muy oscuro */
+    --chart-4: 218.5401 79.1908% 66.0784%; /* azul brillante */
+    --chart-5: 207.2727 44% 49.0196%;      /* azul acero */
+    --radius: 0.5rem;                      /* radio original */
+    --sidebar-background: 0 0% 97.6471%;   /* mismo que background */
+    --sidebar-foreground: 0 0% 20%;        /* mismo que foreground */
+    --sidebar-primary: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-primary-foreground: 0 0% 100%; /* blanco */
+    --sidebar-accent: 72.0000 17.9283% 49.2157%; /* verde oliva */
+    --sidebar-accent-foreground: 0 0% 100%; /* blanco */
+    --sidebar-border: 0 0% 83.1373%;       /* gris claro */
+    --sidebar-ring: 246.9065 74.3316% 63.3333%; /* púrpura */
   }
   
   .dark {
-    /* Variables para modo oscuro - Paleta Cósmica Minimalista Dark */
-    --background: 240 15% 8%;
-    --foreground: 45 100% 95%;
-    --card: 240 15% 10%;
-    --card-foreground: 45 100% 95%;
-    --popover: 240 15% 10%;
-    --popover-foreground: 45 100% 95%;
-    --primary: 45 100% 95%;
-    --primary-foreground: 240 15% 8%;
-    --secondary: 240 12% 15%;
-    --secondary-foreground: 45 100% 95%;
-    --muted: 240 12% 15%;
-    --muted-foreground: 240 8% 65%;
-    --accent: 45 85% 25%;
-    --accent-foreground: 45 100% 95%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 12% 18%;
-    --input: 240 12% 18%;
-    --ring: 45 85% 65%;
-    --chart-1: 45 85% 65%;
-    --chart-2: 45 100% 85%;
-    --chart-3: 240 8% 55%;
-    --chart-4: 45 75% 45%;
-    --chart-5: 240 15% 75%;
-    --sidebar-background: 240 15% 6%;
-    --sidebar-foreground: 45 100% 90%;
-    --sidebar-primary: 45 85% 65%;
-    --sidebar-primary-foreground: 240 15% 8%;
-    --sidebar-accent: 240 12% 12%;
-    --sidebar-accent-foreground: 45 100% 90%;
-    --sidebar-border: 240 12% 12%;
-    --sidebar-ring: 45 85% 65%;
+    /* Variables para modo oscuro - Tema "Midnight Bloom" Dark Mode - EXACTO del original */
+    --background: 0 0% 3.9%;                /* negro casi puro */
+    --foreground: 0 0% 98%;                 /* blanco casi puro */
+    --card: 0 0% 3.9%;                      /* negro casi puro */
+    --card-foreground: 0 0% 98%;            /* blanco casi puro */
+    --popover: 0 0% 3.9%;                   /* negro casi puro */
+    --popover-foreground: 0 0% 98%;         /* blanco casi puro */
+    --primary: 246.9065 74.3316% 63.3333%;  /* púrpura exacto (mismo que light) */
+    --primary-foreground: 0 0% 98%;         /* blanco casi puro */
+    --secondary: 210.3704 75.7009% 79.0196%; /* azul claro exacto (mismo que light) */
+    --secondary-foreground: 0 0% 9%;        /* negro para contraste */
+    --muted: 0 0% 14.9%;                    /* gris oscuro */
+    --muted-foreground: 0 0% 63.9%;         /* gris medio */
+    --accent: 72.0000 17.9283% 49.2157%;    /* verde oliva exacto (mismo que light) */
+    --accent-foreground: 0 0% 98%;          /* blanco casi puro */
+    --destructive: 0 84.2365% 60.1961%;     /* rojo exacto (mismo que light) */
+    --destructive-foreground: 0 0% 98%;     /* blanco casi puro */
+    --border: 0 0% 14.9%;                   /* gris oscuro para bordes */
+    --input: 0 0% 14.9%;                    /* gris oscuro para inputs */
+    --ring: 246.9065 74.3316% 63.3333%;     /* púrpura para focus */
+    --chart-1: 246.9065 74.3316% 63.3333%;  /* púrpura */
+    --chart-2: 282.2857 43.5685% 47.2549%;  /* púrpura oscuro */
+    --chart-3: 274.6154 100% 25.4902%;      /* púrpura muy oscuro */
+    --chart-4: 218.5401 79.1908% 66.0784%;  /* azul brillante */
+    --chart-5: 207.2727 44% 49.0196%;       /* azul acero */
+    --radius: 0.5rem;                       /* radio original */
+    --sidebar-background: 0 0% 3.9%;        /* mismo que background */
+    --sidebar-foreground: 0 0% 98%;         /* mismo que foreground */
+    --sidebar-primary: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-primary-foreground: 0 0% 98%; /* blanco */
+    --sidebar-accent: 72.0000 17.9283% 49.2157%; /* verde oliva */
+    --sidebar-accent-foreground: 0 0% 98%;  /* blanco */
+    --sidebar-border: 0 0% 14.9%;           /* gris oscuro */
+    --sidebar-ring: 246.9065 74.3316% 63.3333%; /* púrpura */
   }
 }
 

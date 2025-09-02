@@ -38,6 +38,11 @@ export type InterpretacionCache = $Result.DefaultSelection<Prisma.$Interpretacio
  * 
  */
 export type AstrogematriaCache = $Result.DefaultSelection<Prisma.$AstrogematriaCachePayload>
+/**
+ * Model HorariaRequest
+ * 
+ */
+export type HorariaRequest = $Result.DefaultSelection<Prisma.$HorariaRequestPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -213,6 +218,16 @@ export class PrismaClient<
     * ```
     */
   get astrogematriaCache(): Prisma.AstrogematriaCacheDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.horariaRequest`: Exposes CRUD operations for the **HorariaRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HorariaRequests
+    * const horariaRequests = await prisma.horariaRequest.findMany()
+    * ```
+    */
+  get horariaRequest(): Prisma.HorariaRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -657,7 +672,8 @@ export namespace Prisma {
     RectificationEvent: 'RectificationEvent',
     CartaNatal: 'CartaNatal',
     InterpretacionCache: 'InterpretacionCache',
-    AstrogematriaCache: 'AstrogematriaCache'
+    AstrogematriaCache: 'AstrogematriaCache',
+    HorariaRequest: 'HorariaRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -676,7 +692,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache"
+      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache" | "horariaRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1050,6 +1066,80 @@ export namespace Prisma {
           }
         }
       }
+      HorariaRequest: {
+        payload: Prisma.$HorariaRequestPayload<ExtArgs>
+        fields: Prisma.HorariaRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HorariaRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HorariaRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.HorariaRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HorariaRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          findMany: {
+            args: Prisma.HorariaRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>[]
+          }
+          create: {
+            args: Prisma.HorariaRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          createMany: {
+            args: Prisma.HorariaRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HorariaRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.HorariaRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          update: {
+            args: Prisma.HorariaRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.HorariaRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HorariaRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HorariaRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.HorariaRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HorariaRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.HorariaRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHorariaRequest>
+          }
+          groupBy: {
+            args: Prisma.HorariaRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HorariaRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HorariaRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<HorariaRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1139,6 +1229,7 @@ export namespace Prisma {
     cartaNatal?: CartaNatalOmit
     interpretacionCache?: InterpretacionCacheOmit
     astrogematriaCache?: AstrogematriaCacheOmit
+    horariaRequest?: HorariaRequestOmit
   }
 
   /* Types for Logging */
@@ -1236,12 +1327,14 @@ export namespace Prisma {
     rectificationEvents: number
     cartasNatales: number
     interpretaciones: number
+    horariaRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | UserCountOutputTypeCountRectificationEventsArgs
     cartasNatales?: boolean | UserCountOutputTypeCountCartasNatalesArgs
     interpretaciones?: boolean | UserCountOutputTypeCountInterpretacionesArgs
+    horariaRequests?: boolean | UserCountOutputTypeCountHorariaRequestsArgs
   }
 
   // Custom InputTypes
@@ -1274,6 +1367,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountInterpretacionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InterpretacionCacheWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHorariaRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HorariaRequestWhereInput
   }
 
 
@@ -1606,6 +1706,7 @@ export namespace Prisma {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
+    horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1683,6 +1784,7 @@ export namespace Prisma {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
+    horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1694,6 +1796,7 @@ export namespace Prisma {
       rectificationEvents: Prisma.$RectificationEventPayload<ExtArgs>[]
       cartasNatales: Prisma.$CartaNatalPayload<ExtArgs>[]
       interpretaciones: Prisma.$InterpretacionCachePayload<ExtArgs>[]
+      horariaRequests: Prisma.$HorariaRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2113,6 +2216,7 @@ export namespace Prisma {
     rectificationEvents<T extends User$rectificationEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$rectificationEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RectificationEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cartasNatales<T extends User$cartasNatalesArgs<ExtArgs> = {}>(args?: Subset<T, User$cartasNatalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartaNatalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     interpretaciones<T extends User$interpretacionesArgs<ExtArgs> = {}>(args?: Subset<T, User$interpretacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    horariaRequests<T extends User$horariaRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$horariaRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2619,6 +2723,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InterpretacionCacheScalarFieldEnum | InterpretacionCacheScalarFieldEnum[]
+  }
+
+  /**
+   * User.horariaRequests
+   */
+  export type User$horariaRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    where?: HorariaRequestWhereInput
+    orderBy?: HorariaRequestOrderByWithRelationInput | HorariaRequestOrderByWithRelationInput[]
+    cursor?: HorariaRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HorariaRequestScalarFieldEnum | HorariaRequestScalarFieldEnum[]
   }
 
   /**
@@ -7120,6 +7248,1207 @@ export namespace Prisma {
 
 
   /**
+   * Model HorariaRequest
+   */
+
+  export type AggregateHorariaRequest = {
+    _count: HorariaRequestCountAggregateOutputType | null
+    _min: HorariaRequestMinAggregateOutputType | null
+    _max: HorariaRequestMaxAggregateOutputType | null
+  }
+
+  export type HorariaRequestMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    country: string | null
+    acceptSingleQuestion: string | null
+    isFirstTime: string | null
+    questionCategory: string | null
+    question: string | null
+    context: string | null
+    status: string | null
+    response: string | null
+    responseDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HorariaRequestMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    country: string | null
+    acceptSingleQuestion: string | null
+    isFirstTime: string | null
+    questionCategory: string | null
+    question: string | null
+    context: string | null
+    status: string | null
+    response: string | null
+    responseDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type HorariaRequestCountAggregateOutputType = {
+    id: number
+    userId: number
+    firstName: number
+    lastName: number
+    email: number
+    country: number
+    acceptSingleQuestion: number
+    isFirstTime: number
+    questionCategory: number
+    question: number
+    context: number
+    status: number
+    response: number
+    responseDate: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type HorariaRequestMinAggregateInputType = {
+    id?: true
+    userId?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    country?: true
+    acceptSingleQuestion?: true
+    isFirstTime?: true
+    questionCategory?: true
+    question?: true
+    context?: true
+    status?: true
+    response?: true
+    responseDate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HorariaRequestMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    country?: true
+    acceptSingleQuestion?: true
+    isFirstTime?: true
+    questionCategory?: true
+    question?: true
+    context?: true
+    status?: true
+    response?: true
+    responseDate?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type HorariaRequestCountAggregateInputType = {
+    id?: true
+    userId?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    country?: true
+    acceptSingleQuestion?: true
+    isFirstTime?: true
+    questionCategory?: true
+    question?: true
+    context?: true
+    status?: true
+    response?: true
+    responseDate?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type HorariaRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HorariaRequest to aggregate.
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HorariaRequests to fetch.
+     */
+    orderBy?: HorariaRequestOrderByWithRelationInput | HorariaRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HorariaRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HorariaRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HorariaRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HorariaRequests
+    **/
+    _count?: true | HorariaRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HorariaRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HorariaRequestMaxAggregateInputType
+  }
+
+  export type GetHorariaRequestAggregateType<T extends HorariaRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateHorariaRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHorariaRequest[P]>
+      : GetScalarType<T[P], AggregateHorariaRequest[P]>
+  }
+
+
+
+
+  export type HorariaRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HorariaRequestWhereInput
+    orderBy?: HorariaRequestOrderByWithAggregationInput | HorariaRequestOrderByWithAggregationInput[]
+    by: HorariaRequestScalarFieldEnum[] | HorariaRequestScalarFieldEnum
+    having?: HorariaRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HorariaRequestCountAggregateInputType | true
+    _min?: HorariaRequestMinAggregateInputType
+    _max?: HorariaRequestMaxAggregateInputType
+  }
+
+  export type HorariaRequestGroupByOutputType = {
+    id: string
+    userId: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context: string | null
+    status: string
+    response: string | null
+    responseDate: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: HorariaRequestCountAggregateOutputType | null
+    _min: HorariaRequestMinAggregateOutputType | null
+    _max: HorariaRequestMaxAggregateOutputType | null
+  }
+
+  type GetHorariaRequestGroupByPayload<T extends HorariaRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HorariaRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HorariaRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HorariaRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], HorariaRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HorariaRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    country?: boolean
+    acceptSingleQuestion?: boolean
+    isFirstTime?: boolean
+    questionCategory?: boolean
+    question?: boolean
+    context?: boolean
+    status?: boolean
+    response?: boolean
+    responseDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["horariaRequest"]>
+
+  export type HorariaRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    country?: boolean
+    acceptSingleQuestion?: boolean
+    isFirstTime?: boolean
+    questionCategory?: boolean
+    question?: boolean
+    context?: boolean
+    status?: boolean
+    response?: boolean
+    responseDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["horariaRequest"]>
+
+  export type HorariaRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    country?: boolean
+    acceptSingleQuestion?: boolean
+    isFirstTime?: boolean
+    questionCategory?: boolean
+    question?: boolean
+    context?: boolean
+    status?: boolean
+    response?: boolean
+    responseDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["horariaRequest"]>
+
+  export type HorariaRequestSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    country?: boolean
+    acceptSingleQuestion?: boolean
+    isFirstTime?: boolean
+    questionCategory?: boolean
+    question?: boolean
+    context?: boolean
+    status?: boolean
+    response?: boolean
+    responseDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type HorariaRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "email" | "country" | "acceptSingleQuestion" | "isFirstTime" | "questionCategory" | "question" | "context" | "status" | "response" | "responseDate" | "createdAt" | "updatedAt", ExtArgs["result"]["horariaRequest"]>
+  export type HorariaRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type HorariaRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type HorariaRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $HorariaRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HorariaRequest"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      firstName: string
+      lastName: string
+      email: string
+      country: string
+      acceptSingleQuestion: string
+      isFirstTime: string
+      questionCategory: string
+      question: string
+      context: string | null
+      status: string
+      response: string | null
+      responseDate: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["horariaRequest"]>
+    composites: {}
+  }
+
+  type HorariaRequestGetPayload<S extends boolean | null | undefined | HorariaRequestDefaultArgs> = $Result.GetResult<Prisma.$HorariaRequestPayload, S>
+
+  type HorariaRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HorariaRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HorariaRequestCountAggregateInputType | true
+    }
+
+  export interface HorariaRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HorariaRequest'], meta: { name: 'HorariaRequest' } }
+    /**
+     * Find zero or one HorariaRequest that matches the filter.
+     * @param {HorariaRequestFindUniqueArgs} args - Arguments to find a HorariaRequest
+     * @example
+     * // Get one HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HorariaRequestFindUniqueArgs>(args: SelectSubset<T, HorariaRequestFindUniqueArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HorariaRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HorariaRequestFindUniqueOrThrowArgs} args - Arguments to find a HorariaRequest
+     * @example
+     * // Get one HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HorariaRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, HorariaRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HorariaRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestFindFirstArgs} args - Arguments to find a HorariaRequest
+     * @example
+     * // Get one HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HorariaRequestFindFirstArgs>(args?: SelectSubset<T, HorariaRequestFindFirstArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HorariaRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestFindFirstOrThrowArgs} args - Arguments to find a HorariaRequest
+     * @example
+     * // Get one HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HorariaRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, HorariaRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HorariaRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HorariaRequests
+     * const horariaRequests = await prisma.horariaRequest.findMany()
+     * 
+     * // Get first 10 HorariaRequests
+     * const horariaRequests = await prisma.horariaRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const horariaRequestWithIdOnly = await prisma.horariaRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HorariaRequestFindManyArgs>(args?: SelectSubset<T, HorariaRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HorariaRequest.
+     * @param {HorariaRequestCreateArgs} args - Arguments to create a HorariaRequest.
+     * @example
+     * // Create one HorariaRequest
+     * const HorariaRequest = await prisma.horariaRequest.create({
+     *   data: {
+     *     // ... data to create a HorariaRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends HorariaRequestCreateArgs>(args: SelectSubset<T, HorariaRequestCreateArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HorariaRequests.
+     * @param {HorariaRequestCreateManyArgs} args - Arguments to create many HorariaRequests.
+     * @example
+     * // Create many HorariaRequests
+     * const horariaRequest = await prisma.horariaRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HorariaRequestCreateManyArgs>(args?: SelectSubset<T, HorariaRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HorariaRequests and returns the data saved in the database.
+     * @param {HorariaRequestCreateManyAndReturnArgs} args - Arguments to create many HorariaRequests.
+     * @example
+     * // Create many HorariaRequests
+     * const horariaRequest = await prisma.horariaRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HorariaRequests and only return the `id`
+     * const horariaRequestWithIdOnly = await prisma.horariaRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HorariaRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, HorariaRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HorariaRequest.
+     * @param {HorariaRequestDeleteArgs} args - Arguments to delete one HorariaRequest.
+     * @example
+     * // Delete one HorariaRequest
+     * const HorariaRequest = await prisma.horariaRequest.delete({
+     *   where: {
+     *     // ... filter to delete one HorariaRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HorariaRequestDeleteArgs>(args: SelectSubset<T, HorariaRequestDeleteArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HorariaRequest.
+     * @param {HorariaRequestUpdateArgs} args - Arguments to update one HorariaRequest.
+     * @example
+     * // Update one HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HorariaRequestUpdateArgs>(args: SelectSubset<T, HorariaRequestUpdateArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HorariaRequests.
+     * @param {HorariaRequestDeleteManyArgs} args - Arguments to filter HorariaRequests to delete.
+     * @example
+     * // Delete a few HorariaRequests
+     * const { count } = await prisma.horariaRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HorariaRequestDeleteManyArgs>(args?: SelectSubset<T, HorariaRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HorariaRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HorariaRequests
+     * const horariaRequest = await prisma.horariaRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HorariaRequestUpdateManyArgs>(args: SelectSubset<T, HorariaRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HorariaRequests and returns the data updated in the database.
+     * @param {HorariaRequestUpdateManyAndReturnArgs} args - Arguments to update many HorariaRequests.
+     * @example
+     * // Update many HorariaRequests
+     * const horariaRequest = await prisma.horariaRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HorariaRequests and only return the `id`
+     * const horariaRequestWithIdOnly = await prisma.horariaRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HorariaRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, HorariaRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HorariaRequest.
+     * @param {HorariaRequestUpsertArgs} args - Arguments to update or create a HorariaRequest.
+     * @example
+     * // Update or create a HorariaRequest
+     * const horariaRequest = await prisma.horariaRequest.upsert({
+     *   create: {
+     *     // ... data to create a HorariaRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HorariaRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HorariaRequestUpsertArgs>(args: SelectSubset<T, HorariaRequestUpsertArgs<ExtArgs>>): Prisma__HorariaRequestClient<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HorariaRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestCountArgs} args - Arguments to filter HorariaRequests to count.
+     * @example
+     * // Count the number of HorariaRequests
+     * const count = await prisma.horariaRequest.count({
+     *   where: {
+     *     // ... the filter for the HorariaRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends HorariaRequestCountArgs>(
+      args?: Subset<T, HorariaRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HorariaRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HorariaRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HorariaRequestAggregateArgs>(args: Subset<T, HorariaRequestAggregateArgs>): Prisma.PrismaPromise<GetHorariaRequestAggregateType<T>>
+
+    /**
+     * Group by HorariaRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HorariaRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HorariaRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HorariaRequestGroupByArgs['orderBy'] }
+        : { orderBy?: HorariaRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HorariaRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHorariaRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HorariaRequest model
+   */
+  readonly fields: HorariaRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HorariaRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HorariaRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HorariaRequest model
+   */
+  interface HorariaRequestFieldRefs {
+    readonly id: FieldRef<"HorariaRequest", 'String'>
+    readonly userId: FieldRef<"HorariaRequest", 'String'>
+    readonly firstName: FieldRef<"HorariaRequest", 'String'>
+    readonly lastName: FieldRef<"HorariaRequest", 'String'>
+    readonly email: FieldRef<"HorariaRequest", 'String'>
+    readonly country: FieldRef<"HorariaRequest", 'String'>
+    readonly acceptSingleQuestion: FieldRef<"HorariaRequest", 'String'>
+    readonly isFirstTime: FieldRef<"HorariaRequest", 'String'>
+    readonly questionCategory: FieldRef<"HorariaRequest", 'String'>
+    readonly question: FieldRef<"HorariaRequest", 'String'>
+    readonly context: FieldRef<"HorariaRequest", 'String'>
+    readonly status: FieldRef<"HorariaRequest", 'String'>
+    readonly response: FieldRef<"HorariaRequest", 'String'>
+    readonly responseDate: FieldRef<"HorariaRequest", 'DateTime'>
+    readonly createdAt: FieldRef<"HorariaRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"HorariaRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HorariaRequest findUnique
+   */
+  export type HorariaRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which HorariaRequest to fetch.
+     */
+    where: HorariaRequestWhereUniqueInput
+  }
+
+  /**
+   * HorariaRequest findUniqueOrThrow
+   */
+  export type HorariaRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which HorariaRequest to fetch.
+     */
+    where: HorariaRequestWhereUniqueInput
+  }
+
+  /**
+   * HorariaRequest findFirst
+   */
+  export type HorariaRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which HorariaRequest to fetch.
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HorariaRequests to fetch.
+     */
+    orderBy?: HorariaRequestOrderByWithRelationInput | HorariaRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HorariaRequests.
+     */
+    cursor?: HorariaRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HorariaRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HorariaRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HorariaRequests.
+     */
+    distinct?: HorariaRequestScalarFieldEnum | HorariaRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HorariaRequest findFirstOrThrow
+   */
+  export type HorariaRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which HorariaRequest to fetch.
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HorariaRequests to fetch.
+     */
+    orderBy?: HorariaRequestOrderByWithRelationInput | HorariaRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HorariaRequests.
+     */
+    cursor?: HorariaRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HorariaRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HorariaRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HorariaRequests.
+     */
+    distinct?: HorariaRequestScalarFieldEnum | HorariaRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HorariaRequest findMany
+   */
+  export type HorariaRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which HorariaRequests to fetch.
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HorariaRequests to fetch.
+     */
+    orderBy?: HorariaRequestOrderByWithRelationInput | HorariaRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HorariaRequests.
+     */
+    cursor?: HorariaRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HorariaRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HorariaRequests.
+     */
+    skip?: number
+    distinct?: HorariaRequestScalarFieldEnum | HorariaRequestScalarFieldEnum[]
+  }
+
+  /**
+   * HorariaRequest create
+   */
+  export type HorariaRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HorariaRequest.
+     */
+    data: XOR<HorariaRequestCreateInput, HorariaRequestUncheckedCreateInput>
+  }
+
+  /**
+   * HorariaRequest createMany
+   */
+  export type HorariaRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HorariaRequests.
+     */
+    data: HorariaRequestCreateManyInput | HorariaRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HorariaRequest createManyAndReturn
+   */
+  export type HorariaRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many HorariaRequests.
+     */
+    data: HorariaRequestCreateManyInput | HorariaRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HorariaRequest update
+   */
+  export type HorariaRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HorariaRequest.
+     */
+    data: XOR<HorariaRequestUpdateInput, HorariaRequestUncheckedUpdateInput>
+    /**
+     * Choose, which HorariaRequest to update.
+     */
+    where: HorariaRequestWhereUniqueInput
+  }
+
+  /**
+   * HorariaRequest updateMany
+   */
+  export type HorariaRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HorariaRequests.
+     */
+    data: XOR<HorariaRequestUpdateManyMutationInput, HorariaRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which HorariaRequests to update
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * Limit how many HorariaRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HorariaRequest updateManyAndReturn
+   */
+  export type HorariaRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update HorariaRequests.
+     */
+    data: XOR<HorariaRequestUpdateManyMutationInput, HorariaRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which HorariaRequests to update
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * Limit how many HorariaRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HorariaRequest upsert
+   */
+  export type HorariaRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HorariaRequest to update in case it exists.
+     */
+    where: HorariaRequestWhereUniqueInput
+    /**
+     * In case the HorariaRequest found by the `where` argument doesn't exist, create a new HorariaRequest with this data.
+     */
+    create: XOR<HorariaRequestCreateInput, HorariaRequestUncheckedCreateInput>
+    /**
+     * In case the HorariaRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HorariaRequestUpdateInput, HorariaRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * HorariaRequest delete
+   */
+  export type HorariaRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+    /**
+     * Filter which HorariaRequest to delete.
+     */
+    where: HorariaRequestWhereUniqueInput
+  }
+
+  /**
+   * HorariaRequest deleteMany
+   */
+  export type HorariaRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HorariaRequests to delete
+     */
+    where?: HorariaRequestWhereInput
+    /**
+     * Limit how many HorariaRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HorariaRequest without action
+   */
+  export type HorariaRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HorariaRequest
+     */
+    select?: HorariaRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HorariaRequest
+     */
+    omit?: HorariaRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HorariaRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7219,6 +8548,28 @@ export namespace Prisma {
   };
 
   export type AstrogematriaCacheScalarFieldEnum = (typeof AstrogematriaCacheScalarFieldEnum)[keyof typeof AstrogematriaCacheScalarFieldEnum]
+
+
+  export const HorariaRequestScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'email',
+    country: 'country',
+    acceptSingleQuestion: 'acceptSingleQuestion',
+    isFirstTime: 'isFirstTime',
+    questionCategory: 'questionCategory',
+    question: 'question',
+    context: 'context',
+    status: 'status',
+    response: 'response',
+    responseDate: 'responseDate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type HorariaRequestScalarFieldEnum = (typeof HorariaRequestScalarFieldEnum)[keyof typeof HorariaRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7343,6 +8694,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
+    horariaRequests?: HorariaRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7369,6 +8721,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventOrderByRelationAggregateInput
     cartasNatales?: CartaNatalOrderByRelationAggregateInput
     interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
+    horariaRequests?: HorariaRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7398,6 +8751,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
+    horariaRequests?: HorariaRequestListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7767,6 +9121,116 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"AstrogematriaCache"> | Date | string
   }
 
+  export type HorariaRequestWhereInput = {
+    AND?: HorariaRequestWhereInput | HorariaRequestWhereInput[]
+    OR?: HorariaRequestWhereInput[]
+    NOT?: HorariaRequestWhereInput | HorariaRequestWhereInput[]
+    id?: StringFilter<"HorariaRequest"> | string
+    userId?: StringFilter<"HorariaRequest"> | string
+    firstName?: StringFilter<"HorariaRequest"> | string
+    lastName?: StringFilter<"HorariaRequest"> | string
+    email?: StringFilter<"HorariaRequest"> | string
+    country?: StringFilter<"HorariaRequest"> | string
+    acceptSingleQuestion?: StringFilter<"HorariaRequest"> | string
+    isFirstTime?: StringFilter<"HorariaRequest"> | string
+    questionCategory?: StringFilter<"HorariaRequest"> | string
+    question?: StringFilter<"HorariaRequest"> | string
+    context?: StringNullableFilter<"HorariaRequest"> | string | null
+    status?: StringFilter<"HorariaRequest"> | string
+    response?: StringNullableFilter<"HorariaRequest"> | string | null
+    responseDate?: DateTimeNullableFilter<"HorariaRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type HorariaRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    country?: SortOrder
+    acceptSingleQuestion?: SortOrder
+    isFirstTime?: SortOrder
+    questionCategory?: SortOrder
+    question?: SortOrder
+    context?: SortOrderInput | SortOrder
+    status?: SortOrder
+    response?: SortOrderInput | SortOrder
+    responseDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type HorariaRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HorariaRequestWhereInput | HorariaRequestWhereInput[]
+    OR?: HorariaRequestWhereInput[]
+    NOT?: HorariaRequestWhereInput | HorariaRequestWhereInput[]
+    userId?: StringFilter<"HorariaRequest"> | string
+    firstName?: StringFilter<"HorariaRequest"> | string
+    lastName?: StringFilter<"HorariaRequest"> | string
+    email?: StringFilter<"HorariaRequest"> | string
+    country?: StringFilter<"HorariaRequest"> | string
+    acceptSingleQuestion?: StringFilter<"HorariaRequest"> | string
+    isFirstTime?: StringFilter<"HorariaRequest"> | string
+    questionCategory?: StringFilter<"HorariaRequest"> | string
+    question?: StringFilter<"HorariaRequest"> | string
+    context?: StringNullableFilter<"HorariaRequest"> | string | null
+    status?: StringFilter<"HorariaRequest"> | string
+    response?: StringNullableFilter<"HorariaRequest"> | string | null
+    responseDate?: DateTimeNullableFilter<"HorariaRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type HorariaRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    country?: SortOrder
+    acceptSingleQuestion?: SortOrder
+    isFirstTime?: SortOrder
+    questionCategory?: SortOrder
+    question?: SortOrder
+    context?: SortOrderInput | SortOrder
+    status?: SortOrder
+    response?: SortOrderInput | SortOrder
+    responseDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: HorariaRequestCountOrderByAggregateInput
+    _max?: HorariaRequestMaxOrderByAggregateInput
+    _min?: HorariaRequestMinOrderByAggregateInput
+  }
+
+  export type HorariaRequestScalarWhereWithAggregatesInput = {
+    AND?: HorariaRequestScalarWhereWithAggregatesInput | HorariaRequestScalarWhereWithAggregatesInput[]
+    OR?: HorariaRequestScalarWhereWithAggregatesInput[]
+    NOT?: HorariaRequestScalarWhereWithAggregatesInput | HorariaRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    userId?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    firstName?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    lastName?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    email?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    country?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    acceptSingleQuestion?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    isFirstTime?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    questionCategory?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    question?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    context?: StringNullableWithAggregatesFilter<"HorariaRequest"> | string | null
+    status?: StringWithAggregatesFilter<"HorariaRequest"> | string
+    response?: StringNullableWithAggregatesFilter<"HorariaRequest"> | string | null
+    responseDate?: DateTimeNullableWithAggregatesFilter<"HorariaRequest"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"HorariaRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"HorariaRequest"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -7791,6 +9255,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7817,6 +9282,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7843,6 +9309,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7869,6 +9336,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8287,6 +9755,138 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type HorariaRequestCreateInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutHorariaRequestsInput
+  }
+
+  export type HorariaRequestUncheckedCreateInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HorariaRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutHorariaRequestsNestedInput
+  }
+
+  export type HorariaRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HorariaRequestCreateManyInput = {
+    id?: string
+    userId: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HorariaRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HorariaRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8373,6 +9973,12 @@ export namespace Prisma {
     none?: InterpretacionCacheWhereInput
   }
 
+  export type HorariaRequestListRelationFilter = {
+    every?: HorariaRequestWhereInput
+    some?: HorariaRequestWhereInput
+    none?: HorariaRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8387,6 +9993,10 @@ export namespace Prisma {
   }
 
   export type InterpretacionCacheOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HorariaRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8801,6 +10411,63 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type HorariaRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    country?: SortOrder
+    acceptSingleQuestion?: SortOrder
+    isFirstTime?: SortOrder
+    questionCategory?: SortOrder
+    question?: SortOrder
+    context?: SortOrder
+    status?: SortOrder
+    response?: SortOrder
+    responseDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HorariaRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    country?: SortOrder
+    acceptSingleQuestion?: SortOrder
+    isFirstTime?: SortOrder
+    questionCategory?: SortOrder
+    question?: SortOrder
+    context?: SortOrder
+    status?: SortOrder
+    response?: SortOrder
+    responseDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type HorariaRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    country?: SortOrder
+    acceptSingleQuestion?: SortOrder
+    isFirstTime?: SortOrder
+    questionCategory?: SortOrder
+    question?: SortOrder
+    context?: SortOrder
+    status?: SortOrder
+    response?: SortOrder
+    responseDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type RectificationEventCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -8822,6 +10489,13 @@ export namespace Prisma {
     connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
   }
 
+  export type HorariaRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput> | HorariaRequestCreateWithoutUserInput[] | HorariaRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HorariaRequestCreateOrConnectWithoutUserInput | HorariaRequestCreateOrConnectWithoutUserInput[]
+    createMany?: HorariaRequestCreateManyUserInputEnvelope
+    connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+  }
+
   export type RectificationEventUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -8841,6 +10515,13 @@ export namespace Prisma {
     connectOrCreate?: InterpretacionCacheCreateOrConnectWithoutUserInput | InterpretacionCacheCreateOrConnectWithoutUserInput[]
     createMany?: InterpretacionCacheCreateManyUserInputEnvelope
     connect?: InterpretacionCacheWhereUniqueInput | InterpretacionCacheWhereUniqueInput[]
+  }
+
+  export type HorariaRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput> | HorariaRequestCreateWithoutUserInput[] | HorariaRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HorariaRequestCreateOrConnectWithoutUserInput | HorariaRequestCreateOrConnectWithoutUserInput[]
+    createMany?: HorariaRequestCreateManyUserInputEnvelope
+    connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8913,6 +10594,20 @@ export namespace Prisma {
     deleteMany?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
   }
 
+  export type HorariaRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput> | HorariaRequestCreateWithoutUserInput[] | HorariaRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HorariaRequestCreateOrConnectWithoutUserInput | HorariaRequestCreateOrConnectWithoutUserInput[]
+    upsert?: HorariaRequestUpsertWithWhereUniqueWithoutUserInput | HorariaRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HorariaRequestCreateManyUserInputEnvelope
+    set?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    disconnect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    delete?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    update?: HorariaRequestUpdateWithWhereUniqueWithoutUserInput | HorariaRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HorariaRequestUpdateManyWithWhereWithoutUserInput | HorariaRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
+  }
+
   export type RectificationEventUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -8953,6 +10648,20 @@ export namespace Prisma {
     update?: InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput | InterpretacionCacheUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: InterpretacionCacheUpdateManyWithWhereWithoutUserInput | InterpretacionCacheUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: InterpretacionCacheScalarWhereInput | InterpretacionCacheScalarWhereInput[]
+  }
+
+  export type HorariaRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput> | HorariaRequestCreateWithoutUserInput[] | HorariaRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HorariaRequestCreateOrConnectWithoutUserInput | HorariaRequestCreateOrConnectWithoutUserInput[]
+    upsert?: HorariaRequestUpsertWithWhereUniqueWithoutUserInput | HorariaRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HorariaRequestCreateManyUserInputEnvelope
+    set?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    disconnect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    delete?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+    update?: HorariaRequestUpdateWithWhereUniqueWithoutUserInput | HorariaRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HorariaRequestUpdateManyWithWhereWithoutUserInput | HorariaRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRectificationEventsInput = {
@@ -9011,6 +10720,20 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type UserCreateNestedOneWithoutHorariaRequestsInput = {
+    create?: XOR<UserCreateWithoutHorariaRequestsInput, UserUncheckedCreateWithoutHorariaRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHorariaRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutHorariaRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutHorariaRequestsInput, UserUncheckedCreateWithoutHorariaRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHorariaRequestsInput
+    upsert?: UserUpsertWithoutHorariaRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHorariaRequestsInput, UserUpdateWithoutHorariaRequestsInput>, UserUncheckedUpdateWithoutHorariaRequestsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9328,6 +11051,52 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type HorariaRequestCreateWithoutUserInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HorariaRequestUncheckedCreateWithoutUserInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HorariaRequestCreateOrConnectWithoutUserInput = {
+    where: HorariaRequestWhereUniqueInput
+    create: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type HorariaRequestCreateManyUserInputEnvelope = {
+    data: HorariaRequestCreateManyUserInput | HorariaRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RectificationEventUpsertWithWhereUniqueWithoutUserInput = {
     where: RectificationEventWhereUniqueInput
     update: XOR<RectificationEventUpdateWithoutUserInput, RectificationEventUncheckedUpdateWithoutUserInput>
@@ -9422,6 +11191,44 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
   }
 
+  export type HorariaRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: HorariaRequestWhereUniqueInput
+    update: XOR<HorariaRequestUpdateWithoutUserInput, HorariaRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<HorariaRequestCreateWithoutUserInput, HorariaRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type HorariaRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: HorariaRequestWhereUniqueInput
+    data: XOR<HorariaRequestUpdateWithoutUserInput, HorariaRequestUncheckedUpdateWithoutUserInput>
+  }
+
+  export type HorariaRequestUpdateManyWithWhereWithoutUserInput = {
+    where: HorariaRequestScalarWhereInput
+    data: XOR<HorariaRequestUpdateManyMutationInput, HorariaRequestUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type HorariaRequestScalarWhereInput = {
+    AND?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
+    OR?: HorariaRequestScalarWhereInput[]
+    NOT?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
+    id?: StringFilter<"HorariaRequest"> | string
+    userId?: StringFilter<"HorariaRequest"> | string
+    firstName?: StringFilter<"HorariaRequest"> | string
+    lastName?: StringFilter<"HorariaRequest"> | string
+    email?: StringFilter<"HorariaRequest"> | string
+    country?: StringFilter<"HorariaRequest"> | string
+    acceptSingleQuestion?: StringFilter<"HorariaRequest"> | string
+    isFirstTime?: StringFilter<"HorariaRequest"> | string
+    questionCategory?: StringFilter<"HorariaRequest"> | string
+    question?: StringFilter<"HorariaRequest"> | string
+    context?: StringNullableFilter<"HorariaRequest"> | string | null
+    status?: StringFilter<"HorariaRequest"> | string
+    response?: StringNullableFilter<"HorariaRequest"> | string | null
+    responseDate?: DateTimeNullableFilter<"HorariaRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"HorariaRequest"> | Date | string
+  }
+
   export type UserCreateWithoutRectificationEventsInput = {
     id?: string
     email: string
@@ -9445,6 +11252,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRectificationEventsInput = {
@@ -9470,6 +11278,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRectificationEventsInput = {
@@ -9511,6 +11320,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRectificationEventsInput = {
@@ -9536,6 +11346,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartasNatalesInput = {
@@ -9561,6 +11372,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartasNatalesInput = {
@@ -9586,6 +11398,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartasNatalesInput = {
@@ -9627,6 +11440,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartasNatalesInput = {
@@ -9652,6 +11466,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutInterpretacionesInput = {
@@ -9677,6 +11492,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInterpretacionesInput = {
@@ -9702,6 +11518,7 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInterpretacionesInput = {
@@ -9743,6 +11560,7 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInterpretacionesInput = {
@@ -9768,6 +11586,127 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutHorariaRequestsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHorariaRequestsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHorariaRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHorariaRequestsInput, UserUncheckedCreateWithoutHorariaRequestsInput>
+  }
+
+  export type UserUpsertWithoutHorariaRequestsInput = {
+    update: XOR<UserUpdateWithoutHorariaRequestsInput, UserUncheckedUpdateWithoutHorariaRequestsInput>
+    create: XOR<UserCreateWithoutHorariaRequestsInput, UserUncheckedCreateWithoutHorariaRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHorariaRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHorariaRequestsInput, UserUncheckedUpdateWithoutHorariaRequestsInput>
+  }
+
+  export type UserUpdateWithoutHorariaRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHorariaRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RectificationEventCreateManyUserInput = {
@@ -9800,6 +11739,24 @@ export namespace Prisma {
     interpretacionNarrativa: string
     interpretacionesIndividuales: string
     tiempoGeneracion: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HorariaRequestCreateManyUserInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    country: string
+    acceptSingleQuestion: string
+    isFirstTime: string
+    questionCategory: string
+    question: string
+    context?: string | null
+    status?: string
+    response?: string | null
+    responseDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9902,6 +11859,60 @@ export namespace Prisma {
     interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
     interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
     tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HorariaRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HorariaRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HorariaRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    acceptSingleQuestion?: StringFieldUpdateOperationsInput | string
+    isFirstTime?: StringFieldUpdateOperationsInput | string
+    questionCategory?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    context?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    response?: NullableStringFieldUpdateOperationsInput | string | null
+    responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

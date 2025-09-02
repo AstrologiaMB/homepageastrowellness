@@ -328,7 +328,7 @@ export default function CartasDraconicaPage() {
             {error.includes('FastAPI') && (
               <div className="mt-2 text-sm">
                 <strong>Solución:</strong> Ejecuta el servidor FastAPI:
-                <code className="block mt-1 p-2 bg-gray-100 rounded text-xs">
+                <code className="block mt-1 p-2 bg-muted rounded text-xs">
                   cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
                 </code>
               </div>
@@ -363,8 +363,8 @@ export default function CartasDraconicaPage() {
               
               {/* Mensaje si no hay datos tropicales */}
               {!cartaTropicalData && (
-                <div className="flex items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
-                  <p className="text-gray-500 text-center">
+                <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg">
+                  <p className="text-muted-foreground text-center">
                     Cargando carta tropical para superposición...
                   </p>
                 </div>
@@ -395,8 +395,8 @@ export default function CartasDraconicaPage() {
             {loadingInterpretacion && (
               <div className="flex items-center justify-center py-8">
                 <div className="flex items-center space-x-3">
-                  <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
-                  <span className="text-gray-600">Generando interpretación dracónica con IA...</span>
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  <span className="text-muted-foreground">Generando interpretación dracónica con IA...</span>
                 </div>
               </div>
             )}
@@ -414,9 +414,9 @@ export default function CartasDraconicaPage() {
                 {/* Interpretación Narrativa */}
                 {interpretacionDraconica.interpretacion_narrativa && (
                   <div className="mb-6">
-                    <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6">
-                      <h3 className="text-lg font-semibold text-purple-800 mb-3">📖 Interpretación Narrativa</h3>
-                      <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed">
+                    <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-primary mb-3">📖 Interpretación Narrativa</h3>
+                      <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed">
                         {interpretacionDraconica.interpretacion_narrativa.split('\n').map((paragraph: string, index: number) => (
                           paragraph.trim() && (
                             <p key={index} className="mb-3">
@@ -435,14 +435,14 @@ export default function CartasDraconicaPage() {
                     <h3 className="text-lg font-semibold mb-4">🔍 Análisis Detallado</h3>
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                       {interpretacionDraconica.interpretaciones_individuales.map((item: any, index: number) => (
-                        <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div key={index} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
                           <div className="flex items-start justify-between mb-2">
-                            <h4 className="font-semibold text-gray-800">{item.titulo}</h4>
-                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                            <h4 className="font-semibold text-foreground">{item.titulo}</h4>
+                            <span className="text-xs bg-accent/20 text-accent px-2 py-1 rounded-full">
                               {item.tipo}
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 leading-relaxed">
+                          <p className="text-sm text-muted-foreground leading-relaxed">
                             {item.interpretacion}
                           </p>
                         </div>
@@ -453,7 +453,7 @@ export default function CartasDraconicaPage() {
 
                 {/* Tiempo de generación */}
                 {interpretacionDraconica.tiempo_generacion && (
-                  <div className="mt-4 text-xs text-gray-500 text-center">
+                  <div className="mt-4 text-xs text-muted-foreground text-center">
                     Interpretación generada en {interpretacionDraconica.tiempo_generacion.toFixed(2)}s
                     {interpretacionDraconica.desde_cache && " (desde caché)"}
                   </div>

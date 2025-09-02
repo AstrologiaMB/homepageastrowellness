@@ -20,31 +20,31 @@ interface DraconicEventCardProps {
  * Componente para mostrar un evento dracónico individual como tarjeta
  */
 export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
-  // Determinar colores según tipo de evento
+  // Determinar colores según tipo de evento usando variables del tema Midnight Bloom
   const getCardStyles = () => {
     switch (event.tipo) {
       case 'posicion_basica':
-        return 'bg-gradient-to-br from-yellow-50 to-amber-50 border-yellow-200';
+        return 'bg-gradient-to-br from-secondary/20 to-secondary/30 border-secondary';
       case 'cuspide_cruzada':
-        return 'bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200';
+        return 'bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30';
       case 'aspecto_cruzado':
-        return 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200';
+        return 'bg-gradient-to-br from-accent/20 to-accent/30 border-accent/40';
       default:
-        return 'bg-gradient-to-br from-gray-50 to-slate-50 border-gray-200';
+        return 'bg-card border-border';
     }
   };
 
-  // Determinar badge de relevancia
+  // Determinar badge de relevancia usando variables del tema Midnight Bloom
   const getRelevanciaBadge = () => {
     switch (event.relevancia) {
       case 'alta':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-destructive/10 text-destructive border-destructive/20';
       case 'media':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-accent/10 text-accent border-accent/20';
       case 'baja':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-secondary/10 text-secondary border-secondary/20';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -55,7 +55,7 @@ export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
           <div className="flex items-center space-x-3">
             <span className="text-2xl">{event.icono}</span>
             <div>
-              <CardTitle className="text-lg font-semibold text-gray-800">
+              <CardTitle className="text-lg font-semibold text-foreground">
                 {event.titulo}
               </CardTitle>
               <div className="flex items-center space-x-2 mt-1">
@@ -63,7 +63,7 @@ export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
                   {event.relevancia.toUpperCase()}
                 </span>
                 {event.orbe && (
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     Orbe: {event.orbe}
                   </span>
                 )}
@@ -74,7 +74,7 @@ export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
       </CardHeader>
 
       <CardContent>
-        <CardDescription className="text-gray-700 leading-relaxed">
+        <CardDescription className="text-muted-foreground leading-relaxed">
           {event.descripcion}
         </CardDescription>
       </CardContent>
