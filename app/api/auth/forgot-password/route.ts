@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const resetToken = jwt.sign(
       { userId: user.id, email: user.email },
       process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
+      { expiresIn: 60 * 60 } // 1 hora en segundos
     )
 
     // Guardar token en la base de datos

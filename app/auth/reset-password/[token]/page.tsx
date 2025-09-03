@@ -40,9 +40,23 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      // Aquí podríamos hacer una validación del token con la API
-      // Por ahora, asumimos que si hay token, es válido
-      setIsValidToken(true)
+      // Validar token con la API
+      const response = await fetch('/api/auth/validate-reset-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.valid) {
+        setIsValidToken(true)
+      } else {
+        console.error('Token validation error:', data.error)
+        setIsValidToken(false)
+      }
     } catch (error) {
       console.error('Error validating token:', error)
       setIsValidToken(false)
