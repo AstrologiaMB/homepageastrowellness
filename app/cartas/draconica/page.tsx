@@ -18,6 +18,7 @@ import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { DraconicEventsList } from "@/components/DraconicEventsList";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock } from "lucide-react";
 
 interface CartaNatalData {
@@ -283,24 +284,38 @@ export default function CartasDraconicaPage() {
       <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
       
       <div className="mb-6">
-        <Button 
-          onClick={calcularCarta} 
-          disabled={loading}
-          className="mb-4"
-          size="lg"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Calculando carta dracónica...
-            </>
-          ) : (
-            <>
-              <Calculator className="mr-2 h-4 w-4" />
-              Calcular Carta Dracónica Dinámica
-            </>
+        <div className="flex gap-4 mb-4">
+          <Button
+            onClick={calcularCarta}
+            disabled={loading}
+            size="lg"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Calculando carta dracónica...
+              </>
+            ) : (
+              <>
+                <Calculator className="mr-2 h-4 w-4" />
+                Calcular Carta Dracónica Dinámica
+              </>
+            )}
+          </Button>
+
+          {/* Botón de descarga PDF - solo visible cuando hay datos */}
+          {cartaData && (
+            <PDFDownloadButton
+              type="draconica"
+              chartData={cartaCompleta}
+              tropicalData={cartaTropicalCompleta}
+              interpretations={interpretacionDraconica}
+              draconicEvents={eventosDraconicos}
+              size="lg"
+              variant="secondary"
+            />
           )}
-        </Button>
+        </div>
         
         {cached && calculationTime && (
           <Alert className="mb-4">

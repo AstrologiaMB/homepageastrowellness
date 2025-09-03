@@ -20,6 +20,7 @@ import { InterpretacionesIndividuales } from "@/components/interpretaciones-indi
 import { useInterpretaciones } from "@/hooks/use-interpretaciones";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock, RefreshCw } from "lucide-react";
 
 interface CartaNatalData {
@@ -144,8 +145,8 @@ export default function CartasTropicaPage() {
             )}
           </Button>
           
-          <Button 
-            onClick={limpiarCache} 
+          <Button
+            onClick={limpiarCache}
             disabled={clearingCache}
             variant="outline"
             size="lg"
@@ -161,6 +162,17 @@ export default function CartasTropicaPage() {
               </>
             )}
           </Button>
+
+          {/* Botón de descarga PDF - solo visible cuando hay datos */}
+          {cartaData && (
+            <PDFDownloadButton
+              type="tropical"
+              chartData={cartaCompleta}
+              interpretations={interpretaciones}
+              size="lg"
+              variant="secondary"
+            />
+          )}
         </div>
         
         {cached && calculationTime && (
