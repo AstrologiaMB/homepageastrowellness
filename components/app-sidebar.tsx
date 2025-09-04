@@ -18,7 +18,9 @@ import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { TeamSwitcher } from "./team-switcher"
 import { ThemeToggle } from "./theme-toggle"
+import { AstroSymbol } from "./astro-symbol"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar" // Removed SidebarTrigger import
+
 
 // This is sample data.
 const data = {
@@ -64,7 +66,7 @@ const data = {
     {
       title: "Cartas",
       url: "/cartas", // Parent item URL (optional)
-      icon: Clock,
+      icon: Star, // Icono más apropiado para cartas astrológicas
       items: [
         {
           title: "Carta Horaria",
@@ -89,7 +91,7 @@ const data = {
     {
       title: "Astrogematria",
       url: "#",
-      icon: Star,
+      icon: Bot, // Icono más apropiado para cálculos astrológicos
       items: [
         {
           title: "Cálculos",
@@ -97,7 +99,7 @@ const data = {
         },
         {
           title: "Interpretaciones",
-          url: "#",
+          url: "/astrogematria/interpretaciones",
         },
         {
           title: "Referencias",

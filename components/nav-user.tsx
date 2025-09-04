@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
 
 export function NavUser() {
@@ -23,23 +24,59 @@ export function NavUser() {
 
   if (!session?.user) {
     return (
-      <Button 
-        variant="ghost" 
-        onClick={async () => {
-          try {
-            console.log("Iniciando autenticación con Google...");
-            // Especificar callbackUrl para asegurar redirección correcta
-            await signIn("google", { callbackUrl: window.location.origin });
-            console.log("Autenticación iniciada correctamente");
-          } catch (error) {
-            console.error("Error al iniciar autenticación:", error);
-            alert("Error al iniciar sesión. Por favor, intenta nuevamente.");
-          }
-        }} 
-        className="w-full justify-start"
-      >
-        {state === "expanded" ? "Ingresar / Registrarse" : "Login"}
-      </Button>
+      <div className="flex flex-col gap-2 w-full">
+        {/* Opción Email/Password */}
+        <Button
+          variant="outline"
+          onClick={() => router.push('/auth/login')}
+          className="w-full justify-start"
+        >
+          📧 {state === "expanded" ? "Ingresar con Email" : "Email"}
+        </Button>
+
+        {/* Separador */}
+        {state === "expanded" && (
+          <div className="relative py-1">
+            <div className="absolute inset-0 flex items-center">
+              <Separator className="w-full" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-background px-2 text-muted-foreground">o</span>
+            </div>
+          </div>
+        )}
+
+        {/* Opción Google */}
+        <Button
+          variant="ghost"
+          onClick={async () => {
+            try {
+              console.log("Iniciando autenticación con Google...");
+              await signIn("google", { callbackUrl: window.location.origin });
+              console.log("Autenticación iniciada correctamente");
+            } catch (error) {
+              console.error("Error al iniciar autenticación:", error);
+              alert("Error al iniciar sesión. Por favor, intenta nuevamente.");
+            }
+          }}
+          className="w-full justify-start"
+        >
+          🔵 {state === "expanded" ? "Continuar con Google" : "Google"}
+        </Button>
+
+        {/* Link a registro (solo cuando está expandido) */}
+        {state === "expanded" && (
+          <div className="text-center text-xs text-muted-foreground mt-2">
+            ¿No tienes cuenta?{" "}
+            <button
+              onClick={() => router.push('/auth/register')}
+              className="text-primary hover:underline"
+            >
+              Regístrate
+            </button>
+          </div>
+        )}
+      </div>
     )
   }
 

@@ -114,6 +114,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -122,6 +125,10 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   image: 'image',
+  password: 'password',
+  emailVerified: 'emailVerified',
+  resetToken: 'resetToken',
+  resetTokenExpiry: 'resetTokenExpiry',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   birthDate: 'birthDate',
@@ -190,9 +197,33 @@ exports.Prisma.AstrogematriaCacheScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.HorariaRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  country: 'country',
+  acceptSingleQuestion: 'acceptSingleQuestion',
+  isFirstTime: 'isFirstTime',
+  questionCategory: 'questionCategory',
+  question: 'question',
+  context: 'context',
+  status: 'status',
+  response: 'response',
+  responseDate: 'responseDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -206,7 +237,8 @@ exports.Prisma.ModelName = {
   RectificationEvent: 'RectificationEvent',
   CartaNatal: 'CartaNatal',
   InterpretacionCache: 'InterpretacionCache',
-  AstrogematriaCache: 'AstrogematriaCache'
+  AstrogematriaCache: 'AstrogematriaCache',
+  HorariaRequest: 'HorariaRequest'
 };
 
 /**

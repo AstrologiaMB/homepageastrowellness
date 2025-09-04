@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -13,6 +13,10 @@ model User {
   email                            String                @unique
   name                             String?
   image                            String?
+  password                         String?
+  emailVerified                    DateTime?
+  resetToken                       String?
+  resetTokenExpiry                 DateTime?
   createdAt                        DateTime              @default(now())
   updatedAt                        DateTime              @updatedAt
   birthDate                        DateTime?
@@ -32,6 +36,7 @@ model User {
   rectificationEvents              RectificationEvent[]
   cartasNatales                    CartaNatal[]
   interpretaciones                 InterpretacionCache[]
+  horariaRequests                  HorariaRequest[]
 }
 
 model RectificationEvent {
@@ -89,4 +94,24 @@ model AstrogematriaCache {
   posicionCompleta  String
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+}
+
+model HorariaRequest {
+  id                   String    @id @default(cuid())
+  userId               String
+  firstName            String
+  lastName             String
+  email                String
+  country              String
+  acceptSingleQuestion String
+  isFirstTime          String
+  questionCategory     String
+  question             String
+  context              String?
+  status               String    @default("pending") // "pending", "approved", "rejected", "completed"
+  response             String?
+  responseDate         DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

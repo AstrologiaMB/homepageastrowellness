@@ -28,6 +28,7 @@ interface CartaNatalData {
   points: Record<string, any>
   houses: Record<string, any>
   aspects: Array<any>
+  cuspides_cruzadas?: Array<any>
 }
 
 const RAG_SERVICE_URL = 'http://localhost:8002'
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Obtener datos del request
-    const { cartaNatalData, tipo = 'tropical' } = await request.json()
+    const { cartaNatalData, tipo = 'tropical', skipCache = false } = await request.json()
 
     if (!cartaNatalData) {
       return NextResponse.json(
@@ -104,51 +105,108 @@ export async function POST(request: NextRequest) {
     const fechaNacimiento = new Date(user.birthDate!)
     const lugarNacimiento = `${user.birthCity}, ${user.birthCountry}`
 
-    // Verificar cache existente
-    const cacheExistente = await prisma.interpretacionCache.findUnique({
-      where: {
-        userId_fechaNacimiento_lugarNacimiento_gender_tipo: {
-          userId: user.id,
-          fechaNacimiento,
-          lugarNacimiento,
-          gender: user.gender,
-          tipo
+    // Verificar cache existente (solo si no se solicita saltar el cache)
+    if (!skipCache) {
+      const cacheExistente = await prisma.interpretacionCache.findUnique({
+        where: {
+          userId_fechaNacimiento_lugarNacimiento_gender_tipo: {
+            userId: user.id,
+            fechaNacimiento,
+            lugarNacimiento,
+            gender: user.gender,
+            tipo
+          }
+        }
+      })
+
+      // Si existe cache y es reciente (menos de 30 días), devolverlo
+      if (cacheExistente) {
+        const diasDesdeCreacion = (Date.now() - cacheExistente.createdAt.getTime()) / (1000 * 60 * 60 * 24)
+
+        if (diasDesdeCreacion < 30) {
+          console.log('📋 Devolviendo interpretación desde cache')
+
+          // Combinar información de casa con planetas en signo
+          const interpretacionesIndividuales = JSON.parse(cacheExistente.interpretacionesIndividuales)
+          const interpretacionesCombinadas = combinarInformacionCasa(interpretacionesIndividuales)
+
+          return NextResponse.json({
+            interpretacion_narrativa: JSON.parse(cacheExistente.interpretacionNarrativa),
+            interpretaciones_individuales: interpretacionesCombinadas,
+            tiempo_generacion: cacheExistente.tiempoGeneracion,
+            desde_cache: true
+          })
         }
       }
-    })
-
-    // Si existe cache y es reciente (menos de 30 días), devolverlo
-    if (cacheExistente) {
-      const diasDesdeCreacion = (Date.now() - cacheExistente.createdAt.getTime()) / (1000 * 60 * 60 * 24)
-      
-      if (diasDesdeCreacion < 30) {
-        console.log('📋 Devolviendo interpretación desde cache')
-        
-        // Combinar información de casa con planetas en signo
-        const interpretacionesIndividuales = JSON.parse(cacheExistente.interpretacionesIndividuales)
-        const interpretacionesCombinadas = combinarInformacionCasa(interpretacionesIndividuales)
-        
-        return NextResponse.json({
-          interpretacion_narrativa: JSON.parse(cacheExistente.interpretacionNarrativa),
-          interpretaciones_individuales: interpretacionesCombinadas,
-          tiempo_generacion: cacheExistente.tiempoGeneracion,
-          desde_cache: true
-        })
-      }
+    } else {
+      console.log('⏭️ Saltando verificación de cache (skipCache=true)')
     }
 
     // Preparar datos para el microservicio RAG
-    const ragRequest = {
+    const ragRequest: {
+      carta_natal: {
+        nombre: string
+        points: any
+        houses: any
+        aspects: any
+        cuspides_cruzadas?: any
+        aspectos_cruzados?: any
+      }
+      genero: string
+      tipo: string
+    } = {
       carta_natal: {
         nombre: user.name || 'Usuario',
         points: cartaNatalData.points,
         houses: cartaNatalData.houses,
         aspects: cartaNatalData.aspects
       },
-      genero: user.gender
+      genero: user.gender,
+      tipo: tipo  // "tropical" o "draco"
+    }
+
+    // Para cartas dracónicas, también obtener y agregar cúspides cruzadas y aspectos cruzados
+    if (tipo === "draco") {
+      try {
+        console.log('🔮 Obteniendo datos cruzados para carta dracónica...')
+        const cruzadaResponse = await fetch(`http://localhost:3000/api/cartas/cruzada`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Cookie': request.headers.get('cookie') || '' // Pasar cookies para autenticación
+          }
+        })
+
+        if (cruzadaResponse.ok) {
+          const cruzadaData = await cruzadaResponse.json()
+          if (cruzadaData.success && cruzadaData.data) {
+            // Agregar cúspides cruzadas
+            if (cruzadaData.data.cuspides_cruzadas) {
+              ragRequest.carta_natal.cuspides_cruzadas = cruzadaData.data.cuspides_cruzadas
+              console.log(`✅ Agregadas ${cruzadaData.data.cuspides_cruzadas.length} cúspides cruzadas al payload RAG`)
+            }
+            
+            // Agregar aspectos cruzados
+            if (cruzadaData.data.aspectos_cruzados) {
+              ragRequest.carta_natal.aspectos_cruzados = cruzadaData.data.aspectos_cruzados
+              console.log(`✅ Agregados ${cruzadaData.data.aspectos_cruzados.length} aspectos cruzados al payload RAG`)
+            } else {
+              console.log('⚠️ No se encontraron aspectos cruzados en la respuesta')
+            }
+          } else {
+            console.log('⚠️ No se encontraron datos cruzados en la respuesta')
+          }
+        } else {
+          console.log('⚠️ Error al obtener datos cruzados:', cruzadaResponse.status)
+        }
+      } catch (cruzadaError) {
+        console.error('⚠️ Error al llamar API de datos cruzados:', cruzadaError)
+        // No fallar la interpretación por este error, continuar sin datos cruzados
+      }
     }
 
     console.log('🔄 Llamando al microservicio RAG...')
+    console.log('🔍 DEBUG: Payload completo enviado al RAG:', JSON.stringify(ragRequest, null, 2))
     
     // Llamar al microservicio RAG
     const ragResponse = await fetch(`${RAG_SERVICE_URL}/interpretar`, {

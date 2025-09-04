@@ -25,12 +25,14 @@ const CartaNatal = dynamic(() => import('@/components/carta-natal').then(mod => 
  * 
  * @property {Record<string, number[]>} planets - Objeto con las posiciones planetarias en grados (0-359).
  * @property {number[]} cusps - Array de 12 valores numéricos representando las cúspides de las casas.
+ * @property {string} chartId - ID único para el contenedor del gráfico (opcional).
  */
 interface CartaNatalWrapperProps {
   chartData: {
     planets: Record<string, number[]>;
     cusps: number[];
   };
+  chartId?: string;
 }
 
 /**
@@ -39,10 +41,10 @@ interface CartaNatalWrapperProps {
  * @param {CartaNatalWrapperProps} props - Propiedades del componente.
  * @returns {JSX.Element} - Elemento JSX que contiene el componente CartaNatal.
  */
-export function CartaNatalWrapper({ chartData }: CartaNatalWrapperProps) {
+export function CartaNatalWrapper({ chartData, chartId }: CartaNatalWrapperProps) {
   return (
     <Suspense fallback={<div className="w-full h-64 flex items-center justify-center">Cargando carta natal...</div>}>
-      <CartaNatal chartData={chartData} />
+      <CartaNatal chartData={chartData} chartId={chartId} />
     </Suspense>
   );
 }
