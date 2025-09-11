@@ -46,3 +46,39 @@ export function degreesToGMS(decimalDegrees: number): {
 
   return { degrees, minutes, seconds };
 }
+
+/**
+ * Obtiene el sufijo dracónico correcto según el género gramatical del planeta
+ *
+ * @param planet - Nombre del planeta en inglés
+ * @returns Sufijo con género correcto (" dracónico" o " dracónica")
+ */
+export function getDraconicSuffix(planet: string): string {
+  // Luna es femenino, todos los demás planetas son masculinos
+  return planet === "Moon" ? " dracónica" : " dracónico";
+}
+
+/**
+ * Traduce signos astrológicos del inglés al español
+ *
+ * @param sign - Nombre del signo en inglés
+ * @returns Nombre del signo en español
+ */
+export function translateSign(sign: string): string {
+  const translations: Record<string, string> = {
+    "Aries": "Aries",
+    "Taurus": "Tauro",
+    "Gemini": "Géminis",
+    "Cancer": "Cáncer",
+    "Leo": "Leo",
+    "Virgo": "Virgo",
+    "Libra": "Libra",
+    "Scorpio": "Escorpio",
+    "Sagittarius": "Sagitario",
+    "Capricorn": "Capricornio",
+    "Aquarius": "Acuario",
+    "Pisces": "Piscis"
+  };
+
+  return translations[sign] || sign;
+}
