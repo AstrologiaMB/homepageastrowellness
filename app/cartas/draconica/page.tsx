@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock } from "lucide-react";
+import { formatAstrologicalDegrees, formatOrbe } from "@/lib/astrology-utils";
 
 interface CartaNatalData {
   success: boolean;
@@ -73,11 +74,12 @@ export default function CartasDraconicaPage() {
     puntosBasicos.forEach((punto, index) => {
       if (cartaDraconica.points && cartaDraconica.points[punto.key]) {
         const puntoData = cartaDraconica.points[punto.key];
+        const formattedDegrees = formatAstrologicalDegrees(puntoData.degrees);
         eventos.push({
           id: `posicion_${index}`,
           tipo: punto.tipo,
           titulo: `${punto.nombre} Dracónico en ${puntoData.sign}`,
-          descripcion: `${punto.nombre} Dracónico se encuentra en ${puntoData.sign} ${puntoData.degrees}°`,
+          descripcion: `${punto.nombre} Dracónico se encuentra en ${puntoData.sign} ${formattedDegrees}`,
           icono: punto.icono,
           orbe: undefined,
           relevancia: 'alta'
@@ -88,11 +90,12 @@ export default function CartasDraconicaPage() {
     // Agregar Ascendente dracónico
     if (cartaDraconica.houses && cartaDraconica.houses['1']) {
       const ascData = cartaDraconica.houses['1'];
+      const formattedAscDegrees = formatAstrologicalDegrees(ascData.degrees);
       eventos.push({
         id: 'posicion_asc',
         tipo: 'posicion_basica',
         titulo: `Ascendente Dracónico en ${ascData.sign}`,
-        descripcion: `Ascendente Dracónico se encuentra en ${ascData.sign} ${ascData.degrees}°`,
+        descripcion: `Ascendente Dracónico se encuentra en ${ascData.sign} ${formattedAscDegrees}`,
         icono: 'AS',
         orbe: undefined,
         relevancia: 'alta'
