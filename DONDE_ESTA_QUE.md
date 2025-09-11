@@ -135,6 +135,8 @@ NEXTAUTH_URL=http://localhost:3000
 |----------|---------|-----------|
 | **formatAstrologicalDegrees()** | Convierte grados decimales a ° ' " | `lib/astrology-utils.ts` |
 | **formatOrbe()** | Formatea orbes de aspectos | `lib/astrology-utils.ts` |
+| **getDraconicSuffix()** | Determina sufijo dracónico por género | `lib/astrology-utils.ts` |
+| **translateSign()** | Traduce signos del inglés al español | `lib/astrology-utils.ts` |
 
 ---
 
@@ -265,6 +267,8 @@ npm install                     # Reinstalar dependencias si es necesario
 | **Modificar UI** | Editar `app/cartas/draconica/page.tsx` | sidebar-fastapi |
 | **Cambiar algoritmo** | Modificar `src/calculators/` | calculo-carta-natal-api |
 | **Formatear grados** | Usar `formatAstrologicalDegrees()` | `lib/astrology-utils.ts` |
+| **Género dracónico** | Usar `getDraconicSuffix()` | `lib/astrology-utils.ts` |
+| **Traducir signos** | Usar `translateSign()` | `lib/astrology-utils.ts` |
 | **Actualizar estilos** | Editar `components/` | sidebar-fastapi |
 
 ---
