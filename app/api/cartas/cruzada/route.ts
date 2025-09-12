@@ -55,8 +55,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (cartaExistente) {
-      // 🔍 TEMPORALMENTE COMENTADO: Código de debug para análisis de aspectos desde caché
-      /*
+      // 🔍 DEBUG: Análisis de aspectos desde caché
       const dataCacheada = JSON.parse(cartaExistente.dataCompleta);
 
       if (dataCacheada && dataCacheada.aspectos) {
@@ -94,11 +93,10 @@ export async function POST(request: NextRequest) {
 
         console.log('🔍 DEBUG: === FIN ANÁLISIS (CACHÉ) ===');
       }
-      */
 
       return NextResponse.json({
         success: true,
-        data: JSON.parse(cartaExistente.dataCompleta),
+        data: dataCacheada,
         cached: true,
         timestamp: cartaExistente.createdAt
       });
@@ -130,8 +128,7 @@ export async function POST(request: NextRequest) {
       throw new Error(resultado.error || 'Error calculando análisis cruzado');
     }
 
-    // 🔍 TEMPORALMENTE COMENTADO: Código de debug para análisis de aspectos
-    /*
+    // 🔍 DEBUG: Análisis de aspectos para investigación
     console.log('🔍 DEBUG: Iniciando análisis de debug...');
     console.log('🔍 DEBUG: resultado.data existe:', !!resultado.data);
     console.log('🔍 DEBUG: resultado.data.aspectos existe:', !!(resultado.data && resultado.data.aspectos));
@@ -174,7 +171,6 @@ export async function POST(request: NextRequest) {
       console.log('🔍 DEBUG: No se encontraron aspectos en la respuesta');
       console.log('🔍 DEBUG: Estructura de datos recibida:', Object.keys(resultado.data || {}));
     }
-    */
 
     // Guardar en caché
     await prisma.cartaNatal.create({

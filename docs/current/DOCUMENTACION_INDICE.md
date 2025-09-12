@@ -1,7 +1,18 @@
 # 📚 Índice de Documentación Astrowellness
 
-**Fecha de Actualización:** 7 de enero de 2025  
+**Fecha de Actualización:** 9 de enero de 2025  
 **Estado:** Documentación completa y actualizada
+
+---
+
+## 🗺️ Navegación Rápida
+
+### **🚀 GPS del Código - EMPEZAR AQUÍ**
+- **[DONDE_ESTA_QUE.md](../../DONDE_ESTA_QUE.md)** - 🎯 **Encuentra cualquier funcionalidad en 30 segundos**
+  - Problemas comunes → Soluciones rápidas
+  - Mapa por funcionalidad (género, cálculos, interpretaciones)
+  - Debugging por síntomas
+  - Casos de uso frecuentes
 
 ---
 
