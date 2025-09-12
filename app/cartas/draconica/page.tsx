@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock } from "lucide-react";
-import { formatAstrologicalDegrees, formatOrbe, getDraconicSuffix, translateSign } from "@/lib/astrology-utils";
+import { formatAstrologicalDegrees, formatOrbe, getDraconicSuffix, translateSign, translatePlanet, translateAspect } from "@/lib/astrology-utils";
 
 interface CartaNatalData {
   success: boolean;
@@ -146,7 +146,7 @@ export default function CartasDraconicaPage() {
         eventos.push({
           id: `aspecto_${index}`,
           tipo: 'aspecto_cruzado',
-          titulo: `${aspecto.punto_draconico} Dracónico ${aspecto.tipo_aspecto} ${aspecto.punto_tropical} Tropical`,
+          titulo: `${translatePlanet(aspecto.punto_draconico)} Dracónico ${translateAspect(aspecto.tipo_aspecto)} ${translatePlanet(aspecto.punto_tropical)} Tropical`,
           descripcion: traducirSignosEnTexto(aspecto.descripcion),
           icono: '☌',
           orbe: `${aspecto.orbe_grados}°${aspecto.orbe_minutos}'`,

@@ -82,3 +82,44 @@ export function translateSign(sign: string): string {
 
   return translations[sign] || sign;
 }
+
+/**
+ * Traduce nombres de planetas del inglés al español
+ *
+ * @param planet - Nombre del planeta en inglés
+ * @returns Nombre del planeta en español
+ */
+export function translatePlanet(planet: string): string {
+  const translations: Record<string, string> = {
+    "Sun": "Sol",
+    "Moon": "Luna",
+    "Mercury": "Mercurio",
+    "Venus": "Venus",
+    "Mars": "Marte",
+    "Jupiter": "Júpiter",
+    "Saturn": "Saturno",
+    "Uranus": "Urano",
+    "Neptune": "Neptuno",
+    "Pluto": "Plutón"
+  };
+
+  return translations[planet] || planet;
+}
+
+/**
+ * Traduce tipos de aspectos astrológicos del inglés al español
+ *
+ * @param aspect - Nombre del aspecto en inglés
+ * @returns Nombre del aspecto en español
+ */
+export function translateAspect(aspect: string): string {
+  const translations: Record<string, string> = {
+    "conjunction": "conjunción",
+    "opposition": "oposición",
+    "trine": "trígono",
+    "square": "cuadratura",
+    "sextile": "sextil"
+  };
+
+  return translations[aspect] || aspect;
+}
