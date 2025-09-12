@@ -1,6 +1,6 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.3
+**Versión:** 1.4
 **Fecha:** 12 de Septiembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
@@ -175,7 +175,34 @@ interpretador_refactored.py           # ⭐ Motor RAG principal
 ├── _get_draconico_suffix()           # Género gramatical
 ├── _generar_consulta_estandarizada() # Consultas para matching
 ├── _flexible_title_match()           # Matching de títulos
+├── _generar_interpretaciones_concurrentes() # ⭐ Fase 1: Consultas RAG paralelas
+├── _generar_interpretacion_narrativa()      # ⭐ Fase 2: Re-escritura GPT-4
 └── _create_interpretation_item()     # Títulos para UI
+```
+
+#### **🔄 Proceso de Generación de Análisis Detallado (2 Fases)**
+
+**Fase 1: Interpretaciones Individuales (RAG Concurrente)**
+```python
+# Genera consultas como "sol dracónico en libra"
+# Busca en archivos .md usando similitud semántica
+# Retorna interpretaciones específicas por planeta/aspecto
+```
+
+**Fase 2: Re-escritura Narrativa Final (GPT-4) ⭐**
+```python
+# Combina TODAS las interpretaciones individuales
+# GPT-4 crea un texto narrativo unificado y fluido
+# Resultado: Análisis detallado que conecta todo coherentemente
+
+prompt_gpt4 = f"""
+Eres un astrólogo experto. Toma estas interpretaciones individuales
+de una CARTA NATAL DRACÓNICA y re-escribe como un informe narrativo
+unificado, fluido y detallado.
+
+Interpretaciones individuales: {todas_las_interpretaciones}
+Informe Narrativo Detallado: [GPT-4 genera esto]
+"""
 ```
 
 ### **📅 Calendario (astro-calendar-personal-fastapi) - Puerto 8003**
@@ -289,7 +316,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 12 de Septiembre 2025 (v1.3 - Nuevas funciones de traducción)
+**🔄 Última actualización:** 12 de Septiembre 2025 (v1.4 - Proceso completo de análisis detallado)
 **� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **�👨‍💻 Mantenido por:** Equipo Astrowellness
 
