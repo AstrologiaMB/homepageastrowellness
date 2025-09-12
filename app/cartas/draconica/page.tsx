@@ -61,7 +61,7 @@ export default function CartasDraconicaPage() {
   const [cached, setCached] = useState(false);
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
-  // Función helper para traducir planetas y signos en textos
+  // Función helper para traducir planetas, signos y términos astrológicos en textos
   const traducirSignosEnTexto = (texto: string): string => {
     if (!texto) return texto;
     let textoTraducido = texto;
@@ -70,7 +70,8 @@ export default function CartasDraconicaPage() {
     const planetas = {
       'Sun': 'Sol', 'Moon': 'Luna', 'Mercury': 'Mercurio', 'Venus': 'Venus',
       'Mars': 'Marte', 'Jupiter': 'Júpiter', 'Saturn': 'Saturno',
-      'Uranus': 'Urano', 'Neptune': 'Neptuno', 'Pluto': 'Plutón'
+      'Uranus': 'Urano', 'Neptune': 'Neptuno', 'Pluto': 'Plutón',
+      'True North Node': 'Nodo Norte Verdadero'
     };
 
     // Traducir signos
@@ -80,6 +81,11 @@ export default function CartasDraconicaPage() {
       'Sagittarius': 'Sagitario', 'Capricorn': 'Capricornio', 'Aquarius': 'Acuario', 'Pisces': 'Piscis'
     };
 
+    // Traducir términos astrológicos
+    const terminosAstrologicos = {
+      'Tropical': 'Trópico'
+    };
+
     // Aplicar traducciones de planetas primero
     Object.entries(planetas).forEach(([ingles, espanol]) => {
       textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
@@ -87,6 +93,11 @@ export default function CartasDraconicaPage() {
 
     // Luego aplicar traducciones de signos
     Object.entries(signos).forEach(([ingles, espanol]) => {
+      textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
+    });
+
+    // Finalmente aplicar traducciones de términos astrológicos
+    Object.entries(terminosAstrologicos).forEach(([ingles, espanol]) => {
       textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
     });
 

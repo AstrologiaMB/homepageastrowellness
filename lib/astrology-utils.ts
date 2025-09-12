@@ -100,7 +100,8 @@ export function translatePlanet(planet: string): string {
     "Saturn": "Saturno",
     "Uranus": "Urano",
     "Neptune": "Neptuno",
-    "Pluto": "Plutón"
+    "Pluto": "Plutón",
+    "True North Node": "Nodo Norte Verdadero"
   };
 
   return translations[planet] || planet;
