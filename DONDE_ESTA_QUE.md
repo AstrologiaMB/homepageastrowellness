@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.2
-**Fecha:** 11 de Septiembre 2025
+**Versión:** 1.3
+**Fecha:** 12 de Septiembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -137,6 +137,9 @@ NEXTAUTH_URL=http://localhost:3000
 | **formatOrbe()** | Formatea orbes de aspectos | `lib/astrology-utils.ts` |
 | **getDraconicSuffix()** | Determina sufijo dracónico por género | `lib/astrology-utils.ts` |
 | **translateSign()** | Traduce signos del inglés al español | `lib/astrology-utils.ts` |
+| **translatePlanet()** | Traduce nombres de planetas del inglés al español | `lib/astrology-utils.ts` |
+| **translateAspect()** | Traduce tipos de aspectos del inglés al español | `lib/astrology-utils.ts` |
+| **traducirSignosEnTexto()** | Traduce planetas, signos y términos en textos largos | `app/cartas/draconica/page.tsx` |
 
 ---
 
@@ -269,6 +272,9 @@ npm install                     # Reinstalar dependencias si es necesario
 | **Formatear grados** | Usar `formatAstrologicalDegrees()` | `lib/astrology-utils.ts` |
 | **Género dracónico** | Usar `getDraconicSuffix()` | `lib/astrology-utils.ts` |
 | **Traducir signos** | Usar `translateSign()` | `lib/astrology-utils.ts` |
+| **Traducir planetas** | Usar `translatePlanet()` | `lib/astrology-utils.ts` |
+| **Traducir aspectos** | Usar `translateAspect()` | `lib/astrology-utils.ts` |
+| **Traducir textos largos** | Usar `traducirSignosEnTexto()` | `app/cartas/draconica/page.tsx` |
 | **Actualizar estilos** | Editar `components/` | sidebar-fastapi |
 
 ---
@@ -283,7 +289,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 11 de Septiembre 2025 (v1.2 - Reestructurado)
+**🔄 Última actualización:** 12 de Septiembre 2025 (v1.3 - Nuevas funciones de traducción)
 **👨‍💻 Mantenido por:** Equipo Astrowellness
 
 ---
