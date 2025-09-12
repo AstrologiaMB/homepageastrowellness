@@ -61,6 +61,23 @@ export default function CartasDraconicaPage() {
   const [cached, setCached] = useState(false);
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
+  // Función helper para traducir signos en textos
+  const traducirSignosEnTexto = (texto: string): string => {
+    if (!texto) return texto;
+    let textoTraducido = texto;
+    const signos = {
+      'Aries': 'Aries', 'Taurus': 'Tauro', 'Gemini': 'Géminis', 'Cancer': 'Cáncer',
+      'Leo': 'Leo', 'Virgo': 'Virgo', 'Libra': 'Libra', 'Scorpio': 'Escorpio',
+      'Sagittarius': 'Sagitario', 'Capricorn': 'Capricornio', 'Aquarius': 'Acuario', 'Pisces': 'Piscis'
+    };
+
+    Object.entries(signos).forEach(([ingles, espanol]) => {
+      textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
+    });
+
+    return textoTraducido;
+  };
+
   // Función para procesar eventos dracónicos del análisis cruzado
   const procesarEventosDraconicos = (datosCruzados: any, cartaDraconica: any) => {
     const eventos: any[] = [];
@@ -114,7 +131,7 @@ export default function CartasDraconicaPage() {
           id: `cuspide_${index}`,
           tipo: 'cuspide_cruzada',
           titulo: `Casa ${cuspide.casa_draconica} Dracónica en Casa ${cuspide.casa_tropical_ubicacion} Tropical`,
-          descripcion: cuspide.descripcion,
+          descripcion: traducirSignosEnTexto(cuspide.descripcion),
           icono: '🏠',
           orbe: cuspide.distancia_desde_cuspide?.grados ?
             `${cuspide.distancia_desde_cuspide.grados}°${cuspide.distancia_desde_cuspide.minutos}'` : undefined,
@@ -130,7 +147,7 @@ export default function CartasDraconicaPage() {
           id: `aspecto_${index}`,
           tipo: 'aspecto_cruzado',
           titulo: `${aspecto.punto_draconico} Dracónico ${aspecto.tipo_aspecto} ${aspecto.punto_tropical} Tropical`,
-          descripcion: aspecto.descripcion,
+          descripcion: traducirSignosEnTexto(aspecto.descripcion),
           icono: '☌',
           orbe: `${aspecto.orbe_grados}°${aspecto.orbe_minutos}'`,
           relevancia: aspecto.exacto ? 'alta' : (aspecto.orbe_grados <= 3 ? 'media' : 'baja')
