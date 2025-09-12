@@ -290,7 +290,8 @@ npm install                     # Reinstalar dependencias si es necesario
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
 **🔄 Última actualización:** 12 de Septiembre 2025 (v1.3 - Nuevas funciones de traducción)
-**👨‍💻 Mantenido por:** Equipo Astrowellness
+**� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
+**�👨‍💻 Mantenido por:** Equipo Astrowellness
 
 ---
 
