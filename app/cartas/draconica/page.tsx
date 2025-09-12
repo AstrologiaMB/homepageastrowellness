@@ -61,16 +61,31 @@ export default function CartasDraconicaPage() {
   const [cached, setCached] = useState(false);
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
-  // Función helper para traducir signos en textos
+  // Función helper para traducir planetas y signos en textos
   const traducirSignosEnTexto = (texto: string): string => {
     if (!texto) return texto;
     let textoTraducido = texto;
+
+    // Traducir planetas
+    const planetas = {
+      'Sun': 'Sol', 'Moon': 'Luna', 'Mercury': 'Mercurio', 'Venus': 'Venus',
+      'Mars': 'Marte', 'Jupiter': 'Júpiter', 'Saturn': 'Saturno',
+      'Uranus': 'Urano', 'Neptune': 'Neptuno', 'Pluto': 'Plutón'
+    };
+
+    // Traducir signos
     const signos = {
       'Aries': 'Aries', 'Taurus': 'Tauro', 'Gemini': 'Géminis', 'Cancer': 'Cáncer',
       'Leo': 'Leo', 'Virgo': 'Virgo', 'Libra': 'Libra', 'Scorpio': 'Escorpio',
       'Sagittarius': 'Sagitario', 'Capricorn': 'Capricornio', 'Aquarius': 'Acuario', 'Pisces': 'Piscis'
     };
 
+    // Aplicar traducciones de planetas primero
+    Object.entries(planetas).forEach(([ingles, espanol]) => {
+      textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
+    });
+
+    // Luego aplicar traducciones de signos
     Object.entries(signos).forEach(([ingles, espanol]) => {
       textoTraducido = textoTraducido.replace(new RegExp(ingles, 'g'), espanol);
     });
