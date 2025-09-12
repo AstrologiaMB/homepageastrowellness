@@ -145,7 +145,7 @@ export default function CartasDraconicaPage() {
         eventos.push({
           id: `cuspide_${index}`,
           tipo: 'cuspide_cruzada',
-          titulo: `Casa ${cuspide.casa_draconica} Dracónica en Casa ${cuspide.casa_tropical_ubicacion} Tropical`,
+          titulo: `Casa ${cuspide.casa_draconica} Dracónica en Casa ${cuspide.casa_tropical_ubicacion} Trópica`,
           descripcion: traducirSignosEnTexto(cuspide.descripcion),
           icono: '🏠',
           orbe: cuspide.distancia_desde_cuspide?.grados ?
@@ -161,7 +161,7 @@ export default function CartasDraconicaPage() {
         eventos.push({
           id: `aspecto_${index}`,
           tipo: 'aspecto_cruzado',
-          titulo: `${translatePlanet(aspecto.punto_draconico)} Dracónico ${translateAspect(aspecto.tipo_aspecto)} ${translatePlanet(aspecto.punto_tropical)} Tropical`,
+          titulo: `${translatePlanet(aspecto.punto_draconico)} Dracónico ${translateAspect(aspecto.tipo_aspecto)} ${translatePlanet(aspecto.punto_tropical)} Trópico`,
           descripcion: traducirSignosEnTexto(aspecto.descripcion),
           icono: '☌',
           orbe: `${aspecto.orbe_grados}°${aspecto.orbe_minutos}'`,
