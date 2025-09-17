@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   })
   
   // Si no está autenticado y está intentando acceder a una ruta protegida
-  if (!session && (path.startsWith('/calendario') || path.startsWith('/cartas') || path.startsWith('/rectificacion'))) {
+  if (!session && (path.startsWith('/calendario') || path.startsWith('/cartas') || path.startsWith('/rectificacion') || path.startsWith('/astrogematria'))) {
     return NextResponse.redirect(new URL('/auth/login', request.url))
   }
   
