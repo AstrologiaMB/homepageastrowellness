@@ -29,9 +29,13 @@ export function NavUser() {
         <Button
           variant="outline"
           onClick={() => router.push('/auth/login')}
-          className="w-full justify-start"
+          className="w-full justify-start group"
+          title={state === "collapsed" ? "Ingresar con Email o contraseña" : undefined}
         >
-          📧 {state === "expanded" ? "Ingresar con Email" : "Email"}
+          📧{" "}
+          <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
+            {state === "expanded" ? "Ingresar con Email" : "Email"}
+          </span>
         </Button>
 
         {/* Separador */}
@@ -59,9 +63,13 @@ export function NavUser() {
               alert("Error al iniciar sesión. Por favor, intenta nuevamente.");
             }
           }}
-          className="w-full justify-start"
+          className="w-full justify-start group"
+          title={state === "collapsed" ? "Continuar con tu cuenta de Google" : undefined}
         >
-          🔵 {state === "expanded" ? "Continuar con Google" : "Google"}
+          🔵{" "}
+          <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
+            {state === "expanded" ? "Continuar con Google" : "Google"}
+          </span>
         </Button>
 
         {/* Link a registro (solo cuando está expandido) */}

@@ -49,9 +49,10 @@ const data = {
   navMain: [
     {
       title: "Calendario",
-      url: "/calendario", // Parent item URL (optional, can be # if not a clickable link itself)
+      url: "/calendario",
       icon: Calendar,
-      isActive: true, // Assuming Calendario is the active section initially
+      isActive: true,
+      tooltip: "Calendario astrológico con eventos planetarios y tránsitos",
       items: [
         {
           title: "General",
@@ -65,8 +66,9 @@ const data = {
     },
     {
       title: "Cartas",
-      url: "/cartas", // Parent item URL (optional)
-      icon: Star, // Icono más apropiado para cartas astrológicas
+      url: "/cartas",
+      icon: Star,
+      tooltip: "Cartas astrológicas: natal, horaria, trópica y dracónica",
       items: [
         {
           title: "Carta Horaria",
@@ -86,12 +88,14 @@ const data = {
       title: "Rectificacion Carta",
       url: "/rectificacion-carta",
       icon: ClipboardEdit,
-      items: [], // Sin submenús
+      tooltip: "Herramientas para rectificar y ajustar cartas astrológicas",
+      items: [],
     },
     {
       title: "Astrogematria",
       url: "#",
-      icon: Bot, // Icono más apropiado para cálculos astrológicos
+      icon: Bot,
+      tooltip: "Cálculos numéricos y análisis astrogemátrico",
       items: [
         {
           title: "Cálculos",
@@ -111,6 +115,7 @@ const data = {
       title: "Horas Planetarias",
       url: "#",
       icon: Hourglass,
+      tooltip: "Sistema de horas planetarias y cronobiología astrológica",
       items: [
         {
           title: "Genesis",
