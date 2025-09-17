@@ -1,8 +1,8 @@
 "use client"
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { User, Globe } from "lucide-react"
+import { User } from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
 
 export function NavUser() {
@@ -42,42 +41,7 @@ export function NavUser() {
           </span>
         </Button>
 
-        {/* Separador */}
-        {state === "expanded" && (
-          <div className="relative py-1">
-            <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-background px-2 text-muted-foreground">o</span>
-            </div>
-          </div>
-        )}
 
-        {/* Opción Google */}
-        <Button
-          variant="outline"
-          onClick={async () => {
-            try {
-              console.log("Iniciando autenticación con Google...");
-              await signIn("google", { callbackUrl: window.location.origin });
-              console.log("Autenticación iniciada correctamente");
-            } catch (error) {
-              console.error("Error al iniciar autenticación:", error);
-              alert("Error al iniciar sesión. Por favor, intenta nuevamente.");
-            }
-          }}
-          className="w-full justify-start group"
-          title={state === "collapsed" ? "Continuar con tu cuenta de Google" : undefined}
-        >
-          <Globe className="h-4 w-4" />
-          <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
-            {state === "expanded" ? "Continuar con Google" : "Google"}
-          </span>
-          <span className={state === "collapsed" ? "inline" : "hidden"}>
-            Google
-          </span>
-        </Button>
 
         {/* Link a registro (solo cuando está expandido) */}
         {state === "expanded" && (
