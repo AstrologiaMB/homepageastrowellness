@@ -34,10 +34,10 @@ export function NavUser() {
         >
           <User className="h-4 w-4" />
           <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
-            {state === "expanded" ? "Ingresar" : "Login"}
+            Ingresar
           </span>
           <span className={state === "collapsed" ? "inline" : "hidden"}>
-            Login
+            Ingresar
           </span>
         </Button>
 
