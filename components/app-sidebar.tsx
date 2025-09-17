@@ -2,21 +2,15 @@
 
 import type * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
   Bot,
   Calendar,
-  Clock,
   ClipboardEdit,
-  Command,
-  GalleryVerticalEnd,
   Hourglass,
   Star,
 } from "lucide-react"
 
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
-import { TeamSwitcher } from "./team-switcher"
 import { ThemeToggle } from "./theme-toggle"
 import { AstroSymbol } from "./astro-symbol"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar" // Removed SidebarTrigger import
@@ -29,23 +23,6 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Calendario",
@@ -142,7 +119,7 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        {/* TeamSwitcher removed - component was unused */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

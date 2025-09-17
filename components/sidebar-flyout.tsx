@@ -10,6 +10,7 @@ import type { ReactNode } from "react"
 interface SidebarFlyoutProps {
   icon: ReactNode
   label: string
+  tooltip?: string
   items: {
     label: string
     href: string
@@ -17,7 +18,7 @@ interface SidebarFlyoutProps {
   isCollapsed: boolean
 }
 
-export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyoutProps) {
+export function SidebarFlyout({ icon, label, tooltip, items, isCollapsed }: SidebarFlyoutProps) {
   const [open, setOpen] = useState(false)
 
   // Si el sidebar no está colapsado o no hay ítems, no renderizar nada
@@ -51,7 +52,7 @@ export function SidebarFlyout({ icon, label, items, isCollapsed }: SidebarFlyout
         onMouseLeave={() => setOpen(false)}
       >
         <div className="text-xs font-medium text-muted-foreground px-1 mb-2">
-          {label}
+          {tooltip || label}
         </div>
         <div className="flex flex-col gap-1">
           {Array.isArray(items) && items.map((item, index) => (

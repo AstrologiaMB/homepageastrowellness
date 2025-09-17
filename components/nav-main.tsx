@@ -49,7 +49,8 @@ export function NavMain({
                 key={`${item.title}-${item.url}-${index}`}
                 icon={iconElement}
                 label={item.title}
-                items={Array.isArray(item.items) ? item.items.map(subItem => 
+                tooltip={item.tooltip}
+                items={Array.isArray(item.items) ? item.items.map(subItem =>
                   subItem && subItem.title && subItem.url ? {
                     label: subItem.title,
                     href: subItem.url,

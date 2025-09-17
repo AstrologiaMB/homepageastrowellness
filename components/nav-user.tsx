@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { User, Globe } from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
@@ -32,9 +33,12 @@ export function NavUser() {
           className="w-full justify-start group"
           title={state === "collapsed" ? "Ingresar con Email o contraseña" : undefined}
         >
-          📧{" "}
+          <User className="h-4 w-4" />
           <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
-            {state === "expanded" ? "Ingresar con Email" : "Email"}
+            {state === "expanded" ? "Ingresar con Email" : "Login"}
+          </span>
+          <span className={state === "collapsed" ? "inline" : "hidden"}>
+            Login
           </span>
         </Button>
 
@@ -52,7 +56,7 @@ export function NavUser() {
 
         {/* Opción Google */}
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={async () => {
             try {
               console.log("Iniciando autenticación con Google...");
@@ -66,9 +70,12 @@ export function NavUser() {
           className="w-full justify-start group"
           title={state === "collapsed" ? "Continuar con tu cuenta de Google" : undefined}
         >
-          🔵{" "}
+          <Globe className="h-4 w-4" />
           <span className={state === "collapsed" ? "sr-only" : "group-data-[collapsible=icon]:hidden"}>
             {state === "expanded" ? "Continuar con Google" : "Google"}
+          </span>
+          <span className={state === "collapsed" ? "inline" : "hidden"}>
+            Google
           </span>
         </Button>
 
