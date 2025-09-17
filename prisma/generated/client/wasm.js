@@ -144,7 +144,9 @@ exports.Prisma.UserScalarFieldEnum = {
   rectificationRequested: 'rectificationRequested',
   rectificationAcceptedUncertainty: 'rectificationAcceptedUncertainty',
   rectificationStatus: 'rectificationStatus',
-  rectificationRequestDate: 'rectificationRequestDate'
+  rectificationRequestDate: 'rectificationRequestDate',
+  subscriptionStatus: 'subscriptionStatus',
+  subscriptionExpiresAt: 'subscriptionExpiresAt'
 };
 
 exports.Prisma.RectificationEventScalarFieldEnum = {

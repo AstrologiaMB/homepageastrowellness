@@ -1428,6 +1428,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean | null
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    subscriptionStatus: string | null
+    subscriptionExpiresAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1455,6 +1457,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean | null
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    subscriptionStatus: string | null
+    subscriptionExpiresAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1482,6 +1486,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: number
     rectificationStatus: number
     rectificationRequestDate: number
+    subscriptionStatus: number
+    subscriptionExpiresAt: number
     _all: number
   }
 
@@ -1521,6 +1527,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    subscriptionStatus?: true
+    subscriptionExpiresAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1548,6 +1556,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    subscriptionStatus?: true
+    subscriptionExpiresAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1575,6 +1585,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    subscriptionStatus?: true
+    subscriptionExpiresAt?: true
     _all?: true
   }
 
@@ -1689,6 +1701,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    subscriptionStatus: string
+    subscriptionExpiresAt: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1735,6 +1749,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    subscriptionStatus?: boolean
+    subscriptionExpiresAt?: boolean
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
@@ -1767,6 +1783,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    subscriptionStatus?: boolean
+    subscriptionExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1794,6 +1812,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    subscriptionStatus?: boolean
+    subscriptionExpiresAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1821,9 +1841,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    subscriptionStatus?: boolean
+    subscriptionExpiresAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "subscriptionStatus" | "subscriptionExpiresAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -1867,6 +1889,8 @@ export namespace Prisma {
       rectificationAcceptedUncertainty: boolean
       rectificationStatus: string | null
       rectificationRequestDate: Date | null
+      subscriptionStatus: string
+      subscriptionExpiresAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2318,6 +2342,8 @@ export namespace Prisma {
     readonly rectificationAcceptedUncertainty: FieldRef<"User", 'Boolean'>
     readonly rectificationStatus: FieldRef<"User", 'String'>
     readonly rectificationRequestDate: FieldRef<"User", 'DateTime'>
+    readonly subscriptionStatus: FieldRef<"User", 'String'>
+    readonly subscriptionExpiresAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -8538,7 +8564,9 @@ export namespace Prisma {
     rectificationRequested: 'rectificationRequested',
     rectificationAcceptedUncertainty: 'rectificationAcceptedUncertainty',
     rectificationStatus: 'rectificationStatus',
-    rectificationRequestDate: 'rectificationRequestDate'
+    rectificationRequestDate: 'rectificationRequestDate',
+    subscriptionStatus: 'subscriptionStatus',
+    subscriptionExpiresAt: 'subscriptionExpiresAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -8751,6 +8779,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
     rectificationStatus?: StringNullableFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    subscriptionStatus?: StringFilter<"User"> | string
+    subscriptionExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
@@ -8782,6 +8812,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrderInput | SortOrder
     rectificationRequestDate?: SortOrderInput | SortOrder
+    subscriptionStatus?: SortOrder
+    subscriptionExpiresAt?: SortOrderInput | SortOrder
     rectificationEvents?: RectificationEventOrderByRelationAggregateInput
     cartasNatales?: CartaNatalOrderByRelationAggregateInput
     interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
@@ -8816,6 +8848,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
     rectificationStatus?: StringNullableFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    subscriptionStatus?: StringFilter<"User"> | string
+    subscriptionExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
@@ -8847,6 +8881,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrderInput | SortOrder
     rectificationRequestDate?: SortOrderInput | SortOrder
+    subscriptionStatus?: SortOrder
+    subscriptionExpiresAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -8882,6 +8918,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolWithAggregatesFilter<"User"> | boolean
     rectificationStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    subscriptionStatus?: StringWithAggregatesFilter<"User"> | string
+    subscriptionExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type RectificationEventWhereInput = {
@@ -9332,6 +9370,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -9363,6 +9403,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -9394,6 +9436,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -9425,6 +9469,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -9456,6 +9502,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -9483,6 +9531,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -9510,6 +9560,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RectificationEventCreateInput = {
@@ -10129,6 +10181,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    subscriptionStatus?: SortOrder
+    subscriptionExpiresAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -10161,6 +10215,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    subscriptionStatus?: SortOrder
+    subscriptionExpiresAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10188,6 +10244,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    subscriptionStatus?: SortOrder
+    subscriptionExpiresAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -11370,6 +11428,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -11400,6 +11460,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -11446,6 +11508,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -11476,6 +11540,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -11506,6 +11572,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -11536,6 +11604,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -11582,6 +11652,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -11612,6 +11684,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -11642,6 +11716,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -11672,6 +11748,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -11718,6 +11796,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -11748,6 +11828,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -11778,6 +11860,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -11808,6 +11892,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -11854,6 +11940,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -11884,6 +11972,8 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput

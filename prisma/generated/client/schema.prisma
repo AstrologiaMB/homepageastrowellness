@@ -37,6 +37,9 @@ model User {
   cartasNatales                    CartaNatal[]
   interpretaciones                 InterpretacionCache[]
   horariaRequests                  HorariaRequest[]
+  // Subscription fields for manual control
+  subscriptionStatus               String                @default("free") // "free" | "premium"
+  subscriptionExpiresAt            DateTime?
 }
 
 model RectificationEvent {

@@ -26,9 +26,13 @@ export function NavMain({
     icon?: LucideIcon
     isActive?: boolean
     tooltip?: string
+    isPremium?: boolean
+    premiumIcon?: React.ReactNode
     items?: {
       title: string
       url: string
+      isPremium?: boolean
+      premiumIcon?: React.ReactNode
     }[]
   }[]
 }) {
@@ -70,6 +74,7 @@ export function NavMain({
                      <SidebarMenuButton tooltip={item.tooltip || item.title}>
                        {item.icon && <item.icon />}
                        <span>{item.title}</span>
+                       {item.premiumIcon && item.premiumIcon}
                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                      </SidebarMenuButton>
                    </CollapsibleTrigger>
@@ -81,6 +86,7 @@ export function NavMain({
                              <SidebarMenuSubButton asChild>
                                <Link href={subItem.url}>
                                  <span>{subItem.title}</span>
+                                 {subItem.premiumIcon && subItem.premiumIcon}
                                </Link>
                              </SidebarMenuSubButton>
                            </SidebarMenuSubItem>
