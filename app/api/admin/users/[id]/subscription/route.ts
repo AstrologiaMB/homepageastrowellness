@@ -11,7 +11,7 @@ export async function PUT(
     // Verificar autenticación y permisos de admin
     const session = await getServerSession(authOptions)
 
-    if (!session || session.user?.email !== 'admin@astrowellness.com') {
+    if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(
         { error: 'Acceso denegado. Se requieren permisos de administrador.' },
         { status: 403 }

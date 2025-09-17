@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
   useEffect(() => {
     if (status === 'loading') return
 
-    if (!session || session.user?.email !== 'admin@astrowellness.com') {
+    if (!session || session.user?.email !== 'info@astrochat.online') {
       router.push('/')
       return
     }
@@ -111,7 +111,7 @@ export default function AdminUsersPage() {
     )
   }
 
-  if (!session || session.user?.email !== 'admin@astrowellness.com') {
+  if (!session || session.user?.email !== 'info@astrochat.online') {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
