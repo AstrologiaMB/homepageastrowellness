@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 
 async function sendWelcomeEmail(email: string, name: string) {
   const params = {
-    Source: process.env.FROM_EMAIL || 'noreply@astrowellness.com',
+    Source: process.env.FROM_EMAIL || 'no-reply@astrochat.online',
     Destination: {
       ToAddresses: [email],
     },

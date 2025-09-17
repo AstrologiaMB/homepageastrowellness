@@ -96,7 +96,7 @@ async function sendResetPasswordEmail(email: string, name: string, resetToken: s
   const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password/${resetToken}`
 
   const params = {
-    Source: process.env.FROM_EMAIL || 'noreply@astrowellness.com',
+    Source: process.env.FROM_EMAIL || 'no-reply@astrochat.online',
     Destination: {
       ToAddresses: [email],
     },

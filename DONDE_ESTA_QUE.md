@@ -183,26 +183,19 @@ interpretador_refactored.py           # ⭐ Motor RAG principal
 #### **🔄 Proceso de Generación de Análisis Detallado (2 Fases)**
 
 **Fase 1: Interpretaciones Individuales (RAG Concurrente)**
-```python
-# Genera consultas como "sol dracónico en libra"
-# Busca en archivos .md usando similitud semántica
-# Retorna interpretaciones específicas por planeta/aspecto
-```
+- Genera consultas como "sol dracónico en libra"
+- Busca en archivos .md usando similitud semántica
+- Retorna interpretaciones específicas por planeta/aspecto
 
 **Fase 2: Re-escritura Narrativa Final (GPT-4) ⭐**
-```python
-# Combina TODAS las interpretaciones individuales
-# GPT-4 crea un texto narrativo unificado y fluido
-# Resultado: Análisis detallado que conecta todo coherentemente
+- Combina TODAS las interpretaciones individuales
+- GPT-4 crea un texto narrativo unificado y fluido
+- **Prompt especializado**: `_get_draconian_narrative_prompt()` en `interpretador_refactored.py`
+- **Características clave**: Enfoque espiritual/kármico, estructura jerárquica, idioma español
 
-prompt_gpt4 = f"""
-Eres un astrólogo experto. Toma estas interpretaciones individuales
-de una CARTA NATAL DRACÓNICA y re-escribe como un informe narrativo
-unificado, fluido y detallado.
-
-Interpretaciones individuales: {todas_las_interpretaciones}
-Informe Narrativo Detallado: [GPT-4 genera esto]
-"""
+**📍 Ubicación de prompts:**
+- **Dracónico**: `../astro_interpretador_rag_fastapi/interpretador_refactored.py::_get_draconian_narrative_prompt()`
+- **Tropical**: `../astro_interpretador_rag_fastapi/interpretador_refactored.py::_get_tropical_narrative_prompt()`
 ```
 
 ### **📅 Calendario (astro-calendar-personal-fastapi) - Puerto 8003**
