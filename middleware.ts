@@ -6,8 +6,8 @@ export async function middleware(request: NextRequest) {
   // Obtener la ruta actual
   const path = request.nextUrl.pathname
   
-  // No hacer nada si ya estamos en /completar-datos o /login
-  if (path === '/completar-datos' || path === '/login') {
+  // No hacer nada si ya estamos en /completar-datos o /auth/login
+  if (path === '/completar-datos' || path === '/auth/login') {
     return NextResponse.next()
   }
   
@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
   
   // Si no está autenticado y está intentando acceder a una ruta protegida
   if (!session && (path.startsWith('/calendario') || path.startsWith('/cartas'))) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
   
   // Si está autenticado, verificar si necesita completar datos
