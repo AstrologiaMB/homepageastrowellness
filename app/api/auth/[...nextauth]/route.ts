@@ -52,23 +52,36 @@ export const authOptions: NextAuthOptions = {
         token.userId = user.id;
       }
       
-      // Verificar si el usuario tiene datos completos en cada refresh del token
-      // Esto asegura que el token se actualice cuando el usuario completa sus datos
+      // Verificar si el usuario tiene datos completos y suscripción en cada refresh del token
+      // Esto asegura que el token se actualice cuando el usuario completa sus datos o cambia su suscripción
       try {
         const email = user?.email || token.email;
         if (email) {
           const dbUser = await prisma.user.findUnique({
             where: { email: email as string },
-            select: { birthDate: true, birthCity: true, residenceCity: true }
+            select: {
+              birthDate: true,
+              birthCity: true,
+              residenceCity: true,
+              subscriptionStatus: true,
+              subscriptionExpiresAt: true
+            }
           });
-          
-          // Añadir esta información al token
+
+          // Añadir información de datos completos al token
           token.hasCompletedData = !!(dbUser?.birthDate && dbUser?.birthCity && dbUser?.residenceCity);
-          console.log(`Usuario ${email} tiene datos completos: ${token.hasCompletedData}`);
+
+          // Añadir información de suscripción al token
+          token.subscriptionStatus = dbUser?.subscriptionStatus || 'free';
+          token.subscriptionExpiresAt = dbUser?.subscriptionExpiresAt;
+
+          console.log(`Usuario ${email} - Datos completos: ${token.hasCompletedData}, Suscripción: ${token.subscriptionStatus}`);
         }
       } catch (error) {
         console.error("Error al verificar datos del usuario:", error);
         token.hasCompletedData = false;
+        token.subscriptionStatus = 'free';
+        token.subscriptionExpiresAt = null;
       }
       
       return token;
@@ -78,6 +91,10 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         // @ts-ignore - Añadir hasCompletedData a la sesión
         session.user.hasCompletedData = token.hasCompletedData;
+        // @ts-ignore - Añadir información de suscripción a la sesión
+        session.user.subscriptionStatus = token.subscriptionStatus;
+        // @ts-ignore
+        session.user.subscriptionExpiresAt = token.subscriptionExpiresAt;
       }
       return session;
     },
