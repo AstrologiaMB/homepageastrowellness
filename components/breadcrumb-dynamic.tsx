@@ -20,7 +20,7 @@ export function DynamicBreadcrumb() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Astrowellness</Link>
+            <Link href="/">Astrochat</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
 

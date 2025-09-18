@@ -4,7 +4,7 @@
  * A diferencia del AstroText parser que convertía letras individuales,
  * esta función reemplaza palabras completas para evitar conversiones incorrectas.
  * 
- * @author Astrowellness Team
+ * @author Astrochat Team
  * @version 1.0.0
  */
 

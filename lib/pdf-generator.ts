@@ -4,7 +4,7 @@
  * Este módulo proporciona funciones para generar PDFs de alta calidad
  * con contenido astrológico, incluyendo tablas, gráficos y texto formateado.
  *
- * @author Astrowellness Team
+ * @author Astrochat Team
  * @version 1.0.0
  */
 
@@ -34,7 +34,7 @@ export interface PDFConfig {
  */
 export const DEFAULT_PDF_CONFIG: PDFConfig = {
   title: 'Carta Astrológica',
-  author: 'Astrowellness',
+  author: 'Astrochat',
   subject: 'Análisis astrológico personalizado',
   format: 'a4',
   orientation: 'portrait',
@@ -69,7 +69,7 @@ export class AstroPDFGenerator {
       title: this.config.title,
       author: this.config.author,
       subject: this.config.subject,
-      creator: 'Astrowellness PDF Generator'
+      creator: 'Astrochat PDF Generator'
     });
   }
 
@@ -103,7 +103,7 @@ export class AstroPDFGenerator {
     // Logo o marca de agua
     this.pdf.setFontSize(this.config.fontSize.small);
     this.pdf.setFont('helvetica', 'normal');
-    this.pdf.text('Astrowellness', centerX, pageHeight - 20, { align: 'center' });
+    this.pdf.text('Astrochat', centerX, pageHeight - 20, { align: 'center' });
 
     // Nueva página para el contenido
     this.pdf.addPage();
@@ -336,7 +336,7 @@ export async function generateTropicalPDF(
   }
 
   // Pie de página
-  generator.addFooter('Generado por Astrowellness - www.astrowellness.com');
+  generator.addFooter('Generado por Astrochat - www.astrochat.com');
 
   // Guardar
   const filename = `carta-tropical-${userInfo?.name || 'usuario'}-${Date.now()}.pdf`;
@@ -417,7 +417,7 @@ export async function generateDraconicPDF(
   }
 
   // Pie de página
-  generator.addFooter('Generado por Astrowellness - www.astrowellness.com');
+  generator.addFooter('Generado por Astrochat - www.astrochat.com');
 
   // Guardar
   const filename = `carta-draconica-${userInfo?.name || 'usuario'}-${Date.now()}.pdf`;

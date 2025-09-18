@@ -7,7 +7,7 @@
  * 1. Tabla de planetas: muestra el símbolo del planeta, signo, grados, casa y si es retrógrado
  * 2. Tabla de casas: muestra el número de casa, signo y grados de la cúspide
  * 
- * @author Astrowellness Team
+ * @author Astrochat Team
  * @version 1.0.0
  */
 

@@ -8,7 +8,7 @@ export default function Page() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold tracking-tight text-foreground drop-shadow-sm">
-                Astrowellness
+                Astrochat
               </h1>
               <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto rounded-full"></div>
             </div>

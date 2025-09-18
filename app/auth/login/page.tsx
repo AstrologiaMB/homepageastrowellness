@@ -93,7 +93,7 @@ export default function LoginPage() {
             Iniciar Sesión
           </CardTitle>
           <CardDescription className="text-center">
-            Accede a tu cuenta de Astrowellness
+            Accede a tu cuenta de Astrochat
           </CardDescription>
         </CardHeader>
         <CardContent>
