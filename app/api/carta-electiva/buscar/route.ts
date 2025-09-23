@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
         birthCountry: true,
         birthHour: true,
         birthMinute: true,
+        timezone: true,
         knowsBirthTime: true
       }
     });
@@ -50,13 +51,25 @@ export async function POST(request: NextRequest) {
       pais: user.birthCountry
     };
 
+    // Preparar datos de carta natal
+    const cartaNatal = {
+      fecha_nacimiento: user.birthDate.toISOString().split('T')[0], // YYYY-MM-DD
+      hora_nacimiento: user.birthHour && user.birthMinute
+        ? `${user.birthHour.toString().padStart(2, '0')}:${user.birthMinute.toString().padStart(2, '0')}`
+        : '12:00', // Hora por defecto si no se conoce
+      ciudad: user.birthCity,
+      pais: user.birthCountry,
+      timezone: user.timezone || 'America/Argentina/Buenos_Aires' // Default timezone
+    };
+
     // Preparar payload para el microservicio
     const payload = {
       user_id: user.id,
       tema: tema,
       fecha_inicio: fecha_inicio,
       dias: dias,
-      ubicacion: ubicacion
+      ubicacion: ubicacion,
+      carta_natal: cartaNatal
     };
 
     console.log('🔍 Buscando momentos electivos:', {
