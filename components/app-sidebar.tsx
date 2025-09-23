@@ -7,6 +7,7 @@ import {
   ClipboardEdit,
   Hourglass,
   Star,
+  Target,
 } from "lucide-react"
 
 import { NavMain } from "./nav-main"
@@ -49,7 +50,7 @@ const getNavigationData = (isPremium: boolean) => ({
       title: "Cartas",
       url: "/cartas",
       icon: Star,
-      tooltip: "Cartas astrológicas: natal, horaria, trópica y dracónica",
+      tooltip: "Cartas astrológicas: natal, horaria, trópica, dracónica y electiva",
       items: [
         {
           title: "Carta Horaria",
@@ -65,6 +66,12 @@ const getNavigationData = (isPremium: boolean) => ({
         {
           title: "Carta Dracónica",
           url: "/cartas/draconica",
+          isPremium: true,
+          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+        },
+        {
+          title: "Carta Electiva",
+          url: "/carta-electiva",
           isPremium: true,
           premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
         },
