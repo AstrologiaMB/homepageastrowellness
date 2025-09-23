@@ -70,48 +70,47 @@ export default function CartaElectivaPage() {
   const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | null>(null);
 
   /**
-   * Inicia la animación de la barra de progreso
+   * Inicia la animación inteligente de la barra de progreso basada en fases del algoritmo
    */
   const startProgressAnimation = () => {
     setProgress(0);
     setProgressMessage("Iniciando análisis astrológico...");
 
-    const messages = [
-      "Analizando constelaciones planetarias...",
-      "Calculando aspectos astrológicos...",
-      "Evaluando posiciones lunares...",
-      "Procesando datos de enraizamiento...",
-      "Calculando puntuaciones finales...",
-      "Finalizando análisis..."
-    ];
-
-    let currentMessageIndex = 0;
+    let currentPhase = 'init';
     const interval = setInterval(() => {
       setProgress(prev => {
-        const newProgress = prev + Math.random() * 8 + 2; // Avance variable entre 2-10%
+        let newProgress = prev;
+        let newMessage = progressMessage;
 
-        // Cambiar mensaje en ciertos puntos
-        if (newProgress > 15 && currentMessageIndex === 0) {
-          setProgressMessage(messages[1]);
-          currentMessageIndex = 1;
-        } else if (newProgress > 35 && currentMessageIndex === 1) {
-          setProgressMessage(messages[2]);
-          currentMessageIndex = 2;
-        } else if (newProgress > 55 && currentMessageIndex === 2) {
-          setProgressMessage(messages[3]);
-          currentMessageIndex = 3;
-        } else if (newProgress > 75 && currentMessageIndex === 3) {
-          setProgressMessage(messages[4]);
-          currentMessageIndex = 4;
-        } else if (newProgress > 90 && currentMessageIndex === 4) {
-          setProgressMessage(messages[5]);
-          currentMessageIndex = 5;
+        // Fase 1: Filtrado básico (0-30%) - Rápida
+        if (prev < 30) {
+          if (currentPhase !== 'phase1') {
+            currentPhase = 'phase1';
+            newMessage = "Fase 1: Analizando constelaciones básicas...";
+          }
+          // Avance rápido en Fase 1 (filtrado es rápido)
+          newProgress = prev + Math.random() * 6 + 3; // 3-9% por step
+        }
+        // Fase 2: Análisis detallado (30-95%) - Más lenta pero constante
+        else if (prev < 95) {
+          if (currentPhase !== 'phase2') {
+            currentPhase = 'phase2';
+            newMessage = "Fase 2: Evaluando aspectos planetarios detallados...";
+          }
+          // Avance más lento pero constante en Fase 2 (análisis es más complejo)
+          newProgress = prev + Math.random() * 3 + 1; // 1-4% por step
+        }
+        // No exceder 95% hasta que llegue la respuesta real
+        newProgress = Math.min(newProgress, 95);
+
+        // Actualizar mensaje si cambió
+        if (newMessage !== progressMessage) {
+          setProgressMessage(newMessage);
         }
 
-        // No exceder 95% hasta que llegue la respuesta
-        return Math.min(newProgress, 95);
+        return newProgress;
       });
-    }, 800); // Actualizar cada 800ms
+    }, 600); // Actualizar cada 600ms para mejor fluidez
 
     setProgressInterval(interval);
     return interval;
