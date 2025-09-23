@@ -14,6 +14,7 @@ kill -9 $(lsof -t -i:8001) 2>/dev/null
 kill -9 $(lsof -t -i:8002) 2>/dev/null
 kill -9 $(lsof -t -i:8003) 2>/dev/null
 kill -9 $(lsof -t -i:8004) 2>/dev/null
+kill -9 $(lsof -t -i:8005) 2>/dev/null
 
 echo "⏳ Esperando limpieza completa..."
 sleep 5
