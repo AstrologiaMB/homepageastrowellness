@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
 import { Loader2, Search, Calendar, Target, Clock, Star } from "lucide-react";
 
 interface ResultadoBusqueda {
@@ -63,9 +64,70 @@ export default function CartaElectivaPage() {
   const [dias, setDias] = useState<string>("30");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [progressMessage, setProgressMessage] = useState("");
   const [resultado, setResultado] = useState<ResultadoBusqueda | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [abortController, setAbortController] = useState<AbortController | null>(null);
+  const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | null>(null);
+
+  /**
+   * Inicia la animación de la barra de progreso
+   */
+  const startProgressAnimation = () => {
+    setProgress(0);
+    setProgressMessage("Iniciando análisis astrológico...");
+
+    const messages = [
+      "Analizando constelaciones planetarias...",
+      "Calculando aspectos astrológicos...",
+      "Evaluando posiciones lunares...",
+      "Procesando datos de enraizamiento...",
+      "Calculando puntuaciones finales...",
+      "Finalizando análisis..."
+    ];
+
+    let currentMessageIndex = 0;
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        const newProgress = prev + Math.random() * 8 + 2; // Avance variable entre 2-10%
+
+        // Cambiar mensaje en ciertos puntos
+        if (newProgress > 15 && currentMessageIndex === 0) {
+          setProgressMessage(messages[1]);
+          currentMessageIndex = 1;
+        } else if (newProgress > 35 && currentMessageIndex === 1) {
+          setProgressMessage(messages[2]);
+          currentMessageIndex = 2;
+        } else if (newProgress > 55 && currentMessageIndex === 2) {
+          setProgressMessage(messages[3]);
+          currentMessageIndex = 3;
+        } else if (newProgress > 75 && currentMessageIndex === 3) {
+          setProgressMessage(messages[4]);
+          currentMessageIndex = 4;
+        } else if (newProgress > 90 && currentMessageIndex === 4) {
+          setProgressMessage(messages[5]);
+          currentMessageIndex = 5;
+        }
+
+        // No exceder 95% hasta que llegue la respuesta
+        return Math.min(newProgress, 95);
+      });
+    }, 800); // Actualizar cada 800ms
+
+    setProgressInterval(interval);
+    return interval;
+  };
+
+  /**
+   * Completa la barra de progreso
+   */
+  const completeProgress = () => {
+    if (progressInterval) {
+      clearInterval(progressInterval);
+      setProgressInterval(null);
+    }
+    setProgress(100);
+    setProgressMessage("¡Análisis completado!");
+  };
 
   /**
    * Maneja la búsqueda de momentos electivos
@@ -79,6 +141,11 @@ export default function CartaElectivaPage() {
     setLoading(true);
     setError(null);
     setResultado(null);
+    setProgress(0);
+    setProgressMessage("");
+
+    // Iniciar animación de progreso
+    const interval = startProgressAnimation();
 
     try {
       const response = await fetch('/api/carta-electiva/buscar', {
@@ -99,11 +166,26 @@ export default function CartaElectivaPage() {
         throw new Error(data.error || `Error ${response.status}`);
       }
 
-      setResultado(data);
+      // Completar progreso antes de mostrar resultados
+      completeProgress();
+
+      // Pequeño delay para que el usuario vea el 100%
+      setTimeout(() => {
+        setResultado(data);
+      }, 500);
 
     } catch (err) {
       console.error('Error en búsqueda:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
+
+      // Limpiar progreso en caso de error
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        setProgressInterval(null);
+      }
+      setProgress(0);
+      setProgressMessage("");
+
     } finally {
       setLoading(false);
     }
@@ -221,6 +303,24 @@ export default function CartaElectivaPage() {
           </Button>
         </CardContent>
       </Card>
+
+      {/* Barra de progreso */}
+      {loading && (
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium">Buscando momentos óptimos...</h3>
+                <span className="text-sm text-gray-600">{Math.round(progress)}%</span>
+              </div>
+              <Progress value={progress} className="w-full h-3" />
+              <p className="text-sm text-gray-600 text-center italic">
+                {progressMessage}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Mensaje de error */}
       {error && (
