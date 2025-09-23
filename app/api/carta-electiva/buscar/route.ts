@@ -67,16 +67,46 @@ export async function POST(request: NextRequest) {
       ubicacion
     });
 
-    // Llamar al microservicio de carta electiva
-    const cartaElectivaResponse = await fetch(`${CARTA_ELECTIVA_API_URL}/buscar`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    // Llamar al microservicio de carta electiva con timeout de 5 minutos
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutos
+
+    let cartaElectivaResponse;
+    try {
+      cartaElectivaResponse = await fetch(`${CARTA_ELECTIVA_API_URL}/buscar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+    } catch (fetchError: any) {
+      clearTimeout(timeoutId);
+
+      if (fetchError.name === 'AbortError') {
+        console.error('⏰ Timeout en API carta electiva (5 min)');
+        return NextResponse.json({
+          error: 'La búsqueda tomó más de 5 minutos. Inténtalo con un período más corto (máximo 30 días recomendado).'
+        }, { status: 408 });
+      }
+
+      console.error('Error de conexión con carta electiva API:', fetchError);
+      return NextResponse.json({
+        error: 'Servicio de carta electiva no disponible. Verifica que el servidor esté ejecutándose.'
+      }, { status: 503 });
+    }
+
+    clearTimeout(timeoutId);
 
     if (!cartaElectivaResponse.ok) {
       const errorData = await cartaElectivaResponse.json().catch(() => ({}));
       console.error('Error en microservicio carta electiva:', errorData);
+
+      // Manejar diferentes tipos de errores
+      if (cartaElectivaResponse.status === 408) {
+        return NextResponse.json({
+          error: errorData.detail || 'La búsqueda tomó más de 5 minutos. Inténtalo con un período más corto.'
+        }, { status: 408 });
+      }
 
       if (cartaElectivaResponse.status === 503) {
         return NextResponse.json({
@@ -84,7 +114,13 @@ export async function POST(request: NextRequest) {
         }, { status: 503 });
       }
 
-      throw new Error(errorData.error || `Error en el servicio de carta electiva: ${cartaElectivaResponse.status}`);
+      if (cartaElectivaResponse.status === 400) {
+        return NextResponse.json({
+          error: errorData.detail || 'Parámetros inválidos en la búsqueda.'
+        }, { status: 400 });
+      }
+
+      throw new Error(errorData.detail || errorData.error || `Error en el servicio de carta electiva: ${cartaElectivaResponse.status}`);
     }
 
     const resultado = await cartaElectivaResponse.json();

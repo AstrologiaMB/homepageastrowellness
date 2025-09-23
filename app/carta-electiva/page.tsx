@@ -62,8 +62,10 @@ export default function CartaElectivaPage() {
   const [fechaInicio, setFechaInicio] = useState<string>("");
   const [dias, setDias] = useState<string>("30");
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [resultado, setResultado] = useState<ResultadoBusqueda | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   /**
    * Maneja la búsqueda de momentos electivos
