@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CalendarIcon, ChevronRight } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -258,16 +259,30 @@ export function CalendarioGeneral() {
               <Separator className="my-2" />
               
               {eventosDelDia.length > 0 ? (
-                <ScrollArea className="w-full">
-                  <div className="flex space-x-4 pb-2 overflow-x-auto">
-                    {eventosDelDia.map((evento, index) => (
-                      <EventoAstrologico 
-                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`} 
-                        evento={evento} 
-                      />
-                    ))}
-                  </div>
-                </ScrollArea>
+                eventosDelDia.length === 1 ? (
+                  <EventoAstrologico evento={eventosDelDia[0]} />
+                ) : (
+                  <Accordion type="single" collapsible className="w-full">
+                    {eventosDelDia.map((evento, index) => {
+                      const horaLocal = new Date(`${evento.fecha_utc}T${evento.hora_utc}:00Z`);
+                      const horaFormateada = `${horaLocal.getHours().toString().padStart(2, '0')}:${horaLocal.getMinutes().toString().padStart(2, '0')}`;
+
+                      return (
+                        <AccordionItem key={`evento-${index}`} value={`evento-${index}`}>
+                          <AccordionTrigger className="text-sm justify-start text-left">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{evento.tipo_evento}</span>
+                              <span className="text-muted-foreground">- {horaFormateada}</span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <EventoAstrologico evento={evento} />
+                          </AccordionContent>
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
+                )
               ) : (
                 <p className="text-muted-foreground">
                   (No hay eventos)
