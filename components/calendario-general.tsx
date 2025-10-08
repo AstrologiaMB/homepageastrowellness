@@ -175,7 +175,7 @@ export function CalendarioGeneral() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
           <h2 className="text-xl font-bold">Calendario Astral</h2>
-          <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })}</p>
+          <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {selectedYear}</p>
         </div>
         <div className="flex items-center gap-2">
           {/* Year Selector */}
