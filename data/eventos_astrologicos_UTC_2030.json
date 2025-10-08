@@ -1,0 +1,4631 @@
+[
+  {
+    "fecha_utc": "2030-01-01",
+    "hora_utc": "02:35",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-01",
+    "hora_utc": "19:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "8°23' Capricornio",
+    "posicion2": "8°23' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-02",
+    "hora_utc": "00:57",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "15°31' Acuario",
+    "posicion2": "15°31' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-01-03",
+    "hora_utc": "03:11",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "18°19' Capricornio",
+    "posicion2": "18°19' Tauro",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-01-03",
+    "hora_utc": "03:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-04",
+    "hora_utc": "02:49",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Capricornio 13.78°",
+    "elevacion": "-30.4°",
+    "azimut": "198.5°",
+    "signo": "Capricornio",
+    "grado": "13.78°",
+    "posicion": "13°46' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-01-05",
+    "hora_utc": "06:17",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-05",
+    "hora_utc": "12:42",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "18°15' Acuario",
+    "posicion2": "18°15' Tauro",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-06",
+    "hora_utc": "13:17",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Venus",
+    "planeta1": "Sol",
+    "planeta2": "Venus",
+    "posicion1": "16°15' Capricornio",
+    "posicion2": "16°15' Capricornio",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-01-07",
+    "hora_utc": "11:15",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-08",
+    "hora_utc": "10:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "18°11' Capricornio",
+    "posicion2": "18°11' Tauro",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-01-09",
+    "hora_utc": "19:46",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-10",
+    "hora_utc": "11:54",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "22°10' Acuario",
+    "posicion2": "22°10' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-11",
+    "hora_utc": "05:15",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Mercurio termina retrogradación en 1°26' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-01-12",
+    "hora_utc": "07:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-12",
+    "hora_utc": "16:38",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "22°31' Capricornio",
+    "posicion2": "22°31' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-01-14",
+    "hora_utc": "20:15",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-17",
+    "hora_utc": "07:45",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-19",
+    "hora_utc": "03:30",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Saturno termina retrogradación en 18°05' Tauro"
+  },
+  {
+    "fecha_utc": "2030-01-19",
+    "hora_utc": "15:54",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Cáncer 29.62°",
+    "elevacion": "-72.9°",
+    "azimut": "186.2°",
+    "signo": "Cáncer",
+    "grado": "29.62°",
+    "posicion": "29°37' Cáncer"
+  },
+  {
+    "fecha_utc": "2030-01-19",
+    "hora_utc": "16:36",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-20",
+    "hora_utc": "00:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-20",
+    "hora_utc": "10:27",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-21",
+    "hora_utc": "22:50",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-22",
+    "hora_utc": "23:30",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "8°40' Capricornio",
+    "posicion2": "8°40' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-23",
+    "hora_utc": "04:56",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "8°54' Capricornio",
+    "posicion2": "8°54' Capricornio",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-01-24",
+    "hora_utc": "03:13",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-24",
+    "hora_utc": "20:59",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°42' Capricornio",
+    "posicion2": "8°42' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-25",
+    "hora_utc": "09:00",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°40' Capricornio",
+    "posicion2": "8°43' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.05°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-25",
+    "hora_utc": "21:00",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°38' Capricornio",
+    "posicion2": "8°43' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.08°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-26",
+    "hora_utc": "06:36",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-26",
+    "hora_utc": "21:03",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Venus termina retrogradación en 8°37' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-01-28",
+    "hora_utc": "09:31",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-28",
+    "hora_utc": "16:27",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "8°47' Acuario",
+    "posicion2": "8°47' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-01-29",
+    "hora_utc": "16:54",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°47' Capricornio",
+    "posicion2": "8°48' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.03°",
+    "es_aplicativo": "Sí",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-29",
+    "hora_utc": "21:46",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "10°02' Acuario",
+    "posicion2": "10°02' Acuario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-01-30",
+    "hora_utc": "04:55",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°50' Capricornio",
+    "posicion2": "8°49' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.02°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-30",
+    "hora_utc": "12:24",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-01-30",
+    "hora_utc": "16:55",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "8°55' Capricornio",
+    "posicion2": "8°50' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.08°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-01-31",
+    "hora_utc": "01:27",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "18°13' Capricornio",
+    "posicion2": "18°13' Tauro",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-01",
+    "hora_utc": "02:03",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Marte",
+    "planeta1": "Venus",
+    "planeta2": "Marte",
+    "posicion1": "9°09' Capricornio",
+    "posicion2": "9°09' Piscis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-01",
+    "hora_utc": "15:52",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-02",
+    "hora_utc": "16:07",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Acuario 13.86°",
+    "elevacion": "72.1°",
+    "azimut": "0.1°",
+    "signo": "Acuario",
+    "grado": "13.86°",
+    "posicion": "13°51' Acuario"
+  },
+  {
+    "fecha_utc": "2030-02-03",
+    "hora_utc": "10:40",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "14°38' Acuario",
+    "posicion2": "14°38' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-03",
+    "hora_utc": "20:58",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-05",
+    "hora_utc": "13:30",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "25°40' Capricornio",
+    "posicion2": "25°40' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-06",
+    "hora_utc": "04:47",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-07",
+    "hora_utc": "04:17",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "18°25' Acuario",
+    "posicion2": "18°25' Tauro",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-02-07",
+    "hora_utc": "23:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "14°34' Piscis",
+    "posicion2": "14°34' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-02-08",
+    "hora_utc": "14:03",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-08",
+    "hora_utc": "15:44",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-11",
+    "hora_utc": "04:30",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-13",
+    "hora_utc": "05:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "18°40' Piscis",
+    "posicion2": "18°40' Tauro",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-13",
+    "hora_utc": "16:29",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-14",
+    "hora_utc": "17:41",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "9°14' Acuario",
+    "posicion2": "9°14' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-15",
+    "hora_utc": "05:17",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "26°33' Acuario",
+    "posicion2": "26°33' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-02-15",
+    "hora_utc": "13:57",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "10°32' Acuario",
+    "posicion2": "10°32' Acuario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-02-16",
+    "hora_utc": "01:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-18",
+    "hora_utc": "02:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "14°30' Acuario",
+    "posicion2": "14°30' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-18",
+    "hora_utc": "06:19",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Leo 29.63°",
+    "elevacion": "36.1°",
+    "azimut": "315.2°",
+    "signo": "Leo",
+    "grado": "29.63°",
+    "posicion": "29°38' Leo"
+  },
+  {
+    "fecha_utc": "2030-02-18",
+    "hora_utc": "06:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-18",
+    "hora_utc": "14:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-20",
+    "hora_utc": "10:04",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-20",
+    "hora_utc": "21:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "19°04' Acuario",
+    "posicion2": "19°04' Tauro",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-02-20",
+    "hora_utc": "22:30",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Urano termina retrogradación en 14°30' Géminis"
+  },
+  {
+    "fecha_utc": "2030-02-21",
+    "hora_utc": "05:13",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "19°05' Capricornio",
+    "posicion2": "19°05' Tauro",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-22",
+    "hora_utc": "12:17",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-24",
+    "hora_utc": "03:07",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "27°09' Piscis",
+    "posicion2": "27°09' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-02-24",
+    "hora_utc": "14:52",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-25",
+    "hora_utc": "18:46",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "27°14' Acuario",
+    "posicion2": "27°14' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-02-26",
+    "hora_utc": "18:25",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-27",
+    "hora_utc": "08:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-27",
+    "hora_utc": "19:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-02-28",
+    "hora_utc": "23:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-03",
+    "hora_utc": "05:12",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-03",
+    "hora_utc": "16:25",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "27°28' Capricornio",
+    "posicion2": "27°28' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-04",
+    "hora_utc": "06:34",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Piscis 13.73°",
+    "elevacion": "-36.0°",
+    "azimut": "132.0°",
+    "signo": "Piscis",
+    "grado": "13.73°",
+    "posicion": "13°43' Piscis"
+  },
+  {
+    "fecha_utc": "2030-03-05",
+    "hora_utc": "02:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "14°34' Piscis",
+    "posicion2": "14°34' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-03-05",
+    "hora_utc": "13:17",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-06",
+    "hora_utc": "12:51",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-07",
+    "hora_utc": "10:13",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "14°36' Piscis",
+    "posicion2": "14°36' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-03-07",
+    "hora_utc": "23:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-09",
+    "hora_utc": "22:54",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "19°24' Piscis",
+    "posicion2": "19°24' Piscis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-03-10",
+    "hora_utc": "10:26",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "20°20' Piscis",
+    "posicion2": "20°20' Tauro",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-10",
+    "hora_utc": "12:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-10",
+    "hora_utc": "22:07",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "20°22' Piscis",
+    "posicion2": "20°22' Tauro",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-12",
+    "hora_utc": "22:13",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Conjunción con Neptuno",
+    "planeta1": "Marte",
+    "planeta2": "Neptuno",
+    "posicion1": "10°06' Aries",
+    "posicion2": "10°06' Aries",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-03-13",
+    "hora_utc": "01:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-13",
+    "hora_utc": "14:03",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Júpiter inicia retrogradación en 27°38' Escorpio"
+  },
+  {
+    "fecha_utc": "2030-03-14",
+    "hora_utc": "03:59",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "27°37' Piscis",
+    "posicion2": "27°37' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-14",
+    "hora_utc": "11:11",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Plutón",
+    "planeta1": "Marte",
+    "planeta2": "Plutón",
+    "posicion1": "11°17' Aries",
+    "posicion2": "11°17' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-15",
+    "hora_utc": "08:41",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-15",
+    "hora_utc": "10:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-17",
+    "hora_utc": "09:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "10°16' Acuario",
+    "posicion2": "10°16' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-17",
+    "hora_utc": "16:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-18",
+    "hora_utc": "03:56",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "27°36' Piscis",
+    "posicion2": "27°36' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-18",
+    "hora_utc": "12:31",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "11°23' Acuario",
+    "posicion2": "11°23' Acuario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-03-19",
+    "hora_utc": "01:53",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "14°48' Aries",
+    "posicion2": "14°48' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-19",
+    "hora_utc": "17:56",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Virgo 29.17°",
+    "elevacion": "-42.4°",
+    "azimut": "137.1°",
+    "signo": "Virgo",
+    "grado": "29.17°",
+    "posicion": "29°10' Virgo"
+  },
+  {
+    "fecha_utc": "2030-03-19",
+    "hora_utc": "19:17",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-20",
+    "hora_utc": "13:52",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-20",
+    "hora_utc": "14:51",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "10°23' Aries",
+    "posicion2": "10°23' Aries",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-03-21",
+    "hora_utc": "03:48",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "11°26' Aries",
+    "posicion2": "11°26' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-21",
+    "hora_utc": "20:08",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-21",
+    "hora_utc": "23:55",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "14°52' Acuario",
+    "posicion2": "14°52' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-22",
+    "hora_utc": "23:04",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "14°54' Aries",
+    "posicion2": "14°54' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-23",
+    "hora_utc": "21:12",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-24",
+    "hora_utc": "02:15",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "17°01' Aries",
+    "posicion2": "17°01' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-25",
+    "hora_utc": "14:32",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Marte",
+    "planeta1": "Mercurio",
+    "planeta2": "Marte",
+    "posicion1": "19°45' Aries",
+    "posicion2": "19°45' Aries",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-03-25",
+    "hora_utc": "23:50",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-28",
+    "hora_utc": "04:37",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-28",
+    "hora_utc": "23:45",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "22°06' Acuario",
+    "posicion2": "22°06' Tauro",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-03-29",
+    "hora_utc": "16:28",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Marte",
+    "planeta1": "Venus",
+    "planeta2": "Marte",
+    "posicion1": "22°50' Acuario",
+    "posicion2": "22°50' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-03-30",
+    "hora_utc": "11:30",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-03-31",
+    "hora_utc": "11:38",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "10°48' Aries",
+    "posicion2": "10°48' Aries",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-04-01",
+    "hora_utc": "04:46",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-01",
+    "hora_utc": "08:43",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "11°40' Aries",
+    "posicion2": "11°40' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-04-01",
+    "hora_utc": "20:22",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-02",
+    "hora_utc": "14:41",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "27°00' Acuario",
+    "posicion2": "27°00' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-04-02",
+    "hora_utc": "22:02",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Aries 13.21°",
+    "elevacion": "-2.6°",
+    "azimut": "273.6°",
+    "signo": "Aries",
+    "grado": "13.21°",
+    "posicion": "13°12' Aries"
+  },
+  {
+    "fecha_utc": "2030-04-04",
+    "hora_utc": "07:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-05",
+    "hora_utc": "01:09",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "15°18' Aries",
+    "posicion2": "15°18' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-04-05",
+    "hora_utc": "09:18",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-06",
+    "hora_utc": "19:50",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-08",
+    "hora_utc": "05:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-09",
+    "hora_utc": "08:47",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-11",
+    "hora_utc": "19:44",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-12",
+    "hora_utc": "12:26",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "7°46' Tauro",
+    "posicion2": "7°46' Piscis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-04-13",
+    "hora_utc": "02:03",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Mercurio inicia retrogradación en 7°47' Tauro"
+  },
+  {
+    "fecha_utc": "2030-04-14",
+    "hora_utc": "02:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-16",
+    "hora_utc": "05:53",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-17",
+    "hora_utc": "11:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Marte",
+    "planeta1": "Mercurio",
+    "planeta2": "Marte",
+    "posicion1": "6°51' Tauro",
+    "posicion2": "6°51' Tauro",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-04-18",
+    "hora_utc": "03:19",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Libra 28.15°",
+    "elevacion": "68.5°",
+    "azimut": "18.9°",
+    "signo": "Libra",
+    "grado": "28.15°",
+    "posicion": "28°09' Libra"
+  },
+  {
+    "fecha_utc": "2030-04-18",
+    "hora_utc": "06:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-19",
+    "hora_utc": "19:56",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "15°54' Piscis",
+    "posicion2": "15°54' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-04-20",
+    "hora_utc": "00:43",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-20",
+    "hora_utc": "05:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-22",
+    "hora_utc": "06:56",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-23",
+    "hora_utc": "11:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "3°21' Tauro",
+    "posicion2": "3°21' Tauro",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-04-24",
+    "hora_utc": "01:57",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Júpiter en Oposición con Saturno",
+    "planeta1": "Júpiter",
+    "planeta2": "Saturno",
+    "posicion1": "25°07' Escorpio",
+    "posicion2": "25°07' Tauro",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-04-24",
+    "hora_utc": "10:25",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-24",
+    "hora_utc": "10:27",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Plutón",
+    "planeta1": "Marte",
+    "planeta2": "Plutón",
+    "posicion1": "11°58' Tauro",
+    "posicion2": "11°58' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-04-26",
+    "hora_utc": "16:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-04-27",
+    "hora_utc": "15:34",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "24°43' Piscis",
+    "posicion2": "24°43' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-04-28",
+    "hora_utc": "11:42",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "25°40' Piscis",
+    "posicion2": "25°40' Tauro",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-04-28",
+    "hora_utc": "13:44",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio deja a 29.99° de Tauro (Retrógrado)"
+  },
+  {
+    "fecha_utc": "2030-04-29",
+    "hora_utc": "02:13",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-01",
+    "hora_utc": "13:34",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-02",
+    "hora_utc": "06:37",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-02",
+    "hora_utc": "09:24",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "12°02' Tauro",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-05-02",
+    "hora_utc": "14:12",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Tauro 12.23°",
+    "elevacion": "34.7°",
+    "azimut": "29.3°",
+    "signo": "Tauro",
+    "grado": "12.23°",
+    "posicion": "12°13' Tauro"
+  },
+  {
+    "fecha_utc": "2030-05-03",
+    "hora_utc": "04:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "11°59' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.04°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-03",
+    "hora_utc": "16:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°00' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.03°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-04",
+    "hora_utc": "02:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-04",
+    "hora_utc": "04:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°01' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.01°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-04",
+    "hora_utc": "16:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°02' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-05",
+    "hora_utc": "04:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°03' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.02°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-05",
+    "hora_utc": "16:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°04' Aries",
+    "posicion2": "12°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.03°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-06",
+    "hora_utc": "04:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°05' Aries",
+    "posicion2": "12°03' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.05°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-06",
+    "hora_utc": "15:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-06",
+    "hora_utc": "16:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°06' Aries",
+    "posicion2": "12°03' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.06°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-07",
+    "hora_utc": "04:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°07' Aries",
+    "posicion2": "12°03' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.08°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-07",
+    "hora_utc": "16:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "12°08' Aries",
+    "posicion2": "12°03' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.09°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-09",
+    "hora_utc": "02:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-09",
+    "hora_utc": "22:01",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Oposición con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "23°13' Tauro",
+    "posicion2": "23°13' Escorpio",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-05-11",
+    "hora_utc": "11:24",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-12",
+    "hora_utc": "18:10",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "12°03' Aries",
+    "posicion2": "12°03' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-12",
+    "hora_utc": "22:30",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Plutón inicia retrogradación en 12°03' Acuario"
+  },
+  {
+    "fecha_utc": "2030-05-12",
+    "hora_utc": "23:22",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "12°18' Aries",
+    "posicion2": "12°18' Aries",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-05-13",
+    "hora_utc": "11:33",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Oposición con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "22°46' Tauro",
+    "posicion2": "22°46' Escorpio",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-05-13",
+    "hora_utc": "15:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-15",
+    "hora_utc": "01:30",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-15",
+    "hora_utc": "17:10",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-16",
+    "hora_utc": "13:57",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Conjunción con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "27°59' Tauro",
+    "posicion2": "27°59' Tauro",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-05-17",
+    "hora_utc": "06:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "17°18' Aries",
+    "posicion2": "17°18' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-05-17",
+    "hora_utc": "11:19",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Escorpio 26.61°",
+    "elevacion": "-6.1°",
+    "azimut": "239.8°",
+    "signo": "Escorpio",
+    "grado": "26.61°",
+    "posicion": "26°36' Escorpio"
+  },
+  {
+    "fecha_utc": "2030-05-17",
+    "hora_utc": "16:39",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-19",
+    "hora_utc": "06:22",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "28°20' Tauro",
+    "posicion2": "28°20' Tauro",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-05-19",
+    "hora_utc": "09:28",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-19",
+    "hora_utc": "16:22",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-20",
+    "hora_utc": "23:41",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-21",
+    "hora_utc": "18:09",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-23",
+    "hora_utc": "23:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-25",
+    "hora_utc": "10:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Marte",
+    "planeta1": "Sol",
+    "planeta2": "Marte",
+    "posicion1": "4°17' Géminis",
+    "posicion2": "4°17' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-05-26",
+    "hora_utc": "07:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-27",
+    "hora_utc": "13:13",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "12°00' Tauro",
+    "posicion2": "12°00' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-05-28",
+    "hora_utc": "03:32",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-28",
+    "hora_utc": "19:25",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-05-31",
+    "hora_utc": "08:18",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-01",
+    "hora_utc": "02:34",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Saturno ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-01",
+    "hora_utc": "06:21",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Géminis 10.83°",
+    "elevacion": "-55.0°",
+    "azimut": "101.0°",
+    "signo": "Géminis",
+    "grado": "10.83°",
+    "posicion": "10°49' Géminis"
+  },
+  {
+    "fecha_utc": "2030-06-01",
+    "hora_utc": "06:21",
+    "tipo_evento": "Eclipse Solar",
+    "descripcion": "Eclipse Solar Anular en Géminis 10.83° (distancia al nodo: 5.5°)",
+    "elevacion": "-55.0°",
+    "azimut": "101.0°",
+    "signo": "Géminis",
+    "grado": "10.83°",
+    "posicion": "10°49' Géminis"
+  },
+  {
+    "fecha_utc": "2030-06-02",
+    "hora_utc": "10:48",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "11°58' Géminis",
+    "posicion2": "11°58' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-02",
+    "hora_utc": "10:53",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "20°20' Tauro",
+    "posicion2": "20°20' Escorpio",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-06-02",
+    "hora_utc": "21:11",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-03",
+    "hora_utc": "09:44",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "12°53' Géminis",
+    "posicion2": "12°53' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-05",
+    "hora_utc": "08:24",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Plutón",
+    "planeta1": "Marte",
+    "planeta2": "Plutón",
+    "posicion1": "11°56' Géminis",
+    "posicion2": "11°56' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-05",
+    "hora_utc": "08:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-06",
+    "hora_utc": "19:24",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Neptuno",
+    "planeta1": "Marte",
+    "planeta2": "Neptuno",
+    "posicion1": "12°57' Géminis",
+    "posicion2": "12°57' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-07",
+    "hora_utc": "06:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "11°55' Tauro",
+    "posicion2": "11°55' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-06-07",
+    "hora_utc": "18:04",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-08",
+    "hora_utc": "06:31",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-08",
+    "hora_utc": "19:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "0°58' Géminis",
+    "posicion2": "0°58' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-09",
+    "hora_utc": "10:27",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "18°39' Géminis",
+    "posicion2": "18°39' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-10",
+    "hora_utc": "00:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-12",
+    "hora_utc": "02:55",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-13",
+    "hora_utc": "10:49",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Oposición con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "19°13' Tauro",
+    "posicion2": "19°13' Escorpio",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-06-14",
+    "hora_utc": "03:24",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-14",
+    "hora_utc": "11:26",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "11°50' Géminis",
+    "posicion2": "11°50' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-15",
+    "hora_utc": "02:31",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "13°06' Géminis",
+    "posicion2": "13°06' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-06-15",
+    "hora_utc": "13:28",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Conjunción con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "19°01' Géminis",
+    "posicion2": "19°01' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-15",
+    "hora_utc": "18:40",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Sagitario 24.72°",
+    "elevacion": "-21.5°",
+    "azimut": "139.1°",
+    "signo": "Sagitario",
+    "grado": "24.72°",
+    "posicion": "24°42' Sagitario"
+  },
+  {
+    "fecha_utc": "2030-06-16",
+    "hora_utc": "03:06",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-18",
+    "hora_utc": "00:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "19°09' Géminis",
+    "posicion2": "19°09' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-18",
+    "hora_utc": "03:51",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-19",
+    "hora_utc": "01:25",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Marte",
+    "planeta1": "Mercurio",
+    "planeta2": "Marte",
+    "posicion1": "21°25' Géminis",
+    "posicion2": "21°25' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-20",
+    "hora_utc": "07:23",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-21",
+    "hora_utc": "07:31",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-22",
+    "hora_utc": "12:23",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-22",
+    "hora_utc": "14:45",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-22",
+    "hora_utc": "23:56",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-24",
+    "hora_utc": "07:04",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "2°50' Cáncer",
+    "posicion2": "2°50' Cáncer",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-24",
+    "hora_utc": "23:52",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "2°57' Géminis",
+    "posicion2": "2°57' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-06-25",
+    "hora_utc": "01:41",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-27",
+    "hora_utc": "14:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-29",
+    "hora_utc": "02:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "13°17' Cáncer",
+    "posicion2": "13°17' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-06-30",
+    "hora_utc": "03:18",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-06-30",
+    "hora_utc": "21:34",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Cáncer 9.14°",
+    "elevacion": "-8.4°",
+    "azimut": "292.3°",
+    "signo": "Cáncer",
+    "grado": "9.14°",
+    "posicion": "9°08' Cáncer"
+  },
+  {
+    "fecha_utc": "2030-07-01",
+    "hora_utc": "09:18",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "18°02' Cáncer",
+    "posicion2": "18°02' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-01",
+    "hora_utc": "15:19",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-02",
+    "hora_utc": "04:21",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "11°32' Géminis",
+    "posicion2": "11°32' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-02",
+    "hora_utc": "14:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-03",
+    "hora_utc": "16:13",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "13°20' Géminis",
+    "posicion2": "13°20' Aries",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-04",
+    "hora_utc": "23:36",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-05",
+    "hora_utc": "07:20",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "13°20' Cáncer",
+    "posicion2": "13°20' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-07-07",
+    "hora_utc": "06:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-07",
+    "hora_utc": "10:22",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-09",
+    "hora_utc": "10:29",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-09",
+    "hora_utc": "13:16",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "20°23' Géminis",
+    "posicion2": "20°23' Géminis",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-07-09",
+    "hora_utc": "22:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "4°38' Leo",
+    "posicion2": "4°38' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-09",
+    "hora_utc": "23:26",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "17°48' Cáncer",
+    "posicion2": "17°48' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-11",
+    "hora_utc": "12:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-13",
+    "hora_utc": "13:20",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-13",
+    "hora_utc": "19:06",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "11°18' Leo",
+    "posicion2": "11°18' Acuario",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-07-15",
+    "hora_utc": "00:30",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Júpiter termina retrogradación en 17°45' Escorpio"
+  },
+  {
+    "fecha_utc": "2030-07-15",
+    "hora_utc": "01:10",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "13°22' Leo",
+    "posicion2": "13°22' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-15",
+    "hora_utc": "02:11",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Capricornio 22.68°",
+    "elevacion": "61.0°",
+    "azimut": "62.3°",
+    "signo": "Capricornio",
+    "grado": "22.68°",
+    "posicion": "22°40' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-07-15",
+    "hora_utc": "14:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-16",
+    "hora_utc": "15:58",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Neptuno inicia retrogradación en 13°22' Aries"
+  },
+  {
+    "fecha_utc": "2030-07-17",
+    "hora_utc": "12:46",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-17",
+    "hora_utc": "16:56",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-17",
+    "hora_utc": "19:38",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "17°46' Leo",
+    "posicion2": "17°46' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-07-19",
+    "hora_utc": "22:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "20°55' Leo",
+    "posicion2": "20°55' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-19",
+    "hora_utc": "23:00",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-21",
+    "hora_utc": "14:36",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Neptuno",
+    "planeta1": "Marte",
+    "planeta2": "Neptuno",
+    "posicion1": "13°22' Cáncer",
+    "posicion2": "13°22' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-07-22",
+    "hora_utc": "08:56",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-22",
+    "hora_utc": "18:24",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-24",
+    "hora_utc": "21:29",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-26",
+    "hora_utc": "14:53",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-27",
+    "hora_utc": "10:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-28",
+    "hora_utc": "13:19",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "13°20' Cáncer",
+    "posicion2": "13°20' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-07-28",
+    "hora_utc": "15:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "18°02' Cáncer",
+    "posicion2": "18°02' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-29",
+    "hora_utc": "14:22",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "6°31' Leo",
+    "posicion2": "6°31' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-07-29",
+    "hora_utc": "21:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-07-30",
+    "hora_utc": "11:10",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Leo 7.36°",
+    "elevacion": "3.5°",
+    "azimut": "64.9°",
+    "signo": "Leo",
+    "grado": "7.36°",
+    "posicion": "7°21' Leo"
+  },
+  {
+    "fecha_utc": "2030-08-01",
+    "hora_utc": "05:29",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-01",
+    "hora_utc": "13:33",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "18°13' Cáncer",
+    "posicion2": "18°13' Escorpio",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-01",
+    "hora_utc": "18:18",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "6°47' Virgo",
+    "posicion2": "6°47' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-03",
+    "hora_utc": "02:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Oposición con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "10°51' Leo",
+    "posicion2": "10°51' Acuario",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-03",
+    "hora_utc": "11:40",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-05",
+    "hora_utc": "15:36",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "13°16' Leo",
+    "posicion2": "13°16' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-05",
+    "hora_utc": "16:11",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-05",
+    "hora_utc": "19:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Marte",
+    "planeta1": "Venus",
+    "planeta2": "Marte",
+    "posicion1": "23°22' Cáncer",
+    "posicion2": "23°22' Cáncer",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-08-07",
+    "hora_utc": "19:24",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-09",
+    "hora_utc": "21:40",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-11",
+    "hora_utc": "05:23",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-11",
+    "hora_utc": "11:41",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "18°52' Leo",
+    "posicion2": "18°52' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-11",
+    "hora_utc": "23:40",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-13",
+    "hora_utc": "10:44",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Acuario 20.75°",
+    "elevacion": "-5.3°",
+    "azimut": "254.3°",
+    "signo": "Acuario",
+    "grado": "20.75°",
+    "posicion": "20°44' Acuario"
+  },
+  {
+    "fecha_utc": "2030-08-14",
+    "hora_utc": "02:39",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-14",
+    "hora_utc": "19:31",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "22°03' Leo",
+    "posicion2": "22°03' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-15",
+    "hora_utc": "23:56",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-16",
+    "hora_utc": "00:50",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Mercurio inicia retrogradación en 14°29' Virgo"
+  },
+  {
+    "fecha_utc": "2030-08-16",
+    "hora_utc": "08:08",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-17",
+    "hora_utc": "16:29",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "7°54' Leo",
+    "posicion2": "7°54' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-18",
+    "hora_utc": "17:08",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-19",
+    "hora_utc": "18:44",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Oposición con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "10°28' Leo",
+    "posicion2": "10°28' Acuario",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-21",
+    "hora_utc": "05:11",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-21",
+    "hora_utc": "20:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "13°02' Leo",
+    "posicion2": "13°02' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-23",
+    "hora_utc": "01:36",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-23",
+    "hora_utc": "18:01",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-26",
+    "hora_utc": "04:58",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-27",
+    "hora_utc": "18:59",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "8°25' Virgo",
+    "posicion2": "8°25' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-27",
+    "hora_utc": "22:22",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "20°30' Leo",
+    "posicion2": "20°30' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-28",
+    "hora_utc": "12:51",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-28",
+    "hora_utc": "23:07",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Virgo 5.69°",
+    "elevacion": "-20.2°",
+    "azimut": "267.6°",
+    "signo": "Virgo",
+    "grado": "5.69°",
+    "posicion": "5°41' Virgo"
+  },
+  {
+    "fecha_utc": "2030-08-29",
+    "hora_utc": "04:36",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "8°29' Leo",
+    "posicion2": "8°29' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-29",
+    "hora_utc": "13:21",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "22°30' Leo",
+    "posicion2": "22°30' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-08-29",
+    "hora_utc": "20:10",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "6°32' Virgo",
+    "posicion2": "6°32' Virgo",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-08-30",
+    "hora_utc": "18:03",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-08-31",
+    "hora_utc": "22:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Oposición con Plutón",
+    "planeta1": "Marte",
+    "planeta2": "Plutón",
+    "posicion1": "10°13' Leo",
+    "posicion2": "10°13' Acuario",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-08-31",
+    "hora_utc": "23:03",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "8°35' Virgo",
+    "posicion2": "8°35' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-01",
+    "hora_utc": "21:43",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-04",
+    "hora_utc": "00:48",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-04",
+    "hora_utc": "14:50",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-04",
+    "hora_utc": "21:30",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Neptuno",
+    "planeta1": "Marte",
+    "planeta2": "Neptuno",
+    "posicion1": "12°45' Leo",
+    "posicion2": "12°45' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-09-05",
+    "hora_utc": "21:09",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "1°33' Virgo",
+    "posicion2": "1°33' Virgo",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-09-06",
+    "hora_utc": "03:50",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-08",
+    "hora_utc": "07:06",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-10",
+    "hora_utc": "11:08",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-11",
+    "hora_utc": "18:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "8°52' Virgo",
+    "posicion2": "8°52' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-11",
+    "hora_utc": "21:17",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Piscis 19.18°",
+    "elevacion": "-6.1°",
+    "azimut": "93.3°",
+    "signo": "Piscis",
+    "grado": "19.18°",
+    "posicion": "19°10' Piscis"
+  },
+  {
+    "fecha_utc": "2030-09-12",
+    "hora_utc": "16:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-15",
+    "hora_utc": "01:38",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-15",
+    "hora_utc": "15:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "22°49' Virgo",
+    "posicion2": "22°49' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-15",
+    "hora_utc": "23:24",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "23°09' Virgo",
+    "posicion2": "23°09' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-09-17",
+    "hora_utc": "13:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-18",
+    "hora_utc": "22:42",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "8°56' Virgo",
+    "posicion2": "8°56' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-20",
+    "hora_utc": "02:10",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-20",
+    "hora_utc": "20:30",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Saturno inicia retrogradación en 8°56' Géminis"
+  },
+  {
+    "fecha_utc": "2030-09-20",
+    "hora_utc": "22:43",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "22°52' Leo",
+    "posicion2": "22°52' Géminis",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-09-22",
+    "hora_utc": "13:41",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-22",
+    "hora_utc": "23:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-23",
+    "hora_utc": "01:26",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "22°52' Virgo",
+    "posicion2": "22°52' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-23",
+    "hora_utc": "08:22",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "24°22' Leo",
+    "posicion2": "24°22' Escorpio",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-24",
+    "hora_utc": "09:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "24°33' Virgo",
+    "posicion2": "24°33' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-09-24",
+    "hora_utc": "21:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-27",
+    "hora_utc": "02:29",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-27",
+    "hora_utc": "09:54",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Libra 4.35°",
+    "elevacion": "3.2°",
+    "azimut": "90.0°",
+    "signo": "Libra",
+    "grado": "4.35°",
+    "posicion": "4°20' Libra"
+  },
+  {
+    "fecha_utc": "2030-09-27",
+    "hora_utc": "12:11",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "22°53' Virgo",
+    "posicion2": "22°53' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-09-28",
+    "hora_utc": "07:57",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Urano inicia retrogradación en 22°53' Géminis"
+  },
+  {
+    "fecha_utc": "2030-09-28",
+    "hora_utc": "18:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-09-28",
+    "hora_utc": "20:51",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "25°20' Virgo",
+    "posicion2": "25°20' Escorpio",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-09-29",
+    "hora_utc": "04:58",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-01",
+    "hora_utc": "06:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-01",
+    "hora_utc": "10:49",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-01",
+    "hora_utc": "23:31",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "8°50' Libra",
+    "posicion2": "8°50' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-02",
+    "hora_utc": "09:42",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-02",
+    "hora_utc": "22:02",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "9°45' Libra",
+    "posicion2": "9°45' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-03",
+    "hora_utc": "09:12",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-05",
+    "hora_utc": "03:45",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Oposición con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "11°57' Libra",
+    "posicion2": "11°57' Aries",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-05",
+    "hora_utc": "12:46",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-05",
+    "hora_utc": "18:44",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "8°44' Libra",
+    "posicion2": "8°44' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-06",
+    "hora_utc": "07:12",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "8°43' Libra",
+    "posicion2": "8°43' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-06",
+    "hora_utc": "13:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "9°43' Libra",
+    "posicion2": "9°43' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-06",
+    "hora_utc": "20:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "9°43' Libra",
+    "posicion2": "9°43' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-07",
+    "hora_utc": "13:20",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "10°57' Libra",
+    "posicion2": "10°57' Libra",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-10-07",
+    "hora_utc": "17:46",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-08",
+    "hora_utc": "01:48",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "11°52' Libra",
+    "posicion2": "11°52' Aries",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-08",
+    "hora_utc": "06:52",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Oposición con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "11°52' Libra",
+    "posicion2": "11°52' Aries",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-10",
+    "hora_utc": "00:32",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-11",
+    "hora_utc": "10:46",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Aries 18.17°",
+    "elevacion": "-21.8°",
+    "azimut": "268.8°",
+    "signo": "Aries",
+    "grado": "18.17°",
+    "posicion": "18°10' Aries"
+  },
+  {
+    "fecha_utc": "2030-10-11",
+    "hora_utc": "23:47",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "18°42' Libra",
+    "posicion2": "18°42' Libra",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-10-12",
+    "hora_utc": "09:33",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-14",
+    "hora_utc": "09:10",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "22°47' Libra",
+    "posicion2": "22°47' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-14",
+    "hora_utc": "21:00",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-16",
+    "hora_utc": "01:06",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "8°22' Virgo",
+    "posicion2": "8°22' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-16",
+    "hora_utc": "02:05",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "22°45' Libra",
+    "posicion2": "22°45' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-16",
+    "hora_utc": "23:34",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "22°44' Libra",
+    "posicion2": "22°44' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-17",
+    "hora_utc": "09:58",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-18",
+    "hora_utc": "17:03",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-19",
+    "hora_utc": "22:12",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-20",
+    "hora_utc": "11:12",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Venus",
+    "planeta1": "Sol",
+    "planeta2": "Venus",
+    "posicion1": "27°06' Libra",
+    "posicion2": "27°06' Libra",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-10-22",
+    "hora_utc": "07:23",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-22",
+    "hora_utc": "18:39",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-22",
+    "hora_utc": "23:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Júpiter ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-23",
+    "hora_utc": "02:30",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Plutón termina retrogradación en 9°39' Acuario"
+  },
+  {
+    "fecha_utc": "2030-10-23",
+    "hora_utc": "09:00",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-24",
+    "hora_utc": "12:36",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-24",
+    "hora_utc": "16:57",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Cuadratura con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "9°39' Escorpio",
+    "posicion2": "9°39' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-26",
+    "hora_utc": "14:38",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-26",
+    "hora_utc": "20:16",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Escorpio 3.46°",
+    "elevacion": "23.7°",
+    "azimut": "270.7°",
+    "signo": "Escorpio",
+    "grado": "3.46°",
+    "posicion": "3°27' Escorpio"
+  },
+  {
+    "fecha_utc": "2030-10-28",
+    "hora_utc": "15:10",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-10-28",
+    "hora_utc": "19:58",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Marte",
+    "planeta1": "Mercurio",
+    "planeta2": "Marte",
+    "posicion1": "16°07' Escorpio",
+    "posicion2": "16°07' Virgo",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-10-30",
+    "hora_utc": "12:01",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "9°40' Escorpio",
+    "posicion2": "9°40' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-10-30",
+    "hora_utc": "15:59",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-01",
+    "hora_utc": "18:25",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-02",
+    "hora_utc": "01:54",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Cuadratura con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "9°41' Escorpio",
+    "posicion2": "9°41' Acuario",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-03",
+    "hora_utc": "23:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-06",
+    "hora_utc": "06:37",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-07",
+    "hora_utc": "00:30",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-08",
+    "hora_utc": "01:08",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Cuadratura con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "22°12' Virgo",
+    "posicion2": "22°12' Géminis",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-08",
+    "hora_utc": "16:20",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-09",
+    "hora_utc": "14:09",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Júpiter",
+    "planeta1": "Mercurio",
+    "planeta2": "Júpiter",
+    "posicion1": "3°45' Sagitario",
+    "posicion2": "3°45' Sagitario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-11-10",
+    "hora_utc": "03:30",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Tauro 17.77°",
+    "elevacion": "35.9°",
+    "azimut": "1.6°",
+    "signo": "Tauro",
+    "grado": "17.77°",
+    "posicion": "17°46' Tauro"
+  },
+  {
+    "fecha_utc": "2030-11-10",
+    "hora_utc": "19:04",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Marte",
+    "planeta1": "Venus",
+    "planeta2": "Marte",
+    "posicion1": "23°50' Escorpio",
+    "posicion2": "23°50' Virgo",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-11",
+    "hora_utc": "04:02",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-11",
+    "hora_utc": "15:36",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Saturno",
+    "planeta1": "Mercurio",
+    "planeta2": "Saturno",
+    "posicion1": "6°43' Sagitario",
+    "posicion2": "6°43' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-13",
+    "hora_utc": "16:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-13",
+    "hora_utc": "19:07",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Plutón",
+    "planeta1": "Mercurio",
+    "planeta2": "Plutón",
+    "posicion1": "9°46' Sagitario",
+    "posicion2": "9°46' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-14",
+    "hora_utc": "15:15",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Trígono con Neptuno",
+    "planeta1": "Mercurio",
+    "planeta2": "Neptuno",
+    "posicion1": "10°57' Sagitario",
+    "posicion2": "10°57' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-15",
+    "hora_utc": "17:00",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-16",
+    "hora_utc": "05:38",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-18",
+    "hora_utc": "16:03",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-20",
+    "hora_utc": "01:05",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Júpiter en Oposición con Saturno",
+    "planeta1": "Júpiter",
+    "planeta2": "Saturno",
+    "posicion1": "6°04' Sagitario",
+    "posicion2": "6°04' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-20",
+    "hora_utc": "12:21",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Oposición con Saturno",
+    "planeta1": "Venus",
+    "planeta2": "Saturno",
+    "posicion1": "6°01' Sagitario",
+    "posicion2": "6°01' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-20",
+    "hora_utc": "15:41",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Conjunción con Júpiter",
+    "planeta1": "Venus",
+    "planeta2": "Júpiter",
+    "posicion1": "6°12' Sagitario",
+    "posicion2": "6°12' Sagitario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-11-20",
+    "hora_utc": "22:45",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-21",
+    "hora_utc": "07:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Marte ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-22",
+    "hora_utc": "06:44",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-22",
+    "hora_utc": "18:33",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "21°41' Sagitario",
+    "posicion2": "21°41' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-23",
+    "hora_utc": "01:40",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-23",
+    "hora_utc": "13:19",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Marte",
+    "planeta1": "Sol",
+    "planeta2": "Marte",
+    "posicion1": "1°17' Sagitario",
+    "posicion2": "1°17' Libra",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-23",
+    "hora_utc": "14:18",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Sextil con Plutón",
+    "planeta1": "Venus",
+    "planeta2": "Plutón",
+    "posicion1": "9°53' Sagitario",
+    "posicion2": "9°53' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-24",
+    "hora_utc": "07:19",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Trígono con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "10°47' Sagitario",
+    "posicion2": "10°47' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-25",
+    "hora_utc": "01:57",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-25",
+    "hora_utc": "06:46",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Sagitario 3.03°",
+    "elevacion": "-19.2°",
+    "azimut": "134.2°",
+    "signo": "Sagitario",
+    "grado": "3.03°",
+    "posicion": "3°02' Sagitario"
+  },
+  {
+    "fecha_utc": "2030-11-25",
+    "hora_utc": "06:46",
+    "tipo_evento": "Eclipse Solar",
+    "descripcion": "Eclipse Solar Total en Sagitario 3.03° (distancia al nodo: 4.3°)",
+    "elevacion": "-19.2°",
+    "azimut": "134.2°",
+    "signo": "Sagitario",
+    "grado": "3.03°",
+    "posicion": "3°02' Sagitario"
+  },
+  {
+    "fecha_utc": "2030-11-27",
+    "hora_utc": "01:28",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-27",
+    "hora_utc": "15:55",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Oposición con Saturno",
+    "planeta1": "Sol",
+    "planeta2": "Saturno",
+    "posicion1": "5°26' Sagitario",
+    "posicion2": "5°26' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-11-29",
+    "hora_utc": "02:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-11-30",
+    "hora_utc": "09:48",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Saturno",
+    "planeta1": "Marte",
+    "planeta2": "Saturno",
+    "posicion1": "5°13' Libra",
+    "posicion2": "5°13' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-11-30",
+    "hora_utc": "14:43",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Júpiter",
+    "planeta1": "Sol",
+    "planeta2": "Júpiter",
+    "posicion1": "8°25' Sagitario",
+    "posicion2": "8°25' Sagitario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-12-01",
+    "hora_utc": "02:27",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-01",
+    "hora_utc": "05:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-02",
+    "hora_utc": "04:39",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Sextil con Plutón",
+    "planeta1": "Sol",
+    "planeta2": "Plutón",
+    "posicion1": "10°02' Sagitario",
+    "posicion2": "10°02' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-02",
+    "hora_utc": "16:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Oposición con Urano",
+    "planeta1": "Venus",
+    "planeta2": "Urano",
+    "posicion1": "21°17' Sagitario",
+    "posicion2": "21°17' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-02",
+    "hora_utc": "19:50",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Trígono con Neptuno",
+    "planeta1": "Sol",
+    "planeta2": "Neptuno",
+    "posicion1": "10°40' Sagitario",
+    "posicion2": "10°40' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-03",
+    "hora_utc": "12:14",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-05",
+    "hora_utc": "22:13",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Tauro (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-06",
+    "hora_utc": "02:17",
+    "tipo_evento": "Inicio Retrogradación",
+    "descripcion": "Mercurio inicia retrogradación en 1°51' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-12-08",
+    "hora_utc": "06:41",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Júpiter en Sextil con Plutón",
+    "planeta1": "Júpiter",
+    "planeta2": "Plutón",
+    "posicion1": "10°09' Sagitario",
+    "posicion2": "10°09' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-08",
+    "hora_utc": "10:19",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Géminis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-09",
+    "hora_utc": "04:31",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Plutón",
+    "planeta1": "Marte",
+    "planeta2": "Plutón",
+    "posicion1": "10°10' Libra",
+    "posicion2": "10°10' Acuario",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-09",
+    "hora_utc": "14:51",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Venus ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-09",
+    "hora_utc": "17:49",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Sextil con Júpiter",
+    "planeta1": "Marte",
+    "planeta2": "Júpiter",
+    "posicion1": "10°28' Libra",
+    "posicion2": "10°28' Sagitario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-09",
+    "hora_utc": "22:40",
+    "tipo_evento": "Luna Llena",
+    "descripcion": "Luna llena en Géminis 17.90°",
+    "elevacion": "-1.7°",
+    "azimut": "64.6°",
+    "signo": "Géminis",
+    "grado": "17.90°",
+    "posicion": "17°53' Géminis"
+  },
+  {
+    "fecha_utc": "2030-12-09",
+    "hora_utc": "23:37",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Oposición con Neptuno",
+    "planeta1": "Marte",
+    "planeta2": "Neptuno",
+    "posicion1": "10°36' Libra",
+    "posicion2": "10°36' Aries",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-10",
+    "hora_utc": "00:10",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Conjunción con Venus",
+    "planeta1": "Mercurio",
+    "planeta2": "Venus",
+    "posicion1": "0°29' Capricornio",
+    "posicion2": "0°29' Capricornio",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-12-10",
+    "hora_utc": "08:01",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Júpiter en Trígono con Neptuno",
+    "planeta1": "Júpiter",
+    "planeta2": "Neptuno",
+    "posicion1": "10°36' Sagitario",
+    "posicion2": "10°36' Aries",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-10",
+    "hora_utc": "15:10",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Mercurio deja a 29.99° de Capricornio (Retrógrado)"
+  },
+  {
+    "fecha_utc": "2030-12-10",
+    "hora_utc": "23:16",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Cáncer (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-12",
+    "hora_utc": "20:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Oposición con Urano",
+    "planeta1": "Sol",
+    "planeta2": "Urano",
+    "posicion1": "20°51' Sagitario",
+    "posicion2": "20°51' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-13",
+    "hora_utc": "11:53",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Leo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-15",
+    "hora_utc": "19:14",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Sol en Conjunción con Mercurio",
+    "planeta1": "Sol",
+    "planeta2": "Mercurio",
+    "posicion1": "23°51' Sagitario",
+    "posicion2": "23°51' Sagitario",
+    "tipo_aspecto": "Conjunción",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Neutro"
+  },
+  {
+    "fecha_utc": "2030-12-15",
+    "hora_utc": "22:55",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Virgo (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-18",
+    "hora_utc": "01:17",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Neptuno",
+    "planeta1": "Venus",
+    "planeta2": "Neptuno",
+    "posicion1": "10°34' Capricornio",
+    "posicion2": "10°34' Aries",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-18",
+    "hora_utc": "04:43",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Oposición con Urano",
+    "planeta1": "Mercurio",
+    "planeta2": "Urano",
+    "posicion1": "20°37' Sagitario",
+    "posicion2": "20°37' Géminis",
+    "tipo_aspecto": "Oposición",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-18",
+    "hora_utc": "07:09",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Libra (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-20",
+    "hora_utc": "11:51",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Escorpio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-21",
+    "hora_utc": "17:12",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Mercurio en Sextil con Marte",
+    "planeta1": "Mercurio",
+    "planeta2": "Marte",
+    "posicion1": "17°02' Sagitario",
+    "posicion2": "17°02' Libra",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-21",
+    "hora_utc": "20:09",
+    "tipo_evento": "Fin Retrogradación",
+    "descripcion": "Neptuno termina retrogradación en 10°34' Aries"
+  },
+  {
+    "fecha_utc": "2030-12-21",
+    "hora_utc": "20:09",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Sol ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-22",
+    "hora_utc": "13:20",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Sagitario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-24",
+    "hora_utc": "08:06",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Venus en Cuadratura con Marte",
+    "planeta1": "Venus",
+    "planeta2": "Marte",
+    "posicion1": "18°27' Capricornio",
+    "posicion2": "18°27' Libra",
+    "tipo_aspecto": "Cuadratura",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Tensión"
+  },
+  {
+    "fecha_utc": "2030-12-24",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°31' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.05°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-24",
+    "hora_utc": "12:54",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Capricornio (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-24",
+    "hora_utc": "17:32",
+    "tipo_evento": "Luna Nueva",
+    "descripcion": "Luna nueva en Capricornio 2.95°",
+    "elevacion": "65.8°",
+    "azimut": "291.0°",
+    "signo": "Capricornio",
+    "grado": "2.95°",
+    "posicion": "2°56' Capricornio"
+  },
+  {
+    "fecha_utc": "2030-12-24",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°32' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.04°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-25",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°32' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.03°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-25",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°33' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.02°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-26",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°34' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.00°",
+    "es_aplicativo": "Sí",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-26",
+    "hora_utc": "12:26",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Acuario (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-26",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°35' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.01°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-27",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°34' Aries",
+    "posicion2": "10°36' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.02°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-27",
+    "hora_utc": "16:33",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Marte en Trígono con Urano",
+    "planeta1": "Marte",
+    "planeta2": "Urano",
+    "posicion1": "20°14' Libra",
+    "posicion2": "20°14' Géminis",
+    "tipo_aspecto": "Trígono",
+    "orbe": "0.00°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-27",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°36' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.03°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-28",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°37' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.04°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-28",
+    "hora_utc": "13:58",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Piscis (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-28",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°38' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.05°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-29",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°39' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.06°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-29",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°40' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.08°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-30",
+    "hora_utc": "10:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°40' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.09°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  },
+  {
+    "fecha_utc": "2030-12-30",
+    "hora_utc": "19:07",
+    "tipo_evento": "Ingreso a Signo",
+    "descripcion": "Luna ingresa a 0.00° de Aries (Directo)"
+  },
+  {
+    "fecha_utc": "2030-12-30",
+    "hora_utc": "22:35",
+    "tipo_evento": "Aspecto",
+    "descripcion": "Neptuno en Sextil con Plutón",
+    "planeta1": "Neptuno",
+    "planeta2": "Plutón",
+    "posicion1": "10°35' Aries",
+    "posicion2": "10°41' Acuario",
+    "tipo_aspecto": "Sextil",
+    "orbe": "0.10°",
+    "es_aplicativo": "No",
+    "harmony": "Armónico"
+  }
+]

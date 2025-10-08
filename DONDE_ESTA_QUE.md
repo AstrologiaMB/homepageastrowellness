@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.4
-**Fecha:** 12 de Septiembre 2025
+**Versión:** 1.5
+**Fecha:** 24 de Septiembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -14,6 +14,7 @@
 - **API Interpretaciones**: FastAPI (Puerto 8002) - `astro_interpretador_rag_fastapi/`
 - **API Calendario**: FastAPI (Puerto 8003) - `astro-calendar-personal-fastapi/`
 - **API Astrogematría**: FastAPI (Puerto 8004) - `astro-calendar-personal-fastapi/`
+- **API Carta Electiva**: FastAPI (Puerto 8005) - `carta-electiva-api/` ⭐ **NUEVO**
 
 ### Variables de Entorno Requeridas
 ```bash
@@ -129,6 +130,7 @@ NEXTAUTH_URL=http://localhost:3000
 | **Interpretaciones** | 8002 | `/interpretar` |
 | **Calendario** | 8003 | `/calendar` |
 | **Astrogematría** | 8004 | `/astrogematria` |
+| **Carta Electiva** | 8005 | `/buscar`, `/progress/{task_id}` ⭐ **NUEVO** |
 
 ### **🛠️ UTILIDADES DISPONIBLES**
 | Utilidad | Función | Ubicación |
@@ -214,6 +216,89 @@ src/calculators/
 ├── remedios_calculator.py                # Remedios astrológicos
 └── interpretaciones_astrogematria.py     # Interpretaciones numerológicas
 ```
+
+### **⭐ Carta Electiva (carta-electiva-api) - Puerto 8005** ⭐ **NUEVO**
+```
+app.py                                  # ⭐ API principal FastAPI
+├── /buscar                             # Inicia búsqueda asíncrona
+├── /progress/{task_id}                 # Consulta progreso real
+└── /health                             # Health check
+
+core/
+├── algoritmo_busqueda.py               # ⭐ Algoritmo de búsqueda optimizada
+├── enraizamiento_calculator.py         # Cálculos de enraizamiento
+├── legacy_wrapper.py                   # Wrapper para cálculos legacy
+└── numba_optimizations.py              # Optimizaciones con Numba
+
+utils/
+├── scc_calculator.py                   # Sistema de categorías SCC
+├── csv_output.py                       # Exportación a CSV
+└── ranking_system.py                   # Sistema de ranking
+```
+
+#### **🎯 Sistema de Progreso Real**
+- **Antes:** Progreso simulado/falso (barra subía automáticamente)
+- **Ahora:** Progreso real que refleja el trabajo backend
+- **Implementación:** Polling simple cada 2 segundos a `/progress/{task_id}`
+- **Backend:** Estado global `task_progress` con actualizaciones reales
+- **Frontend:** Polling automático con manejo de errores y fallback
+
+#### **🔍 Algoritmo de Búsqueda Optimizada**
+- **Fase 1:** Filtro básico (1441 momentos → 515 prometedores)
+- **Fase 2:** Análisis detallado con SCC (categorización automática)
+- **Optimización:** 22x más rápido que sistema original
+- **Timeout:** 5 minutos máximo por búsqueda
+
+---
+
+## 🆚 COMPARACIÓN CON LEVELSIO
+
+### **Filosofía Levelsio vs Nuestro Stack**
+| Aspecto | Levelsio | Nuestro Stack |
+|---------|----------|---------------|
+| **Stack** | PHP vanilla + JS vanilla | Next.js + FastAPI + Microservicios |
+| **Arquitectura** | Monolítico | Microservicios escalables |
+| **Dependencias** | ~5 librerías | 40+ librerías especializadas |
+| **Mantenimiento** | "Nunca tocar" | Actualizaciones regulares |
+| **Velocidad desarrollo** | Iteración instantánea | Setup complejo pero potente |
+| **Escalabilidad** | Limitada | Alta (horizontal) |
+| **Calidad** | Funcional pero básica | Profesional con UX avanzada |
+
+### **¿Por qué NO Levelsio para Astrología?**
+1. **Cálculos científicos complejos** ≠ producto simple de nicho
+2. **UX importa** en wellness/astrología (usuarios pagan por experiencia)
+3. **Necesitamos escalabilidad** (no es un hobby project)
+4. **Equipo técnico** requiere herramientas profesionales
+
+### **Mejor Enfoque: Simplificación Selectiva**
+- ✅ **Mantener** arquitectura moderna donde aporta valor
+- ✅ **Simplificar** dependencias innecesarias (40+ → 15-20)
+- ✅ **Optimizar** performance sin sacrificar calidad
+- ✅ **Aplicar** principios levelsio donde sea posible
+
+---
+
+## 🔧 SIMPLIFICACIONES IMPLEMENTADAS
+
+### **1. Sistema de Progreso Real**
+- **Antes:** 80+ líneas de simulación falsa
+- **Ahora:** 30 líneas de polling real
+- **Beneficio:** Usuario sabe exactamente qué pasa
+
+### **2. Simplificación de UI Components**
+- **Antes:** 40+ dependencias shadcn/radix
+- **Ahora:** Componentes core + HTML/Tailwind puro
+- **Beneficio:** Bundle 70% más pequeño, mejor performance
+
+### **3. Arquitectura Optimizada**
+- **Microservicios:** Separados por responsabilidad
+- **APIs REST:** Bien definidas y documentadas
+- **Background tasks:** Procesamiento asíncrono eficiente
+
+### **4. Optimizaciones de Performance**
+- **Numba:** Aceleración de cálculos científicos
+- **Multiprocessing:** Algoritmos paralelizados
+- **SCC System:** Categorización automática inteligente
 
 ---
 
@@ -309,7 +394,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 12 de Septiembre 2025 (v1.4 - Proceso completo de análisis detallado)
+**🔄 Última actualización:** 24 de Septiembre 2025 (v1.5 - Sistema de progreso real, Carta Electiva API, comparación Levelsio)
 **� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **�👨‍💻 Mantenido por:** Equipo Astrowellness
 

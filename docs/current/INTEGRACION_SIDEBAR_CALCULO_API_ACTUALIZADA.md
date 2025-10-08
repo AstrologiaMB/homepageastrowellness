@@ -1,6 +1,6 @@
 # 🚀 Documentación Actualizada: Integración Sidebar-FastAPI ↔ Calculo-Carta-Natal-API
 
-**Fecha de Actualización:** 7 de enero de 2025  
+**Fecha de Actualización:** 24 de septiembre de 2025
 **Versión:** 2.0 - Incluye mejoras del algoritmo dracónico de alta precisión
 
 ---
@@ -485,5 +485,5 @@ El sistema está completamente integrado y optimizado para uso en producción, c
 
 ---
 
-**Documentación actualizada el 7 de enero de 2025**  
-**Versión 2.0 - Incluye algoritmo dracónico de alta precisión**
+**Documentación actualizada el 24 de septiembre de 2025**
+**Versión 2.1 - Incluye Carta Electiva API y sistema de progreso real**

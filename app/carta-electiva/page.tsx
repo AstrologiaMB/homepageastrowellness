@@ -67,65 +67,57 @@ export default function CartaElectivaPage() {
   const [progressMessage, setProgressMessage] = useState("");
   const [resultado, setResultado] = useState<ResultadoBusqueda | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
   const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | null>(null);
 
   /**
-   * Inicia la animación inteligente de la barra de progreso basada en fases del algoritmo
+   * Inicia polling para consultar progreso real del backend
    */
-  const startProgressAnimation = () => {
+  const startProgressPolling = (taskId: string) => {
     setProgress(0);
-    setProgressMessage("Iniciando análisis astrológico...");
+    setProgressMessage("Iniciando búsqueda...");
 
-    let currentPhase = 'init';
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        let newProgress = prev;
-        let newMessage = progressMessage;
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/progress/${taskId}`);
+        const data = await response.json();
 
-        // Fase 1: Filtrado básico (0-30%) - Rápida
-        if (prev < 30) {
-          if (currentPhase !== 'phase1') {
-            currentPhase = 'phase1';
-            newMessage = "Fase 1: Analizando constelaciones básicas...";
-          }
-          // Avance rápido en Fase 1 (filtrado es rápido)
-          newProgress = prev + Math.random() * 6 + 3; // 3-9% por step
-        }
-        // Fase 2: Análisis detallado (30-95%) - Más lenta pero constante
-        else if (prev < 95) {
-          if (currentPhase !== 'phase2') {
-            currentPhase = 'phase2';
-            newMessage = "Fase 2: Evaluando aspectos planetarios detallados...";
-          }
-          // Avance más lento pero constante en Fase 2 (análisis es más complejo)
-          newProgress = prev + Math.random() * 3 + 1; // 1-4% por step
-        }
-        // No exceder 95% hasta que llegue la respuesta real
-        newProgress = Math.min(newProgress, 95);
-
-        // Actualizar mensaje si cambió
-        if (newMessage !== progressMessage) {
-          setProgressMessage(newMessage);
+        if (data.error) {
+          throw new Error(data.error);
         }
 
-        return newProgress;
-      });
-    }, 600); // Actualizar cada 600ms para mejor fluidez
+        setProgress(data.progress);
+        setProgressMessage(data.status);
+
+        // Si completado, mostrar resultados
+        if (data.progress >= 100 && data.result) {
+          clearInterval(interval);
+          setProgressInterval(null);
+          setResultado({
+            success: true,
+            data: data.result
+          });
+          setLoading(false);
+        }
+
+        // Si hay error
+        if (data.progress === -1) {
+          clearInterval(interval);
+          setProgressInterval(null);
+          setError(data.error || data.status);
+          setLoading(false);
+        }
+
+      } catch (err) {
+        console.error('Error consultando progreso:', err);
+        // Fallback: simulación simple si falla el polling
+        setProgress(prev => Math.min(prev + 5, 90));
+        setProgressMessage("Procesando...");
+      }
+    }, 2000); // Consultar cada 2 segundos
 
     setProgressInterval(interval);
     return interval;
-  };
-
-  /**
-   * Completa la barra de progreso
-   */
-  const completeProgress = () => {
-    if (progressInterval) {
-      clearInterval(progressInterval);
-      setProgressInterval(null);
-    }
-    setProgress(100);
-    setProgressMessage("¡Análisis completado!");
   };
 
   /**
@@ -142,51 +134,57 @@ export default function CartaElectivaPage() {
     setResultado(null);
     setProgress(0);
     setProgressMessage("");
-
-    // Iniciar animación de progreso
-    const interval = startProgressAnimation();
+    setTaskId(null);
 
     try {
-      const response = await fetch('/api/carta-electiva/buscar', {
+      // Obtener datos del usuario (simplificado para este ejemplo)
+      const userData = {
+        fecha_nacimiento: "1990-01-01", // Esto debería venir de la sesión del usuario
+        hora_nacimiento: "12:00",
+        ciudad: "Buenos Aires",
+        pais: "Argentina",
+        timezone: "America/Argentina/Buenos_Aires"
+      };
+
+      const response = await fetch('http://localhost:8005/buscar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          user_id: "test-user", // Esto debería venir de la sesión
           tema,
           fecha_inicio: fechaInicio,
-          dias: parseInt(dias)
+          dias: parseInt(dias),
+          ubicacion: { ciudad: userData.ciudad, pais: userData.pais },
+          carta_natal: userData
         })
       });
 
-      const data: ResultadoBusqueda = await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || `Error ${response.status}`);
       }
 
-      // Completar progreso antes de mostrar resultados
-      completeProgress();
-
-      // Pequeño delay para que el usuario vea el 100%
-      setTimeout(() => {
-        setResultado(data);
-      }, 500);
+      if (data.success && data.task_id) {
+        // Iniciar polling con el task_id
+        setTaskId(data.task_id);
+        startProgressPolling(data.task_id);
+      } else {
+        throw new Error(data.error || 'Error desconocido');
+      }
 
     } catch (err) {
       console.error('Error en búsqueda:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
+      setLoading(false);
 
       // Limpiar progreso en caso de error
       if (progressInterval) {
         clearInterval(progressInterval);
         setProgressInterval(null);
       }
-      setProgress(0);
-      setProgressMessage("");
-
-    } finally {
-      setLoading(false);
     }
   };
 

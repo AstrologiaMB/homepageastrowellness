@@ -1,7 +1,7 @@
 # 🏗️ Microservicios Astrowellness - Overview Técnico
 
-**Fecha de Actualización:** 7 de enero de 2025  
-**Versión:** 2.0 - Arquitectura optimizada con algoritmo dracónico mejorado
+**Fecha de Actualización:** 24 de septiembre de 2025
+**Versión:** 2.1 - Arquitectura completa con Carta Electiva API y sistema de progreso real
 
 ---
 
@@ -465,4 +465,4 @@ curl -s http://localhost:3000/api/health/dashboard | jq .
 ---
 
 **Ecosistema Astrowellness - Microservicios de Clase Mundial**  
-**Documentación técnica actualizada: 7 de enero de 2025**
+**Documentación técnica actualizada: 24 de septiembre de 2025**

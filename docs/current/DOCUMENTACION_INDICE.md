@@ -1,7 +1,7 @@
 # 📚 Índice de Documentación Astrowellness
 
-**Fecha de Actualización:** 12 de septiembre de 2025
-**Estado:** Documentación completa y actualizada
+**Fecha de Actualización:** 24 de septiembre de 2025
+**Estado:** Documentación completa y actualizada - Incluye Carta Electiva API y sistema de progreso real
 
 ---
 
@@ -22,9 +22,10 @@
 
 | Documento | Descripción | Estado | Última Actualización |
 |-----------|-------------|--------|---------------------|
-| [INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md](./INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md) | **Guía completa de integración** entre sidebar-fastapi y calculo-carta-natal-api | ✅ Actualizado | 7 enero 2025 |
+| [INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md](./INTEGRACION_SIDEBAR_CALCULO_API_ACTUALIZADA.md) | **Guía completa de integración** entre sidebar-fastapi y calculo-carta-natal-api | ✅ Actualizado | 24 septiembre 2025 |
 | [README_SERVICIOS.md](./README_SERVICIOS.md) | **Documentación completa de servicios** y microservicios | ✅ Actualizado | 7 enero 2025 |
-| [MICROSERVICIOS_OVERVIEW.md](./MICROSERVICIOS_OVERVIEW.md) | **Overview técnico** de la arquitectura de microservicios | ✅ Actualizado | 7 enero 2025 |
+| [MICROSERVICIOS_OVERVIEW.md](./MICROSERVICIOS_OVERVIEW.md) | **Overview técnico** de la arquitectura de microservicios | ✅ Actualizado | 24 septiembre 2025 |
+| **[CARTA_ELECTIVA_INTEGRATION.md](./CARTA_ELECTIVA_INTEGRATION.md)** | **🎯 Sistema completo de Carta Electiva** - API, progreso real, algoritmos optimizados | ✅ **NUEVO** | 24 septiembre 2025 |
 
 ### **📋 Documentos Existentes (Referencia)**
 
