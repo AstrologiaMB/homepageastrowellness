@@ -61,6 +61,27 @@ export function CalendarioGeneral() {
     loadYearData(selectedYear).then(setEventos);
   }, [selectedYear]);
 
+  // Ajustar la semana mostrada cuando cambia el año seleccionado
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+
+    // Solo ajustar si el año seleccionado es diferente al actual
+    // y si no estamos ya en una fecha del año seleccionado
+    if (selectedYear !== currentYear && currentWeekStart.getFullYear() !== selectedYear) {
+      const currentMonth = currentWeekStart.getMonth();
+      const currentDate = currentWeekStart.getDate();
+
+      // Crear la misma fecha en el nuevo año
+      const newDate = new Date(selectedYear, currentMonth, currentDate);
+
+      // Verificar que la fecha sea válida (manejo de años bisiestos)
+      if (!isNaN(newDate.getTime())) {
+        const newWeekStart = startOfWeek(newDate, { locale: es });
+        setCurrentWeekStart(newWeekStart);
+      }
+    }
+  }, [selectedYear]); // Solo depende de selectedYear para evitar loops
+
   const handlePreviousWeek = () => {
     setCurrentWeekStart(subWeeks(currentWeekStart, 1));
   };
