@@ -174,6 +174,7 @@ export function CalendarioGeneral() {
                     fromYear={2024}
                     toYear={2030}
                     captionLayout="dropdown-buttons"
+                    locale={es}
                     selected={selectedDate}
                     onSelect={(date) => {
                       handleDateSelect(date);
@@ -199,6 +200,7 @@ export function CalendarioGeneral() {
                   fromYear={2024}
                   toYear={2030}
                   captionLayout="dropdown-buttons"
+                  locale={es}
                   selected={selectedDate}
                   onSelect={(date) => {
                     handleDateSelect(date);
