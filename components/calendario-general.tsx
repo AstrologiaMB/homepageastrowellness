@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalendarIcon, ChevronRight } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Calendar } from "@/components/ui/calendar";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -48,8 +49,8 @@ const loadYearData = async (year: number): Promise<EventoAstrologicoData[]> => {
 
 export function CalendarioGeneral() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
   const [eventos, setEventos] = useState<EventoAstrologicoData[]>([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -125,76 +126,11 @@ export function CalendarioGeneral() {
   const previousWeekNumber = getISOWeek(addWeeks(currentWeekStart, -1));
   const nextWeekNumber = getISOWeek(addWeeks(currentWeekStart, 1));
 
-  const handleDateSelect = (date: Date) => {
-    setCurrentWeekStart(startOfWeek(date, { locale: es }));
-    setIsDateSelectOpen(false); // Close the Sheet/Popover
-    setSelectedMonth(null); // Reset selected month
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setCurrentWeekStart(startOfWeek(date, { locale: es }));
+    }
   };
-
-  const handleMonthSelect = (monthDate: Date) => {
-    setSelectedMonth(monthDate);
-  };
-
-  const handleBackToMonths = () => {
-    setSelectedMonth(null);
-  };
-
-  // Generate months for the selected year (12 months: Jan-Dec selected year)
-  const months = Array.from({ length: 12 }).map((_, i) => {
-    const date = new Date(selectedYear, i, 1); // i=0 for Jan, i=11 for Dec
-    return { value: date, label: formatMonthYear(date) };
-  });
-
-  // Get weeks for the selected month
-  const weeksInSelectedMonth = selectedMonth
-    ? getWeeksOfMonth(getYearNumber(selectedMonth), getMonthNumber(selectedMonth))
-    : [];
-
-  const DateSelectContent = (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4">
-        {selectedMonth && (
-          <Button variant="ghost" size="icon" onClick={handleBackToMonths}>
-            &larr;
-          </Button>
-        )}
-        <h3 className="text-lg font-semibold">
-          {selectedMonth ? formatMonthYear(selectedMonth) : 'Seleccionar Mes'}
-        </h3>
-        {/* Add a close button if needed */}
-      </div>
-      <Separator />
-      <ScrollArea className="flex-1 p-4">
-        {!selectedMonth ? (
-          // Display months
-          <div className="grid grid-cols-2 gap-2">
-            {months.map((month) => (
-              <Button
-                key={month.label}
-                variant="outline"
-                onClick={() => handleMonthSelect(month.value)}
-              >
-                {month.label}
-              </Button>
-            ))}
-          </div>
-        ) : (
-          // Display weeks for the selected month
-          <div className="flex flex-col gap-2">
-            {weeksInSelectedMonth.map((week, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                onClick={() => handleDateSelect(week.start)}
-              >
-                {formatWeekRange(week.start, week.end, week.weekNumber)}
-              </Button>
-            ))}
-          </div>
-        )}
-      </ScrollArea>
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-4 p-4 pt-0">
@@ -228,7 +164,17 @@ export function CalendarioGeneral() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="bottom" className="h-2/3">
-                {DateSelectContent}
+                <div className="p-4">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(date) => {
+                      handleDateSelect(date);
+                      setIsDateSelectOpen(false);
+                    }}
+                    className="rounded-md border"
+                  />
+                </div>
               </SheetContent>
             </Sheet>
           ) : (
@@ -239,8 +185,16 @@ export function CalendarioGeneral() {
                   Seleccionar fecha
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80 h-96 p-0">
-                 {DateSelectContent}
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => {
+                    handleDateSelect(date);
+                    setIsDateSelectOpen(false);
+                  }}
+                  className="rounded-md border"
+                />
               </PopoverContent>
             </Popover>
           )}
