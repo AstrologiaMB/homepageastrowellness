@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths, getISOWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 
+// Usaremos el locale español de date-fns que funciona perfectamente
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
