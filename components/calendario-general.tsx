@@ -57,8 +57,25 @@ export function CalendarioGeneral() {
   const isMobile = useIsMobile();
 
   // Cargar los eventos cuando cambia el año o al montar el componente
+  // 🎯 Pre-cargar también el año siguiente para semanas que cruzan años
   useEffect(() => {
-    loadYearData(selectedYear).then(setEventos);
+    const loadData = async () => {
+      const [currentYearData, nextYearData] = await Promise.all([
+        loadYearData(selectedYear),
+        loadYearData(selectedYear + 1)
+      ]);
+
+      // Combinar eventos de ambos años sin duplicados
+      const allEvents = [...currentYearData, ...nextYearData];
+      const uniqueEvents = allEvents.filter((event, index, self) =>
+        index === self.findIndex(e => e.fecha_utc === event.fecha_utc && e.hora_utc === event.hora_utc)
+      );
+
+      setEventos(uniqueEvents);
+      console.log(`✅ Eventos cargados: ${selectedYear} (${currentYearData.length}) + ${selectedYear + 1} (${nextYearData.length}) = ${uniqueEvents.length} eventos totales`);
+    };
+
+    loadData();
   }, [selectedYear]);
 
   // Ajustar la semana mostrada cuando cambia el año seleccionado
