@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalendarIcon, ChevronRight } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -16,11 +17,11 @@ import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getY
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoAstrologico } from './evento-astrologico';
 
-// Importar los datos de eventos astrológicos
-import eventosData from '@/data/eventos_astrologicos_UTC_2025.json';
+// Años disponibles (futuro-proof hasta 2030) - EDITAR AQUÍ CUANDO LLEGUE 2031
+const AVAILABLE_YEARS = [2024, 2025, 2026, 2027, 2028, 2029, 2030] as const;
 
-// Definir la interfaz para los eventos
-interface EventoAstrologico {
+// Interface para los eventos
+interface EventoAstrologicoData {
   fecha_utc: string;
   hora_utc: string;
   tipo_evento: string;
@@ -32,19 +33,33 @@ interface EventoAstrologico {
   [key: string]: any; // Para otros campos que puedan variar según el tipo de evento
 }
 
+// Cargar eventos por año con manejo robusto de errores
+const loadYearData = async (year: number): Promise<EventoAstrologicoData[]> => {
+  try {
+    console.log(`Cargando eventos para el año ${year}...`);
+    const module = await import(`@/data/eventos_astrologicos_UTC_${year}.json`);
+    console.log(`✅ Eventos cargados para ${year}:`, module.default?.length || 0, 'eventos');
+    return module.default as EventoAstrologicoData[];
+  } catch (error) {
+    console.warn(`⚠️ Archivo no encontrado para ${year}, usando datos vacíos:`, error);
+    return [];
+  }
+};
+
 export function CalendarioGeneral() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
-  const [eventos, setEventos] = useState<EventoAstrologico[]>([]);
+  const [eventos, setEventos] = useState<EventoAstrologicoData[]>([]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const today = new Date();
   const isMobile = useIsMobile();
 
-  // Cargar los eventos al montar el componente
+  // Cargar los eventos cuando cambia el año o al montar el componente
   useEffect(() => {
-    setEventos(eventosData as EventoAstrologico[]);
-  }, []);
+    loadYearData(selectedYear).then(setEventos);
+  }, [selectedYear]);
 
   const handlePreviousWeek = () => {
     setCurrentWeekStart(subWeeks(currentWeekStart, 1));
@@ -142,6 +157,19 @@ export function CalendarioGeneral() {
           <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })}</p>
         </div>
         <div className="flex items-center gap-2">
+          {/* Year Selector */}
+          <Select value={selectedYear.toString()} onValueChange={(year) => setSelectedYear(parseInt(year))}>
+            <SelectTrigger className="w-[100px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {AVAILABLE_YEARS.map(year => (
+                <SelectItem key={year} value={year.toString()}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {/* Date Selection Button */}
           {isMobile ? (
             <Sheet open={isDateSelectOpen} onOpenChange={setIsDateSelectOpen}>
