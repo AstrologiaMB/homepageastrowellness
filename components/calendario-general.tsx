@@ -139,9 +139,9 @@ export function CalendarioGeneral() {
     setSelectedMonth(null);
   };
 
-  // Generate a list of months (e.g., current year +/- 1 year)
-  const months = Array.from({ length: 25 }).map((_, i) => {
-    const date = addMonths(startOfMonth(new Date(getYear(today) - 1, 0, 1)), i);
+  // Generate months for the selected year (12 months: Jan-Dec selected year)
+  const months = Array.from({ length: 12 }).map((_, i) => {
+    const date = new Date(selectedYear, i, 1); // i=0 for Jan, i=11 for Dec
     return { value: date, label: formatMonthYear(date) };
   });
 
