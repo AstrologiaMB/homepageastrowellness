@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths } from 'date-fns';
+import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths, getISOWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 import { Button } from "@/components/ui/button";
@@ -120,6 +120,11 @@ export function CalendarioGeneral() {
     addDays(startOfWeek(currentWeekStart, { locale: es }), i)
   );
 
+  // 🌟 Calcular números de semana para navegación y título
+  const currentWeekNumber = getISOWeek(currentWeekStart);
+  const previousWeekNumber = getISOWeek(addWeeks(currentWeekStart, -1));
+  const nextWeekNumber = getISOWeek(addWeeks(currentWeekStart, 1));
+
   const handleDateSelect = (date: Date) => {
     setCurrentWeekStart(startOfWeek(date, { locale: es }));
     setIsDateSelectOpen(false); // Close the Sheet/Popover
@@ -196,7 +201,7 @@ export function CalendarioGeneral() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
-          <h2 className="text-xl font-bold">Calendario Astral</h2>
+          <h2 className="text-xl font-bold">Calendario Astral - Semana {currentWeekNumber}</h2>
           <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {selectedYear}</p>
         </div>
         <div className="flex items-center gap-2">
@@ -254,10 +259,10 @@ export function CalendarioGeneral() {
            {/* Navigation Arrows (Desktop) */}
            <div className="hidden md:flex items-center gap-2">
               <Button variant="outline" onClick={handlePreviousWeek}>
-                 &larr; Semana anterior
+                 &larr; Semana {previousWeekNumber}
               </Button>
               <Button variant="outline" onClick={handleNextWeek}>
-                 Semana siguiente &rarr;
+                 Semana {nextWeekNumber} &rarr;
               </Button>
            </div>
         </div>
