@@ -167,6 +167,10 @@ export function CalendarioGeneral() {
                 <div className="p-4">
                   <Calendar
                     mode="single"
+                    defaultMonth={new Date()}
+                    fromYear={2024}
+                    toYear={2030}
+                    captionLayout="dropdown-buttons"
                     selected={selectedDate}
                     onSelect={(date) => {
                       handleDateSelect(date);
@@ -188,6 +192,10 @@ export function CalendarioGeneral() {
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
+                  defaultMonth={new Date()}
+                  fromYear={2024}
+                  toYear={2030}
+                  captionLayout="dropdown-buttons"
                   selected={selectedDate}
                   onSelect={(date) => {
                     handleDateSelect(date);
