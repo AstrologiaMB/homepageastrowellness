@@ -108,6 +108,11 @@ export function CalendarioGeneral() {
   };
 
   const handleBackToToday = () => {
+    const currentYear = new Date().getFullYear();
+    // 🔥 Si estamos en otro año, cambiar selectedYear para forzar recarga de eventos
+    if (currentYear !== selectedYear) {
+      setSelectedYear(currentYear);
+    }
     setCurrentWeekStart(startOfWeek(today, { locale: es }));
   };
 
