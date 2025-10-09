@@ -1,27 +1,31 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths, getISOWeek } from 'date-fns';
+import { format, startOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, getISOWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-// Usaremos el locale español de date-fns que funciona perfectamente
-
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+// Imports requeridas para el componente principal (aún no completamente refactorizado)
 import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarIcon, ChevronRight } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { CalendarIcon } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
+import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-
-import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoAstrologico } from './evento-astrologico';
+
+// Imports de los nuevos subcomponentes
+import { CalendarHeader } from './calendario/CalendarHeader';
+import { DateSelector } from './calendario/DateSelector';
+import { YearSelector } from './calendario/YearSelector';
+import { DayEventList } from './calendario/DayEventList';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { createDateFromUtc } from '@/lib/date-utils';
 
 // Años disponibles (futuro-proof hasta 2030) - EDITAR AQUÍ CUANDO LLEGUE 2031
 const AVAILABLE_YEARS = [2024, 2025, 2026, 2027, 2028, 2029, 2030] as const;
@@ -203,105 +207,23 @@ export function CalendarioGeneral() {
 
   return (
     <div className="flex flex-col gap-4 p-4 pt-0">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-        <div>
-          <h2 className="text-xl font-bold">Calendario Astral - Semana {currentWeekNumber}</h2>
-          <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {currentWeekStart.getFullYear()}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          {/* Year Selector */}
-          <Select value={selectedYear.toString()} onValueChange={(year) => setSelectedYear(parseInt(year))}>
-            <SelectTrigger className="w-[100px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {AVAILABLE_YEARS.map(year => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {/* Date Selection Button */}
-          {isMobile ? (
-            <Sheet open={isDateSelectOpen} onOpenChange={setIsDateSelectOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
-                  Seleccionar fecha
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="bottom" className="h-2/3">
-                <div className="p-4">
-                  <Calendar
-                    mode="single"
-                    defaultMonth={new Date()}
-                    fromYear={2024}
-                    toYear={2030}
-                    captionLayout="dropdown-buttons"
-                    locale={es}
-                    selected={selectedDate}
-                    onSelect={(date) => {
-                      handleDateSelect(date);
-                      setIsDateSelectOpen(false);
-                    }}
-                    className="rounded-md border"
-                  />
-                </div>
-              </SheetContent>
-            </Sheet>
-          ) : (
-            <Popover open={isDateSelectOpen} onOpenChange={setIsDateSelectOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
-                  Seleccionar fecha
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  defaultMonth={new Date()}
-                  fromYear={2024}
-                  toYear={2030}
-                  captionLayout="dropdown-buttons"
-                  locale={es}
-                  selected={selectedDate}
-                  onSelect={(date) => {
-                    handleDateSelect(date);
-                    setIsDateSelectOpen(false);
-                  }}
-                  className="rounded-md border"
-                />
-              </PopoverContent>
-            </Popover>
-          )}
+      {/* Header con subcomponentes */}
+      <CalendarHeader
+        currentWeekStart={currentWeekStart}
+        previousWeekNumber={previousWeekNumber}
+        nextWeekNumber={nextWeekNumber}
+        onPreviousWeek={handlePreviousWeek}
+        onNextWeek={handleNextWeek}
+        selectedYear={selectedYear}
+        availableYears={AVAILABLE_YEARS}
+        selectedDate={selectedDate}
+        isDateSelectOpen={isDateSelectOpen}
+        onYearChange={setSelectedYear}
+        onDateSelectOpenChange={setIsDateSelectOpen}
+        onDateSelect={handleDateSelect}
+      />
 
-
-          {/* Navigation Arrows (Mobile) */}
-          <div className="flex md:hidden items-center gap-1">
-             <Button variant="outline" size="icon" onClick={handlePreviousWeek}>
-                &larr;
-             </Button>
-             <Button variant="outline" size="icon" onClick={handleNextWeek}>
-                &rarr;
-             </Button>
-          </div>
-
-           {/* Navigation Arrows (Desktop) */}
-           <div className="hidden md:flex items-center gap-2">
-              <Button variant="outline" onClick={handlePreviousWeek}>
-                 &larr; Semana {previousWeekNumber}
-              </Button>
-              <Button variant="outline" onClick={handleNextWeek}>
-                 Semana {nextWeekNumber} &rarr;
-              </Button>
-           </div>
-        </div>
-      </div>
-
-      {/* Week Display */}
+      {/* Week Display con subcomponentes */}
       <div className="flex flex-col gap-4">
         {weekDays.map((day) => {
           // Filtrar eventos para este día
@@ -311,47 +233,11 @@ export function CalendarioGeneral() {
           });
 
           return (
-            <Card
+            <DayEventList
               key={day.toISOString()}
-              className={`flex-none w-64 md:w-auto p-4 ${isSameDay(day, today) ? 'border-primary' : ''}`}
-            >
-              <h3 className="font-semibold">
-                {format(day, 'EEEE d', { locale: es })}
-                {isSameDay(day, today) && ' (Hoy)'}
-              </h3>
-              <Separator className="my-2" />
-              
-              {eventosDelDia.length > 0 ? (
-                eventosDelDia.length === 1 ? (
-                  <EventoAstrologico evento={eventosDelDia[0]} />
-                ) : (
-                  <Accordion type="single" collapsible className="w-full">
-                    {eventosDelDia.map((evento, index) => {
-                      const horaLocal = new Date(`${evento.fecha_utc}T${evento.hora_utc}:00Z`);
-                      const horaFormateada = `${horaLocal.getHours().toString().padStart(2, '0')}:${horaLocal.getMinutes().toString().padStart(2, '0')}`;
-
-                      return (
-                        <AccordionItem key={`evento-${index}`} value={`evento-${index}`}>
-                          <AccordionTrigger className="text-sm justify-start text-left">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">{evento.tipo_evento}</span>
-                              <span className="text-muted-foreground">- {horaFormateada}</span>
-                            </div>
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <EventoAstrologico evento={evento} />
-                          </AccordionContent>
-                        </AccordionItem>
-                      );
-                    })}
-                  </Accordion>
-                )
-              ) : (
-                <p className="text-muted-foreground">
-                  (No hay eventos)
-                </p>
-              )}
-            </Card>
+              day={day}
+              eventosDelDia={eventosDelDia}
+            />
           );
         })}
       </div>
