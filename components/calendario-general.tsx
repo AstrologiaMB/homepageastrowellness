@@ -16,6 +16,8 @@ import { CalendarIcon, ChevronRight } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -40,9 +42,7 @@ interface EventoAstrologicoData {
 // Cargar eventos por año con manejo robusto de errores
 const loadYearData = async (year: number): Promise<EventoAstrologicoData[]> => {
   try {
-    console.log(`Cargando eventos para el año ${year}...`);
     const module = await import(`@/data/eventos_astrologicos_UTC_${year}.json`);
-    console.log(`✅ Eventos cargados para ${year}:`, module.default?.length || 0, 'eventos');
     return module.default as EventoAstrologicoData[];
   } catch (error) {
     console.warn(`⚠️ Archivo no encontrado para ${year}, usando datos vacíos:`, error);
@@ -56,14 +56,18 @@ export function CalendarioGeneral() {
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
   const [eventos, setEventos] = useState<EventoAstrologicoData[]>([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const today = new Date();
   const isMobile = useIsMobile();
 
-  // Cargar los eventos cuando cambia el año o al montar el componente
-  // 🎯 Pre-cargar también el año siguiente para semanas que cruzan años
-  useEffect(() => {
-    const loadData = async () => {
+  // Función para cargar eventos con manejo de estados
+  const loadEventos = async () => {
+    try {
+      setIsLoading(true);
+      setHasError(false);
+
       const [currentYearData, nextYearData] = await Promise.all([
         loadYearData(selectedYear),
         loadYearData(selectedYear + 1)
@@ -76,10 +80,18 @@ export function CalendarioGeneral() {
       );
 
       setEventos(uniqueEvents);
-      console.log(`✅ Eventos cargados: ${selectedYear} (${currentYearData.length}) + ${selectedYear + 1} (${nextYearData.length}) = ${uniqueEvents.length} eventos totales`);
-    };
+    } catch (error) {
+      console.error('❌ Error cargando eventos:', error);
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    loadData();
+  // Cargar los eventos cuando cambia el año o al montar el componente
+  // 🎯 Pre-cargar también el año siguiente para semanas que cruzan años
+  useEffect(() => {
+    loadEventos();
   }, [selectedYear]);
 
   // Ajustar la semana mostrada cuando cambia el año seleccionado
@@ -137,6 +149,57 @@ export function CalendarioGeneral() {
       setSelectedYear(selectedYear);
     }
   };
+
+  // Estados de UI condicional
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-4 p-4 pt-0">
+        {/* Header Skeleton */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-64" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-32" />
+          </div>
+        </div>
+
+        {/* Week Cards Skeleton */}
+        <div className="flex flex-col gap-4">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <Card key={index} className="flex-none w-64 md:w-auto p-4">
+              <Skeleton className="h-5 w-32 mb-2" />
+              <Skeleton className="h-px w-full mb-3" />
+
+              <div className="space-y-3">
+                {/* Simular eventos múltiples */}
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <div className="flex flex-col gap-4 p-4 pt-0">
+        <Alert>
+          <AlertDescription className="flex items-center justify-between">
+            <span>No se pudieron cargar los eventos astrológicos. Verifica tu conexión a internet.</span>
+            <Button variant="outline" size="sm" onClick={loadEventos}>
+              Reintentar
+            </Button>
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4 pt-0">
