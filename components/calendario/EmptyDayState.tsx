@@ -27,26 +27,21 @@ export function EmptyDayState({ day, weekData }: EmptyDayStateProps) {
   return (
     <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
       {/* Icono contextual */}
-      <div className="text-4xl animate-pulse">
+      <div className="text-3xl animate-pulse mb-1">
         {stateData.icon}
       </div>
 
-      {/* Título principal */}
-      <div className="space-y-2">
-        <h3 className="text-lg font-medium text-foreground leading-tight">
-          {stateData.title}
-        </h3>
+      {/* Título principal con fuente más pequeña */}
+      <h3 className="text-base font-medium text-foreground leading-5 mb-1">
+        {stateData.title}
+      </h3>
 
-        {/* Subtítulo opcional con tipografía más suave */}
-        {stateData.subtitle && (
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-            {stateData.subtitle}
-          </p>
-        )}
-      </div>
-
-      {/* Indicador visual sutil que indica que es un estado vacío */}
-      <div className="w-12 h-px bg-border/50 rounded-full mt-4" />
+      {/* Subtítulo opcional compacto */}
+      {stateData.subtitle && (
+        <p className="text-xs text-muted-foreground leading-4">
+          {stateData.subtitle}
+        </p>
+      )}
     </div>
   );
 }
