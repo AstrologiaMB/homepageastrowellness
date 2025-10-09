@@ -25,12 +25,7 @@ export function EmptyDayState({ day, weekData }: EmptyDayStateProps) {
   const stateData = generateEmptyState(day, weekData);
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-      {/* Icono contextual */}
-      <div className="text-3xl animate-pulse mb-1">
-        {stateData.icon}
-      </div>
-
+    <div className="flex flex-col items-center justify-center p-6 text-center space-y-2">
       {/* Título principal con fuente más pequeña */}
       <h3 className="text-base font-medium text-foreground leading-5 mb-1">
         {stateData.title}
