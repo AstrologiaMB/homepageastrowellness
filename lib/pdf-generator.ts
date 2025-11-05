@@ -279,12 +279,11 @@ export class AstroPDFGenerator {
         this.currentY += 8;
       }
 
-      // Dimensiones fijas para el gráfico astrológico
-      // El gráfico original es 500x500px, html2canvas lo escala x2 = 1000x1000px
-      // Limitamos a 120mm de alto máximo para que quepa bien en la página
-      const maxHeight = 120;
-      const imgWidth = maxHeight;  // El gráfico es cuadrado
-      const imgHeight = maxHeight;
+      // Dimensiones optimizadas para gráfico astrológico circular
+      // El gráfico original es circular, ajustamos para mantener proporción
+      const chartSize = 105; // Tamaño que favorece la apariencia circular en PDF
+      const imgWidth = chartSize;
+      const imgHeight = chartSize;
 
       // Centrar horizontalmente
       const centerX = (this.pdf.internal.pageSize.getWidth() - imgWidth) / 2;
