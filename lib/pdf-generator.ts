@@ -279,22 +279,12 @@ export class AstroPDFGenerator {
         this.currentY += 8;
       }
 
-      // Crear una imagen temporal para obtener dimensiones
-      const img = new Image();
-      img.src = imageData;
-
-      // Calcular dimensiones manteniendo proporción
-      const maxWidth = 170;
-      const maxHeight = 120; // Más pequeño que otros elementos para que quepa mejor
-
-      let imgWidth = maxWidth;
-      let imgHeight = (img.height * maxWidth) / img.width;
-
-      // Ajustar si es demasiado alto
-      if (imgHeight > maxHeight) {
-        imgHeight = maxHeight;
-        imgWidth = (img.width * maxHeight) / img.height;
-      }
+      // Dimensiones fijas para el gráfico astrológico
+      // El gráfico original es 500x500px, html2canvas lo escala x2 = 1000x1000px
+      // Limitamos a 120mm de alto máximo para que quepa bien en la página
+      const maxHeight = 120;
+      const imgWidth = maxHeight;  // El gráfico es cuadrado
+      const imgHeight = maxHeight;
 
       // Centrar horizontalmente
       const centerX = (this.pdf.internal.pageSize.getWidth() - imgWidth) / 2;
