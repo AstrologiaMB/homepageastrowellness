@@ -261,6 +261,54 @@ export class AstroPDFGenerator {
   }
 
   /**
+   * Agrega una imagen al PDF desde un data URL
+   */
+  addImageFromDataURL(imageData: string, title?: string): void {
+    try {
+      // Verificar si necesitamos una nueva página
+      if (this.currentY > 150) {
+        this.pdf.addPage();
+        this.currentY = this.config.margin;
+      }
+
+      // Título de la imagen
+      if (title) {
+        this.pdf.setFontSize(this.config.fontSize.subtitle);
+        this.pdf.setFont('helvetica', 'bold');
+        this.pdf.text(title, this.config.margin, this.currentY);
+        this.currentY += 8;
+      }
+
+      // Crear una imagen temporal para obtener dimensiones
+      const img = new Image();
+      img.src = imageData;
+
+      // Calcular dimensiones manteniendo proporción
+      const maxWidth = 170;
+      const maxHeight = 120; // Más pequeño que otros elementos para que quepa mejor
+
+      let imgWidth = maxWidth;
+      let imgHeight = (img.height * maxWidth) / img.width;
+
+      // Ajustar si es demasiado alto
+      if (imgHeight > maxHeight) {
+        imgHeight = maxHeight;
+        imgWidth = (img.width * maxHeight) / img.height;
+      }
+
+      // Centrar horizontalmente
+      const centerX = (this.pdf.internal.pageSize.getWidth() - imgWidth) / 2;
+
+      this.pdf.addImage(imageData, 'PNG', centerX, this.currentY, imgWidth, imgHeight);
+      this.currentY += imgHeight + 15; // Más espacio después del gráfico
+
+    } catch (error) {
+      console.error('Error al agregar imagen desde data URL:', error);
+      this.addSection('Error', 'No se pudo agregar la imagen del gráfico al PDF.');
+    }
+  }
+
+  /**
    * Agrega interpretaciones individuales al PDF
    */
   addIndividualInterpretations(interpretations: any[]): void {
@@ -379,7 +427,8 @@ export class AstroPDFGenerator {
 export async function generateTropicalPDF(
   chartData: any,
   interpretations: any,
-  userInfo?: { name?: string; birthDate?: string; birthPlace?: string }
+  userInfo?: { name?: string; birthDate?: string; birthPlace?: string },
+  chartImage?: string
 ): Promise<void> {
   const generator = new AstroPDFGenerator({
     title: 'Carta Natal Tropical',
@@ -422,6 +471,11 @@ export async function generateTropicalPDF(
     });
 
     generator.addTable(headers, rows, 'Posiciones Planetarias');
+  }
+
+  // Gráfico astrológico
+  if (chartImage) {
+    generator.addImageFromDataURL(chartImage, 'Carta Natal Tropical');
   }
 
   // Interpretación narrativa

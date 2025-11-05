@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Download, FileText, AlertCircle, CheckCircle } from "lucide-react";
+import html2canvas from "html2canvas";
 import { generateTropicalPDF, generateDraconicPDF } from "@/lib/pdf-generator";
 
 interface PDFDownloadButtonProps {
@@ -103,7 +104,25 @@ export function PDFDownloadButton({
       }, 200);
 
       if (type === 'tropical') {
-        await generateTropicalPDF(chartData, interpretations, userInfo);
+        // Capturar el gráfico astrológico de la página actual
+        let chartImage: string | undefined;
+        try {
+          const chartElement = document.querySelector('#chart-container') as HTMLElement;
+          if (chartElement) {
+            const canvas = await html2canvas(chartElement, {
+              scale: 2,
+              useCORS: true,
+              allowTaint: false,
+              backgroundColor: '#ffffff'
+            });
+            chartImage = canvas.toDataURL('image/png');
+          }
+        } catch (error) {
+          console.warn('No se pudo capturar el gráfico astrológico:', error);
+          // Continuar sin el gráfico si falla la captura
+        }
+
+        await generateTropicalPDF(chartData, interpretations, userInfo, chartImage);
       } else if (type === 'draconica') {
         if (!tropicalData) {
           throw new Error('Se requieren datos tropicales para generar PDF dracónico.');
