@@ -125,13 +125,13 @@ export class AstroPDFGenerator {
     const titleDimensions = this.pdf.getTextDimensions(title);
     const titleSpaceNeeded = titleDimensions.h + 10; // título + espacio
 
-    // Estimar espacio necesario para el contenido
+    // Calcular espacio exacto necesario para el contenido
     let contentSpaceNeeded = 0;
     if (content) {
       this.pdf.setFontSize(this.config.fontSize.body);
       this.pdf.setFont('helvetica', 'normal');
-      const lines = this.pdf.splitTextToSize(content, 170);
-      contentSpaceNeeded = lines.length * 4.5 + 5; // líneas de contenido + espacio
+      const textDimensions = this.pdf.getTextDimensions(content, {maxWidth: 170});
+      contentSpaceNeeded = textDimensions.h + 10; // altura exacta + margen
     }
 
     const totalSpaceNeeded = titleSpaceNeeded + contentSpaceNeeded;
