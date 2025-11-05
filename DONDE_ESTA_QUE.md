@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.5
-**Fecha:** 24 de Septiembre 2025
+**Versión:** 1.6
+**Fecha:** 5 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -111,9 +111,9 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Fallback:** Verificar si hay datos de coordenadas manuales disponibles
 
 ### **"PDFs de cartas tropicales muestran contenido incompleto o problemas de paginación"**
-📍 **Ubicación:** `lib/pdf-generator.ts`  
-📍 **Problema:** Interpretaciones individuales faltantes (solo narrativa), footer sobreescrito, texto cortado en medio de párrafos  
-📍 **Síntoma:** PDFs de 2 páginas incompletas, texto mezclado con footer ("Generado por Astrochat - www.astrochat.com crecimiento personal...")  
+📍 **Ubicación:** `lib/pdf-generator.ts`
+📍 **Problema:** Interpretaciones individuales faltantes (solo narrativa), footer sobreescrito, texto cortado en medio de párrafos
+📍 **Síntoma:** PDFs de 2 páginas incompletas, texto mezclado con footer ("Generado por Astrochat - www.astrochat.com crecimiento personal...")
 📍 **Solución:**
 - Nueva función `addIndividualInterpretations()` para procesar todas las interpretaciones del array
 - Paginación inteligente con `getTextDimensions(content, {maxWidth: 170})` para cálculo preciso de espacio
@@ -121,6 +121,20 @@ NEXTAUTH_URL=http://localhost:3000
 - Remoción de elementos visuales problemáticos en portada
 📍 **Resultado:** PDFs completos de 10+ páginas con todas las 28 interpretaciones y formato profesional
 📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que todas las páginas tienen footer intacto
+
+### **"PDFs de cartas tropicales no incluyen el gráfico astrológico visual"**
+📍 **Ubicación:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
+📍 **Problema:** Los PDFs solo muestran texto, faltando el gráfico circular astrológico que aparece en pantalla
+📍 **Síntoma:** PDFs sin imagen visual del gráfico, solo tablas de posiciones y texto
+📍 **Solución:**
+- **Captura del gráfico:** Usar html2canvas con parámetros `width`, `height`, `x`, `y` para forzar captura cuadrada desde esquina superior izquierda
+- **Nueva función:** `addImageFromDataURL()` en `AstroPDFGenerator` para insertar imágenes desde data URLs
+- **Integración:** Llamar `generateTropicalPDF(chartData, interpretations, userInfo, chartImage)` pasando la imagen capturada
+- **Dimensiones:** Gráfico centrado de 105x105mm para mantener proporción circular perfecta
+- **Paginación corregida:** Ajustar límite de nueva página de `currentY > 200` a `currentY > 140` para detectar cambio de página mucho antes y evitar footer en medio del contenido
+📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto y paginación correcta
+📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que incluye el gráfico circular centrado y paginación intacta
+📍 **Archivos modificados:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
 
 ---
 
@@ -406,7 +420,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 24 de Septiembre 2025 (v1.5 - Sistema de progreso real, Carta Electiva API, comparación Levelsio)
+**🔄 Última actualización:** 5 de Noviembre 2025 (v1.6 - Gráfico astrológico en PDFs, corrección de distorsión ovalada)
 **� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **�👨‍💻 Mantenido por:** Equipo Astrowellness
 
