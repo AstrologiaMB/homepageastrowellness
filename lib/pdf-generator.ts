@@ -338,7 +338,8 @@ export class AstroPDFGenerator {
       const contentLines = this.pdf.splitTextToSize(cleanInterpretation, 170);
       const estimatedHeight = (titleLines.length + contentLines.length) * 4.5 + 8; // 4.5 line height + spacing
 
-      if (availableSpace < estimatedHeight || this.currentY > 200) {
+      // Ajustar límite de página: después del gráfico currentY está ~160, no ~200
+      if (availableSpace < estimatedHeight || this.currentY > 180) {
         this.pdf.addPage();
         this.currentY = this.config.margin;
       }
