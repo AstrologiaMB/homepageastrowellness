@@ -38,12 +38,12 @@ export const DEFAULT_PDF_CONFIG: PDFConfig = {
   subject: 'Análisis astrológico personalizado',
   format: 'a4',
   orientation: 'portrait',
-  margin: 20,
+  margin: 15, // Reduced from 20 for more content space
   fontSize: {
-    title: 24,
-    subtitle: 18,
-    body: 12,
-    small: 10
+    title: 22, // Reduced from 24 for better proportion
+    subtitle: 16, // Reduced from 18
+    body: 11, // Reduced from 12 for more content per page
+    small: 9 // Reduced from 10
   }
 };
 
@@ -239,6 +239,78 @@ export class AstroPDFGenerator {
   }
 
   /**
+   * Agrega interpretaciones individuales al PDF
+   */
+  addIndividualInterpretations(interpretations: any[]): void {
+    if (!interpretations || !Array.isArray(interpretations) || interpretations.length === 0) {
+      console.warn('No hay interpretaciones individuales para agregar al PDF');
+      return;
+    }
+
+    console.log(`📊 Procesando ${interpretations.length} interpretaciones individuales`);
+
+    let processedCount = 0;
+    let skippedCount = 0;
+
+    interpretations.forEach((item, globalIndex) => {
+      // Validación de datos
+      if (!item || typeof item !== 'object') {
+        console.warn(`⚠️ Interpretación ${globalIndex}: Item inválido`);
+        skippedCount++;
+        return;
+      }
+
+      const cleanTitle = (item.titulo || item.title || `Interpretación ${globalIndex + 1}`).toString().trim();
+      const cleanInterpretation = (item.interpretacion || item.content || '').toString().trim();
+
+      if (!cleanTitle || !cleanInterpretation) {
+        console.warn(`⚠️ Interpretación ${globalIndex}: Título o contenido vacío`);
+        skippedCount++;
+        return;
+      }
+
+      // Verificar si necesitamos una nueva página (con más espacio para footer)
+      const pageHeight = this.pdf.internal.pageSize.getHeight();
+      const footerSpace = 45; // Espacio reservado para footer
+      const availableSpace = pageHeight - footerSpace - this.currentY;
+
+      // Estimar espacio necesario para esta interpretación
+      const titleLines = this.pdf.splitTextToSize(`${globalIndex + 1}. ${cleanTitle}`, 170);
+      const contentLines = this.pdf.splitTextToSize(cleanInterpretation, 170);
+      const estimatedHeight = (titleLines.length + contentLines.length) * 4.5 + 8; // 4.5 line height + spacing
+
+      if (availableSpace < estimatedHeight || this.currentY > 200) {
+        this.pdf.addPage();
+        this.currentY = this.config.margin;
+      }
+
+      // Número y título
+      this.pdf.setFontSize(this.config.fontSize.body);
+      this.pdf.setFont('helvetica', 'bold');
+      this.pdf.text(`${globalIndex + 1}. ${cleanTitle}`, this.config.margin, this.currentY);
+      this.currentY += 6;
+
+      // Contenido de la interpretación
+      this.pdf.setFont('helvetica', 'normal');
+      const lines = this.pdf.splitTextToSize(cleanInterpretation, 170);
+      this.pdf.text(lines, this.config.margin, this.currentY);
+      this.currentY += lines.length * 4.5 + 8; // Espacio entre interpretaciones
+
+      processedCount++;
+
+      // Logging de progreso cada 10 interpretaciones
+      if ((globalIndex + 1) % 10 === 0) {
+        console.log(`📊 Progreso: ${globalIndex + 1}/${interpretations.length} interpretaciones procesadas (${this.pdf.getNumberOfPages()} páginas)`);
+      }
+    });
+
+    console.log(`🎉 PROCESAMIENTO COMPLETADO:`);
+    console.log(`   ✅ Procesadas exitosamente: ${processedCount}/${interpretations.length}`);
+    console.log(`   ⚠️ Omitidas por errores: ${skippedCount}/${interpretations.length}`);
+    console.log(`   📄 Páginas totales: ${this.pdf.getNumberOfPages()}`);
+  }
+
+  /**
    * Agrega un pie de página
    */
   addFooter(text: string): void {
@@ -330,9 +402,14 @@ export async function generateTropicalPDF(
     generator.addTable(headers, rows, 'Posiciones Planetarias');
   }
 
-  // Interpretaciones
+  // Interpretación narrativa
   if (interpretations?.interpretacion_narrativa) {
     generator.addSection('Interpretación Astrológica', interpretations.interpretacion_narrativa);
+  }
+
+  // Interpretaciones individuales
+  if (interpretations?.interpretaciones_individuales) {
+    generator.addIndividualInterpretations(interpretations.interpretaciones_individuales);
   }
 
   // Pie de página
