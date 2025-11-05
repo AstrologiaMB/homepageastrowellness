@@ -338,8 +338,8 @@ export class AstroPDFGenerator {
       const contentLines = this.pdf.splitTextToSize(cleanInterpretation, 170);
       const estimatedHeight = (titleLines.length + contentLines.length) * 4.5 + 8; // 4.5 line height + spacing
 
-      // Ajustar límite de página: después del gráfico currentY está ~160, bajar límite para detectar nueva página antes
-      if (availableSpace < estimatedHeight || this.currentY > 140) {
+      // Ajustar límite de página: sin tabla de posiciones, interpretación comienza más arriba
+      if (availableSpace < estimatedHeight || this.currentY > 120) {
         this.pdf.addPage();
         this.currentY = this.config.margin;
       }
@@ -444,24 +444,7 @@ export async function generateTropicalPDF(
     }
   }
 
-  // Tabla de planetas
-  if (chartData?.points) {
-    const headers = ['Planeta', 'Signo', 'Posición', 'Casa'];
-    const rows: string[][] = [];
 
-    Object.entries(chartData.points).forEach(([planet, data]: [string, any]) => {
-      if (['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(planet)) {
-        rows.push([
-          planet,
-          data.sign || '',
-          data.longitude ? `${Math.floor(data.longitude % 30)}°${Math.floor((data.longitude % 1) * 60)}'` : '',
-          'Casa calculada' // Aquí iría la lógica de cálculo de casa
-        ]);
-      }
-    });
-
-    generator.addTable(headers, rows, 'Posiciones Planetarias');
-  }
 
   // Gráfico astrológico
   if (chartImage) {
