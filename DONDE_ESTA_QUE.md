@@ -110,6 +110,18 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Testing:** Verificar API key de geocodificación y límites de uso  
 📍 **Fallback:** Verificar si hay datos de coordenadas manuales disponibles
 
+### **"PDFs de cartas tropicales muestran contenido incompleto o problemas de paginación"**
+📍 **Ubicación:** `lib/pdf-generator.ts`  
+📍 **Problema:** Interpretaciones individuales faltantes (solo narrativa), footer sobreescrito, texto cortado en medio de párrafos  
+📍 **Síntoma:** PDFs de 2 páginas incompletas, texto mezclado con footer ("Generado por Astrochat - www.astrochat.com crecimiento personal...")  
+📍 **Solución:**
+- Nueva función `addIndividualInterpretations()` para procesar todas las interpretaciones del array
+- Paginación inteligente con `getTextDimensions(content, {maxWidth: 170})` para cálculo preciso de espacio
+- Footer space aumentado a 100mm para evitar superposiciones
+- Remoción de elementos visuales problemáticos en portada
+📍 **Resultado:** PDFs completos de 10+ páginas con todas las 28 interpretaciones y formato profesional
+📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que todas las páginas tienen footer intacto
+
 ---
 
 ## 📍 MAPA FUNCIONAL (RESUMIDO)
