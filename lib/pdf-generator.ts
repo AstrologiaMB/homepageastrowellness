@@ -100,10 +100,10 @@ export class AstroPDFGenerator {
       this.pdf.text(`Generado el ${date}`, centerX, 120, { align: 'center' });
     }
 
-    // Logo o marca de agua
-    this.pdf.setFontSize(this.config.fontSize.small);
-    this.pdf.setFont('helvetica', 'normal');
-    this.pdf.text('Astrochat', centerX, pageHeight - 20, { align: 'center' });
+    // Logo o marca de agua (removido para evitar elementos visuales problemáticos)
+    // this.pdf.setFontSize(this.config.fontSize.small);
+    // this.pdf.setFont('helvetica', 'normal');
+    // this.pdf.text('Astrochat', centerX, pageHeight - 20, { align: 'center' });
 
     // Nueva página para el contenido
     this.pdf.addPage();
@@ -114,8 +114,30 @@ export class AstroPDFGenerator {
    * Agrega una sección con título
    */
   addSection(title: string, content?: string): void {
-    // Verificar si necesitamos una nueva página
-    if (this.currentY > 250) {
+    // Calcular espacio disponible en la página actual
+    const pageHeight = this.pdf.internal.pageSize.getHeight();
+    const footerSpace = 50; // Espacio reservado para footer (aumentado)
+    const availableSpace = pageHeight - footerSpace - this.currentY;
+
+    // Estimar espacio necesario para el título
+    this.pdf.setFontSize(this.config.fontSize.subtitle);
+    this.pdf.setFont('helvetica', 'bold');
+    const titleDimensions = this.pdf.getTextDimensions(title);
+    const titleSpaceNeeded = titleDimensions.h + 10; // título + espacio
+
+    // Estimar espacio necesario para el contenido
+    let contentSpaceNeeded = 0;
+    if (content) {
+      this.pdf.setFontSize(this.config.fontSize.body);
+      this.pdf.setFont('helvetica', 'normal');
+      const lines = this.pdf.splitTextToSize(content, 170);
+      contentSpaceNeeded = lines.length * 4.5 + 5; // líneas de contenido + espacio
+    }
+
+    const totalSpaceNeeded = titleSpaceNeeded + contentSpaceNeeded;
+
+    // Si no cabe en la página actual, crear nueva página
+    if (totalSpaceNeeded > availableSpace || this.currentY > 220) {
       this.pdf.addPage();
       this.currentY = this.config.margin;
     }
@@ -133,7 +155,7 @@ export class AstroPDFGenerator {
 
       const lines = this.pdf.splitTextToSize(content, 170);
       this.pdf.text(lines, this.config.margin, this.currentY);
-      this.currentY += lines.length * 5 + 5;
+      this.currentY += lines.length * 4.5 + 5;
     }
   }
 
@@ -271,7 +293,7 @@ export class AstroPDFGenerator {
 
       // Verificar si necesitamos una nueva página (con más espacio para footer)
       const pageHeight = this.pdf.internal.pageSize.getHeight();
-      const footerSpace = 45; // Espacio reservado para footer
+      const footerSpace = 50; // Espacio reservado para footer (consistente con addSection)
       const availableSpace = pageHeight - footerSpace - this.currentY;
 
       // Estimar espacio necesario para esta interpretación
