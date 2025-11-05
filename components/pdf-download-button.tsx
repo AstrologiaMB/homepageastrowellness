@@ -109,11 +109,17 @@ export function PDFDownloadButton({
         try {
           const chartElement = document.querySelector('#chart-container') as HTMLElement;
           if (chartElement) {
+            // Forzar captura cuadrada para evitar distorsión ovalada
+            const size = Math.min(chartElement.offsetWidth, chartElement.offsetHeight);
             const canvas = await html2canvas(chartElement, {
               scale: 2,
               useCORS: true,
               allowTaint: false,
-              backgroundColor: '#ffffff'
+              backgroundColor: '#ffffff',
+              width: size,      // Forzar ancho cuadrado
+              height: size,     // Forzar alto cuadrado
+              x: 0,             // Capturar desde esquina superior izquierda
+              y: 0              // Capturar desde esquina superior izquierda
             });
             chartImage = canvas.toDataURL('image/png');
           }
