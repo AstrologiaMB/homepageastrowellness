@@ -116,7 +116,7 @@ export class AstroPDFGenerator {
   addSection(title: string, content?: string): void {
     // Calcular espacio disponible en la página actual
     const pageHeight = this.pdf.internal.pageSize.getHeight();
-    const footerSpace = 50; // Espacio reservado para footer (aumentado)
+    const footerSpace = 100; // Espacio reservado para footer (aumentado para evitar cortes)
     const availableSpace = pageHeight - footerSpace - this.currentY;
 
     // Estimar espacio necesario para el título
@@ -293,7 +293,7 @@ export class AstroPDFGenerator {
 
       // Verificar si necesitamos una nueva página (con más espacio para footer)
       const pageHeight = this.pdf.internal.pageSize.getHeight();
-      const footerSpace = 50; // Espacio reservado para footer (consistente con addSection)
+      const footerSpace = 100; // Espacio reservado para footer (consistente con addSection)
       const availableSpace = pageHeight - footerSpace - this.currentY;
 
       // Estimar espacio necesario para esta interpretación
