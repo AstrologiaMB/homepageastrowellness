@@ -10,7 +10,7 @@
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 /**
  * Configuración para la generación de PDFs
@@ -714,26 +714,38 @@ export async function generateDraconicPDFModular(
     // Mergear todos en uno
     const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, comparisonPDF, eventsPDF, narrativePDF, individualPDF]);
 
-    // Agregar footer al documento final
+    // Agregar footer al documento final con centrado correcto
     const pages = mergedPdf.getPages();
     const { width, height } = pages[0].getSize();
+    const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
+    const fontSize = 8;
 
     pages.forEach((page, index) => {
       const pageNumber = index + 1;
       const totalPages = pages.length;
 
-      // Texto principal centrado arriba
-      page.drawText('Generado por Astrochat - www.astrochat.com', {
-        x: width / 2,
+      // Texto principal centrado
+      const mainText = 'Generado por Astrochat - www.astrochat.com';
+      const mainTextWidth = font.widthOfTextAtSize(mainText, fontSize);
+      const mainTextX = (width - mainTextWidth) / 2;
+
+      page.drawText(mainText, {
+        x: mainTextX,
         y: 25,
-        size: 8,
+        size: fontSize,
+        font: font,
       });
 
-      // Número de página centrado abajo
-      page.drawText(`Página ${pageNumber} de ${totalPages}`, {
-        x: width / 2,
+      // Número de página centrado
+      const pageText = `Página ${pageNumber} de ${totalPages}`;
+      const pageTextWidth = font.widthOfTextAtSize(pageText, fontSize);
+      const pageTextX = (width - pageTextWidth) / 2;
+
+      page.drawText(pageText, {
+        x: pageTextX,
         y: 15,
-        size: 8,
+        size: fontSize,
+        font: font,
       });
     });
 
@@ -777,26 +789,38 @@ export async function generateTropicalPDFModular(
     // Mergear todos en uno
     const mergedPdf = await mergePDFs([coverPDF, chartPDF, narrativePDF, individualPDF]);
 
-    // Agregar footer al documento final
+    // Agregar footer al documento final con centrado correcto
     const pages = mergedPdf.getPages();
     const { width, height } = pages[0].getSize();
+    const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
+    const fontSize = 8;
 
     pages.forEach((page, index) => {
       const pageNumber = index + 1;
       const totalPages = pages.length;
 
-      // Texto principal centrado arriba
-      page.drawText('Generado por Astrochat - www.astrochat.com', {
-        x: width / 2,
+      // Texto principal centrado
+      const mainText = 'Generado por Astrochat - www.astrochat.com';
+      const mainTextWidth = font.widthOfTextAtSize(mainText, fontSize);
+      const mainTextX = (width - mainTextWidth) / 2;
+
+      page.drawText(mainText, {
+        x: mainTextX,
         y: 25,
-        size: 8,
+        size: fontSize,
+        font: font,
       });
 
-      // Número de página centrado abajo
-      page.drawText(`Página ${pageNumber} de ${totalPages}`, {
-        x: width / 2,
+      // Número de página centrado
+      const pageText = `Página ${pageNumber} de ${totalPages}`;
+      const pageTextWidth = font.widthOfTextAtSize(pageText, fontSize);
+      const pageTextX = (width - pageTextWidth) / 2;
+
+      page.drawText(pageText, {
+        x: pageTextX,
         y: 15,
-        size: 8,
+        size: fontSize,
+        font: font,
       });
     });
 
