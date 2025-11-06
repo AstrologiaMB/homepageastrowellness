@@ -458,11 +458,7 @@ export async function generateCoverPDF(
 export async function generateChartPDF(chartImage?: string): Promise<Uint8Array> {
   const generator = new AstroPDFGenerator();
 
-  // Nueva página para el gráfico
-  generator['pdf'].addPage();
-  generator['currentY'] = generator['config'].margin;
-
-  // Gráfico astrológico
+  // Gráfico astrológico (sin página nueva innecesaria)
   if (chartImage) {
     generator.addImageFromDataURL(chartImage, 'Carta Natal Tropical');
   }
@@ -478,11 +474,7 @@ export async function generateChartPDF(chartImage?: string): Promise<Uint8Array>
 export async function generateNarrativePDF(interpretacionNarrativa?: string): Promise<Uint8Array> {
   const generator = new AstroPDFGenerator();
 
-  // Nueva página para la narrativa
-  generator['pdf'].addPage();
-  generator['currentY'] = generator['config'].margin;
-
-  // Interpretación narrativa
+  // Interpretación narrativa (sin página nueva innecesaria)
   if (interpretacionNarrativa) {
     generator.addSection('Interpretación Astrológica', interpretacionNarrativa);
   }
@@ -498,11 +490,7 @@ export async function generateNarrativePDF(interpretacionNarrativa?: string): Pr
 export async function generateIndividualPDF(interpretacionesIndividuales?: any[]): Promise<Uint8Array> {
   const generator = new AstroPDFGenerator();
 
-  // Nueva página para las interpretaciones
-  generator['pdf'].addPage();
-  generator['currentY'] = generator['config'].margin;
-
-  // Interpretaciones individuales
+  // Interpretaciones individuales (sin página nueva innecesaria)
   if (interpretacionesIndividuales) {
     generator.addIndividualInterpretations(interpretacionesIndividuales);
   }
