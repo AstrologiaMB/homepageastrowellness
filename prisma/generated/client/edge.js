@@ -253,11 +253,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://astrowellness@localhost:5432/astrowellness_dev_clean"
+        "value": null
       }
     }
   },

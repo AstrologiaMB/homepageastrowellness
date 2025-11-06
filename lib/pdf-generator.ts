@@ -380,25 +380,20 @@ export class AstroPDFGenerator {
     for (let i = 1; i <= pageCount; i++) {
       this.pdf.setPage(i);
       this.pdf.setFontSize(this.config.fontSize.small);
-      this.pdf.setFont('helvetica', 'italic');
+      this.pdf.setFont('helvetica', 'normal');
 
       const pageWidth = this.pdf.internal.pageSize.getWidth();
       const pageHeight = this.pdf.internal.pageSize.getHeight();
       const fontSize = this.config.fontSize.small;
 
-      // Calcular ancho real en mm usando getTextWidth() (mismas unidades que text())
-      const mainTextWidth = this.pdf.getTextWidth(text);
-      const pageTextWidth = this.pdf.getTextWidth(`Página ${i} de ${pageCount}`);
-
-      // Centrar cada línea independientemente de su ancho
-      const mainTextX = (pageWidth - mainTextWidth) / 2;
-      const pageTextX = (pageWidth - pageTextWidth) / 2;
+      // Usar align: 'center' con posición fija en el centro de la página (105mm para A4)
+      const centerX = pageWidth / 2;
 
       // Texto principal centrado arriba
-      this.pdf.text(text, mainTextX, pageHeight - 15);
+      this.pdf.text(text, centerX, pageHeight - 15, { align: 'center' });
 
       // Número de página centrado abajo
-      this.pdf.text(`Página ${i} de ${pageCount}`, pageTextX, pageHeight - 5);
+      this.pdf.text(`Página ${i} de ${pageCount}`, centerX, pageHeight - 5, { align: 'center' });
     }
   }
 
