@@ -127,14 +127,17 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Problema:** Los PDFs solo muestran texto, faltando el gráfico circular astrológico que aparece en pantalla
 📍 **Síntoma:** PDFs sin imagen visual del gráfico, solo tablas de posiciones y texto
 📍 **Solución:**
+- **Sistema modular:** PDFs generados por secciones separadas y mergeados con `pdf-lib`
 - **Captura del gráfico:** Usar html2canvas con parámetros `width`, `height`, `x`, `y` para forzar captura cuadrada desde esquina superior izquierda
-- **Nueva función:** `addImageFromDataURL()` en `AstroPDFGenerator` para insertar imágenes desde data URLs
-- **Integración:** Llamar `generateTropicalPDF(chartData, interpretations, userInfo, chartImage)` pasando la imagen capturada
+- **Funciones modulares:** `generateCoverPDF()`, `generateChartPDF()`, `generateNarrativePDF()`, `generateIndividualPDF()`
+- **Merge inteligente:** `mergePDFs()` combina secciones sin conflictos de paginación
+- **Función principal:** `generateTropicalPDFModular()` con fallback automático
 - **Dimensiones:** Gráfico centrado de 105x105mm para mantener proporción circular perfecta
-- **Paginación corregida:** Ajustar límite de nueva página de `currentY > 200` a `currentY > 140` para detectar cambio de página mucho antes y evitar footer en medio del contenido
-📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto y paginación correcta
+- **Paginación independiente:** Cada sección maneja su propia paginación sin interferir con otras
+📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto y paginación robusta
 📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que incluye el gráfico circular centrado y paginación intacta
 📍 **Archivos modificados:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
+📍 **Dependencias:** `pdf-lib` para merge de PDFs
 
 ---
 
