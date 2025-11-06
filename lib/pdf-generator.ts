@@ -567,7 +567,23 @@ export async function generateDraconicChartPDF(chartImage?: string): Promise<Uin
 
   // Gráfico dracónico (sin página nueva innecesaria)
   if (chartImage) {
-    generator.addImageFromDataURL(chartImage, 'Carta Dracónica');
+    generator.addImageFromDataURL(chartImage, 'Carta Dracónica Individual');
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF del gráfico superpuesto (tropical + dracónica)
+ */
+export async function generateDraconicSuperposedChartPDF(superposedChartImage?: string): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Gráfico superpuesto (sin página nueva innecesaria)
+  if (superposedChartImage) {
+    generator.addImageFromDataURL(superposedChartImage, 'Superposición: Tropical + Dracónica');
   }
 
   const blob = generator.getBlob();
@@ -675,19 +691,21 @@ export async function generateDraconicPDFModular(
   interpretations: any,
   draconicEvents: any[],
   userInfo?: { name?: string; birthDate?: string; birthPlace?: string },
-  chartImage?: string
+  chartImage?: string,
+  superposedChartImage?: string
 ): Promise<void> {
   try {
     // Generar PDFs separados
     const coverPDF = await generateDraconicCoverPDF(userInfo);
     const chartPDF = await generateDraconicChartPDF(chartImage);
+    const superposedChartPDF = await generateDraconicSuperposedChartPDF(superposedChartImage);
     const comparisonPDF = await generateDraconicComparisonPDF(chartData, tropicalData);
     const eventsPDF = await generateDraconicEventsPDF(draconicEvents);
     const narrativePDF = await generateDraconicNarrativePDF(interpretations?.interpretacion_narrativa);
     const individualPDF = await generateDraconicIndividualPDF(interpretations?.interpretaciones_individuales);
 
     // Mergear todos en uno
-    const mergedPdf = await mergePDFs([coverPDF, chartPDF, comparisonPDF, eventsPDF, narrativePDF, individualPDF]);
+    const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, comparisonPDF, eventsPDF, narrativePDF, individualPDF]);
 
     // Agregar footer al documento final
     const pages = mergedPdf.getPages();

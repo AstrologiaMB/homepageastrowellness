@@ -134,31 +134,50 @@ export function PDFDownloadButton({
           throw new Error('Se requieren datos tropicales para generar PDF dracónico.');
         }
 
-        // Capturar el gráfico dracónico de la página actual
+        // Capturar ambos gráficos dracónicos de la página actual
         let chartImage: string | undefined;
+        let superposedChartImage: string | undefined;
+
         try {
-          const chartElement = document.querySelector('#draconica-individual') as HTMLElement;
-          if (chartElement) {
-            // Forzar captura cuadrada para evitar distorsión ovalada
-            const size = Math.min(chartElement.offsetWidth, chartElement.offsetHeight);
-            const canvas = await html2canvas(chartElement, {
+          // Capturar carta dracónica individual
+          const draconicElement = document.querySelector('#draconica-individual') as HTMLElement;
+          if (draconicElement) {
+            const size = Math.min(draconicElement.offsetWidth, draconicElement.offsetHeight);
+            const canvas = await html2canvas(draconicElement, {
               scale: 2,
               useCORS: true,
               allowTaint: false,
               backgroundColor: '#ffffff',
-              width: size,      // Forzar ancho cuadrado
-              height: size,     // Forzar alto cuadrado
-              x: 0,             // Capturar desde esquina superior izquierda
-              y: 0              // Capturar desde esquina superior izquierda
+              width: size,
+              height: size,
+              x: 0,
+              y: 0
             });
             chartImage = canvas.toDataURL('image/png');
           }
+
+          // Capturar carta superpuesta (tropical + dracónica)
+          const superposedElement = document.querySelector('#carta-superpuesta') as HTMLElement;
+          if (superposedElement) {
+            const size = Math.min(superposedElement.offsetWidth, superposedElement.offsetHeight);
+            const canvas = await html2canvas(superposedElement, {
+              scale: 2,
+              useCORS: true,
+              allowTaint: false,
+              backgroundColor: '#ffffff',
+              width: size,
+              height: size,
+              x: 0,
+              y: 0
+            });
+            superposedChartImage = canvas.toDataURL('image/png');
+          }
         } catch (error) {
-          console.warn('No se pudo capturar el gráfico dracónico:', error);
-          // Continuar sin el gráfico si falla la captura
+          console.warn('No se pudieron capturar los gráficos dracónicos:', error);
+          // Continuar sin los gráficos si falla la captura
         }
 
-        await generateDraconicPDFModular(chartData, tropicalData, interpretations, draconicEvents || [], userInfo, chartImage);
+        await generateDraconicPDFModular(chartData, tropicalData, interpretations, draconicEvents || [], userInfo, chartImage, superposedChartImage);
       }
 
       // Completar progreso
