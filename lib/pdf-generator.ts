@@ -386,10 +386,9 @@ export class AstroPDFGenerator {
       const pageHeight = this.pdf.internal.pageSize.getHeight();
       const fontSize = this.config.fontSize.small;
 
-      // Calcular ancho usando la fórmula correcta de mejores prácticas jsPDF
-      // getStringUnitWidth() * fontSize / scaleFactor para ancho preciso
-      const mainTextWidth = (this.pdf.getStringUnitWidth(text) * fontSize) / this.pdf.internal.scaleFactor;
-      const pageTextWidth = (this.pdf.getStringUnitWidth(`Página ${i} de ${pageCount}`) * fontSize) / this.pdf.internal.scaleFactor;
+      // Calcular ancho real en mm usando getTextWidth() (mismas unidades que text())
+      const mainTextWidth = this.pdf.getTextWidth(text);
+      const pageTextWidth = this.pdf.getTextWidth(`Página ${i} de ${pageCount}`);
 
       // Centrar cada línea independientemente de su ancho
       const mainTextX = (pageWidth - mainTextWidth) / 2;
