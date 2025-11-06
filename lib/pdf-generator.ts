@@ -385,8 +385,11 @@ export class AstroPDFGenerator {
       const pageWidth = this.pdf.internal.pageSize.getWidth();
       const pageHeight = this.pdf.internal.pageSize.getHeight();
 
-      this.pdf.text(text, pageWidth / 2, pageHeight - 10, { align: 'center' });
-      this.pdf.text(`Página ${i} de ${pageCount}`, pageWidth - this.config.margin, pageHeight - 10, { align: 'right' });
+      // Texto principal centrado arriba
+      this.pdf.text(text, pageWidth / 2, pageHeight - 15, { align: 'center' });
+
+      // Número de página centrado abajo
+      this.pdf.text(`Página ${i} de ${pageCount}`, pageWidth / 2, pageHeight - 5, { align: 'center' });
     }
   }
 
@@ -715,17 +718,17 @@ export async function generateDraconicPDFModular(
       const pageNumber = index + 1;
       const totalPages = pages.length;
 
-      // Footer text
+      // Texto principal centrado arriba
       page.drawText('Generado por Astrochat - www.astrochat.com', {
-        x: width / 2 - 60,
-        y: 20,
+        x: width / 2,
+        y: 25,
         size: 8,
       });
 
-      // Page numbers
+      // Número de página centrado abajo
       page.drawText(`Página ${pageNumber} de ${totalPages}`, {
-        x: width - 40,
-        y: 20,
+        x: width / 2,
+        y: 15,
         size: 8,
       });
     });
@@ -778,17 +781,17 @@ export async function generateTropicalPDFModular(
       const pageNumber = index + 1;
       const totalPages = pages.length;
 
-      // Footer text
+      // Texto principal centrado arriba
       page.drawText('Generado por Astrochat - www.astrochat.com', {
-        x: width / 2 - 60,
-        y: 20,
+        x: width / 2,
+        y: 25,
         size: 8,
       });
 
-      // Page numbers
+      // Número de página centrado abajo
       page.drawText(`Página ${pageNumber} de ${totalPages}`, {
-        x: width - 40,
-        y: 20,
+        x: width / 2,
+        y: 15,
         size: 8,
       });
     });
