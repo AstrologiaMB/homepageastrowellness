@@ -642,9 +642,12 @@ export async function generateDraconicComparisonPDF(
 }
 
 /**
- * Genera PDF de eventos dracónicos
+ * Genera PDF combinado de eventos + narrativa dracónica (para evitar páginas vacías)
  */
-export async function generateDraconicEventsPDF(events?: any[]): Promise<Uint8Array> {
+export async function generateDraconicEventsAndNarrativePDF(
+  events?: any[],
+  interpretacionNarrativa?: string
+): Promise<Uint8Array> {
   const generator = new AstroPDFGenerator();
 
   // Eventos dracónicos
@@ -654,22 +657,39 @@ export async function generateDraconicEventsPDF(events?: any[]): Promise<Uint8Ar
     );
   }
 
+  // Interpretación narrativa dracónica (fluye naturalmente después de eventos)
+  if (interpretacionNarrativa) {
+    generator.addSection('Interpretación Espiritual Dracónica', interpretacionNarrativa);
+  }
+
   const blob = generator.getBlob();
   const arrayBuffer = await blob.arrayBuffer();
   return new Uint8Array(arrayBuffer);
 }
 
 /**
- * Genera PDF de la interpretación narrativa dracónica
+ * @deprecated Use generateDraconicEventsAndNarrativePDF instead
+ */
+export async function generateDraconicEventsPDF(events?: any[]): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+  if (events && events.length > 0) {
+    generator.addSection('Eventos Dracónicos Importantes',
+      events.slice(0, 10).map(event => `• ${event.titulo}: ${event.descripcion}`).join('\n')
+    );
+  }
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * @deprecated Use generateDraconicEventsAndNarrativePDF instead
  */
 export async function generateDraconicNarrativePDF(interpretacionNarrativa?: string): Promise<Uint8Array> {
   const generator = new AstroPDFGenerator();
-
-  // Interpretación narrativa dracónica
   if (interpretacionNarrativa) {
     generator.addSection('Interpretación Espiritual Dracónica', interpretacionNarrativa);
   }
-
   const blob = generator.getBlob();
   const arrayBuffer = await blob.arrayBuffer();
   return new Uint8Array(arrayBuffer);
@@ -708,13 +728,12 @@ export async function generateDraconicPDFModular(
     const coverPDF = await generateDraconicCoverPDF(userInfo);
     const chartPDF = await generateDraconicChartPDF(chartImage);
     const superposedChartPDF = await generateDraconicSuperposedChartPDF(superposedChartImage);
-    // const comparisonPDF = await generateDraconicComparisonPDF(chartData, tropicalData); // Tabla comparativa eliminada
-    const eventsPDF = await generateDraconicEventsPDF(draconicEvents);
-    const narrativePDF = await generateDraconicNarrativePDF(interpretations?.interpretacion_narrativa);
+    // Combinar eventos + narrativa en un solo PDF para evitar páginas vacías
+    const eventsAndNarrativePDF = await generateDraconicEventsAndNarrativePDF(draconicEvents, interpretations?.interpretacion_narrativa);
     const individualPDF = await generateDraconicIndividualPDF(interpretations?.interpretaciones_individuales);
 
-    // Mergear todos en uno (sin comparisonPDF)
-    const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, eventsPDF, narrativePDF, individualPDF]);
+    // Mergear todos en uno (eventos y narrativa ya combinados)
+    const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, eventsAndNarrativePDF, individualPDF]);
 
     // Agregar footer al documento final con centrado correcto
     const pages = mergedPdf.getPages();
