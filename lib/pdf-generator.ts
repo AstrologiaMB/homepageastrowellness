@@ -708,13 +708,13 @@ export async function generateDraconicPDFModular(
     const coverPDF = await generateDraconicCoverPDF(userInfo);
     const chartPDF = await generateDraconicChartPDF(chartImage);
     const superposedChartPDF = await generateDraconicSuperposedChartPDF(superposedChartImage);
-    const comparisonPDF = await generateDraconicComparisonPDF(chartData, tropicalData);
+    // const comparisonPDF = await generateDraconicComparisonPDF(chartData, tropicalData); // Tabla comparativa eliminada
     const eventsPDF = await generateDraconicEventsPDF(draconicEvents);
     const narrativePDF = await generateDraconicNarrativePDF(interpretations?.interpretacion_narrativa);
     const individualPDF = await generateDraconicIndividualPDF(interpretations?.interpretaciones_individuales);
 
-    // Mergear todos en uno
-    const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, comparisonPDF, eventsPDF, narrativePDF, individualPDF]);
+    // Mergear todos en uno (sin comparisonPDF)
+    const mergedPdf = await mergePDFs([coverPDF, chartPDF, superposedChartPDF, eventsPDF, narrativePDF, individualPDF]);
 
     // Agregar footer al documento final con centrado correcto
     const pages = mergedPdf.getPages();
