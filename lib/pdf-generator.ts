@@ -372,7 +372,7 @@ export class AstroPDFGenerator {
   }
 
   /**
-   * Agrega un pie de página
+   * Agrega un pie de página con centrado perfecto usando mejores prácticas de jsPDF
    */
   addFooter(text: string): void {
     const pageCount = this.pdf.getNumberOfPages();
@@ -384,14 +384,16 @@ export class AstroPDFGenerator {
 
       const pageWidth = this.pdf.internal.pageSize.getWidth();
       const pageHeight = this.pdf.internal.pageSize.getHeight();
+      const fontSize = this.config.fontSize.small;
 
-      // Calcular ancho de cada texto para centrado independiente
-      const mainTextDimensions = this.pdf.getTextDimensions(text);
-      const pageTextDimensions = this.pdf.getTextDimensions(`Página ${i} de ${pageCount}`);
+      // Calcular ancho usando la fórmula correcta de mejores prácticas jsPDF
+      // getStringUnitWidth() * fontSize / scaleFactor para ancho preciso
+      const mainTextWidth = (this.pdf.getStringUnitWidth(text) * fontSize) / this.pdf.internal.scaleFactor;
+      const pageTextWidth = (this.pdf.getStringUnitWidth(`Página ${i} de ${pageCount}`) * fontSize) / this.pdf.internal.scaleFactor;
 
       // Centrar cada línea independientemente de su ancho
-      const mainTextX = (pageWidth - mainTextDimensions.w) / 2;
-      const pageTextX = (pageWidth - pageTextDimensions.w) / 2;
+      const mainTextX = (pageWidth - mainTextWidth) / 2;
+      const pageTextX = (pageWidth - pageTextWidth) / 2;
 
       // Texto principal centrado arriba
       this.pdf.text(text, mainTextX, pageHeight - 15);
