@@ -298,7 +298,7 @@ export class AstroPDFGenerator {
   }
 
   /**
-   * Agrega interpretaciones individuales al PDF
+   * Agrega interpretaciones individuales al PDF con paginación automática línea por línea
    */
   addIndividualInterpretations(interpretations: any[]): void {
     if (!interpretations || !Array.isArray(interpretations) || interpretations.length === 0) {
@@ -307,6 +307,10 @@ export class AstroPDFGenerator {
     }
 
     console.log(`📊 Procesando ${interpretations.length} interpretaciones individuales`);
+
+    const pageHeight = this.pdf.internal.pageSize.getHeight();
+    const footerSpace = 30; // Espacio reservado para footer (consistente con addSection)
+    const lineHeight = 4.5; // Altura de línea de texto
 
     let processedCount = 0;
     let skippedCount = 0;
@@ -328,18 +332,8 @@ export class AstroPDFGenerator {
         return;
       }
 
-      // Verificar si necesitamos una nueva página (con más espacio para footer)
-      const pageHeight = this.pdf.internal.pageSize.getHeight();
-      const footerSpace = 100; // Espacio reservado para footer (consistente con addSection)
-      const availableSpace = pageHeight - footerSpace - this.currentY;
-
-      // Estimar espacio necesario para esta interpretación
-      const titleLines = this.pdf.splitTextToSize(`${globalIndex + 1}. ${cleanTitle}`, 170);
-      const contentLines = this.pdf.splitTextToSize(cleanInterpretation, 170);
-      const estimatedHeight = (titleLines.length + contentLines.length) * 4.5 + 8; // 4.5 line height + spacing
-
-      // Ajustar límite de página: sin tabla de posiciones, interpretación comienza más arriba
-      if (availableSpace < estimatedHeight || this.currentY > 120) {
+      // Verificar si necesitamos página nueva para el título
+      if (this.currentY + 6 > pageHeight - footerSpace) {
         this.pdf.addPage();
         this.currentY = this.config.margin;
       }
@@ -350,11 +344,25 @@ export class AstroPDFGenerator {
       this.pdf.text(`${globalIndex + 1}. ${cleanTitle}`, this.config.margin, this.currentY);
       this.currentY += 6;
 
-      // Contenido de la interpretación
+      // Contenido de la interpretación con paginación línea por línea
       this.pdf.setFont('helvetica', 'normal');
       const lines = this.pdf.splitTextToSize(cleanInterpretation, 170);
-      this.pdf.text(lines, this.config.margin, this.currentY);
-      this.currentY += lines.length * 4.5 + 8; // Espacio entre interpretaciones
+
+      // Agregar líneas progresivamente con verificación de espacio
+      for (const line of lines) {
+        // Verificar si cabe esta línea
+        if (this.currentY + lineHeight > pageHeight - footerSpace) {
+          this.pdf.addPage();
+          this.currentY = this.config.margin;
+        }
+
+        // Agregar línea
+        this.pdf.text(line, this.config.margin, this.currentY);
+        this.currentY += lineHeight;
+      }
+
+      // Espacio entre interpretaciones
+      this.currentY += 8;
 
       processedCount++;
 
