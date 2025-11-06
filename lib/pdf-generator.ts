@@ -106,8 +106,8 @@ export class AstroPDFGenerator {
     // this.pdf.setFont('helvetica', 'normal');
     // this.pdf.text('Astrochat', centerX, pageHeight - 20, { align: 'center' });
 
-    // Nueva página para el contenido
-    this.pdf.addPage();
+    // NO agregamos página nueva aquí - el merge se encarga de eso
+    // this.pdf.addPage();
     this.currentY = this.config.margin;
   }
 
