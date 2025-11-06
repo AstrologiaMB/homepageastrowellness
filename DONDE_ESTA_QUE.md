@@ -122,20 +122,24 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Resultado:** PDFs completos de 10+ páginas con todas las 28 interpretaciones y formato profesional
 📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que todas las páginas tienen footer intacto
 
-### **"PDFs de cartas tropicales no incluyen el gráfico astrológico visual"**
+### **"PDFs de cartas tropicales y dracónicas no incluyen el gráfico astrológico visual"**
 📍 **Ubicación:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
 📍 **Problema:** Los PDFs solo muestran texto, faltando el gráfico circular astrológico que aparece en pantalla
 📍 **Síntoma:** PDFs sin imagen visual del gráfico, solo tablas de posiciones y texto
 📍 **Solución:**
-- **Sistema modular:** PDFs generados por secciones separadas y mergeados con `pdf-lib`
+- **Sistema modular completo:** PDFs generados por secciones separadas y mergeados con `pdf-lib`
+- **Funciones modulares tropicales:** `generateCoverPDF()`, `generateChartPDF()`, `generateNarrativePDF()`, `generateIndividualPDF()`
+- **Funciones modulares dracónicas:** `generateDraconicCoverPDF()`, `generateDraconicChartPDF()`, `generateDraconicComparisonPDF()`, `generateDraconicEventsPDF()`, `generateDraconicNarrativePDF()`, `generateDraconicIndividualPDF()`
 - **Captura del gráfico:** Usar html2canvas con parámetros `width`, `height`, `x`, `y` para forzar captura cuadrada desde esquina superior izquierda
-- **Funciones modulares:** `generateCoverPDF()`, `generateChartPDF()`, `generateNarrativePDF()`, `generateIndividualPDF()`
 - **Merge inteligente:** `mergePDFs()` combina secciones sin conflictos de paginación
-- **Función principal:** `generateTropicalPDFModular()` con fallback automático
+- **Funciones principales:** `generateTropicalPDFModular()` y `generateDraconicPDFModular()` con fallback automático
 - **Dimensiones:** Gráfico centrado de 105x105mm para mantener proporción circular perfecta
 - **Paginación independiente:** Cada sección maneja su propia paginación sin interferir con otras
-📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto, paginación robusta y sin páginas en blanco
-📍 **Testing:** Generar PDF desde `http://localhost:3000/cartas/tropica` y verificar que incluye el gráfico circular centrado, paginación intacta y flujo continuo sin páginas vacías
+📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto, paginación robusta y sin páginas en blanco para ambas cartas
+📍 **Testing:**
+- Tropical: Generar PDF desde `http://localhost:3000/cartas/tropica`
+- Dracónica: Generar PDF desde `http://localhost:3000/cartas/draconica`
+- Verificar gráficos circulares centrados, paginación intacta y flujo continuo sin páginas vacías
 📍 **Archivos modificados:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
 📍 **Dependencias:** `pdf-lib` para merge de PDFs
 
