@@ -385,11 +385,19 @@ export class AstroPDFGenerator {
       const pageWidth = this.pdf.internal.pageSize.getWidth();
       const pageHeight = this.pdf.internal.pageSize.getHeight();
 
+      // Calcular ancho de cada texto para centrado independiente
+      const mainTextDimensions = this.pdf.getTextDimensions(text);
+      const pageTextDimensions = this.pdf.getTextDimensions(`Página ${i} de ${pageCount}`);
+
+      // Centrar cada línea independientemente de su ancho
+      const mainTextX = (pageWidth - mainTextDimensions.w) / 2;
+      const pageTextX = (pageWidth - pageTextDimensions.w) / 2;
+
       // Texto principal centrado arriba
-      this.pdf.text(text, pageWidth / 2, pageHeight - 15, { align: 'center' });
+      this.pdf.text(text, mainTextX, pageHeight - 15);
 
       // Número de página centrado abajo
-      this.pdf.text(`Página ${i} de ${pageCount}`, pageWidth / 2, pageHeight - 5, { align: 'center' });
+      this.pdf.text(`Página ${i} de ${pageCount}`, pageTextX, pageHeight - 5);
     }
   }
 
