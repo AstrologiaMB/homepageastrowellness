@@ -17,7 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Download, FileText, AlertCircle, CheckCircle } from "lucide-react";
 import html2canvas from "html2canvas";
-import { generateTropicalPDFModular, generateDraconicPDF } from "@/lib/pdf-generator";
+import { generateTropicalPDFModular, generateDraconicPDFModular } from "@/lib/pdf-generator";
 
 interface PDFDownloadButtonProps {
   /** Tipo de carta: 'tropical' o 'draconica' */
@@ -133,7 +133,32 @@ export function PDFDownloadButton({
         if (!tropicalData) {
           throw new Error('Se requieren datos tropicales para generar PDF dracónico.');
         }
-        await generateDraconicPDF(chartData, tropicalData, interpretations, draconicEvents || [], userInfo);
+
+        // Capturar el gráfico dracónico de la página actual
+        let chartImage: string | undefined;
+        try {
+          const chartElement = document.querySelector('#draconica-individual') as HTMLElement;
+          if (chartElement) {
+            // Forzar captura cuadrada para evitar distorsión ovalada
+            const size = Math.min(chartElement.offsetWidth, chartElement.offsetHeight);
+            const canvas = await html2canvas(chartElement, {
+              scale: 2,
+              useCORS: true,
+              allowTaint: false,
+              backgroundColor: '#ffffff',
+              width: size,      // Forzar ancho cuadrado
+              height: size,     // Forzar alto cuadrado
+              x: 0,             // Capturar desde esquina superior izquierda
+              y: 0              // Capturar desde esquina superior izquierda
+            });
+            chartImage = canvas.toDataURL('image/png');
+          }
+        } catch (error) {
+          console.warn('No se pudo capturar el gráfico dracónico:', error);
+          // Continuar sin el gráfico si falla la captura
+        }
+
+        await generateDraconicPDFModular(chartData, tropicalData, interpretations, draconicEvents || [], userInfo, chartImage);
       }
 
       // Completar progreso

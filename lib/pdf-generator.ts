@@ -520,6 +520,220 @@ export async function mergePDFs(pdfBuffers: Uint8Array[]): Promise<PDFDocument> 
 }
 
 /**
+ * FUNCIONES MODULARES PARA CARTA DRACÓNICA
+ * ========================================
+ */
+
+/**
+ * Genera PDF de portada para carta dracónica
+ */
+export async function generateDraconicCoverPDF(
+  userInfo?: { name?: string; birthDate?: string; birthPlace?: string }
+): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator({
+    title: 'Carta Dracónica',
+    subject: 'Análisis del alma y propósito espiritual'
+  });
+
+  // Portada
+  const date = new Date().toLocaleDateString('es-ES');
+  generator.addCoverPage(
+    'Carta Dracónica',
+    userInfo?.name ? `Análisis Espiritual para ${userInfo.name}` : 'Análisis del Alma y Propósito Espiritual',
+    date
+  );
+
+  // Información del usuario
+  if (userInfo) {
+    let userInfoText = '';
+    if (userInfo.birthDate) userInfoText += `Fecha de nacimiento: ${userInfo.birthDate}\n`;
+    if (userInfo.birthPlace) userInfoText += `Lugar de nacimiento: ${userInfo.birthPlace}`;
+
+    if (userInfoText) {
+      generator.addSection('Información Personal', userInfoText);
+    }
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF del gráfico dracónico
+ */
+export async function generateDraconicChartPDF(chartImage?: string): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Gráfico dracónico (sin página nueva innecesaria)
+  if (chartImage) {
+    generator.addImageFromDataURL(chartImage, 'Carta Dracónica');
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de comparación tropical vs dracónica
+ */
+export async function generateDraconicComparisonPDF(
+  chartData: any,
+  tropicalData: any
+): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Introducción a la carta dracónica
+  generator.addSection('Introducción a la Carta Dracónica',
+    'La carta dracónica representa el alma y el propósito espiritual. ' +
+    'Se calcula moviendo cada planeta 29° hacia atrás, revelando lecciones kármicas y potencial espiritual.'
+  );
+
+  // Tabla comparativa
+  if (chartData?.points && tropicalData?.points) {
+    const headers = ['Planeta', 'Tropical', 'Dracónica', 'Diferencia'];
+    const rows: string[][] = [];
+
+    ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'].forEach(planet => {
+      const tropical = tropicalData.points[planet];
+      const draconic = chartData.points[planet];
+
+      if (tropical && draconic) {
+        const tropicalPos = `${tropical.sign} ${Math.floor(tropical.longitude % 30)}°`;
+        const draconicPos = `${draconic.sign} ${Math.floor(draconic.longitude % 30)}°`;
+        const diff = Math.abs(tropical.longitude - draconic.longitude).toFixed(1);
+
+        rows.push([planet, tropicalPos, draconicPos, `${diff}°`]);
+      }
+    });
+
+    generator.addTable(headers, rows, 'Comparación Tropical vs Dracónica');
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de eventos dracónicos
+ */
+export async function generateDraconicEventsPDF(events?: any[]): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Eventos dracónicos
+  if (events && events.length > 0) {
+    generator.addSection('Eventos Dracónicos Importantes',
+      events.slice(0, 10).map(event => `• ${event.titulo}: ${event.descripcion}`).join('\n')
+    );
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de la interpretación narrativa dracónica
+ */
+export async function generateDraconicNarrativePDF(interpretacionNarrativa?: string): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Interpretación narrativa dracónica
+  if (interpretacionNarrativa) {
+    generator.addSection('Interpretación Espiritual Dracónica', interpretacionNarrativa);
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de las interpretaciones individuales dracónicas
+ */
+export async function generateDraconicIndividualPDF(interpretacionesIndividuales?: any[]): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Interpretaciones individuales dracónicas
+  if (interpretacionesIndividuales) {
+    generator.addIndividualInterpretations(interpretacionesIndividuales);
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Función principal modular para generar PDF de carta dracónica
+ */
+export async function generateDraconicPDFModular(
+  chartData: any,
+  tropicalData: any,
+  interpretations: any,
+  draconicEvents: any[],
+  userInfo?: { name?: string; birthDate?: string; birthPlace?: string },
+  chartImage?: string
+): Promise<void> {
+  try {
+    // Generar PDFs separados
+    const coverPDF = await generateDraconicCoverPDF(userInfo);
+    const chartPDF = await generateDraconicChartPDF(chartImage);
+    const comparisonPDF = await generateDraconicComparisonPDF(chartData, tropicalData);
+    const eventsPDF = await generateDraconicEventsPDF(draconicEvents);
+    const narrativePDF = await generateDraconicNarrativePDF(interpretations?.interpretacion_narrativa);
+    const individualPDF = await generateDraconicIndividualPDF(interpretations?.interpretaciones_individuales);
+
+    // Mergear todos en uno
+    const mergedPdf = await mergePDFs([coverPDF, chartPDF, comparisonPDF, eventsPDF, narrativePDF, individualPDF]);
+
+    // Agregar footer al documento final
+    const pages = mergedPdf.getPages();
+    const { width, height } = pages[0].getSize();
+
+    pages.forEach((page, index) => {
+      const pageNumber = index + 1;
+      const totalPages = pages.length;
+
+      // Footer text
+      page.drawText('Generado por Astrochat - www.astrochat.com', {
+        x: width / 2 - 60,
+        y: 20,
+        size: 8,
+      });
+
+      // Page numbers
+      page.drawText(`Página ${pageNumber} de ${totalPages}`, {
+        x: width - 40,
+        y: 20,
+        size: 8,
+      });
+    });
+
+    // Guardar el PDF final
+    const pdfBytes = await mergedPdf.save();
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+
+    // Crear enlace de descarga
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `carta-draconica-${userInfo?.name || 'usuario'}-${Date.now()}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.error('Error en generación modular de PDF dracónico:', error);
+    // Fallback a método tradicional
+    await generateDraconicPDF(chartData, tropicalData, interpretations, draconicEvents, userInfo);
+  }
+}
+
+/**
  * Función principal modular para generar PDF de carta tropical
  */
 export async function generateTropicalPDFModular(
