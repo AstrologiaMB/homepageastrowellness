@@ -186,6 +186,7 @@ export class AstroPDFGenerator {
     this.pdf.setFontSize(this.config.fontSize.small);
     this.pdf.setFont('helvetica', 'bold');
     this.pdf.setFillColor(240, 240, 240);
+    this.pdf.setTextColor(0, 0, 0); // Texto negro
 
     headers.forEach((header, index) => {
       const x = this.config.margin + (index * colWidth);
@@ -197,6 +198,7 @@ export class AstroPDFGenerator {
 
     // Rows
     this.pdf.setFont('helvetica', 'normal');
+    this.pdf.setTextColor(0, 0, 0); // Texto negro
     rows.forEach((row, rowIndex) => {
       const fillColor = rowIndex % 2 === 0 ? [255, 255, 255] : [248, 248, 248];
       this.pdf.setFillColor(fillColor[0], fillColor[1], fillColor[2]);
