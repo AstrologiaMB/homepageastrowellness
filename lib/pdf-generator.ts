@@ -112,33 +112,15 @@ export class AstroPDFGenerator {
   }
 
   /**
-   * Agrega una sección con título
+   * Agrega una sección con título y paginación automática línea por línea
    */
   addSection(title: string, content?: string): void {
-    // Calcular espacio disponible en la página actual
     const pageHeight = this.pdf.internal.pageSize.getHeight();
     const footerSpace = 30; // Espacio reservado para footer (2 líneas + margen)
-    const availableSpace = pageHeight - footerSpace - this.currentY;
+    const lineHeight = 4.5; // Altura de línea de texto
 
-    // Estimar espacio necesario para el título
-    this.pdf.setFontSize(this.config.fontSize.subtitle);
-    this.pdf.setFont('helvetica', 'bold');
-    const titleDimensions = this.pdf.getTextDimensions(title);
-    const titleSpaceNeeded = titleDimensions.h + 10; // título + espacio
-
-    // Calcular espacio exacto necesario para el contenido
-    let contentSpaceNeeded = 0;
-    if (content) {
-      this.pdf.setFontSize(this.config.fontSize.body);
-      this.pdf.setFont('helvetica', 'normal');
-      const textDimensions = this.pdf.getTextDimensions(content, {maxWidth: 170});
-      contentSpaceNeeded = textDimensions.h + 10; // altura exacta + margen
-    }
-
-    const totalSpaceNeeded = titleSpaceNeeded + contentSpaceNeeded;
-
-    // Si no cabe en la página actual, crear nueva página
-    if (totalSpaceNeeded > availableSpace || this.currentY > 220) {
+    // Verificar si necesitamos página nueva para el título
+    if (this.currentY + 10 > pageHeight - footerSpace) {
       this.pdf.addPage();
       this.currentY = this.config.margin;
     }
@@ -149,14 +131,29 @@ export class AstroPDFGenerator {
     this.pdf.text(title, this.config.margin, this.currentY);
     this.currentY += 10;
 
-    // Contenido de la sección
+    // Contenido de la sección con paginación línea por línea
     if (content) {
       this.pdf.setFontSize(this.config.fontSize.body);
       this.pdf.setFont('helvetica', 'normal');
 
+      // Dividir en líneas
       const lines = this.pdf.splitTextToSize(content, 170);
-      this.pdf.text(lines, this.config.margin, this.currentY);
-      this.currentY += lines.length * 4.5 + 5;
+
+      // Agregar líneas progresivamente con verificación de espacio
+      for (const line of lines) {
+        // Verificar si cabe esta línea
+        if (this.currentY + lineHeight > pageHeight - footerSpace) {
+          this.pdf.addPage();
+          this.currentY = this.config.margin;
+        }
+
+        // Agregar línea
+        this.pdf.text(line, this.config.margin, this.currentY);
+        this.currentY += lineHeight;
+      }
+
+      // Espacio después de la sección
+      this.currentY += 5;
     }
   }
 
