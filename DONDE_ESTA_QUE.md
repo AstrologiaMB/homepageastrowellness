@@ -135,11 +135,12 @@ NEXTAUTH_URL=http://localhost:3000
 - **Funciones principales:** `generateTropicalPDFModular()` y `generateDraconicPDFModular()` con fallback automático
 - **Dimensiones:** Gráfico centrado de 105x105mm para mantener proporción circular perfecta
 - **Paginación independiente:** Cada sección maneja su propia paginación sin interferir con otras
-📍 **Resultado:** PDFs completos con gráfico astrológico visual circular perfecto, paginación robusta y sin páginas en blanco para ambas cartas
+📍 **Resultado:** PDFs completos con gráficos astrológicos visuales circulares perfectos, paginación robusta y sin páginas en blanco para ambas cartas
 📍 **Testing:**
 - Tropical: Generar PDF desde `http://localhost:3000/cartas/tropica`
 - Dracónica: Generar PDF desde `http://localhost:3000/cartas/draconica`
 - Verificar gráficos circulares centrados, paginación intacta y flujo continuo sin páginas vacías
+- Dracónica incluye ambas cartas: individual y superpuesta (tropical + dracónica)
 📍 **Archivos modificados:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
 📍 **Dependencias:** `pdf-lib` para merge de PDFs
 
