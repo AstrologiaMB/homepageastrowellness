@@ -17,7 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Download, FileText, AlertCircle, CheckCircle } from "lucide-react";
 import html2canvas from "html2canvas";
-import { generateTropicalPDF, generateDraconicPDF } from "@/lib/pdf-generator";
+import { generateTropicalPDFModular, generateDraconicPDF } from "@/lib/pdf-generator";
 
 interface PDFDownloadButtonProps {
   /** Tipo de carta: 'tropical' o 'draconica' */
@@ -128,7 +128,7 @@ export function PDFDownloadButton({
           // Continuar sin el gráfico si falla la captura
         }
 
-        await generateTropicalPDF(chartData, interpretations, userInfo, chartImage);
+        await generateTropicalPDFModular(chartData, interpretations, userInfo, chartImage);
       } else if (type === 'draconica') {
         if (!tropicalData) {
           throw new Error('Se requieren datos tropicales para generar PDF dracónico.');
