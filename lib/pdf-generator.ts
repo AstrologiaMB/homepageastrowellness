@@ -10,6 +10,7 @@
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PDFDocument } from 'pdf-lib';
 
 /**
  * Configuración para la generación de PDFs
@@ -408,6 +409,188 @@ export class AstroPDFGenerator {
    */
   getDataURL(): string {
     return this.pdf.output('dataurlstring');
+  }
+}
+
+/**
+ * FUNCIONES MODULARES PARA GENERACIÓN DE PDFs
+ * ===========================================
+ */
+
+/**
+ * Genera PDF de portada + información personal
+ */
+export async function generateCoverPDF(
+  userInfo?: { name?: string; birthDate?: string; birthPlace?: string }
+): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator({
+    title: 'Carta Natal Tropical',
+    subject: 'Análisis astrológico completo'
+  });
+
+  // Portada
+  const date = new Date().toLocaleDateString('es-ES');
+  generator.addCoverPage(
+    'Carta Natal Tropical',
+    userInfo?.name ? `Análisis para ${userInfo.name}` : 'Análisis Astrológico Personalizado',
+    date
+  );
+
+  // Información del usuario
+  if (userInfo) {
+    let userInfoText = '';
+    if (userInfo.birthDate) userInfoText += `Fecha de nacimiento: ${userInfo.birthDate}\n`;
+    if (userInfo.birthPlace) userInfoText += `Lugar de nacimiento: ${userInfo.birthPlace}`;
+
+    if (userInfoText) {
+      generator.addSection('Información Personal', userInfoText);
+    }
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF del gráfico astrológico
+ */
+export async function generateChartPDF(chartImage?: string): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Nueva página para el gráfico
+  generator['pdf'].addPage();
+  generator['currentY'] = generator['config'].margin;
+
+  // Gráfico astrológico
+  if (chartImage) {
+    generator.addImageFromDataURL(chartImage, 'Carta Natal Tropical');
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de la interpretación narrativa
+ */
+export async function generateNarrativePDF(interpretacionNarrativa?: string): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Nueva página para la narrativa
+  generator['pdf'].addPage();
+  generator['currentY'] = generator['config'].margin;
+
+  // Interpretación narrativa
+  if (interpretacionNarrativa) {
+    generator.addSection('Interpretación Astrológica', interpretacionNarrativa);
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Genera PDF de las interpretaciones individuales
+ */
+export async function generateIndividualPDF(interpretacionesIndividuales?: any[]): Promise<Uint8Array> {
+  const generator = new AstroPDFGenerator();
+
+  // Nueva página para las interpretaciones
+  generator['pdf'].addPage();
+  generator['currentY'] = generator['config'].margin;
+
+  // Interpretaciones individuales
+  if (interpretacionesIndividuales) {
+    generator.addIndividualInterpretations(interpretacionesIndividuales);
+  }
+
+  const blob = generator.getBlob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
+
+/**
+ * Función para mergear múltiples PDFs en uno solo
+ */
+export async function mergePDFs(pdfBuffers: Uint8Array[]): Promise<PDFDocument> {
+  const mergedPdf = await PDFDocument.create();
+
+  for (const pdfBuffer of pdfBuffers) {
+    try {
+      const pdf = await PDFDocument.load(pdfBuffer);
+      const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+      copiedPages.forEach((page) => mergedPdf.addPage(page));
+    } catch (error) {
+      console.error('Error al procesar PDF buffer:', error);
+    }
+  }
+
+  return mergedPdf;
+}
+
+/**
+ * Función principal modular para generar PDF de carta tropical
+ */
+export async function generateTropicalPDFModular(
+  chartData: any,
+  interpretations: any,
+  userInfo?: { name?: string; birthDate?: string; birthPlace?: string },
+  chartImage?: string
+): Promise<void> {
+  try {
+    // Generar PDFs separados
+    const coverPDF = await generateCoverPDF(userInfo);
+    const chartPDF = await generateChartPDF(chartImage);
+    const narrativePDF = await generateNarrativePDF(interpretations?.interpretacion_narrativa);
+    const individualPDF = await generateIndividualPDF(interpretations?.interpretaciones_individuales);
+
+    // Mergear todos en uno
+    const mergedPdf = await mergePDFs([coverPDF, chartPDF, narrativePDF, individualPDF]);
+
+    // Agregar footer al documento final
+    const pages = mergedPdf.getPages();
+    const { width, height } = pages[0].getSize();
+
+    pages.forEach((page, index) => {
+      const pageNumber = index + 1;
+      const totalPages = pages.length;
+
+      // Footer text
+      page.drawText('Generado por Astrochat - www.astrochat.com', {
+        x: width / 2 - 60,
+        y: 20,
+        size: 8,
+      });
+
+      // Page numbers
+      page.drawText(`Página ${pageNumber} de ${totalPages}`, {
+        x: width - 40,
+        y: 20,
+        size: 8,
+      });
+    });
+
+    // Guardar el PDF final
+    const pdfBytes = await mergedPdf.save();
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+
+    // Crear enlace de descarga
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `carta-tropical-${userInfo?.name || 'usuario'}-${Date.now()}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.error('Error en generación modular de PDF:', error);
+    // Fallback a método tradicional
+    await generateTropicalPDF(chartData, interpretations, userInfo, chartImage);
   }
 }
 
