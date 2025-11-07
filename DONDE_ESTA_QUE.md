@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.6
-**Fecha:** 5 de Noviembre 2025
+**Versión:** 1.7
+**Fecha:** 6 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -144,6 +144,15 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Archivos modificados:** `components/pdf-download-button.tsx`, `lib/pdf-generator.ts`
 📍 **Dependencias:** `pdf-lib` para merge de PDFs
 
+### **"Grados aparecen en formato decimal en lugar de sexagesimal"**
+📍 **Ubicación:** `app/cartas/draconica/page.tsx`
+📍 **Función:** `formatearGradosEnTexto()` (línea ~68)
+📍 **Síntoma:** Cúspides y descripciones muestran "8.988983013091001°" en lugar de "8° 59' 20""
+📍 **Solución:** La función `formatearGradosEnTexto()` convierte automáticamente grados decimales a formato sexagesimal usando regex
+📍 **Uso:** Aplicar `formatearGradosEnTexto()` antes de `traducirSignosEnTexto()` en descripciones de eventos
+📍 **Testing:** Verificar eventos dracónicos en `http://localhost:3000/cartas/draconica`
+📍 **Ejemplo:** `"Casa 1 Dracónica (Acuario 8.988983013091001°)"` → `"Casa 1 Dracónica (Acuario 8° 59' 20")"`
+
 ---
 
 ## 📍 MAPA FUNCIONAL (RESUMIDO)
@@ -176,6 +185,7 @@ NEXTAUTH_URL=http://localhost:3000
 | **translatePlanet()** | Traduce nombres de planetas del inglés al español | `lib/astrology-utils.ts` |
 | **translateAspect()** | Traduce tipos de aspectos del inglés al español | `lib/astrology-utils.ts` |
 | **traducirSignosEnTexto()** | Traduce planetas, signos y términos en textos largos | `app/cartas/draconica/page.tsx` |
+| **formatearGradosEnTexto()** | Convierte grados decimales a sexagesimal en textos | `app/cartas/draconica/page.tsx` |
 
 ---
 
@@ -428,7 +438,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 5 de Noviembre 2025 (v1.6 - Gráfico astrológico en PDFs, corrección de distorsión ovalada)
+**🔄 Última actualización:** 6 de Noviembre 2025 (v1.7 - Conversión grados decimales a sexagesimal)
 **� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **�👨‍💻 Mantenido por:** Equipo Astrowellness
 

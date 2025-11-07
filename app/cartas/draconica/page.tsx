@@ -61,6 +61,20 @@ export default function CartasDraconicaPage() {
   const [cached, setCached] = useState(false);
   const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
+  // Función helper para formatear grados decimales en textos a formato sexagesimal
+  const formatearGradosEnTexto = (texto: string): string => {
+    if (!texto) return texto;
+    
+    // Regex para encontrar patrones como "8.988983013091001°" o "123.456°"
+    // Busca: número decimal seguido de "°"
+    const regexGrados = /(\d+\.\d+)°/g;
+    
+    return texto.replace(regexGrados, (match, decimalDegrees) => {
+      const degrees = parseFloat(decimalDegrees);
+      return formatAstrologicalDegrees(degrees);
+    });
+  };
+
   // Función helper para traducir planetas, signos y términos astrológicos en textos
   const traducirSignosEnTexto = (texto: string): string => {
     if (!texto) return texto;
@@ -153,11 +167,15 @@ export default function CartasDraconicaPage() {
     // Procesar cúspides cruzadas
     if (datosCruzados.cuspides_cruzadas) {
       datosCruzados.cuspides_cruzadas.forEach((cuspide: any, index: number) => {
+        // Aplicar formateo de grados y luego traducción de signos
+        const descripcionFormateada = formatearGradosEnTexto(cuspide.descripcion);
+        const descripcionTraducida = traducirSignosEnTexto(descripcionFormateada);
+        
         eventos.push({
           id: `cuspide_${index}`,
           tipo: 'cuspide_cruzada',
           titulo: `Casa ${cuspide.casa_draconica} Dracónica en Casa ${cuspide.casa_tropical_ubicacion} Trópica`,
-          descripcion: traducirSignosEnTexto(cuspide.descripcion),
+          descripcion: descripcionTraducida,
           icono: '🏠',
           orbe: cuspide.distancia_desde_cuspide?.grados ?
             `${cuspide.distancia_desde_cuspide.grados}°${cuspide.distancia_desde_cuspide.minutos}'` : undefined,
@@ -169,11 +187,15 @@ export default function CartasDraconicaPage() {
     // Procesar aspectos cruzados
     if (datosCruzados.aspectos_cruzados) {
       datosCruzados.aspectos_cruzados.forEach((aspecto: any, index: number) => {
+        // Aplicar formateo de grados y luego traducción de signos
+        const descripcionFormateada = formatearGradosEnTexto(aspecto.descripcion);
+        const descripcionTraducida = traducirSignosEnTexto(descripcionFormateada);
+        
         eventos.push({
           id: `aspecto_${index}`,
           tipo: 'aspecto_cruzado',
           titulo: `${translatePlanet(aspecto.punto_draconico)} Dracónico ${translateAspect(aspecto.tipo_aspecto)} ${translatePlanet(aspecto.punto_tropical)} Trópico`,
-          descripcion: traducirSignosEnTexto(aspecto.descripcion),
+          descripcion: descripcionTraducida,
           icono: '☌',
           orbe: `${aspecto.orbe_grados}°${aspecto.orbe_minutos}'`,
           relevancia: aspecto.exacto ? 'alta' : (aspecto.orbe_grados <= 3 ? 'media' : 'baja')
