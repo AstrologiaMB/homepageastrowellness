@@ -13,7 +13,7 @@
 - **API Cálculos**: FastAPI (Puerto 8001) - `calculo-carta-natal-api/`
 - **API Interpretaciones**: FastAPI (Puerto 8002) - `astro_interpretador_rag_fastapi/`
 - **API Calendario**: FastAPI (Puerto 8003) - `astro-calendar-personal-fastapi/`
-- **API Astrogematría**: FastAPI (Puerto 8004) - `astro-calendar-personal-fastapi/`
+- **API Astrogematría**: FastAPI (Puerto 8004) - `astrogematria_fastapi/`
 - **API Carta Electiva**: FastAPI (Puerto 8005) - `carta-electiva-api/` ⭐ **NUEVO**
 
 ### Variables de Entorno Requeridas
@@ -109,6 +109,14 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Ubicación:** `app/api/geocode/route.ts`  
 📍 **Testing:** Verificar API key de geocodificación y límites de uso  
 📍 **Fallback:** Verificar si hay datos de coordenadas manuales disponibles
+
+### **"Emails no se envían o fallan"**
+📍 **Configuración Dual:** AWS SES (desarrollo local) + Resend (Railway producción)
+📍 **Lógica:** Si tiene `AWS_ACCESS_KEY_ID` → usa AWS SES; si tiene `RESEND_API_KEY` → usa Resend
+📍 **Archivos:** `app/api/auth/register/route.ts`, `app/api/auth/forgot-password/route.ts`
+📍 **Testing Local:** Verificar variables AWS en `.env.local`
+📍 **Testing Producción:** Verificar `RESEND_API_KEY` en Railway environment
+📍 **Fallback:** Si no hay configuración, no envía emails pero no falla
 
 ### **"PDFs de cartas tropicales muestran contenido incompleto o problemas de paginación"**
 📍 **Ubicación:** `lib/pdf-generator.ts`

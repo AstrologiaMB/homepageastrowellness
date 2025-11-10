@@ -44,6 +44,21 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  // Railway-specific cookie configuration (only applies in production on Railway)
+  ...(process.env.NODE_ENV === 'production' && process.env.NEXTAUTH_URL?.includes('railway.app') && {
+    cookies: {
+      sessionToken: {
+        name: `next-auth.session-token`,
+        options: {
+          httpOnly: true,
+          sameSite: 'lax',
+          path: '/',
+          secure: true,
+          domain: process.env.NEXTAUTH_URL?.replace('https://', ''),
+        },
+      },
+    },
+  }),
   callbacks: {
     async jwt({ token, user }) {
       // Si tenemos el objeto user, es un inicio de sesión nuevo
