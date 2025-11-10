@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 
-export default function CompletarDatosPage() {
+function CompletarDatosForm() {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [knowsBirthTime, setKnowsBirthTime] = useState(false);
@@ -20,11 +20,11 @@ export default function CompletarDatosPage() {
     residenceCity: "",
     residenceCountry: "",
   });
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const { update } = useSession();
-  
+
   // Capturar la URL de redirección si existe
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   
@@ -249,5 +249,13 @@ export default function CompletarDatosPage() {
         </Button>
       </form>
     </div>
+  );
+}
+
+export default function CompletarDatosPage() {
+  return (
+    <Suspense fallback={<div className="max-w-xl mx-auto mt-10 p-6 text-center">Cargando...</div>}>
+      <CompletarDatosForm />
+    </Suspense>
   );
 }

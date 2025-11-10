@@ -1,6 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -8,7 +9,7 @@ import { Star, Calendar, FileText, Bot, Clock, CheckCircle, ArrowLeft } from 'lu
 import Link from 'next/link'
 import { useSubscription } from '@/hooks/use-subscription'
 
-export default function UpgradePage() {
+function UpgradeForm() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl')
   const { isPremium, status } = useSubscription()
@@ -209,5 +210,13 @@ export default function UpgradePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function UpgradePage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 py-8 text-center">Cargando...</div>}>
+      <UpgradeForm />
+    </Suspense>
   )
 }
