@@ -8,7 +8,7 @@ export type SubscriptionStatus = typeof SUBSCRIPTION_STATUS[keyof typeof SUBSCRI
 // Servicios premium que requieren suscripción
 export const PREMIUM_SERVICES = [
   '/calendario/personal',
-  '/cartas/tropical',
+  '/cartas/tropica',
   '/cartas/draconica',
   '/astrogematria/interpretaciones'
 ] as const
