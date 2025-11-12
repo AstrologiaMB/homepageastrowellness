@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.7
-**Fecha:** 6 de Noviembre 2025
+**Versión:** 1.9
+**Fecha:** 12 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -23,6 +23,13 @@ OPENAI_API_KEY=sk-...
 DATABASE_URL=postgresql://...
 NEXTAUTH_SECRET=...
 NEXTAUTH_URL=http://localhost:3000
+
+# URLs de Microservicios (opcional en desarrollo, requeridas en Railway)
+CALCULOS_API_URL=http://localhost:8001
+INTERPRETACIONES_API_URL=http://localhost:8002
+ASTROGEMATRIA_API_URL=http://localhost:8003
+CALENDARIO_PERSONAL_API_URL=http://localhost:8004
+CARTA_ELECTIVA_API_URL=http://localhost:8005
 ```
 
 ### Inicio del Sistema
@@ -160,6 +167,49 @@ NEXTAUTH_URL=http://localhost:3000
 📍 **Uso:** Aplicar `formatearGradosEnTexto()` antes de `traducirSignosEnTexto()` en descripciones de eventos
 📍 **Testing:** Verificar eventos dracónicos en `http://localhost:3000/cartas/draconica`
 📍 **Ejemplo:** `"Casa 1 Dracónica (Acuario 8.988983013091001°)"` → `"Casa 1 Dracónica (Acuario 8° 59' 20")"`
+
+### **"Carta tropical accesible sin suscripción (paywall no funciona)"**
+📍 **Ubicación:** `lib/subscription.ts`  
+📍 **Array:** `PREMIUM_SERVICES` (línea ~10)  
+📍 **Causa:** Typo en la ruta - `/cartas/tropical` en lugar de `/cartas/tropica`  
+📍 **Síntoma:** Usuarios gratuitos pueden acceder a `/cartas/tropica` sin restricciones  
+📍 **Solución:** Verificar que las rutas en `PREMIUM_SERVICES` coincidan exactamente con las rutas reales de las páginas  
+📍 **Código correcto:**
+```typescript
+export const PREMIUM_SERVICES = [
+  '/calendario/personal',
+  '/cartas/tropica',      // ✅ Correcto (sin 'l' al final)
+  '/cartas/draconica',
+  '/astrogematria/interpretaciones'
+] as const
+```
+📍 **Verificación:** 
+- Usuario gratuito intenta acceder a `/cartas/tropica` → debe redirigir a `/upgrade`
+- Usuario gratuito intenta acceder a `/cartas/draconica` → debe redirigir a `/upgrade`
+📍 **Testing:** Usar usuario con `subscriptionStatus: 'free'` en base de datos
+📍 **Middleware:** `middleware.ts` verifica permisos usando `isPremiumService(path)`
+
+### **"Error ECONNREFUSED al conectar con microservicios (especialmente Astrogematría)"**
+📍 **Causa:** URLs hardcodeadas que no funcionan en producción (Railway)
+📍 **Síntoma:** `Error: connect ECONNREFUSED 127.0.0.1:8003` (o puertos 8001, 8002, 8004, 8005)
+📍 **Solución:** Sistema centralizado de URLs con auto-discovery
+📍 **Ubicación:** `lib/api-config.ts` (sistema centralizado)
+📍 **Archivos afectados:** 7 rutas API actualizadas (`app/api/astrogematria/calcular/route.ts`, `app/api/astrogematria/remedios/route.ts`, `app/api/cartas/tropical/route.ts`, `app/api/cartas/draconica/route.ts`, `app/api/cartas/cruzada/route.ts`, `app/api/interpretaciones/route.ts`, `app/api/carta-electiva/buscar/route.ts`)
+📍 **Documentación completa:** `API_URL_CENTRALIZATION_FIX.md`
+📍 **Variables de entorno requeridas en Railway:**
+```env
+CALCULOS_API_URL=https://calculo-carta-natal-api-production.up.railway.app
+INTERPRETACIONES_API_URL=https://astro-interpretador-rag-fastapi-production.up.railway.app
+ASTROGEMATRIA_API_URL=https://astrogematria-fastapi-production.up.railway.app
+CALENDARIO_PERSONAL_API_URL=https://astro-calendar-personal-fastapi-production.up.railway.app
+CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.railway.app
+```
+📍 **Testing local:** URLs localhost funcionan automáticamente (fallback por defecto)
+📍 **Testing Railway:** Verificar logs: `🔧 API URL para [SERVICIO]: [URL]`
+📍 **Cómo funciona:**
+- **Desarrollo:** Usa URLs localhost automáticamente si no hay variables de entorno
+- **Producción:** Lee variables de entorno configuradas en Railway
+- **Función:** `getApiUrl('SERVICIO_NAME')` centraliza toda la lógica
 
 ---
 
@@ -396,6 +446,7 @@ utils/
 - **[Fix de Género Dracónico](../calculo-carta-natal-api/DRACONIC_GENDER_FIX_DOCUMENTATION.md)** - Problema Luna vs Mercurio
 - **[Fix de Precisión Dracónica](../calculo-carta-natal-api/DRACONIC_PRECISION_FIX_DOCUMENTATION.md)** - Mejoras de algoritmo
 - **[Guía de Géneros en Frontend](../calculo-carta-natal-api/FRONTEND_GENDER_IMPLEMENTATION_GUIDE.md)** - Arquitectura de separación
+- **[Fix de URLs Centralizadas](API_URL_CENTRALIZATION_FIX.md)** - Solución ECONNREFUSED en producción
 
 ### **Scripts Útiles**
 ```bash
@@ -446,9 +497,9 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 6 de Noviembre 2025 (v1.7 - Conversión grados decimales a sexagesimal)
-**� Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
-**�👨‍💻 Mantenido por:** Equipo Astrowellness
+**🔄 Última actualización:** 12 de Noviembre 2025 (v1.9 - Fix de URLs centralizadas para Railway)
+**📚 Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
+**👨‍💻 Mantenido por:** Equipo Astrowellness
 
 ---
 
