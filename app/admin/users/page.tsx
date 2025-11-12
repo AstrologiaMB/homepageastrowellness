@@ -8,8 +8,9 @@ import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { Label } from '@/components/ui/label'
-import { Search, User, Star, Calendar, Mail, Shield } from 'lucide-react'
+import { Search, User, Star, Calendar, Mail, Shield, Trash2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
@@ -32,6 +33,9 @@ export default function AdminUsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [updating, setUpdating] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [userToDelete, setUserToDelete] = useState<User | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   // Verificar si el usuario es admin
   useEffect(() => {
@@ -82,6 +86,31 @@ export default function AdminUsersPage() {
       console.error('Error updating subscription:', error)
     } finally {
       setUpdating(false)
+    }
+  }
+
+  const deleteUser = async (userId: string) => {
+    setDeleting(true)
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        await fetchUsers() // Recargar la lista
+        setIsDeleteDialogOpen(false)
+        setUserToDelete(null)
+        setIsDialogOpen(false)
+        setSelectedUser(null)
+      } else {
+        const data = await response.json()
+        alert(data.error || 'Error al eliminar usuario')
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      alert('Error al eliminar usuario')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -307,27 +336,83 @@ export default function AdminUsersPage() {
             </div>
           )}
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Cancelar
-            </Button>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <div className="flex gap-2 flex-1">
+              <Button 
+                variant="outline" 
+                onClick={() => setIsDialogOpen(false)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={() => {
+                  if (selectedUser) {
+                    updateUserSubscription(
+                      selectedUser.id,
+                      selectedUser.subscriptionStatus,
+                      selectedUser.subscriptionExpiresAt || undefined
+                    )
+                  }
+                }}
+                disabled={updating}
+              >
+                {updating ? 'Actualizando...' : 'Guardar Cambios'}
+              </Button>
+            </div>
             <Button
+              variant="destructive"
               onClick={() => {
-                if (selectedUser) {
-                  updateUserSubscription(
-                    selectedUser.id,
-                    selectedUser.subscriptionStatus,
-                    selectedUser.subscriptionExpiresAt || undefined
-                  )
-                }
+                setUserToDelete(selectedUser)
+                setIsDeleteDialogOpen(true)
               }}
               disabled={updating}
+              className="w-full sm:w-auto"
             >
-              {updating ? 'Actualizando...' : 'Guardar Cambios'}
+              <Trash2 className="h-4 w-4 mr-2" />
+              Eliminar Usuario
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* AlertDialog para confirmar eliminación */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Eliminar usuario definitivamente?</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-2">
+              <p className="font-semibold text-destructive">
+                ⚠️ Esta acción NO se puede deshacer.
+              </p>
+              <p>Se eliminará permanentemente:</p>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>El usuario: <strong>{userToDelete?.email}</strong></li>
+                <li>Todas sus cartas natales</li>
+                <li>Todas sus interpretaciones</li>
+                <li>Todos sus eventos de rectificación</li>
+                <li>Todas sus solicitudes horarias</li>
+                <li>Todos sus datos asociados</li>
+              </ul>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (userToDelete) {
+                  deleteUser(userToDelete.id)
+                }
+              }}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? 'Eliminando...' : 'Eliminar Permanentemente'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
