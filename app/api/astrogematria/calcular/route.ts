@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
-
-const ASTROGEMATRIA_API_URL = 'http://localhost:8003';
+import { getApiUrl } from '@/lib/api-config';
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Llamar al microservicio de astrogematría
-    const astrogematriaResponse = await fetch(`${ASTROGEMATRIA_API_URL}/astrogematria/calcular`, {
+    const astrogematriaResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ palabra })

@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
-
-const CARTA_ELECTIVA_API_URL = 'http://localhost:8005';
+import { getApiUrl } from '@/lib/api-config';
 
 export async function POST(request: NextRequest) {
   try {
@@ -86,7 +85,7 @@ export async function POST(request: NextRequest) {
 
     let cartaElectivaResponse;
     try {
-      cartaElectivaResponse = await fetch(`${CARTA_ELECTIVA_API_URL}/buscar`, {
+      cartaElectivaResponse = await fetch(`${getApiUrl('CARTA_ELECTIVA')}/buscar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

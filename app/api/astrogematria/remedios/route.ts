@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
-
-const ASTROGEMATRIA_API_URL = 'http://localhost:8003';
+import { getApiUrl } from '@/lib/api-config';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Llamar al microservicio de remedios
-    const remediosResponse = await fetch(`${ASTROGEMATRIA_API_URL}/astrogematria/remedios`, {
+    const remediosResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/remedios`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });

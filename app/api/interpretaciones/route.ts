@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
+import { getApiUrl } from '@/lib/api-config'
 
 // Tipos para las interpretaciones
 interface InterpretacionItem {
@@ -31,7 +32,6 @@ interface CartaNatalData {
   cuspides_cruzadas?: Array<any>
 }
 
-const RAG_SERVICE_URL = 'http://localhost:8002'
 
 // Función para combinar información de casa con planetas en signo
 function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): InterpretacionItem[] {
@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
     console.log('🔍 DEBUG: Payload completo enviado al RAG:', JSON.stringify(ragRequest, null, 2))
     
     // Llamar al microservicio RAG
-    const ragResponse = await fetch(`${RAG_SERVICE_URL}/interpretar`, {
+    const ragResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
