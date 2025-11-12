@@ -1,8 +1,8 @@
 # 📊 Estado de Repositorios para Railway
 
-**Fecha:** 10 de Noviembre, 2025 - 18:21 ART
+**Fecha:** 12 de Noviembre, 2025
 **Proyecto:** Astrochat
-**Estado:** 🚀 DEPLOYMENT COMPLETADO - 5/6 SERVICIOS (83%)
+**Estado:** 🎉 DEPLOYMENT 100% COMPLETADO - 6/6 SERVICIOS
 
 ---
 
@@ -12,18 +12,65 @@
 Total de servicios: 6
 
 Estado de Deployment:
-  ✅ Deployados en Railway: 5/6 (83%)
+  ✅ Deployados en Railway: 6/6 (100%)
   🔄 En progreso: 0
-  ⏳ Pendientes: 1
+  ⏳ Pendientes: 0
 
 Repos listos para Railway: 6/6 (100%)
-Última actualización: 10 Nov 2025, 18:21 ART
+Última actualización: 12 Nov 2025
+Último commit: 191cf26 - Sistema de URLs centralizadas
 ```
+
+---
+
+## 🔧 Fixes Recientes (12 Nov 2025)
+
+### **Sistema de URLs Centralizadas Implementado**
+
+**Problema Resuelto:** Error ECONNREFUSED en producción Railway
+
+**Solución Implementada:**
+```yaml
+Nueva Librería: lib/api-config.ts
+  - Función centralizada: getApiUrl()
+  - Auto-discovery de ambiente (dev vs producción)
+  - Fallback inteligente a localhost
+  - Logs automáticos para debugging
+
+Rutas API Actualizadas: 7 archivos
+  - app/api/astrogematria/calcular/route.ts
+  - app/api/astrogematria/remedios/route.ts
+  - app/api/cartas/tropical/route.ts
+  - app/api/cartas/draconica/route.ts
+  - app/api/cartas/cruzada/route.ts
+  - app/api/interpretaciones/route.ts
+  - app/api/carta-electiva/buscar/route.ts
+
+Variables de Entorno Requeridas en Railway:
+  ✅ CALCULOS_API_URL
+  ✅ INTERPRETACIONES_API_URL
+  ✅ ASTROGEMATRIA_API_URL
+  ✅ CALENDARIO_PERSONAL_API_URL
+  ✅ CARTA_ELECTIVA_API_URL
+
+Documentación:
+  - API_URL_CENTRALIZATION_FIX.md (técnico completo)
+  - ADR-009 en RAILWAY_DEPLOYMENT_STRATEGY.md
+  - DONDE_ESTA_QUE.md actualizado
+```
+
+**Impacto:**
+- ✅ Frontend puede conectar a APIs en Railway
+- ✅ Desarrollo local sigue funcionando (fallback a localhost)
+- ✅ Migration-ready para otros proveedores
+- ✅ DRY: una sola función reutilizable
+
+---
 
 ## 🎯 Status de Deployments
 
 ```yaml
-✅ DEPLOYED:
+✅ DEPLOYED - 100% COMPLETADO:
   1. calculo-carta-natal-api
      URL: https://calculo-carta-natal-api-production.up.railway.app
      Status: Active
@@ -53,8 +100,11 @@ Repos listos para Railway: 6/6 (100%)
      Health: ✅ Passing
      Features: ✅ Algoritmos SCC, background tasks, momentos electivos
 
-⏳ PENDING:
-  6. sidebar-fastapi (frontend - último)
+  6. sidebar-fastapi (frontend)
+     URL: https://homepageastrowellness-production.up.railway.app
+     Status: Active
+     Health: ✅ Passing
+     Features: ✅ Authentication, user registration, email notifications
 
 📊 PostgreSQL:
   Database: ✅ Active
@@ -353,25 +403,28 @@ Costo estimado Railway:
 ## 🎯 Estado Actual
 
 ```
-╔════════════════════════════════════════════╗
-║   🚀 DEPLOYMENT EN PROGRESO               ║
-║                                            ║
-║   ✅ 1/6 servicios deployados              ║
-║   ✅ API Cálculos: PRODUCCIÓN             ║
-║   ⏳ 5 servicios pendientes                ║
-║                                            ║
-║   📚 Lessons learned documentadas          ║
-║   ⚡ Tiempo estimado restante: 1-2 horas  ║
-╚════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════╣
+║   🎉 DEPLOYMENT 100% COMPLETADO              ║
+║                                               ║
+║   ✅ 6/6 servicios deployados                 ║
+║   ✅ Todas las APIs: PRODUCCIÓN ACTIVA       ║
+║   ✅ Frontend: PRODUCCIÓN ACTIVA             ║
+║   ✅ Database: FUNCIONANDO                   ║
+║   ✅ Authentication: FUNCIONANDO             ║
+║   ✅ Email notifications: FUNCIONANDO        ║
+║                                               ║
+║   🚀 PROYECTO LISTO PARA USUARIOS            ║
+║   📚 Documentación completa                  ║
+╚═══════════════════════════════════════════════╝
 ```
 
-**Progreso:** 17% completo (1/6 APIs)  
-**Tiempo invertido:** ~3 horas (primer API con aprendizaje)  
-**Tiempo estimado restante:** 1-2 horas (5 APIs × 15-20 min c/u)
+**Progreso:** 100% completo (6/6 servicios)
+**Tiempo total invertido:** ~8 horas (desarrollo + deployments + fixes)
+**Estado:** Producción activa y funcional
 
-**Próxima acción:** Deployar API Interpretaciones usando checklist de RAILWAY_LESSONS_LEARNED.md
+**🎯 Próximos pasos:** Monitoreo y optimización
 
 ---
 
-*Documento actualizado: 7 de Noviembre 2025, 20:00 ART*  
-*Versión: 3.0 (Deployment en progreso - 1/6 completado)*
+*Documento actualizado: 12 de Noviembre 2025*
+*Versión: 4.1 - Sistema de URLs centralizadas implementado*
