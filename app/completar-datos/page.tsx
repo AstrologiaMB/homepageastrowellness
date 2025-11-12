@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { getApiUrl } from "@/lib/api-config";
 
 function CompletarDatosForm() {
   const [loading, setLoading] = useState(false);
@@ -64,7 +65,8 @@ function CompletarDatosForm() {
     
     try {
       // Verificar ubicación con el nuevo endpoint
-      const geoResponse = await fetch("https://calculo-carta-natal-api-production.up.railway.app/geocode/search", {
+      const apiUrl = getApiUrl('CALCULOS');
+      const geoResponse = await fetch(`${apiUrl}/geocode/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
