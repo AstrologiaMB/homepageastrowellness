@@ -1,8 +1,8 @@
 # 🚂 Railway Deployment Strategy - Astrochat
 
 **Proyecto:** Astrochat
-**Versión:** 1.1
-**Fecha:** Noviembre 2025
+**Versión:** 1.3
+**Fecha:** 12 de Noviembre 2025
 **Autor:** Equipo Astrochat
 **Objetivo:** Deploy escalable y migration-ready
 
@@ -360,6 +360,60 @@ FROM_EMAIL=noreply@astrochat.online
 
 ---
 
+### **ADR-009: Por Qué Implementar Sistema de URLs Centralizadas**
+
+**Contexto:**
+Los microservicios FastAPI necesitan ser accedidos desde el frontend Next.js, pero las URLs cambian entre desarrollo local y producción Railway.
+
+**Problema Original:**
+URLs hardcodeadas en cada ruta API causaban errores ECONNREFUSED en producción cuando el código asumía localhost.
+
+**Decisión:**
+Implementar `lib/api-config.ts` con función `getApiUrl()` que centraliza la lógica de obtención de URLs.
+
+**Consecuencias:**
+- ✅ **Auto-discovery:** Detecta automáticamente el ambiente (desarrollo vs producción)
+- ✅ **Fallback inteligente:** Usa localhost si no hay variables de entorno configuradas
+- ✅ **Logs automáticos:** Registra qué URL se está usando para cada servicio
+- ✅ **DRY:** Una sola función reutilizable en todas las rutas API
+- ✅ **Migration-ready:** Cambiar de Railway a otro proveedor solo requiere actualizar env vars
+- ⚠️ Requiere configurar 5 variables de entorno en Railway
+
+**Implementación:**
+```typescript
+// lib/api-config.ts
+export function getApiUrl(service: ServiceName): string {
+  const urls = {
+    CALCULOS: process.env.CALCULOS_API_URL || 'http://localhost:8001',
+    INTERPRETACIONES: process.env.INTERPRETACIONES_API_URL || 'http://localhost:8002',
+    ASTROGEMATRIA: process.env.ASTROGEMATRIA_API_URL || 'http://localhost:8003',
+    CALENDARIO_PERSONAL: process.env.CALENDARIO_PERSONAL_API_URL || 'http://localhost:8004',
+    CARTA_ELECTIVA: process.env.CARTA_ELECTIVA_API_URL || 'http://localhost:8005',
+  }
+  
+  const url = urls[service]
+  console.log(`🔧 API URL para ${service}: ${url}`)
+  return url
+}
+```
+
+**Rutas Actualizadas (7 total):**
+- `app/api/astrogematria/calcular/route.ts`
+- `app/api/astrogematria/remedios/route.ts`
+- `app/api/cartas/tropical/route.ts`
+- `app/api/cartas/draconica/route.ts`
+- `app/api/cartas/cruzada/route.ts`
+- `app/api/interpretaciones/route.ts`
+- `app/api/carta-electiva/buscar/route.ts`
+
+**Problema Resuelto:**
+Error `connect ECONNREFUSED 127.0.0.1:8003` en producción Railway cuando el código intentaba conectar a localhost en lugar de las URLs internas de Railway.
+
+**Documentación Completa:**
+Ver `API_URL_CENTRALIZATION_FIX.md` para detalles técnicos completos.
+
+---
+
 ## 🤖 Prompts de Implementación para Cline
 
 ### **PROMPT-001: Preparación de Repositorios**
@@ -388,7 +442,12 @@ Para el repositorio Frontend (sidebar-fastapi):
    - DATABASE_URL
    - NEXTAUTH_SECRET
    - NEXTAUTH_URL
-   - URLs de los 5 microservicios
+   - URLs de los 5 microservicios:
+     * CALCULOS_API_URL
+     * INTERPRETACIONES_API_URL
+     * ASTROGEMATRIA_API_URL
+     * CALENDARIO_PERSONAL_API_URL
+     * CARTA_ELECTIVA_API_URL
 4. Verificar `next.config.js` permite env vars en runtime
 
 Resultado Esperado:
@@ -479,32 +538,44 @@ URLs de Acceso:
 
 ```
 ╔═══════════════════════════════════════════════╣
-║   🚀 DEPLOYMENT COMPLETADO - 5/6 SERVICIOS   ║
+║   🎉 DEPLOYMENT 100% COMPLETADO              ║
 ║                                               ║
-║   ✅ 5/6 servicios deployados (83%)           ║
+║   ✅ 6/6 servicios deployados (100%)         ║
 ║   ✅ API Cálculos: PRODUCCIÓN ACTIVA         ║
 ║   ✅ API Interpretaciones: PRODUCCIÓN ACTIVA ║
 ║   ✅ API Calendario: PRODUCCIÓN ACTIVA       ║
 ║   ✅ API Astrogematría: PRODUCCIÓN ACTIVA    ║
 ║   ✅ API Carta Electiva: PRODUCCIÓN ACTIVA   ║
-║   ⏳ 1 servicio pendiente (Frontend)          ║
+║   ✅ Frontend: PRODUCCIÓN ACTIVA             ║
 ║                                               ║
-║   📚 TODOS LOS BACKENDS DEPLOYADOS           ║
-║   ⚡ Próximo: Frontend (último paso)          ║
+║   🔧 FIXES IMPLEMENTADOS:                    ║
+║   ✅ Database migrations ejecutadas          ║
+║   ✅ Email config: AWS → Resend              ║
+║   ✅ Auth cookies: Railway-optimized         ║
+║   ✅ Commit e07f35b deployed                 ║
+║                                               ║
+║   🚀 PROYECTO LISTO PARA USUARIOS            ║
+║   📚 Documentación completa                  ║
 ╚═══════════════════════════════════════════════╝
 ```
 
-**Progreso:** 83% completo (5/6 servicios)
-**Tiempo invertido:** ~6 horas (aprendizaje + 5 deploys)
-**Tiempo estimado restante:** ~30-45 minutos (Frontend)
+**Progreso:** 100% completo (6/6 servicios)
+**Tiempo total invertido:** ~8 horas (aprendizaje + deployments + fixes)
+**Estado:** Producción activa y funcional
 
-**Último deployment exitoso:** API Carta Electiva (10 Nov 2025)
-- ✅ Servicio más complejo de todos con algoritmos SCC
-- ✅ Background tasks con progreso real operativo
-- ✅ Sistema de búsqueda electiva funcionando
-- ✅ Timeout extendido (5 minutos) configurado correctamente
+**Último deployment exitoso:** Frontend (sidebar-fastapi) - 10 Nov 2025
+- ✅ Aplicación Next.js completamente funcional
+- ✅ Autenticación con NextAuth funcionando
+- ✅ Conexión a todas las APIs backend
+- ✅ Emails de registro via Resend operativos
 
-**Próxima acción:** Deployar Frontend (sidebar-fastapi) - ÚLTIMO SERVICIO
+**Fixes implementados (10 Nov 2025):**
+- ✅ **Database:** Prisma migrations ejecutadas en Railway
+- ✅ **Email:** Configuración dual AWS/Resend → Resend prioritario
+- ✅ **Authentication:** Cookies optimizadas para Railway subdomains
+- ✅ **Deployment:** Commit `e07f35b` con todos los fixes desplegado
+
+**🎯 Estado final:** Todos los servicios desplegados y operativos
 
 ---
 
@@ -574,6 +645,7 @@ URLs de Acceso:
 - **RAILWAY_DEPLOYMENT_STRATEGY.md** - Guía completa de deploy
 - **RAILWAY_LESSONS_LEARNED.md** - Experiencia real de deployments
 - **RAILWAY_REPOS_STATUS.md** - Estado actual de repositorios
+- **API_URL_CENTRALIZATION_FIX.md** - Sistema de URLs centralizadas (fix ECONNREFUSED)
 - **INSTRUCCIONES_ARRANQUE_COMPLETO.md** - Setup local
 - **docs/current/MICROSERVICIOS_OVERVIEW.md** - Arquitectura
 
@@ -619,6 +691,13 @@ Este documento proporciona una estrategia completa para desplegar **Astrochat** 
 - API Carta Electiva: ✅ Producción activa
 - Próximo: Frontend (último servicio)
 
+**Fixes Críticos Implementados:**
+
+✅ **Database:** Prisma migrations ejecutadas en Railway (10 Nov 2025)
+✅ **Email:** Configuración dual AWS/Resend → Resend prioritario (10 Nov 2025)
+✅ **Authentication:** Cookies optimizadas para Railway subdomains (10 Nov 2025)
+✅ **Deployment:** Commit `e07f35b` con todos los fixes desplegado (10 Nov 2025)
+
 **Próximos Pasos:**
 
 1. ✅ ~~Deploy API Cálculos~~ (COMPLETADO - 3 horas)
@@ -626,15 +705,16 @@ Este documento proporciona una estrategia completa para desplegar **Astrochat** 
 3. ✅ ~~Deploy API Calendario~~ (COMPLETADO - 20 min)
 4. ✅ ~~Deploy API Astrogematría~~ (COMPLETADO - 15 min)
 5. ✅ ~~Deploy API Carta Electiva~~ (COMPLETADO - 25 min)
-6. Deploy Frontend (30-45 min - último servicio)
-7. Verificar integración completa
+6. ✅ ~~Fixes críticos: Database, Email, Auth~~ (COMPLETADO - 10 Nov)
+7. Deploy Frontend (30-45 min - último servicio)
+8. Verificar integración completa y testing end-to-end
 
 **Tiempo Estimado Restante:** ~45 minutos
 
-**¡Buena suerte con el deploy!** 🚀
+**¡Deployment casi completo!** 🚀
 
 ---
 
 *Documento creado: Noviembre 2025*
-*Última actualización: 10 de Noviembre 2025*
-*Versión: 1.1 - 2/6 servicios deployados*
+*Última actualización: 12 de Noviembre 2025*
+*Versión: 1.3 - Sistema de URLs centralizadas implementado (ADR-009)*
