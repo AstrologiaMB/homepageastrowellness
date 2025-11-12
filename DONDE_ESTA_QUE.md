@@ -1,6 +1,6 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 1.9
+**Versión:** 2.0
 **Fecha:** 12 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
@@ -106,6 +106,29 @@ CARTA_ELECTIVA_API_URL=http://localhost:8005
 📍 **API:** `app/api/auth/[...nextauth]/route.ts`  
 📍 **Testing:** Verificar NextAuth configuración y base de datos  
 📍 **Logs:** Revisar logs de autenticación en consola del navegador
+
+### **"Necesito eliminar un usuario y sus datos asociados"** ⭐ **NUEVO**
+📍 **Ubicación:** `app/admin/users/page.tsx`  
+📍 **API:** `app/api/admin/users/[id]/route.ts` (DELETE endpoint)  
+📍 **Ruta:** `/admin/users` (solo accesible por admins)  
+📍 **Funcionalidad:**
+- Panel admin con lista de todos los usuarios
+- Botón "Eliminar" rojo por cada usuario
+- AlertDialog con confirmación doble antes de eliminar
+- Cascade delete automático vía Prisma (elimina todos los datos relacionados)
+- Validación de seguridad: admin no puede auto-eliminarse
+📍 **Cascade Delete incluye:**
+- ✅ NatalChart (cartas natales)
+- ✅ Interpretation (interpretaciones guardadas)
+- ✅ RectificationEvent (eventos de rectificación)
+- ✅ HoraryRequest (consultas horarias)
+📍 **Configuración Prisma:** `onDelete: Cascade` en relaciones del schema
+📍 **Testing:** Usuario con `role: 'admin'` puede eliminar otros usuarios
+📍 **Seguridad:**
+- Solo usuarios con rol admin pueden acceder
+- Admin no puede eliminarse a sí mismo (validación en backend)
+- Confirmación doble en UI para prevenir eliminaciones accidentales
+📍 **Verificación:** Usuario eliminado no debe aparecer en `/admin/users` ni en base de datos
 
 ### **"Rectificación de carta no funciona"**
 📍 **Ubicación:** `app/rectificacion-carta/page.tsx`  
@@ -497,7 +520,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 12 de Noviembre 2025 (v1.9 - Fix de URLs centralizadas para Railway)
+**🔄 Última actualización:** 12 de Noviembre 2025 (v2.0 - Admin User Management - Delete Users Feature)
 **📚 Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **👨‍💻 Mantenido por:** Equipo Astrowellness
 
