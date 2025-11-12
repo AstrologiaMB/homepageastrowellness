@@ -3,12 +3,18 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 function CompletarDatosForm() {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [knowsBirthTime, setKnowsBirthTime] = useState(false);
+  const [checkingLocation, setCheckingLocation] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [locationOptions, setLocationOptions] = useState<any[]>([]);
+  const [pendingFormData, setPendingFormData] = useState<FormData | null>(null);
   const [userData, setUserData] = useState({
     birthDate: "",
     birthCity: "",
@@ -50,10 +56,58 @@ function CompletarDatosForm() {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
+    setCheckingLocation(true);
     
-    // Obtener los datos del formulario
     const formData = new FormData(e.currentTarget);
+    const birthCity = formData.get("birthCity") as string;
+    const birthCountry = formData.get("birthCountry") as string;
+    
+    try {
+      // Verificar ubicación con el nuevo endpoint
+      const geoResponse = await fetch("https://calculo-carta-natal-api-production.up.railway.app/geocode/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          city: birthCity,
+          country: birthCountry
+        })
+      });
+      
+      if (!geoResponse.ok) {
+        throw new Error("Error verificando ubicación");
+      }
+      
+      const geoResult = await geoResponse.json();
+      
+      if (!geoResult.success || !geoResult.data) {
+        throw new Error("Ubicación no encontrada");
+      }
+      
+      // Caso 1: Solo una opción - proceder directamente
+      if (geoResult.data.single) {
+        await saveUserData(formData, geoResult.data);
+      } 
+      // Caso 2: Múltiples opciones - mostrar modal
+      else if (geoResult.data.multiple) {
+        setPendingFormData(formData);
+        setLocationOptions(geoResult.data.options);
+        setShowLocationModal(true);
+        setCheckingLocation(false);
+      }
+      
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al verificar la ubicación. Por favor, intenta nuevamente.");
+      setCheckingLocation(false);
+    }
+  };
+  
+  const saveUserData = async (formData: FormData, locationData: any) => {
+    setLoading(true);
+    setCheckingLocation(false);
+    
     const data = {
       birthDate: formData.get("birthDate"),
       birthCity: formData.get("birthCity"),
@@ -64,12 +118,13 @@ function CompletarDatosForm() {
       gender: formData.get("gender"),
       residenceCity: formData.get("residenceCity"),
       residenceCountry: formData.get("residenceCountry"),
+      // Agregar coordenadas y timezone
+      birthLat: locationData.lat,
+      birthLon: locationData.lon,
+      birthTimezone: locationData.timezone
     };
     
     try {
-      console.log("Enviando datos:", data);
-      
-      // Enviar datos a la API
       const response = await fetch("/api/user/update", {
         method: "POST",
         headers: {
@@ -84,8 +139,6 @@ function CompletarDatosForm() {
         throw new Error(result.error || "Error al guardar datos");
       }
       
-      console.log("Datos guardados correctamente");
-      
       // Verificar el estado de los datos
       const refreshResponse = await fetch("/api/auth/refresh-token");
       const refreshResult = await refreshResponse.json();
@@ -94,11 +147,10 @@ function CompletarDatosForm() {
         console.warn("No se pudo verificar el estado de los datos");
       }
       
-      // Actualizar la sesión para reflejar los cambios
+      // Actualizar la sesión
       await update();
-      console.log("Sesión actualizada");
       
-      // Redirigir al usuario
+      // Redirigir
       router.push(callbackUrl);
     } catch (error) {
       console.error("Error:", error);
@@ -108,147 +160,194 @@ function CompletarDatosForm() {
     }
   };
   
+  const handleLocationSelect = (location: any) => {
+    if (pendingFormData) {
+      saveUserData(pendingFormData, location);
+      setShowLocationModal(false);
+    }
+  };
+  
   if (loadingData) {
     return <div className="max-w-xl mx-auto mt-10 p-6 text-center">Cargando datos...</div>;
   }
   
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 border rounded-md shadow-md bg-white">
-      <h1 className="text-2xl font-bold mb-6">Completar Datos Personales</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-2">Fecha de nacimiento</label>
-          <input 
-            type="date" 
-            name="birthDate" 
-            className="w-full p-2 border rounded" 
-            required 
-            defaultValue={userData.birthDate}
-          />
-        </div>
-        
-        <div className="mt-4">
-          <div className="flex items-center mb-2">
+    <>
+      <div className="max-w-xl mx-auto mt-10 p-6 border rounded-md shadow-md bg-white">
+        <h1 className="text-2xl font-bold mb-6">Completar Datos Personales</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-2">Fecha de nacimiento</label>
             <input 
-              type="checkbox" 
-              id="knowsBirthTime" 
-              name="knowsBirthTime" 
-              className="mr-2"
-              onChange={(e) => setKnowsBirthTime(e.target.checked)}
-              checked={knowsBirthTime}
+              type="date" 
+              name="birthDate" 
+              className="w-full p-2 border rounded" 
+              required 
+              defaultValue={userData.birthDate}
             />
-            <label htmlFor="knowsBirthTime">Conozco mi hora exacta de nacimiento</label>
           </div>
           
-          {knowsBirthTime && (
-            <div className="flex gap-4">
-              <div className="w-1/2">
-                <label className="block mb-2">Hora</label>
-                <select 
-                  name="birthHour" 
-                  className="w-full p-2 border rounded" 
-                  required={knowsBirthTime}
-                  defaultValue={userData.birthHour || 0}
-                >
-                  {Array.from({ length: 24 }, (_, i) => (
-                    <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="w-1/2">
-                <label className="block mb-2">Minuto</label>
-                <select 
-                  name="birthMinute" 
-                  className="w-full p-2 border rounded" 
-                  required={knowsBirthTime}
-                  defaultValue={userData.birthMinute || 0}
-                >
-                  {Array.from({ length: 60 }, (_, i) => (
-                    <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
-                  ))}
-                </select>
-              </div>
+          <div className="mt-4">
+            <div className="flex items-center mb-2">
+              <input 
+                type="checkbox" 
+                id="knowsBirthTime" 
+                name="knowsBirthTime" 
+                className="mr-2"
+                onChange={(e) => setKnowsBirthTime(e.target.checked)}
+                checked={knowsBirthTime}
+              />
+              <label htmlFor="knowsBirthTime">Conozco mi hora exacta de nacimiento</label>
             </div>
-          )}
-        </div>
-        
-        <div>
-          <label className="block mb-2">Ciudad de nacimiento</label>
-          <input 
-            type="text" 
-            name="birthCity" 
-            className="w-full p-2 border rounded" 
-            required 
-            defaultValue={userData.birthCity || ""}
-          />
-        </div>
-        
-        <div>
-          <label className="block mb-2">País de nacimiento</label>
-          <input 
-            type="text" 
-            name="birthCountry" 
-            className="w-full p-2 border rounded" 
-            required 
-            defaultValue={userData.birthCountry || ""}
-          />
-        </div>
-        
-        <div>
-          <label className="block mb-2">Género</label>
-          <div className="flex gap-4">
-            <label className="flex items-center">
-              <input 
-                type="radio" 
-                name="gender" 
-                value="masculino" 
-                className="mr-2"
-                required
-                defaultChecked={userData.gender === "masculino"}
-              />
-              Masculino
-            </label>
-            <label className="flex items-center">
-              <input 
-                type="radio" 
-                name="gender" 
-                value="femenino" 
-                className="mr-2"
-                required
-                defaultChecked={userData.gender === "femenino"}
-              />
-              Femenino
-            </label>
+            
+            {knowsBirthTime && (
+              <div className="flex gap-4">
+                <div className="w-1/2">
+                  <label className="block mb-2">Hora</label>
+                  <select 
+                    name="birthHour" 
+                    className="w-full p-2 border rounded" 
+                    required={knowsBirthTime}
+                    defaultValue={userData.birthHour || 0}
+                  >
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-1/2">
+                  <label className="block mb-2">Minuto</label>
+                  <select 
+                    name="birthMinute" 
+                    className="w-full p-2 border rounded" 
+                    required={knowsBirthTime}
+                    defaultValue={userData.birthMinute || 0}
+                  >
+                    {Array.from({ length: 60 }, (_, i) => (
+                      <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-        
-        <div>
-          <label className="block mb-2">Ciudad de residencia</label>
-          <input 
-            type="text" 
-            name="residenceCity" 
-            className="w-full p-2 border rounded" 
-            required 
-            defaultValue={userData.residenceCity || ""}
-          />
-        </div>
-        
-        <div>
-          <label className="block mb-2">País de residencia</label>
-          <input 
-            type="text" 
-            name="residenceCountry" 
-            className="w-full p-2 border rounded" 
-            required 
-            defaultValue={userData.residenceCountry || ""}
-          />
-        </div>
-        
-        <Button type="submit" disabled={loading} className="w-full mt-4">
-          {loading ? "Guardando..." : "Guardar y continuar"}
-        </Button>
-      </form>
-    </div>
+          
+          <div>
+            <label className="block mb-2">Ciudad de nacimiento</label>
+            <input 
+              type="text" 
+              name="birthCity" 
+              className="w-full p-2 border rounded" 
+              required 
+              defaultValue={userData.birthCity || ""}
+            />
+          </div>
+          
+          <div>
+            <label className="block mb-2">País de nacimiento</label>
+            <input 
+              type="text" 
+              name="birthCountry" 
+              className="w-full p-2 border rounded" 
+              required 
+              defaultValue={userData.birthCountry || ""}
+            />
+          </div>
+          
+          <div>
+            <label className="block mb-2">Género</label>
+            <div className="flex gap-4">
+              <label className="flex items-center">
+                <input 
+                  type="radio" 
+                  name="gender" 
+                  value="masculino" 
+                  className="mr-2"
+                  required
+                  defaultChecked={userData.gender === "masculino"}
+                />
+                Masculino
+              </label>
+              <label className="flex items-center">
+                <input 
+                  type="radio" 
+                  name="gender" 
+                  value="femenino" 
+                  className="mr-2"
+                  required
+                  defaultChecked={userData.gender === "femenino"}
+                />
+                Femenino
+              </label>
+            </div>
+          </div>
+          
+          <div>
+            <label className="block mb-2">Ciudad de residencia</label>
+            <input 
+              type="text" 
+              name="residenceCity" 
+              className="w-full p-2 border rounded" 
+              required 
+              defaultValue={userData.residenceCity || ""}
+            />
+          </div>
+          
+          <div>
+            <label className="block mb-2">País de residencia</label>
+            <input 
+              type="text" 
+              name="residenceCountry" 
+              className="w-full p-2 border rounded" 
+              required 
+              defaultValue={userData.residenceCountry || ""}
+            />
+          </div>
+          
+          <Button type="submit" disabled={loading || checkingLocation} className="w-full mt-4">
+            {checkingLocation ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Verificando ubicación...
+              </>
+            ) : loading ? (
+              "Guardando..."
+            ) : (
+              "Guardar y continuar"
+            )}
+          </Button>
+        </form>
+      </div>
+
+      {/* Modal de selección de ubicación */}
+      <Dialog open={showLocationModal} onOpenChange={setShowLocationModal}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Selecciona tu ubicación exacta</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 mt-4">
+            <p className="text-sm text-muted-foreground">
+              Encontramos múltiples ubicaciones. Por favor selecciona la correcta:
+            </p>
+            {locationOptions.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleLocationSelect(option)}
+                className="w-full p-4 text-left border rounded-lg hover:bg-accent hover:border-primary transition-colors"
+              >
+                <div className="font-medium">{option.address}</div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  Coordenadas: {option.lat.toFixed(4)}, {option.lon.toFixed(4)}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Zona horaria: {option.timezone}
+                </div>
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
