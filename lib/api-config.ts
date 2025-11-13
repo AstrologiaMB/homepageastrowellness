@@ -36,11 +36,11 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
     CARTA_ELECTIVA: 'http://localhost:8005'
   },
   production: {
-    CALCULOS: process.env.CALCULOS_API_URL || '',
-    INTERPRETACIONES: process.env.INTERPRETACIONES_API_URL || '',
-    CALENDARIO: process.env.CALENDARIO_API_URL || '',
-    ASTROGEMATRIA: process.env.ASTROGEMATRIA_API_URL || '',
-    CARTA_ELECTIVA: process.env.CARTA_ELECTIVA_API_URL || ''
+    CALCULOS: process.env.NEXT_PUBLIC_CALCULOS_API_URL || '',
+    INTERPRETACIONES: process.env.NEXT_PUBLIC_INTERPRETACIONES_API_URL || '',
+    CALENDARIO: process.env.NEXT_PUBLIC_CALENDARIO_API_URL || '',
+    ASTROGEMATRIA: process.env.NEXT_PUBLIC_ASTROGEMATRIA_API_URL || '',
+    CARTA_ELECTIVA: process.env.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL || ''
   }
 };
 
