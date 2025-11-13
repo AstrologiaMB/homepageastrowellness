@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 2.0
-**Fecha:** 12 de Noviembre 2025
+**Versión:** 2.1
+**Fecha:** 13 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -139,6 +139,27 @@ CARTA_ELECTIVA_API_URL=http://localhost:8005
 📍 **Ubicación:** `app/api/geocode/route.ts`  
 📍 **Testing:** Verificar API key de geocodificación y límites de uso  
 📍 **Fallback:** Verificar si hay datos de coordenadas manuales disponibles
+
+### **"Timeout de geocodificación (ReadTimeoutError) al completar datos de usuario"** ⭐ **NUEVO**
+📍 **Ubicación:** `../calculo-carta-natal-api/main.py`  
+📍 **Funciones:** `get_coordinates()` (línea ~107), `get_coordinates_with_options()` (línea ~135)  
+📍 **Síntoma:** `ReadTimeoutError: Read timed out. (read timeout=1)` al buscar ubicaciones  
+📍 **Causa:** Timeout de 1 segundo demasiado bajo para API externa de Nominatim (OpenStreetMap)  
+📍 **Solución:** Aumentado a 10 segundos en ambas funciones
+📍 **Fix:**
+```python
+# Antes (timeout implícito de geopy: 1 segundo)
+location = geolocator.geocode(f"{city}, {country}", exactly_one=True)
+
+# Después (timeout explícito: 10 segundos)
+location = geolocator.geocode(f"{city}, {country}", exactly_one=True, timeout=10)
+```
+📍 **Testing:** Probar con ubicaciones lentas como "Londres, Argentina"  
+📍 **Commit:** `74d12a3` (13/11/2025)  
+📍 **Deploy:** Pusheado a GitHub, Railway hace deploy automático  
+📍 **Endpoint afectado:** `/geocode/search` en backend
+📍 **Frontend:** `app/completar-datos/page.tsx` usa este endpoint
+📍 **Resultado:** Usuarios pueden completar datos sin errores de timeout
 
 ### **"Emails no se envían o fallan"**
 📍 **Configuración Dual:** AWS SES (desarrollo local) + Resend (Railway producción)
@@ -520,7 +541,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 12 de Noviembre 2025 (v2.0 - Admin User Management - Delete Users Feature)
+**🔄 Última actualización:** 13 de Noviembre 2025 (v2.1 - Fix Timeout Nominatim Geocoding)
 **📚 Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **👨‍💻 Mantenido por:** Equipo Astrowellness
 
