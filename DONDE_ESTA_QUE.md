@@ -1,6 +1,6 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 2.1
+**Versión:** 3.0
 **Fecha:** 13 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
@@ -18,18 +18,21 @@
 
 ### Variables de Entorno Requeridas
 ```bash
-# Archivo: .env
+# Archivo: .env.local (desarrollo)
 OPENAI_API_KEY=sk-...
 DATABASE_URL=postgresql://...
 NEXTAUTH_SECRET=...
 NEXTAUTH_URL=http://localhost:3000
 
-# URLs de Microservicios (opcional en desarrollo, requeridas en Railway)
-CALCULOS_API_URL=http://localhost:8001
-INTERPRETACIONES_API_URL=http://localhost:8002
-ASTROGEMATRIA_API_URL=http://localhost:8003
-CALENDARIO_PERSONAL_API_URL=http://localhost:8004
-CARTA_ELECTIVA_API_URL=http://localhost:8005
+# URLs de Microservicios (Railway - Producción)
+# IMPORTANTE: Requieren prefix NEXT_PUBLIC_ para acceso desde browser
+NEXT_PUBLIC_CALCULOS_API_URL=https://calculo-carta-natal-api-production.up.railway.app
+NEXT_PUBLIC_INTERPRETACIONES_API_URL=https://astro-interpretador-rag-fastapi-production.up.railway.app
+NEXT_PUBLIC_CALENDARIO_API_URL=https://astro-calendar-personal-fastapi-production.up.railway.app
+NEXT_PUBLIC_ASTROGEMATRIA_API_URL=https://astrogematriafastapi-production.up.railway.app
+NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.railway.app
+
+# Nota: Desarrollo usa localhost hardcoded en lib/api-config.ts (no requiere configuración)
 ```
 
 ### Inicio del Sistema
@@ -255,6 +258,27 @@ CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.railway.app
 - **Producción:** Lee variables de entorno configuradas en Railway
 - **Función:** `getApiUrl('SERVICIO_NAME')` centraliza toda la lógica
 
+### **"Variables de entorno no funcionan en producción (Railway) - getApiUrl() retorna undefined"** ⭐ **NUEVO**
+📍 **Ubicación:** `lib/api-config.ts`
+📍 **Síntoma:** `getApiUrl() returns empty string` o `undefined` en browser, completar datos falla con error de network
+📍 **Causa:** Next.js requiere prefix `NEXT_PUBLIC_` para variables accesibles desde el browser (client components)
+📍 **Solución Implementada:**
+- Cambiado de `process.env.CALCULOS_API_URL`
+- A `process.env.NEXT_PUBLIC_CALCULOS_API_URL`
+📍 **Variables requeridas en Railway (con prefix NEXT_PUBLIC_):**
+```env
+NEXT_PUBLIC_CALCULOS_API_URL=https://calculo-carta-natal-api-production.up.railway.app
+NEXT_PUBLIC_INTERPRETACIONES_API_URL=https://astro-interpretador-rag_fastapi-production.up.railway.app
+NEXT_PUBLIC_CALENDARIO_API_URL=https://astro-calendar-personal-fastapi-production.up.railway.app
+NEXT_PUBLIC_ASTROGEMATRIA_API_URL=https://astrogematriafastapi-production.up.railway.app
+NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.railway.app
+```
+📍 **Local:** No requiere cambios (usa localhost hardcoded automáticamente)
+📍 **Testing:** Verificar en browser console que `getApiUrl('CALCULOS')` retorna URL válida
+📍 **Commit:** `44ad61c` (13/11/2025)
+📍 **Contexto:** Este fix fue necesario porque `app/completar-datos/page.tsx` es un client component que usa `getApiUrl()` para conectar con el backend de geocodificación
+📍 **Resultado:** Usuarios pueden completar datos de nacimiento sin errores de conexión
+
 ---
 
 ## 📍 MAPA FUNCIONAL (RESUMIDO)
@@ -323,30 +347,12 @@ interpretador_refactored.py           # ⭐ Motor RAG principal
 ├── _get_draconico_suffix()           # Género gramatical
 ├── _generar_consulta_estandarizada() # Consultas para matching
 ├── _flexible_title_match()           # Matching de títulos
-├── _generar_interpretaciones_concurrentes() # ⭐ Fase 1: Consultas RAG paralelas
-├── _generar_interpretacion_narrativa()      # ⭐ Fase 2: Re-escritura GPT-4
+├── _generar_interpretaciones_concurrentes() # Consultas RAG paralelas
+├── _generar_interpretacion_narrativa()      # Re-escritura GPT-4
 └── _create_interpretation_item()     # Títulos para UI
 ```
 
-#### **🔄 Proceso de Generación de Análisis Detallado (2 Fases)**
-
-**Fase 1: Interpretaciones Individuales (RAG Concurrente)**
-- Genera consultas como "sol dracónico en libra"
-- Busca en archivos .md usando similitud semántica
-- Retorna interpretaciones específicas por planeta/aspecto
-
-**Fase 2: Re-escritura Narrativa Final (GPT-4) ⭐**
-- Combina TODAS las interpretaciones individuales
-- GPT-4 crea un texto narrativo unificado y fluido
-- **Prompt especializado**: `_get_draconian_narrative_prompt()` en `interpretador_refactored.py`
-- **Características clave**: Enfoque espiritual/kármico, estructura jerárquica, idioma español
-
-**📍 Ubicación de prompts:**
-- **Dracónico**: `../astro_interpretador_rag_fastapi/interpretador_refactored.py::_get_draconian_narrative_prompt()`
-- **Tropical**: `../astro_interpretador_rag_fastapi/interpretador_refactored.py::_get_tropical_narrative_prompt()`
-```
-
-### **📅 Calendario (astro-calendar-personal-fastapi) - Puerto 8003**
+### ** Calendario (astro-calendar-personal-fastapi) - Puerto 8003**
 ```
 src/calculators/
 ├── astronomical_transits_calculator_v4.py  # Tránsitos principales
@@ -394,57 +400,6 @@ utils/
 - **Fase 2:** Análisis detallado con SCC (categorización automática)
 - **Optimización:** 22x más rápido que sistema original
 - **Timeout:** 5 minutos máximo por búsqueda
-
----
-
-## 🆚 COMPARACIÓN CON LEVELSIO
-
-### **Filosofía Levelsio vs Nuestro Stack**
-| Aspecto | Levelsio | Nuestro Stack |
-|---------|----------|---------------|
-| **Stack** | PHP vanilla + JS vanilla | Next.js + FastAPI + Microservicios |
-| **Arquitectura** | Monolítico | Microservicios escalables |
-| **Dependencias** | ~5 librerías | 40+ librerías especializadas |
-| **Mantenimiento** | "Nunca tocar" | Actualizaciones regulares |
-| **Velocidad desarrollo** | Iteración instantánea | Setup complejo pero potente |
-| **Escalabilidad** | Limitada | Alta (horizontal) |
-| **Calidad** | Funcional pero básica | Profesional con UX avanzada |
-
-### **¿Por qué NO Levelsio para Astrología?**
-1. **Cálculos científicos complejos** ≠ producto simple de nicho
-2. **UX importa** en wellness/astrología (usuarios pagan por experiencia)
-3. **Necesitamos escalabilidad** (no es un hobby project)
-4. **Equipo técnico** requiere herramientas profesionales
-
-### **Mejor Enfoque: Simplificación Selectiva**
-- ✅ **Mantener** arquitectura moderna donde aporta valor
-- ✅ **Simplificar** dependencias innecesarias (40+ → 15-20)
-- ✅ **Optimizar** performance sin sacrificar calidad
-- ✅ **Aplicar** principios levelsio donde sea posible
-
----
-
-## 🔧 SIMPLIFICACIONES IMPLEMENTADAS
-
-### **1. Sistema de Progreso Real**
-- **Antes:** 80+ líneas de simulación falsa
-- **Ahora:** 30 líneas de polling real
-- **Beneficio:** Usuario sabe exactamente qué pasa
-
-### **2. Simplificación de UI Components**
-- **Antes:** 40+ dependencias shadcn/radix
-- **Ahora:** Componentes core + HTML/Tailwind puro
-- **Beneficio:** Bundle 70% más pequeño, mejor performance
-
-### **3. Arquitectura Optimizada**
-- **Microservicios:** Separados por responsabilidad
-- **APIs REST:** Bien definidas y documentadas
-- **Background tasks:** Procesamiento asíncrono eficiente
-
-### **4. Optimizaciones de Performance**
-- **Numba:** Aceleración de cálculos científicos
-- **Multiprocessing:** Algoritmos paralelizados
-- **SCC System:** Categorización automática inteligente
 
 ---
 
@@ -541,7 +496,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 13 de Noviembre 2025 (v2.1 - Fix Timeout Nominatim Geocoding)
+**🔄 Última actualización:** 13 de Noviembre 2025 (v3.0 - Optimización: Contenido Práctico)
 **📚 Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **👨‍💻 Mantenido por:** Equipo Astrowellness
 
