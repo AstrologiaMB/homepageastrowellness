@@ -127,6 +127,77 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 - Sistema recalcula automáticamente para 2026
 - Si la página está abierta a medianoche, hacer refresh o re-login
 
+### **"Sistema de Cache del Calendario Personal"** ⭐ **IMPLEMENTADO - 21/11/2025**
+📍 **Estado:** ✅ **FUNCIONANDO** - Performance mejorada 1,500x (12s → 8ms)
+📍 **Ubicaciones principales:**
+- `prisma/schema.prisma`: Modelo PersonalCalendarCache con cascade delete
+- `lib/calendar-cache.ts`: Funciones de cache server-side (getCalendarCache, setCalendarCache)
+- `app/api/calendario-personal/route.ts`: API Route con integración de cache
+- `lib/personal-calendar-api.ts`: Cliente API para frontend
+- `components/calendario-personal.tsx`: UI con badges visuales de cache
+📍 **Implementación actual (Opción 1):**
+- Query a Prisma para obtener `userId` desde email (~2ms overhead)
+- Cache en PostgreSQL con TTL dinámico por año
+- Scalable para miles de usuarios
+- No requiere reiniciar sesión
+📍 **Performance lograda:**
+```
+Antes:  ~12,000ms (12 segundos) cada carga
+Ahora:  Primera carga: ~12s (🔄 CALCULADO) → Segunda carga: 8ms (⚡ CACHE)
+Mejora: 1,500x más rápido en cargas subsecuentes
+```
+📍 **TTL Dinámico por año:**
+- Año actual (2025): 24 horas (datos cambian frecuentemente)
+- Año futuro (2026+): Hasta fin de año (máx 1 año)
+- Año pasado (2024-): 30 días (datos inmutables)
+📍 **Badges visuales en UI:**
+- ⚡ CACHE (badge verde): Eventos cargados desde cache
+- 🔄 CALCULADO (badge azul): Eventos recién calculados del microservicio
+📍 **Botón Refresh:** Fuerza recálculo bypass del cache (para actualizar datos)
+📍 **Logs del servidor:**
+```
+📅 Solicitud de calendario personal: usuario [id], año 2025
+⚡ Cache miss: usuario [id], año 2025
+🔄 Calculando eventos (cache miss)
+✅ Cache guardado: usuario [id], año 2025, TTL 24h
+```
+📍 **Seguridad:**
+- Cache por usuario (no compartido entre usuarios)
+- Autenticación verificada en API Route
+- Prisma solo en servidor (no en cliente)
+- Cascade delete: cache se elimina al eliminar usuario
+📍 **Testing:**
+1. Abrir `/calendario/personal`
+2. Primera carga: Ver badge "🔄 CALCULADO en ~12s"
+3. Refrescar página (F5): Ver badge "⚡ CACHE" (carga en 8ms)
+4. Click en botón Refresh: Ver badge "🔄 CALCULADO" de nuevo
+📍 **Commits:**
+- Sistema base: `db4c443` (13/11/2025)
+- Fix userId: `8a7a772` (21/11/2025)
+📍 **🔮 Mejora futura recomendada (Opción 2):**
+- Cuando haya tiempo, migrar a callbacks de NextAuth para incluir `id` en sesión JWT
+- Esto eliminaría la query extra (~2ms) para obtener userId
+- Configuración en `app/api/auth/[...nextauth]/route.ts`:
+```typescript
+callbacks: {
+  async session({ session, token }) {
+    if (token.sub) {
+      session.user.id = token.sub;
+    }
+    return session;
+  },
+  async jwt({ token, user }) {
+    if (user) {
+      token.sub = user.id;
+    }
+    return token;
+  }
+}
+```
+- Nota: Requerirá que usuarios reinicien sesión para actualizar JWT
+- Beneficio: Zero queries para obtener userId (más eficiente a gran escala)
+- Cuándo migrar: Cuando escales a decenas/cientos de miles de usuarios
+
 ### **"Problemas de autenticación o login"**
 📍 **Ubicación:** `app/auth/login/page.tsx`  
 📍 **API:** `app/api/auth/[...nextauth]/route.ts`  
