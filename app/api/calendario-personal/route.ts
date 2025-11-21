@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getCalendarCache, setCalendarCache } from '@/lib/calendar-cache';
+import prisma from '@/lib/prisma';
 
 const MICROSERVICE_URL = 'http://localhost:8004';
 const TIMEOUT_MS = 30000; // 30 segundos
@@ -57,7 +58,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const userId = (session.user as any).id;
+    // Obtener userId desde la base de datos usando el email
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email! },
+      select: { id: true }
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Usuario no encontrado' },
+        { status: 404 }
+      );
+    }
+
+    const userId = user.id;
     const year = natalData.year;
 
     console.log(`📅 Solicitud de calendario personal: usuario ${userId}, año ${year}, forceRecalculate: ${forceRecalculate}`);
