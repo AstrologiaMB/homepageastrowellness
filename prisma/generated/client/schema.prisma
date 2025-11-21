@@ -10,36 +10,37 @@ datasource db {
 }
 
 model User {
-  id                               String                @id @default(cuid())
-  email                            String                @unique
+  id                               String                  @id @default(cuid())
+  email                            String                  @unique
   name                             String?
   image                            String?
   password                         String?
   emailVerified                    DateTime?
   resetToken                       String?
   resetTokenExpiry                 DateTime?
-  createdAt                        DateTime              @default(now())
-  updatedAt                        DateTime              @updatedAt
+  createdAt                        DateTime                @default(now())
+  updatedAt                        DateTime                @updatedAt
   birthDate                        DateTime?
   birthCity                        String?
   birthCountry                     String?
   birthHour                        Int?
   birthMinute                      Int?
-  knowsBirthTime                   Boolean               @default(true)
+  knowsBirthTime                   Boolean                 @default(true)
   gender                           String? // "masculino" o "femenino"
   residenceCity                    String?
   residenceCountry                 String?
   timezone                         String?
-  rectificationRequested           Boolean               @default(false)
-  rectificationAcceptedUncertainty Boolean               @default(false)
+  rectificationRequested           Boolean                 @default(false)
+  rectificationAcceptedUncertainty Boolean                 @default(false)
   rectificationStatus              String?
   rectificationRequestDate         DateTime?
   rectificationEvents              RectificationEvent[]
   cartasNatales                    CartaNatal[]
   interpretaciones                 InterpretacionCache[]
   horariaRequests                  HorariaRequest[]
+  personalCalendarCache            PersonalCalendarCache[]
   // Subscription fields for manual control
-  subscriptionStatus               String                @default("free") // "free" | "premium"
+  subscriptionStatus               String                  @default("free") // "free" | "premium"
   subscriptionExpiresAt            DateTime?
 }
 
@@ -118,4 +119,19 @@ model HorariaRequest {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
   user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PersonalCalendarCache {
+  id           String   @id @default(cuid())
+  userId       String
+  year         Int
+  events       String // JSON string with calculated events
+  calculatedAt DateTime
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year])
+  @@index([expiresAt])
 }

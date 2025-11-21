@@ -43,6 +43,11 @@ export type AstrogematriaCache = $Result.DefaultSelection<Prisma.$AstrogematriaC
  * 
  */
 export type HorariaRequest = $Result.DefaultSelection<Prisma.$HorariaRequestPayload>
+/**
+ * Model PersonalCalendarCache
+ * 
+ */
+export type PersonalCalendarCache = $Result.DefaultSelection<Prisma.$PersonalCalendarCachePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -228,6 +233,16 @@ export class PrismaClient<
     * ```
     */
   get horariaRequest(): Prisma.HorariaRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.personalCalendarCache`: Exposes CRUD operations for the **PersonalCalendarCache** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PersonalCalendarCaches
+    * const personalCalendarCaches = await prisma.personalCalendarCache.findMany()
+    * ```
+    */
+  get personalCalendarCache(): Prisma.PersonalCalendarCacheDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -673,7 +688,8 @@ export namespace Prisma {
     CartaNatal: 'CartaNatal',
     InterpretacionCache: 'InterpretacionCache',
     AstrogematriaCache: 'AstrogematriaCache',
-    HorariaRequest: 'HorariaRequest'
+    HorariaRequest: 'HorariaRequest',
+    PersonalCalendarCache: 'PersonalCalendarCache'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -692,7 +708,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache" | "horariaRequest"
+      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache" | "horariaRequest" | "personalCalendarCache"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1140,6 +1156,80 @@ export namespace Prisma {
           }
         }
       }
+      PersonalCalendarCache: {
+        payload: Prisma.$PersonalCalendarCachePayload<ExtArgs>
+        fields: Prisma.PersonalCalendarCacheFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PersonalCalendarCacheFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonalCalendarCacheFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          findFirst: {
+            args: Prisma.PersonalCalendarCacheFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonalCalendarCacheFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          findMany: {
+            args: Prisma.PersonalCalendarCacheFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>[]
+          }
+          create: {
+            args: Prisma.PersonalCalendarCacheCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          createMany: {
+            args: Prisma.PersonalCalendarCacheCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PersonalCalendarCacheCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>[]
+          }
+          delete: {
+            args: Prisma.PersonalCalendarCacheDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          update: {
+            args: Prisma.PersonalCalendarCacheUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonalCalendarCacheDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonalCalendarCacheUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PersonalCalendarCacheUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>[]
+          }
+          upsert: {
+            args: Prisma.PersonalCalendarCacheUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalCalendarCachePayload>
+          }
+          aggregate: {
+            args: Prisma.PersonalCalendarCacheAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePersonalCalendarCache>
+          }
+          groupBy: {
+            args: Prisma.PersonalCalendarCacheGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PersonalCalendarCacheGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonalCalendarCacheCountArgs<ExtArgs>
+            result: $Utils.Optional<PersonalCalendarCacheCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1230,6 +1320,7 @@ export namespace Prisma {
     interpretacionCache?: InterpretacionCacheOmit
     astrogematriaCache?: AstrogematriaCacheOmit
     horariaRequest?: HorariaRequestOmit
+    personalCalendarCache?: PersonalCalendarCacheOmit
   }
 
   /* Types for Logging */
@@ -1328,6 +1419,7 @@ export namespace Prisma {
     cartasNatales: number
     interpretaciones: number
     horariaRequests: number
+    personalCalendarCache: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1335,6 +1427,7 @@ export namespace Prisma {
     cartasNatales?: boolean | UserCountOutputTypeCountCartasNatalesArgs
     interpretaciones?: boolean | UserCountOutputTypeCountInterpretacionesArgs
     horariaRequests?: boolean | UserCountOutputTypeCountHorariaRequestsArgs
+    personalCalendarCache?: boolean | UserCountOutputTypeCountPersonalCalendarCacheArgs
   }
 
   // Custom InputTypes
@@ -1374,6 +1467,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountHorariaRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HorariaRequestWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPersonalCalendarCacheArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalCalendarCacheWhereInput
   }
 
 
@@ -1755,6 +1855,7 @@ export namespace Prisma {
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
+    personalCalendarCache?: boolean | User$personalCalendarCacheArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1851,6 +1952,7 @@ export namespace Prisma {
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
+    personalCalendarCache?: boolean | User$personalCalendarCacheArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1863,6 +1965,7 @@ export namespace Prisma {
       cartasNatales: Prisma.$CartaNatalPayload<ExtArgs>[]
       interpretaciones: Prisma.$InterpretacionCachePayload<ExtArgs>[]
       horariaRequests: Prisma.$HorariaRequestPayload<ExtArgs>[]
+      personalCalendarCache: Prisma.$PersonalCalendarCachePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2289,6 +2392,7 @@ export namespace Prisma {
     cartasNatales<T extends User$cartasNatalesArgs<ExtArgs> = {}>(args?: Subset<T, User$cartasNatalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartaNatalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     interpretaciones<T extends User$interpretacionesArgs<ExtArgs> = {}>(args?: Subset<T, User$interpretacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     horariaRequests<T extends User$horariaRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$horariaRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    personalCalendarCache<T extends User$personalCalendarCacheArgs<ExtArgs> = {}>(args?: Subset<T, User$personalCalendarCacheArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2825,6 +2929,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HorariaRequestScalarFieldEnum | HorariaRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.personalCalendarCache
+   */
+  export type User$personalCalendarCacheArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    where?: PersonalCalendarCacheWhereInput
+    orderBy?: PersonalCalendarCacheOrderByWithRelationInput | PersonalCalendarCacheOrderByWithRelationInput[]
+    cursor?: PersonalCalendarCacheWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalCalendarCacheScalarFieldEnum | PersonalCalendarCacheScalarFieldEnum[]
   }
 
   /**
@@ -8527,6 +8655,1137 @@ export namespace Prisma {
 
 
   /**
+   * Model PersonalCalendarCache
+   */
+
+  export type AggregatePersonalCalendarCache = {
+    _count: PersonalCalendarCacheCountAggregateOutputType | null
+    _avg: PersonalCalendarCacheAvgAggregateOutputType | null
+    _sum: PersonalCalendarCacheSumAggregateOutputType | null
+    _min: PersonalCalendarCacheMinAggregateOutputType | null
+    _max: PersonalCalendarCacheMaxAggregateOutputType | null
+  }
+
+  export type PersonalCalendarCacheAvgAggregateOutputType = {
+    year: number | null
+  }
+
+  export type PersonalCalendarCacheSumAggregateOutputType = {
+    year: number | null
+  }
+
+  export type PersonalCalendarCacheMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    year: number | null
+    events: string | null
+    calculatedAt: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalCalendarCacheMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    year: number | null
+    events: string | null
+    calculatedAt: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalCalendarCacheCountAggregateOutputType = {
+    id: number
+    userId: number
+    year: number
+    events: number
+    calculatedAt: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PersonalCalendarCacheAvgAggregateInputType = {
+    year?: true
+  }
+
+  export type PersonalCalendarCacheSumAggregateInputType = {
+    year?: true
+  }
+
+  export type PersonalCalendarCacheMinAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    calculatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalCalendarCacheMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    calculatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalCalendarCacheCountAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    calculatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PersonalCalendarCacheAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalCalendarCache to aggregate.
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalCalendarCaches to fetch.
+     */
+    orderBy?: PersonalCalendarCacheOrderByWithRelationInput | PersonalCalendarCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PersonalCalendarCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalCalendarCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalCalendarCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PersonalCalendarCaches
+    **/
+    _count?: true | PersonalCalendarCacheCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PersonalCalendarCacheAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PersonalCalendarCacheSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonalCalendarCacheMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonalCalendarCacheMaxAggregateInputType
+  }
+
+  export type GetPersonalCalendarCacheAggregateType<T extends PersonalCalendarCacheAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersonalCalendarCache]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersonalCalendarCache[P]>
+      : GetScalarType<T[P], AggregatePersonalCalendarCache[P]>
+  }
+
+
+
+
+  export type PersonalCalendarCacheGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalCalendarCacheWhereInput
+    orderBy?: PersonalCalendarCacheOrderByWithAggregationInput | PersonalCalendarCacheOrderByWithAggregationInput[]
+    by: PersonalCalendarCacheScalarFieldEnum[] | PersonalCalendarCacheScalarFieldEnum
+    having?: PersonalCalendarCacheScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonalCalendarCacheCountAggregateInputType | true
+    _avg?: PersonalCalendarCacheAvgAggregateInputType
+    _sum?: PersonalCalendarCacheSumAggregateInputType
+    _min?: PersonalCalendarCacheMinAggregateInputType
+    _max?: PersonalCalendarCacheMaxAggregateInputType
+  }
+
+  export type PersonalCalendarCacheGroupByOutputType = {
+    id: string
+    userId: string
+    year: number
+    events: string
+    calculatedAt: Date
+    expiresAt: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: PersonalCalendarCacheCountAggregateOutputType | null
+    _avg: PersonalCalendarCacheAvgAggregateOutputType | null
+    _sum: PersonalCalendarCacheSumAggregateOutputType | null
+    _min: PersonalCalendarCacheMinAggregateOutputType | null
+    _max: PersonalCalendarCacheMaxAggregateOutputType | null
+  }
+
+  type GetPersonalCalendarCacheGroupByPayload<T extends PersonalCalendarCacheGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PersonalCalendarCacheGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonalCalendarCacheGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonalCalendarCacheGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonalCalendarCacheGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonalCalendarCacheSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    calculatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalCalendarCache"]>
+
+  export type PersonalCalendarCacheSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    calculatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalCalendarCache"]>
+
+  export type PersonalCalendarCacheSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    calculatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalCalendarCache"]>
+
+  export type PersonalCalendarCacheSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    calculatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PersonalCalendarCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "year" | "events" | "calculatedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["personalCalendarCache"]>
+  export type PersonalCalendarCacheInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PersonalCalendarCacheIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PersonalCalendarCacheIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PersonalCalendarCachePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PersonalCalendarCache"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      year: number
+      events: string
+      calculatedAt: Date
+      expiresAt: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["personalCalendarCache"]>
+    composites: {}
+  }
+
+  type PersonalCalendarCacheGetPayload<S extends boolean | null | undefined | PersonalCalendarCacheDefaultArgs> = $Result.GetResult<Prisma.$PersonalCalendarCachePayload, S>
+
+  type PersonalCalendarCacheCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PersonalCalendarCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PersonalCalendarCacheCountAggregateInputType | true
+    }
+
+  export interface PersonalCalendarCacheDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PersonalCalendarCache'], meta: { name: 'PersonalCalendarCache' } }
+    /**
+     * Find zero or one PersonalCalendarCache that matches the filter.
+     * @param {PersonalCalendarCacheFindUniqueArgs} args - Arguments to find a PersonalCalendarCache
+     * @example
+     * // Get one PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PersonalCalendarCacheFindUniqueArgs>(args: SelectSubset<T, PersonalCalendarCacheFindUniqueArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PersonalCalendarCache that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PersonalCalendarCacheFindUniqueOrThrowArgs} args - Arguments to find a PersonalCalendarCache
+     * @example
+     * // Get one PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PersonalCalendarCacheFindUniqueOrThrowArgs>(args: SelectSubset<T, PersonalCalendarCacheFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalCalendarCache that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheFindFirstArgs} args - Arguments to find a PersonalCalendarCache
+     * @example
+     * // Get one PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PersonalCalendarCacheFindFirstArgs>(args?: SelectSubset<T, PersonalCalendarCacheFindFirstArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalCalendarCache that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheFindFirstOrThrowArgs} args - Arguments to find a PersonalCalendarCache
+     * @example
+     * // Get one PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PersonalCalendarCacheFindFirstOrThrowArgs>(args?: SelectSubset<T, PersonalCalendarCacheFindFirstOrThrowArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PersonalCalendarCaches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PersonalCalendarCaches
+     * const personalCalendarCaches = await prisma.personalCalendarCache.findMany()
+     * 
+     * // Get first 10 PersonalCalendarCaches
+     * const personalCalendarCaches = await prisma.personalCalendarCache.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const personalCalendarCacheWithIdOnly = await prisma.personalCalendarCache.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PersonalCalendarCacheFindManyArgs>(args?: SelectSubset<T, PersonalCalendarCacheFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PersonalCalendarCache.
+     * @param {PersonalCalendarCacheCreateArgs} args - Arguments to create a PersonalCalendarCache.
+     * @example
+     * // Create one PersonalCalendarCache
+     * const PersonalCalendarCache = await prisma.personalCalendarCache.create({
+     *   data: {
+     *     // ... data to create a PersonalCalendarCache
+     *   }
+     * })
+     * 
+     */
+    create<T extends PersonalCalendarCacheCreateArgs>(args: SelectSubset<T, PersonalCalendarCacheCreateArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PersonalCalendarCaches.
+     * @param {PersonalCalendarCacheCreateManyArgs} args - Arguments to create many PersonalCalendarCaches.
+     * @example
+     * // Create many PersonalCalendarCaches
+     * const personalCalendarCache = await prisma.personalCalendarCache.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PersonalCalendarCacheCreateManyArgs>(args?: SelectSubset<T, PersonalCalendarCacheCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PersonalCalendarCaches and returns the data saved in the database.
+     * @param {PersonalCalendarCacheCreateManyAndReturnArgs} args - Arguments to create many PersonalCalendarCaches.
+     * @example
+     * // Create many PersonalCalendarCaches
+     * const personalCalendarCache = await prisma.personalCalendarCache.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PersonalCalendarCaches and only return the `id`
+     * const personalCalendarCacheWithIdOnly = await prisma.personalCalendarCache.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PersonalCalendarCacheCreateManyAndReturnArgs>(args?: SelectSubset<T, PersonalCalendarCacheCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PersonalCalendarCache.
+     * @param {PersonalCalendarCacheDeleteArgs} args - Arguments to delete one PersonalCalendarCache.
+     * @example
+     * // Delete one PersonalCalendarCache
+     * const PersonalCalendarCache = await prisma.personalCalendarCache.delete({
+     *   where: {
+     *     // ... filter to delete one PersonalCalendarCache
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PersonalCalendarCacheDeleteArgs>(args: SelectSubset<T, PersonalCalendarCacheDeleteArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PersonalCalendarCache.
+     * @param {PersonalCalendarCacheUpdateArgs} args - Arguments to update one PersonalCalendarCache.
+     * @example
+     * // Update one PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PersonalCalendarCacheUpdateArgs>(args: SelectSubset<T, PersonalCalendarCacheUpdateArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PersonalCalendarCaches.
+     * @param {PersonalCalendarCacheDeleteManyArgs} args - Arguments to filter PersonalCalendarCaches to delete.
+     * @example
+     * // Delete a few PersonalCalendarCaches
+     * const { count } = await prisma.personalCalendarCache.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PersonalCalendarCacheDeleteManyArgs>(args?: SelectSubset<T, PersonalCalendarCacheDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalCalendarCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PersonalCalendarCaches
+     * const personalCalendarCache = await prisma.personalCalendarCache.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PersonalCalendarCacheUpdateManyArgs>(args: SelectSubset<T, PersonalCalendarCacheUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalCalendarCaches and returns the data updated in the database.
+     * @param {PersonalCalendarCacheUpdateManyAndReturnArgs} args - Arguments to update many PersonalCalendarCaches.
+     * @example
+     * // Update many PersonalCalendarCaches
+     * const personalCalendarCache = await prisma.personalCalendarCache.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PersonalCalendarCaches and only return the `id`
+     * const personalCalendarCacheWithIdOnly = await prisma.personalCalendarCache.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PersonalCalendarCacheUpdateManyAndReturnArgs>(args: SelectSubset<T, PersonalCalendarCacheUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PersonalCalendarCache.
+     * @param {PersonalCalendarCacheUpsertArgs} args - Arguments to update or create a PersonalCalendarCache.
+     * @example
+     * // Update or create a PersonalCalendarCache
+     * const personalCalendarCache = await prisma.personalCalendarCache.upsert({
+     *   create: {
+     *     // ... data to create a PersonalCalendarCache
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PersonalCalendarCache we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PersonalCalendarCacheUpsertArgs>(args: SelectSubset<T, PersonalCalendarCacheUpsertArgs<ExtArgs>>): Prisma__PersonalCalendarCacheClient<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PersonalCalendarCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheCountArgs} args - Arguments to filter PersonalCalendarCaches to count.
+     * @example
+     * // Count the number of PersonalCalendarCaches
+     * const count = await prisma.personalCalendarCache.count({
+     *   where: {
+     *     // ... the filter for the PersonalCalendarCaches we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonalCalendarCacheCountArgs>(
+      args?: Subset<T, PersonalCalendarCacheCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonalCalendarCacheCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PersonalCalendarCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonalCalendarCacheAggregateArgs>(args: Subset<T, PersonalCalendarCacheAggregateArgs>): Prisma.PrismaPromise<GetPersonalCalendarCacheAggregateType<T>>
+
+    /**
+     * Group by PersonalCalendarCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCalendarCacheGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonalCalendarCacheGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonalCalendarCacheGroupByArgs['orderBy'] }
+        : { orderBy?: PersonalCalendarCacheGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonalCalendarCacheGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalCalendarCacheGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PersonalCalendarCache model
+   */
+  readonly fields: PersonalCalendarCacheFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PersonalCalendarCache.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PersonalCalendarCacheClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PersonalCalendarCache model
+   */
+  interface PersonalCalendarCacheFieldRefs {
+    readonly id: FieldRef<"PersonalCalendarCache", 'String'>
+    readonly userId: FieldRef<"PersonalCalendarCache", 'String'>
+    readonly year: FieldRef<"PersonalCalendarCache", 'Int'>
+    readonly events: FieldRef<"PersonalCalendarCache", 'String'>
+    readonly calculatedAt: FieldRef<"PersonalCalendarCache", 'DateTime'>
+    readonly expiresAt: FieldRef<"PersonalCalendarCache", 'DateTime'>
+    readonly createdAt: FieldRef<"PersonalCalendarCache", 'DateTime'>
+    readonly updatedAt: FieldRef<"PersonalCalendarCache", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PersonalCalendarCache findUnique
+   */
+  export type PersonalCalendarCacheFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalCalendarCache to fetch.
+     */
+    where: PersonalCalendarCacheWhereUniqueInput
+  }
+
+  /**
+   * PersonalCalendarCache findUniqueOrThrow
+   */
+  export type PersonalCalendarCacheFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalCalendarCache to fetch.
+     */
+    where: PersonalCalendarCacheWhereUniqueInput
+  }
+
+  /**
+   * PersonalCalendarCache findFirst
+   */
+  export type PersonalCalendarCacheFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalCalendarCache to fetch.
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalCalendarCaches to fetch.
+     */
+    orderBy?: PersonalCalendarCacheOrderByWithRelationInput | PersonalCalendarCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalCalendarCaches.
+     */
+    cursor?: PersonalCalendarCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalCalendarCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalCalendarCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalCalendarCaches.
+     */
+    distinct?: PersonalCalendarCacheScalarFieldEnum | PersonalCalendarCacheScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalCalendarCache findFirstOrThrow
+   */
+  export type PersonalCalendarCacheFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalCalendarCache to fetch.
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalCalendarCaches to fetch.
+     */
+    orderBy?: PersonalCalendarCacheOrderByWithRelationInput | PersonalCalendarCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalCalendarCaches.
+     */
+    cursor?: PersonalCalendarCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalCalendarCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalCalendarCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalCalendarCaches.
+     */
+    distinct?: PersonalCalendarCacheScalarFieldEnum | PersonalCalendarCacheScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalCalendarCache findMany
+   */
+  export type PersonalCalendarCacheFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalCalendarCaches to fetch.
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalCalendarCaches to fetch.
+     */
+    orderBy?: PersonalCalendarCacheOrderByWithRelationInput | PersonalCalendarCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PersonalCalendarCaches.
+     */
+    cursor?: PersonalCalendarCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalCalendarCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalCalendarCaches.
+     */
+    skip?: number
+    distinct?: PersonalCalendarCacheScalarFieldEnum | PersonalCalendarCacheScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalCalendarCache create
+   */
+  export type PersonalCalendarCacheCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PersonalCalendarCache.
+     */
+    data: XOR<PersonalCalendarCacheCreateInput, PersonalCalendarCacheUncheckedCreateInput>
+  }
+
+  /**
+   * PersonalCalendarCache createMany
+   */
+  export type PersonalCalendarCacheCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PersonalCalendarCaches.
+     */
+    data: PersonalCalendarCacheCreateManyInput | PersonalCalendarCacheCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PersonalCalendarCache createManyAndReturn
+   */
+  export type PersonalCalendarCacheCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * The data used to create many PersonalCalendarCaches.
+     */
+    data: PersonalCalendarCacheCreateManyInput | PersonalCalendarCacheCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalCalendarCache update
+   */
+  export type PersonalCalendarCacheUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PersonalCalendarCache.
+     */
+    data: XOR<PersonalCalendarCacheUpdateInput, PersonalCalendarCacheUncheckedUpdateInput>
+    /**
+     * Choose, which PersonalCalendarCache to update.
+     */
+    where: PersonalCalendarCacheWhereUniqueInput
+  }
+
+  /**
+   * PersonalCalendarCache updateMany
+   */
+  export type PersonalCalendarCacheUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PersonalCalendarCaches.
+     */
+    data: XOR<PersonalCalendarCacheUpdateManyMutationInput, PersonalCalendarCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalCalendarCaches to update
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * Limit how many PersonalCalendarCaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalCalendarCache updateManyAndReturn
+   */
+  export type PersonalCalendarCacheUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * The data used to update PersonalCalendarCaches.
+     */
+    data: XOR<PersonalCalendarCacheUpdateManyMutationInput, PersonalCalendarCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalCalendarCaches to update
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * Limit how many PersonalCalendarCaches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalCalendarCache upsert
+   */
+  export type PersonalCalendarCacheUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PersonalCalendarCache to update in case it exists.
+     */
+    where: PersonalCalendarCacheWhereUniqueInput
+    /**
+     * In case the PersonalCalendarCache found by the `where` argument doesn't exist, create a new PersonalCalendarCache with this data.
+     */
+    create: XOR<PersonalCalendarCacheCreateInput, PersonalCalendarCacheUncheckedCreateInput>
+    /**
+     * In case the PersonalCalendarCache was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PersonalCalendarCacheUpdateInput, PersonalCalendarCacheUncheckedUpdateInput>
+  }
+
+  /**
+   * PersonalCalendarCache delete
+   */
+  export type PersonalCalendarCacheDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+    /**
+     * Filter which PersonalCalendarCache to delete.
+     */
+    where: PersonalCalendarCacheWhereUniqueInput
+  }
+
+  /**
+   * PersonalCalendarCache deleteMany
+   */
+  export type PersonalCalendarCacheDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalCalendarCaches to delete
+     */
+    where?: PersonalCalendarCacheWhereInput
+    /**
+     * Limit how many PersonalCalendarCaches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalCalendarCache without action
+   */
+  export type PersonalCalendarCacheDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCalendarCache
+     */
+    select?: PersonalCalendarCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalCalendarCache
+     */
+    omit?: PersonalCalendarCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalCalendarCacheInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8654,6 +9913,20 @@ export namespace Prisma {
   };
 
   export type HorariaRequestScalarFieldEnum = (typeof HorariaRequestScalarFieldEnum)[keyof typeof HorariaRequestScalarFieldEnum]
+
+
+  export const PersonalCalendarCacheScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    year: 'year',
+    events: 'events',
+    calculatedAt: 'calculatedAt',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PersonalCalendarCacheScalarFieldEnum = (typeof PersonalCalendarCacheScalarFieldEnum)[keyof typeof PersonalCalendarCacheScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8785,6 +10058,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
     horariaRequests?: HorariaRequestListRelationFilter
+    personalCalendarCache?: PersonalCalendarCacheListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8818,6 +10092,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalOrderByRelationAggregateInput
     interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
     horariaRequests?: HorariaRequestOrderByRelationAggregateInput
+    personalCalendarCache?: PersonalCalendarCacheOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8854,6 +10129,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
     horariaRequests?: HorariaRequestListRelationFilter
+    personalCalendarCache?: PersonalCalendarCacheListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9345,6 +10621,79 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"HorariaRequest"> | Date | string
   }
 
+  export type PersonalCalendarCacheWhereInput = {
+    AND?: PersonalCalendarCacheWhereInput | PersonalCalendarCacheWhereInput[]
+    OR?: PersonalCalendarCacheWhereInput[]
+    NOT?: PersonalCalendarCacheWhereInput | PersonalCalendarCacheWhereInput[]
+    id?: StringFilter<"PersonalCalendarCache"> | string
+    userId?: StringFilter<"PersonalCalendarCache"> | string
+    year?: IntFilter<"PersonalCalendarCache"> | number
+    events?: StringFilter<"PersonalCalendarCache"> | string
+    calculatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    expiresAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    createdAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PersonalCalendarCacheOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    calculatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PersonalCalendarCacheWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_year?: PersonalCalendarCacheUserIdYearCompoundUniqueInput
+    AND?: PersonalCalendarCacheWhereInput | PersonalCalendarCacheWhereInput[]
+    OR?: PersonalCalendarCacheWhereInput[]
+    NOT?: PersonalCalendarCacheWhereInput | PersonalCalendarCacheWhereInput[]
+    userId?: StringFilter<"PersonalCalendarCache"> | string
+    year?: IntFilter<"PersonalCalendarCache"> | number
+    events?: StringFilter<"PersonalCalendarCache"> | string
+    calculatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    expiresAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    createdAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_year">
+
+  export type PersonalCalendarCacheOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    calculatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PersonalCalendarCacheCountOrderByAggregateInput
+    _avg?: PersonalCalendarCacheAvgOrderByAggregateInput
+    _max?: PersonalCalendarCacheMaxOrderByAggregateInput
+    _min?: PersonalCalendarCacheMinOrderByAggregateInput
+    _sum?: PersonalCalendarCacheSumOrderByAggregateInput
+  }
+
+  export type PersonalCalendarCacheScalarWhereWithAggregatesInput = {
+    AND?: PersonalCalendarCacheScalarWhereWithAggregatesInput | PersonalCalendarCacheScalarWhereWithAggregatesInput[]
+    OR?: PersonalCalendarCacheScalarWhereWithAggregatesInput[]
+    NOT?: PersonalCalendarCacheScalarWhereWithAggregatesInput | PersonalCalendarCacheScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PersonalCalendarCache"> | string
+    userId?: StringWithAggregatesFilter<"PersonalCalendarCache"> | string
+    year?: IntWithAggregatesFilter<"PersonalCalendarCache"> | number
+    events?: StringWithAggregatesFilter<"PersonalCalendarCache"> | string
+    calculatedAt?: DateTimeWithAggregatesFilter<"PersonalCalendarCache"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"PersonalCalendarCache"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"PersonalCalendarCache"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PersonalCalendarCache"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -9376,6 +10725,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9409,6 +10759,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9442,6 +10793,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9475,6 +10827,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10043,6 +11396,82 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PersonalCalendarCacheCreateInput = {
+    id?: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPersonalCalendarCacheInput
+  }
+
+  export type PersonalCalendarCacheUncheckedCreateInput = {
+    id?: string
+    userId: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCalendarCacheUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPersonalCalendarCacheNestedInput
+  }
+
+  export type PersonalCalendarCacheUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCalendarCacheCreateManyInput = {
+    id?: string
+    userId: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCalendarCacheUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCalendarCacheUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10135,6 +11564,12 @@ export namespace Prisma {
     none?: HorariaRequestWhereInput
   }
 
+  export type PersonalCalendarCacheListRelationFilter = {
+    every?: PersonalCalendarCacheWhereInput
+    some?: PersonalCalendarCacheWhereInput
+    none?: PersonalCalendarCacheWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10153,6 +11588,10 @@ export namespace Prisma {
   }
 
   export type HorariaRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PersonalCalendarCacheOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10642,6 +12081,52 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PersonalCalendarCacheUserIdYearCompoundUniqueInput = {
+    userId: string
+    year: number
+  }
+
+  export type PersonalCalendarCacheCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    calculatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalCalendarCacheAvgOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
+  export type PersonalCalendarCacheMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    calculatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalCalendarCacheMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    calculatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalCalendarCacheSumOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
   export type RectificationEventCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -10670,6 +12155,13 @@ export namespace Prisma {
     connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
   }
 
+  export type PersonalCalendarCacheCreateNestedManyWithoutUserInput = {
+    create?: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput> | PersonalCalendarCacheCreateWithoutUserInput[] | PersonalCalendarCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalCalendarCacheCreateOrConnectWithoutUserInput | PersonalCalendarCacheCreateOrConnectWithoutUserInput[]
+    createMany?: PersonalCalendarCacheCreateManyUserInputEnvelope
+    connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+  }
+
   export type RectificationEventUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -10696,6 +12188,13 @@ export namespace Prisma {
     connectOrCreate?: HorariaRequestCreateOrConnectWithoutUserInput | HorariaRequestCreateOrConnectWithoutUserInput[]
     createMany?: HorariaRequestCreateManyUserInputEnvelope
     connect?: HorariaRequestWhereUniqueInput | HorariaRequestWhereUniqueInput[]
+  }
+
+  export type PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput> | PersonalCalendarCacheCreateWithoutUserInput[] | PersonalCalendarCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalCalendarCacheCreateOrConnectWithoutUserInput | PersonalCalendarCacheCreateOrConnectWithoutUserInput[]
+    createMany?: PersonalCalendarCacheCreateManyUserInputEnvelope
+    connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10782,6 +12281,20 @@ export namespace Prisma {
     deleteMany?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
   }
 
+  export type PersonalCalendarCacheUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput> | PersonalCalendarCacheCreateWithoutUserInput[] | PersonalCalendarCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalCalendarCacheCreateOrConnectWithoutUserInput | PersonalCalendarCacheCreateOrConnectWithoutUserInput[]
+    upsert?: PersonalCalendarCacheUpsertWithWhereUniqueWithoutUserInput | PersonalCalendarCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PersonalCalendarCacheCreateManyUserInputEnvelope
+    set?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    disconnect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    delete?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    update?: PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput | PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput | PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
+  }
+
   export type RectificationEventUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -10836,6 +12349,20 @@ export namespace Prisma {
     update?: HorariaRequestUpdateWithWhereUniqueWithoutUserInput | HorariaRequestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: HorariaRequestUpdateManyWithWhereWithoutUserInput | HorariaRequestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: HorariaRequestScalarWhereInput | HorariaRequestScalarWhereInput[]
+  }
+
+  export type PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput> | PersonalCalendarCacheCreateWithoutUserInput[] | PersonalCalendarCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalCalendarCacheCreateOrConnectWithoutUserInput | PersonalCalendarCacheCreateOrConnectWithoutUserInput[]
+    upsert?: PersonalCalendarCacheUpsertWithWhereUniqueWithoutUserInput | PersonalCalendarCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PersonalCalendarCacheCreateManyUserInputEnvelope
+    set?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    disconnect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    delete?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+    update?: PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput | PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput | PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRectificationEventsInput = {
@@ -10908,6 +12435,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutHorariaRequestsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHorariaRequestsInput, UserUpdateWithoutHorariaRequestsInput>, UserUncheckedUpdateWithoutHorariaRequestsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPersonalCalendarCacheInput = {
+    create?: XOR<UserCreateWithoutPersonalCalendarCacheInput, UserUncheckedCreateWithoutPersonalCalendarCacheInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPersonalCalendarCacheInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPersonalCalendarCacheNestedInput = {
+    create?: XOR<UserCreateWithoutPersonalCalendarCacheInput, UserUncheckedCreateWithoutPersonalCalendarCacheInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPersonalCalendarCacheInput
+    upsert?: UserUpsertWithoutPersonalCalendarCacheInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPersonalCalendarCacheInput, UserUpdateWithoutPersonalCalendarCacheInput>, UserUncheckedUpdateWithoutPersonalCalendarCacheInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11271,6 +12812,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PersonalCalendarCacheCreateWithoutUserInput = {
+    id?: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCalendarCacheUncheckedCreateWithoutUserInput = {
+    id?: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCalendarCacheCreateOrConnectWithoutUserInput = {
+    where: PersonalCalendarCacheWhereUniqueInput
+    create: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type PersonalCalendarCacheCreateManyUserInputEnvelope = {
+    data: PersonalCalendarCacheCreateManyUserInput | PersonalCalendarCacheCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RectificationEventUpsertWithWhereUniqueWithoutUserInput = {
     where: RectificationEventWhereUniqueInput
     update: XOR<RectificationEventUpdateWithoutUserInput, RectificationEventUncheckedUpdateWithoutUserInput>
@@ -11403,6 +12974,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"HorariaRequest"> | Date | string
   }
 
+  export type PersonalCalendarCacheUpsertWithWhereUniqueWithoutUserInput = {
+    where: PersonalCalendarCacheWhereUniqueInput
+    update: XOR<PersonalCalendarCacheUpdateWithoutUserInput, PersonalCalendarCacheUncheckedUpdateWithoutUserInput>
+    create: XOR<PersonalCalendarCacheCreateWithoutUserInput, PersonalCalendarCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput = {
+    where: PersonalCalendarCacheWhereUniqueInput
+    data: XOR<PersonalCalendarCacheUpdateWithoutUserInput, PersonalCalendarCacheUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput = {
+    where: PersonalCalendarCacheScalarWhereInput
+    data: XOR<PersonalCalendarCacheUpdateManyMutationInput, PersonalCalendarCacheUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PersonalCalendarCacheScalarWhereInput = {
+    AND?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
+    OR?: PersonalCalendarCacheScalarWhereInput[]
+    NOT?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
+    id?: StringFilter<"PersonalCalendarCache"> | string
+    userId?: StringFilter<"PersonalCalendarCache"> | string
+    year?: IntFilter<"PersonalCalendarCache"> | number
+    events?: StringFilter<"PersonalCalendarCache"> | string
+    calculatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    expiresAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    createdAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
+  }
+
   export type UserCreateWithoutRectificationEventsInput = {
     id?: string
     email: string
@@ -11433,6 +13034,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRectificationEventsInput = {
@@ -11465,6 +13067,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRectificationEventsInput = {
@@ -11513,6 +13116,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRectificationEventsInput = {
@@ -11545,6 +13149,7 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartasNatalesInput = {
@@ -11577,6 +13182,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartasNatalesInput = {
@@ -11609,6 +13215,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartasNatalesInput = {
@@ -11657,6 +13264,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartasNatalesInput = {
@@ -11689,6 +13297,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutInterpretacionesInput = {
@@ -11721,6 +13330,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInterpretacionesInput = {
@@ -11753,6 +13363,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInterpretacionesInput = {
@@ -11801,6 +13412,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInterpretacionesInput = {
@@ -11833,6 +13445,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHorariaRequestsInput = {
@@ -11865,6 +13478,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHorariaRequestsInput = {
@@ -11897,6 +13511,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHorariaRequestsInput = {
@@ -11945,6 +13560,7 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHorariaRequestsInput = {
@@ -11977,6 +13593,155 @@ export namespace Prisma {
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPersonalCalendarCacheInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPersonalCalendarCacheInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPersonalCalendarCacheInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPersonalCalendarCacheInput, UserUncheckedCreateWithoutPersonalCalendarCacheInput>
+  }
+
+  export type UserUpsertWithoutPersonalCalendarCacheInput = {
+    update: XOR<UserUpdateWithoutPersonalCalendarCacheInput, UserUncheckedUpdateWithoutPersonalCalendarCacheInput>
+    create: XOR<UserCreateWithoutPersonalCalendarCacheInput, UserUncheckedCreateWithoutPersonalCalendarCacheInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPersonalCalendarCacheInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPersonalCalendarCacheInput, UserUncheckedUpdateWithoutPersonalCalendarCacheInput>
+  }
+
+  export type UserUpdateWithoutPersonalCalendarCacheInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPersonalCalendarCacheInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RectificationEventCreateManyUserInput = {
@@ -12027,6 +13792,16 @@ export namespace Prisma {
     status?: string
     response?: string | null
     responseDate?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCalendarCacheCreateManyUserInput = {
+    id?: string
+    year: number
+    events: string
+    calculatedAt: Date | string
+    expiresAt: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12183,6 +13958,36 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     response?: NullableStringFieldUpdateOperationsInput | string | null
     responseDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCalendarCacheUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCalendarCacheUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCalendarCacheUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

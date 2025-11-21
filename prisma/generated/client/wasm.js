@@ -218,6 +218,17 @@ exports.Prisma.HorariaRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PersonalCalendarCacheScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  year: 'year',
+  events: 'events',
+  calculatedAt: 'calculatedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -240,7 +251,8 @@ exports.Prisma.ModelName = {
   CartaNatal: 'CartaNatal',
   InterpretacionCache: 'InterpretacionCache',
   AstrogematriaCache: 'AstrogematriaCache',
-  HorariaRequest: 'HorariaRequest'
+  HorariaRequest: 'HorariaRequest',
+  PersonalCalendarCache: 'PersonalCalendarCache'
 };
 
 /**

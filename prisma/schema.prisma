@@ -38,6 +38,7 @@ model User {
   cartasNatales                    CartaNatal[]
   interpretaciones                 InterpretacionCache[]
   horariaRequests                  HorariaRequest[]
+  personalCalendarCache            PersonalCalendarCache[]
   // Subscription fields for manual control
   subscriptionStatus               String               @default("free") // "free" | "premium"
   subscriptionExpiresAt            DateTime?
@@ -118,4 +119,19 @@ model HorariaRequest {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PersonalCalendarCache {
+  id           String   @id @default(cuid())
+  userId       String
+  year         Int
+  events       String   // JSON string with calculated events
+  calculatedAt DateTime
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year])
+  @@index([expiresAt])
 }

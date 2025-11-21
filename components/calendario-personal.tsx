@@ -48,6 +48,7 @@ export function CalendarioPersonal() {
     transits_count: number;
     progressed_moon_count: number;
     profections_count: number;
+    from_cache?: boolean;
   } | null>(null);
   const [microserviceStatus, setMicroserviceStatus] = useState<'checking' | 'available' | 'unavailable'>('checking');
 
@@ -79,7 +80,7 @@ export function CalendarioPersonal() {
         setCalculationError(null);
         hasFetched.current = true; // Marcar que la llamada se ha realizado
 
-        const response = await fetchPersonalCalendar(natalData);
+        const response = await fetchPersonalCalendar(natalData, false);
         
         setEventos(response.events);
         setCalculationStats({
@@ -87,7 +88,8 @@ export function CalendarioPersonal() {
           calculation_time: response.calculation_time,
           transits_count: response.transits_count,
           progressed_moon_count: response.progressed_moon_count,
-          profections_count: response.profections_count
+          profections_count: response.profections_count,
+          from_cache: response.from_cache
         });
 
       } catch (error) {
@@ -121,7 +123,7 @@ export function CalendarioPersonal() {
       setIsCalculating(true);
       setCalculationError(null);
 
-      const response = await fetchPersonalCalendar(natalData);
+      const response = await fetchPersonalCalendar(natalData, true);
       
       setEventos(response.events);
       setCalculationStats({
@@ -129,7 +131,8 @@ export function CalendarioPersonal() {
         calculation_time: response.calculation_time,
         transits_count: response.transits_count,
         progressed_moon_count: response.progressed_moon_count,
-        profections_count: response.profections_count
+        profections_count: response.profections_count,
+        from_cache: response.from_cache
       });
 
     } catch (error) {
@@ -274,10 +277,23 @@ export function CalendarioPersonal() {
             Eventos personales de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })}
           </p>
           {calculationStats && (
-            <p className="text-sm text-muted-foreground">
-              {calculationStats.total_events} eventos calculados en {calculationStats.calculation_time.toFixed(2)}s
-              ({calculationStats.transits_count} tránsitos, {calculationStats.progressed_moon_count} luna progresada, {calculationStats.profections_count} profecciones)
-            </p>
+            <div className="flex items-center gap-2 text-sm">
+              {calculationStats.from_cache ? (
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-100 text-green-800 font-medium">
+                  ⚡ CACHE
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-800 font-medium">
+                  🔄 CALCULADO
+                </span>
+              )}
+              <span className="text-muted-foreground">
+                {calculationStats.total_events} eventos
+                {!calculationStats.from_cache && ` en ${calculationStats.calculation_time.toFixed(2)}s`}
+                {' '}
+                ({calculationStats.transits_count} tránsitos, {calculationStats.progressed_moon_count} luna progresada, {calculationStats.profections_count} profecciones)
+              </span>
+            </div>
           )}
         </div>
         <div className="flex items-center gap-2">
