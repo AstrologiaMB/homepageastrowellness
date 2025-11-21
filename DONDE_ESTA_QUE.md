@@ -104,6 +104,29 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 **Microservicio:** Puerto 8003 - astro-calendar-personal-fastapi  
 📍 **Testing:** Verificar datos natales del usuario y conexión al servicio
 
+### **"¿Qué ocurre al cambiar de año (2025 → 2026)?"** ⭐ **TEST VALIDADO**
+📍 **Estado:** ✅ **SISTEMA LISTO PARA 2026** (validado 21/11/2025)  
+📍 **Ubicación:** `hooks/use-user-natal-data.ts` (línea 141)  
+📍 **Mecanismo:** `year: new Date().getFullYear()` - detección automática del año del sistema  
+📍 **Comportamiento:**
+- El sistema detecta automáticamente el año actual
+- Calcula eventos personales para el año detectado
+- NO requiere intervención manual
+- Funciona al cambiar la fecha del sistema operativo
+📍 **Test realizado:**
+- Fecha del sistema cambiada a 1/1/2026
+- Usuario hizo login
+- Sistema calculó 233 eventos automáticamente para 2026
+- Tipos: 197 tránsitos + 1 luna progresada + 1 profección + 25 fases lunares + 4 eclipses + 5 aspectos
+- Tiempo de cálculo: ~10 segundos
+📍 **Resultado:** ✅ Funciona perfectamente sin cambios de código
+📍 **Nota técnica:** Error 422 en microservicio de interpretaciones (puerto 8002) no es crítico - eventos se calculan y muestran correctamente, solo falta texto interpretativo RAG
+📍 **Recomendación futura:** Agregar mensaje opcional "🎊 Feliz Año Nuevo" al detectar 1 de enero
+📍 **Para usuarios en producción:**
+- El 1/1/2026 simplemente acceden al calendario
+- Sistema recalcula automáticamente para 2026
+- Si la página está abierta a medianoche, hacer refresh o re-login
+
 ### **"Problemas de autenticación o login"**
 📍 **Ubicación:** `app/auth/login/page.tsx`  
 📍 **API:** `app/api/auth/[...nextauth]/route.ts`  
@@ -278,6 +301,47 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 **Commit:** `44ad61c` (13/11/2025)
 📍 **Contexto:** Este fix fue necesario porque `app/completar-datos/page.tsx` es un client component que usa `getApiUrl()` para conectar con el backend de geocodificación
 📍 **Resultado:** Usuarios pueden completar datos de nacimiento sin errores de conexión
+
+### **"Error al generar interpretación narrativa: Unknown model 'gpt-4-turbo-preview' / 'gpt-4-turbo'"** ⭐ **NUEVO - 19/11/2025**
+📍 **Ubicación:** `../astro_interpretador_rag_fastapi/interpretador_refactored.py`
+📍 **Líneas afectadas:** 682 y 699 (función `_generar_interpretacion_narrativa`)
+📍 **Síntoma:** Interpretaciones narrativas fallan con error "Unknown model 'gpt-4-turbo-preview'" o "Unknown model 'gpt-4-turbo'"
+📍 **Causa:** La versión de la librería `openai` en Railway no reconoce estos nombres de modelo
+📍 **Diagnóstico completo:**
+- Primera iteración: Error con `gpt-4-turbo-preview` (modelo deprecado)
+- Segunda iteración: Cambio a `gpt-4-turbo` pero Railway no lo reconoce
+- Problema raíz: Sistema de cache múltiple (CartaNatal + InterpretacionCache)
+📍 **Solución final:**
+```python
+# Antes (líneas 682 y 699):
+llm_rewriter = OpenAILLM(api_key=self.openai_key, temperature=0.7, model="gpt-4-turbo")
+
+# Después (FIX DEFINITIVO):
+llm_rewriter = OpenAILLM(api_key=self.openai_key, temperature=0.7, model="gpt-4")
+```
+📍 **Por qué funciona:**
+- `gpt-4` es el nombre **universal** compatible con todas las versiones de openai
+- OpenAI automáticamente mapea `gpt-4` → última versión de GPT-4 disponible
+- Funciona en desarrollo local Y en Railway sin configuración adicional
+📍 **Limpieza de cache requerida:**
+- **Problema adicional:** Sistema guarda interpretaciones en 2 tablas separadas
+- **CartaNatal:** Guarda carta con interpretación embebida
+- **InterpretacionCache:** Guarda solo interpretaciones
+- **Solución:** Eliminar usuario completo desde `/admin/users` para limpiar ambos caches
+- **Alternativa:** Endpoint `/api/cartas/clear-cache` solo limpia InterpretacionCache
+📍 **Commits:**
+- Primer intento: `77fe722` (gpt-4-turbo-preview → gpt-4-turbo)
+- Fix definitivo: `153d5dd` (gpt-4-turbo → gpt-4)
+📍 **Testing:**
+- Tropical: Generar carta desde `/cartas/tropica`
+- Dracónica: Generar carta desde `/cartas/draconica`
+- Verificar que interpretación narrativa se genera sin errores
+- Tiempo esperado: 3-15 segundos dependiendo de complejidad
+📍 **Problema subsecuente identificado:**
+- ⚠️ Railway rate limit: 500 logs/sec alcanzado
+- Síntoma: "Messages dropped: 210"
+- Impacto: Puede afectar rendimiento de carta dracónica
+- Próximo paso: Optimizar logging en producción (pendiente)
 
 ---
 
