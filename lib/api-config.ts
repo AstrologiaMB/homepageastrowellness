@@ -31,8 +31,8 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
   development: {
     CALCULOS: 'http://localhost:8001',
     INTERPRETACIONES: 'http://localhost:8002',
-    CALENDARIO: 'http://localhost:8003',
-    ASTROGEMATRIA: 'http://localhost:8003', // Same port as calendario in local
+    CALENDARIO: 'http://localhost:8004', // Corregido: calendario usa puerto 8004
+    ASTROGEMATRIA: 'http://localhost:8003',
     CARTA_ELECTIVA: 'http://localhost:8005'
   },
   production: {

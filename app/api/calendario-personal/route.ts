@@ -3,8 +3,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getCalendarCache, setCalendarCache } from '@/lib/calendar-cache';
 import prisma from '@/lib/prisma';
+import { getApiUrl } from '@/lib/api-config';
 
-const MICROSERVICE_URL = 'http://localhost:8004';
+const MICROSERVICE_URL = getApiUrl('CALENDARIO');
 const TIMEOUT_MS = 30000; // 30 segundos
 
 interface NatalData {
