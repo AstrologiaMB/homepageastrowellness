@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
 
 const MICROSERVICE_URL = getApiUrl('CALENDARIO');
-const TIMEOUT_MS = 30000; // 30 segundos
+const TIMEOUT_MS = 90000; // 90 segundos
 
 interface NatalData {
   points: {
