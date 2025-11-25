@@ -1,6 +1,6 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 3.1
+**Versión:** 3.2
 **Fecha:** 25 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
@@ -257,6 +257,20 @@ location = geolocator.geocode(f"{city}, {country}", exactly_one=True, timeout=10
 📍 **Endpoint afectado:** `/geocode/search` en backend
 📍 **Frontend:** `app/completar-datos/page.tsx` usa este endpoint
 📍 **Resultado:** Usuarios pueden completar datos sin errores de timeout
+
+### **"Calendario personal funciona local pero NO en producción (Railway) - Hardcode vs Arquitectura"** ⭐ **RESUELTO - 25/11/2025**
+📍 **Diagnóstico Completo:** Hardcode `localhost:8004` ignoraba variables entorno en contenedores separados
+📍 **¿Por qué funcionaba local?** Hardcode coincidió con puerto correcto por accidente (astrología divina…)
+📍 **¿Por qué fallaba en Railway?** Arquitectura distribuida: cada servicio container separado, nombres dinámicos
+📍 **Síntomas:** calendar vacío con timeout 29s (cerca del límite de 30s), logs mostraban `ECONNREFUSED`
+📍 **Solución Arquitectural:**
+- **Antes:** `const MICROSERVICE_URL = 'http://localhost:8004'` (hardcode_problemático)
+- **Después:** `const MICROSERVICE_URL = getApiUrl('CALENDARIO')` (configuración centralizada)
+- **Timeout aumentado:** 30s → 90s (margen para CPU-limited containers de Railway)
+📍 **Arquitectura Resultante:** Sistema uniforme desarrollo↔producción, configuración centralizada
+📍 **Commits:** `db7296d` (hardcode→centralizado), `48eb176` (timeout 30s→90s)
+📍 **Por qué Railway es más lento:** CPU allocation limitado vs máquina local completa (**aceptado y normal**)
+📍 **Resultado en Producción:** ✅ **CALENDARIO FUNCIONANDO** - usuario confirmado funcionamiento
 
 ### **"Emails no se envían o fallan"**
 📍 **Configuración Dual:** AWS SES (desarrollo local) + Resend (Railway producción)
@@ -689,7 +703,7 @@ npm install                     # Reinstalar dependencias si es necesario
 ---
 
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`
-**🔄 Última actualización:** 13 de Noviembre 2025 (v3.0 - Optimización: Contenido Práctico)
+**🔄 Última actualización:** 25 de Noviembre 2025 (v3.2 - Calendario: Solución Arquitectural)
 **📚 Más documentación:** `docs/current/DOCUMENTACION_INDICE.md`
 **👨‍💻 Mantenido por:** Equipo Astrowellness
 
