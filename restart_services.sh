@@ -21,3 +21,9 @@ sleep 5
 
 echo "🚀 Reiniciando todos los servicios..."
 ./start_services.sh
+#!/bin/bash
+
+# Comando de verificación básico
+echo "# ⚡ Comando rápido de verificación de sintaxis:
+# python3 -c \"import ast, os; [ast.parse(open(f).read()) or print(f'⚡ {f}') for f in os.listdir('.') if f.endswith('.py')]\""
+# Úsalo antes de commits importantes
