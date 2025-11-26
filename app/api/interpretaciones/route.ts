@@ -215,8 +215,8 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(ragRequest),
-      // Timeout de 2 minutos
-      signal: AbortSignal.timeout(120000)
+      // Timeout de 5 minutos (cartas dracónicas pueden tardar más con GPT-4)
+      signal: AbortSignal.timeout(300000)
     })
 
     if (!ragResponse.ok) {
