@@ -58,6 +58,10 @@ export async function POST(request: NextRequest) {
       // 🔍 DEBUG: Análisis de aspectos desde caché
       const dataCacheada = JSON.parse(cartaExistente.dataCompleta);
 
+      // 🚫 CONSOLE.LOGS COMENTADOS TEMPORALMENTE PARA REDUCIR RATE LIMIT (Railway 500 logs/sec)
+      // Estos logs ejecutan dentro de forEach sobre 100-200+ aspectos = 500+ logs por request
+      // Recuperables para debugging futuro si es necesario
+      /*
       if (dataCacheada && dataCacheada.aspectos) {
         console.log('🔍 DEBUG: === ANÁLISIS DE ASPECTOS CRUZADOS (CACHÉ) ===');
         console.log('🔍 DEBUG: Total aspectos calculados:', dataCacheada.aspectos.length);
@@ -93,6 +97,7 @@ export async function POST(request: NextRequest) {
 
         console.log('🔍 DEBUG: === FIN ANÁLISIS (CACHÉ) ===');
       }
+      */
 
       return NextResponse.json({
         success: true,
@@ -128,6 +133,10 @@ export async function POST(request: NextRequest) {
       throw new Error(resultado.error || 'Error calculando análisis cruzado');
     }
 
+    // 🚫 CONSOLE.LOGS COMENTADOS TEMPORALMENTE PARA REDUCIR RATE LIMIT (Railway 500 logs/sec)
+    // Estos logs ejecutan dentro de forEach sobre 100-200+ aspectos = 500+ logs por request
+    // Recuperables para debugging futuro si es necesario
+    /*
     // 🔍 DEBUG: Análisis de aspectos para investigación
     console.log('🔍 DEBUG: Iniciando análisis de debug...');
     console.log('🔍 DEBUG: resultado.data existe:', !!resultado.data);
@@ -171,6 +180,7 @@ export async function POST(request: NextRequest) {
       console.log('🔍 DEBUG: No se encontraron aspectos en la respuesta');
       console.log('🔍 DEBUG: Estructura de datos recibida:', Object.keys(resultado.data || {}));
     }
+    */
 
     // Guardar en caché
     await prisma.cartaNatal.create({
