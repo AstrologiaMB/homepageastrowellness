@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.0 (Condensada)
-**Fecha:** 26 de Noviembre 2025
+**Versión:** 4.1 (Rate Limit Fix)
+**Fecha:** 27 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -80,6 +80,13 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 Microservicio: Puerto 8003  
 📍 Verificar: Datos natales del usuario y conexión al servicio  
 📋 [Detalles de cache en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#sistema-de-cache-del-calendario-personal)
+
+### **Rate limit de Railway (messages dropped)**
+📍 Causa: Logging excesivo en loops y JSON.stringify de payloads grandes  
+📍 Solución: Fase 1 (`cruzada/route.ts`) + Fase 2A (`interpretaciones/route.ts`)  
+📍 Crítico: `JSON.stringify(ragRequest, null, 2)` de 50KB+ comentado  
+📍 Estado: ✅ RESUELTO (27/11/2025)  
+📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#rate-limit-de-railway---fix-completo-frontend-phase-2)
 
 ### **Errores de conexión ECONNREFUSED con microservicios**
 📍 Causa: URLs hardcodeadas o variables entorno incorrectas  
@@ -344,7 +351,7 @@ npx prisma studio            # UI para ver DB
 ---
 
 **📍 Ubicación:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`  
-**🔄 Última actualización:** 26 de Noviembre 2025 (v4.0 - Refactorización condensada)  
+**🔄 Última actualización:** 27 de Noviembre 2025 (v4.1 - Rate limit fix)  
 **📚 Ver también:**
 - [HISTORIAL_FIXES.md](HISTORIAL_FIXES.md) - Detalles históricos completos
 - [docs/current/DOCUMENTACION_INDICE.md](docs/current/DOCUMENTACION_INDICE.md) - Índice general
