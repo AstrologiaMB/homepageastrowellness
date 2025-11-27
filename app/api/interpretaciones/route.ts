@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
     if (tipo === "draco") {
       try {
         // console.log('🔮 Obteniendo datos cruzados para carta dracónica...')
-        const cruzadaResponse = await fetch(`http://localhost:3000/api/cartas/cruzada`, {
+        const cruzadaResponse = await fetch(`${request.nextUrl.origin}/api/cartas/cruzada`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
