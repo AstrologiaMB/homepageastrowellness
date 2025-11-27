@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
     // Para cartas dracónicas, también obtener y agregar cúspides cruzadas y aspectos cruzados
     if (tipo === "draco") {
       try {
-        console.log('🔮 Obteniendo datos cruzados para carta dracónica...')
+        // console.log('🔮 Obteniendo datos cruzados para carta dracónica...')
         const cruzadaResponse = await fetch(`http://localhost:3000/api/cartas/cruzada`, {
           method: 'POST',
           headers: { 
@@ -183,21 +183,21 @@ export async function POST(request: NextRequest) {
             // Agregar cúspides cruzadas
             if (cruzadaData.data.cuspides_cruzadas) {
               ragRequest.carta_natal.cuspides_cruzadas = cruzadaData.data.cuspides_cruzadas
-              console.log(`✅ Agregadas ${cruzadaData.data.cuspides_cruzadas.length} cúspides cruzadas al payload RAG`)
+              // console.log(`✅ Agregadas ${cruzadaData.data.cuspides_cruzadas.length} cúspides cruzadas al payload RAG`)
             }
             
             // Agregar aspectos cruzados
             if (cruzadaData.data.aspectos_cruzados) {
               ragRequest.carta_natal.aspectos_cruzados = cruzadaData.data.aspectos_cruzados
-              console.log(`✅ Agregados ${cruzadaData.data.aspectos_cruzados.length} aspectos cruzados al payload RAG`)
+              // console.log(`✅ Agregados ${cruzadaData.data.aspectos_cruzados.length} aspectos cruzados al payload RAG`)
             } else {
-              console.log('⚠️ No se encontraron aspectos cruzados en la respuesta')
+              // console.log('⚠️ No se encontraron aspectos cruzados en la respuesta')
             }
           } else {
-            console.log('⚠️ No se encontraron datos cruzados en la respuesta')
+            // console.log('⚠️ No se encontraron datos cruzados en la respuesta')
           }
         } else {
-          console.log('⚠️ Error al obtener datos cruzados:', cruzadaResponse.status)
+          // console.log('⚠️ Error al obtener datos cruzados:', cruzadaResponse.status)
         }
       } catch (cruzadaError) {
         console.error('⚠️ Error al llamar API de datos cruzados:', cruzadaError)
@@ -205,8 +205,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log('🔄 Llamando al microservicio RAG...')
-    console.log('🔍 DEBUG: Payload completo enviado al RAG:', JSON.stringify(ragRequest, null, 2))
+    // console.log('🔄 Llamando al microservicio RAG...')
+    // 🚫 CONSOLE.LOG COMENTADO TEMPORALMENTE PARA REDUCIR RATE LIMIT (Railway 500 logs/sec)
+    // Este JSON.stringify puede ser 50KB+ con 200+ eventos astrológicos = 500+ líneas por request
+    // console.log('🔍 DEBUG: Payload completo enviado al RAG:', JSON.stringify(ragRequest, null, 2))
     
     // Llamar al microservicio RAG
     const ragResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
