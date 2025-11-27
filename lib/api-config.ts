@@ -14,7 +14,7 @@
 
 const ENV = process.env.NODE_ENV || 'development';
 
-type ApiService = 'CALCULOS' | 'INTERPRETACIONES' | 'CALENDARIO' | 'ASTROGEMATRIA' | 'CARTA_ELECTIVA';
+type ApiService = 'CALCULOS' | 'INTERPRETACIONES' | 'CALENDARIO' | 'ASTROGEMATRIA' | 'CARTA_ELECTIVA' | 'FRONTEND_INTERNAL';
 
 interface ApiUrls {
   CALCULOS: string;
@@ -22,6 +22,7 @@ interface ApiUrls {
   CALENDARIO: string;
   ASTROGEMATRIA: string;
   CARTA_ELECTIVA: string;
+  FRONTEND_INTERNAL: string;
 }
 
 /**
@@ -33,14 +34,16 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
     INTERPRETACIONES: 'http://localhost:8002',
     CALENDARIO: 'http://localhost:8004', // Corregido: calendario usa puerto 8004
     ASTROGEMATRIA: 'http://localhost:8003',
-    CARTA_ELECTIVA: 'http://localhost:8005'
+    CARTA_ELECTIVA: 'http://localhost:8005',
+    FRONTEND_INTERNAL: 'http://localhost:3000' // Next.js local dev server
   },
   production: {
     CALCULOS: process.env.NEXT_PUBLIC_CALCULOS_API_URL || '',
     INTERPRETACIONES: process.env.NEXT_PUBLIC_INTERPRETACIONES_API_URL || '',
     CALENDARIO: process.env.NEXT_PUBLIC_CALENDARIO_API_URL || '',
     ASTROGEMATRIA: process.env.NEXT_PUBLIC_ASTROGEMATRIA_API_URL || '',
-    CARTA_ELECTIVA: process.env.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL || ''
+    CARTA_ELECTIVA: process.env.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL || '',
+    FRONTEND_INTERNAL: 'http://localhost:8080' // Railway internal port (no SSL)
   }
 };
 
