@@ -32,7 +32,6 @@ next-env.d.ts
 # Prisma
 /prisma/prisma/dev.db
 /prisma/prisma/dev.db-journal
-/prisma/migrations/
 
 # Logs
 *.log
