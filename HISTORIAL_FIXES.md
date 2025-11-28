@@ -2,7 +2,7 @@
 
 **Propósito:** Registro histórico detallado de todos los fixes y optimizaciones del sistema.
 
-**Última actualización:** 26 de Noviembre 2025
+**Última actualización:** 28 de Noviembre 2025
 
 ---
 
@@ -71,6 +71,108 @@ Mejora: 1,500x más rápido en cargas subsecuentes
 
 **Mejora futura recomendada (Opción 2):**
 Migrar a callbacks de NextAuth para incluir `id` en sesión JWT y eliminar query extra (~2ms).
+
+### **Error PersonalCalendarCache table does not exist (Railway)**
+**Fecha:** 28/11/2025  
+**Status:** ✅ RESUELTO  
+**Síntoma:** `Error [PrismaClientKnownRequestError]: The table public.PersonalCalendarCache does not exist in the current database. (P2021)`
+
+**Problema:**
+Sistema de cache funcionaba perfectamente en desarrollo local, pero fallaba en Railway con:
+- Error P2021: Tabla no existe en base de datos
+- Logs Railway: "No migration found in prisma/migrations"
+- Cache guardaba pero no podía leer - funcionalidad rota en producción
+
+**Diagnóstico (proceso iterativo):**
+
+1. **Primera hipótesis (INCORRECTA):**
+   - DATABASE_URL no disponible durante BUILD phase de Railway
+   - Intento: Mover `prisma migrate deploy` de BUILD → START en package.json
+   - Branch: `fix/railway-prisma-migrations`
+   - Commit: `e747260`
+   - Resultado: ❌ Mismo error persiste: "No migration found in prisma/migrations"
+
+2. **Segunda hipótesis (INCORRECTA):**
+   - Timing del migrate deploy incorrecta
+   - Intento: Cambiar de build a start phase
+   - Branch: `fix/prisma-migrations-at-start`
+   - Commit: `1b302be`
+   - Resultado: ❌ Mismo error persiste
+
+3. **Causa raíz (CORRECTA):**
+   - Investigación: `git ls-tree -r HEAD prisma/migrations/` muestra solo `migration_lock.toml`
+   - `.gitignore` contenía `/prisma/migrations/` bloqueando TODA la carpeta
+   - Las carpetas con archivos SQL nunca fueron commiteadas al repositorio
+   - Railway no recibió las migraciones necesarias para crear la tabla
+
+**Solución final:**
+```bash
+# 1. Remover línea problemática de .gitignore
+# Antes:
+/prisma/migrations/
+
+# Después:
+# (línea eliminada completamente)
+
+# 2. Agregar migrations al repositorio
+git add .gitignore prisma/migrations/
+git commit -m "fix: remove prisma/migrations from .gitignore and add migrations to repo"
+git push origin main
+```
+
+**Archivos agregados al repo (7 archivos):**
+- ✅ `20250729191405_init_postgresql_clean/migration.sql`
+- ✅ `20250901182618_add_horaria_request_model/migration.sql`
+- ✅ `20250902220436_add_password_fields/migration.sql`
+- ✅ `20250902222533_add_password_reset_fields/migration.sql`
+- ✅ `20250917221347_add_subscription_fields/migration.sql`
+- ✅ **`20251121210228_add_personal_calendar_cache/migration.sql`** ← La crítica
+- ✅ `migration_lock.toml`
+
+**Commits históricos:**
+- `db4c443` (13/11/2025): Sistema de cache implementado
+- `8a7a772` (21/11/2025): Fix userId en cache
+- `e747260` (28/11/2025): Intento fallido - prisma migrate en build
+- `1b302be` (28/11/2025): Intento fallido - cambio BUILD→START
+- **`ac587b2` (28/11/2025): FIX REAL - migrations agregadas al repo**
+
+**Testing en Railway:**
+```bash
+> prisma migrate deploy
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database
+
+6 migrations found in prisma/migrations
+
+Applying migration `20251121210228_add_personal_calendar_cache`
+✓ Applied migration 20251121210228_add_personal_calendar_cache (336ms)
+
+Database actions:
+- Created table "PersonalCalendarCache"
+```
+
+**Resultado en producción:**
+- ✅ Cache funciona perfectamente
+- ✅ Primera carga: ~12 segundos con badge "🔄 CALCULADO"
+- ✅ Segunda carga: ~8 milisegundos con badge "⚡ CACHE"  
+- ✅ Mejora confirmada: 1,500x más rápido en cargas subsecuentes
+- ✅ Persistencia: Cache sobrevive entre sesiones y deploys
+
+**Lecciones aprendidas:**
+1. `.gitignore` puede bloquear archivos críticos inadvertidamente
+2. Railway requiere migrations en el repositorio para aplicarlas
+3. Verificar siempre con `git ls-tree` qué archivos están realmente en el repo
+4. DATABASE_URL está disponible durante START, no durante BUILD
+5. Las migraciones deben estar versionadas en el repositorio para deploys
+
+**Arquitectura de migraciones en Railway:**
+```
+GitHub repo → Railway clone → prisma migrate deploy (en START)
+    ↓
+Si faltan migrations en repo → Error "No migration found"
+    ↓
+Si migrations presentes → Tabla creada exitosamente
+```
 
 ### **Optimización de Logging - Fase 1**
 **Fecha:** 25/11/2025  

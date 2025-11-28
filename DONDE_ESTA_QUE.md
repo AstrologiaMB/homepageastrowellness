@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.2 (SSL Fix)
-**Fecha:** 27 de Noviembre 2025
+**Versión:** 4.3 (Prisma Migrations Fix)
+**Fecha:** 28 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -80,6 +80,14 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 Microservicio: Puerto 8003  
 📍 Verificar: Datos natales del usuario y conexión al servicio  
 📋 [Detalles de cache en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#sistema-de-cache-del-calendario-personal)
+
+### **Error PersonalCalendarCache table does not exist (Railway)**
+📍 Causa: `/prisma/migrations/` estaba en .gitignore bloqueando todo  
+📍 Síntoma: "No migration found in prisma/migrations" en logs Railway  
+📍 Solución: Remover línea de .gitignore y agregar migrations al repo  
+📍 Commits: e747260 (intento fallido), 1b302be (BUILD→START), ac587b2 (fix real)  
+📍 Estado: ✅ RESUELTO (28/11/2025) - Cache funciona en producción  
+📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#error-personalcalendarcache-table-does-not-exist-railway)
 
 ### **Rate limit de Railway (messages dropped)**
 📍 Causa: Logging excesivo en loops y JSON.stringify de payloads grandes  
@@ -359,7 +367,7 @@ npx prisma studio            # UI para ver DB
 ---
 
 **📍 Ubicación:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`  
-**🔄 Última actualización:** 27 de Noviembre 2025 (v4.2 - SSL fix)  
+**🔄 Última actualización:** 28 de Noviembre 2025 (v4.3 - Prisma Migrations Fix)  
 **📚 Ver también:**
 - [HISTORIAL_FIXES.md](HISTORIAL_FIXES.md) - Detalles históricos completos
 - [docs/current/DOCUMENTACION_INDICE.md](docs/current/DOCUMENTACION_INDICE.md) - Índice general
