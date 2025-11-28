@@ -1,6 +1,6 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.1 (Rate Limit Fix)
+**Versión:** 4.2 (SSL Fix)
 **Fecha:** 27 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
@@ -94,6 +94,14 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 Variables Railway: Requieren prefix `NEXT_PUBLIC_`  
 📍 Verificar logs: `🔧 API URL para [SERVICIO]: [URL]`  
 📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#error-econnrefused-al-conectar-con-microservicios)
+
+### **Error SSL al conectar internamente (ERR_SSL_PACKET_LENGTH_TOO_LONG)**
+📍 `lib/api-config.ts` → Servicio `FRONTEND_INTERNAL` agregado  
+📍 `app/api/interpretaciones/route.ts` → Usa `getApiUrl('FRONTEND_INTERNAL')`  
+📍 Causa: Fetch interno intentaba HTTPS a puerto HTTP (8080) en Railway  
+📍 Solución: Patrón consistente con microservicios externos  
+📍 Estado: ✅ RESUELTO (27/11/2025)  
+📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#error-ssl-en-fetch-interno-err_ssl_packet_length_too_long)
 
 ### **Timeout en cartas dracónicas o geocodificación**
 📍 Frontend: `app/api/interpretaciones/route.ts` (timeout: 5 min)  
@@ -351,7 +359,7 @@ npx prisma studio            # UI para ver DB
 ---
 
 **📍 Ubicación:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`  
-**🔄 Última actualización:** 27 de Noviembre 2025 (v4.1 - Rate limit fix)  
+**🔄 Última actualización:** 27 de Noviembre 2025 (v4.2 - SSL fix)  
 **📚 Ver también:**
 - [HISTORIAL_FIXES.md](HISTORIAL_FIXES.md) - Detalles históricos completos
 - [docs/current/DOCUMENTACION_INDICE.md](docs/current/DOCUMENTACION_INDICE.md) - Índice general

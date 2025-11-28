@@ -485,6 +485,50 @@ llm_rewriter = OpenAILLM(api_key=self.openai_key, temperature=0.7, model="gpt-4"
 
 ---
 
+### **Error SSL en fetch interno (ERR_SSL_PACKET_LENGTH_TOO_LONG)**
+**Fecha:** 27/11/2025  
+**Status:** ✅ RESUELTO  
+**Relación:** Continuación del fix ECONNREFUSED - mismo patrón, diferente error
+
+**Problema:**
+Después del fix de URLs centralizadas, cartas dracónicas funcionaban localmente pero fallaban en Railway con:
+```
+ERR_SSL_PACKET_LENGTH_TOO_LONG
+```
+
+**Causa raíz:**
+`app/api/interpretaciones/route.ts` usaba `request.nextUrl.origin` que en Railway devuelve:
+- `https://homepageastrowellness-production.up.railway.app` (HTTPS)
+- Pero el contenedor interno corre en `http://localhost:8080` (HTTP)
+- Resultado: Intentaba conexión HTTPS a puerto HTTP → Error SSL
+
+**Evolución del fix:**
+1. **Commit e7ce008** (intento inicial):
+   - Cambió hardcode localhost → `request.nextUrl.origin`
+   - ✅ Resolvió ECONNREFUSED local
+   - ❌ Creó ERR_SSL en Railway
+
+2. **Commit 7e8e55b** (fix definitivo):
+   - Agregado `FRONTEND_INTERNAL` a `api-config.ts`
+   - Development: `http://localhost:3000`
+   - Production: `http://localhost:8080` (puerto interno Railway, sin SSL)
+   - ✅ Patrón consistente con otros microservicios
+
+**Archivos modificados:**
+- `lib/api-config.ts`: Nuevo servicio `FRONTEND_INTERNAL`
+- `app/api/interpretaciones/route.ts`: `getApiUrl('FRONTEND_INTERNAL')`
+
+**Branch:** `fix/ssl-frontend-internal-fetch`  
+**Testing:** ✅ Cartas dracónicas funcionan en Railway sin errores SSL
+
+**Lección aprendida:**
+En Railway, las llamadas internas entre APIs del mismo frontend deben usar:
+- Puerto interno HTTP (8080) 
+- NO el origin HTTPS externo
+- Patrón `getApiUrl()` para consistencia
+
+---
+
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/HISTORIAL_FIXES.md`  
-**🔄 Última actualización:** 26 de Noviembre 2025  
+**🔄 Última actualización:** 27 de Noviembre 2025  
 **📚 Ver también:** `DONDE_ESTA_QUE.md` (GPS del sistema)
