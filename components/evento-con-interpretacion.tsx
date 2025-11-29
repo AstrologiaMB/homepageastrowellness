@@ -44,7 +44,7 @@ export function EventoConInterpretacion({ evento }: EventoConInterpretacionProps
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8002/interpretar-eventos', {
+      const response = await fetch('/api/interpretar-eventos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
