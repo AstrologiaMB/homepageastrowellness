@@ -631,6 +631,79 @@ En Railway, las llamadas internas entre APIs del mismo frontend deben usar:
 
 ---
 
+### **Interpretaciones de eventos del calendario no aparecen**
+**Fecha:** 29/11/2025  
+**Status:** ✅ RESUELTO  
+**Síntoma:** Botón "Ver interpretación" en eventos del calendario personal no mostraba interpretaciones en producción Railway
+
+**Problema:**
+- ✅ Local: Funcionaba perfectamente (fetch a localhost:8002)
+- ❌ Railway: Interpretaciones no aparecían (ECONNREFUSED)
+- Causa: URL hardcodeada en componente React
+
+**Código problemático:**
+```javascript
+// components/evento-con-interpretacion.tsx
+const response = await fetch('http://localhost:8002/interpretar-eventos', {
+  method: 'POST',
+  body: JSON.stringify({ eventos: [evento] })
+});
+```
+
+**Solución implementada:**
+1. Crear proxy API route siguiendo patrón establecido
+2. Actualizar componente para usar proxy interno
+
+**Archivos modificados:**
+- ✅ `app/api/interpretar-eventos/route.ts` (nuevo - 91 líneas)
+- ✅ `components/evento-con-interpretacion.tsx` (1 línea modificada)
+
+**Código del proxy:**
+```typescript
+// app/api/interpretar-eventos/route.ts
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const microserviceUrl = `${getApiUrl('INTERPRETACIONES')}/interpretar-eventos`;
+  
+  const response = await fetch(microserviceUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(60000) // 60 segundos
+  });
+  
+  return NextResponse.json(await response.json());
+}
+```
+
+**Código del componente actualizado:**
+```javascript
+// components/evento-con-interpretacion.tsx (línea modificada)
+const response = await fetch('/api/interpretar-eventos', { // ← Cambio único
+  method: 'POST',
+  body: JSON.stringify({ eventos: [evento] })
+});
+```
+
+**Branch:** `fix/calendar-event-interpretations`  
+**Commit:** `fc3fa46` (29/11/2025)
+
+**Testing:**
+- ✅ Local: Interpretaciones cargan correctamente
+- ✅ Railway: Funcionando en producción
+- ✅ Patrón: Consistente con otros proxies (/api/interpretaciones, /api/cartas/*)
+
+**Por qué funciona:**
+- Proxy usa `getApiUrl('INTERPRETACIONES')` → URLs correctas automáticamente
+- Local: `http://localhost:8002`
+- Railway: `https://astro-interpretador-rag-fastapi-production.up.railway.app`
+- Timeout adecuado: 60 segundos para búsquedas en markdown
+
+**Lección aprendida:**
+Todos los fetch a microservicios desde componentes React deben usar proxies API routes, nunca URLs directas.
+
+---
+
 **📍 Ubicación de este documento:** `/Users/apple/sidebar-fastapi/HISTORIAL_FIXES.md`  
-**🔄 Última actualización:** 27 de Noviembre 2025  
+**🔄 Última actualización:** 29 de Noviembre 2025  
 **📚 Ver también:** `DONDE_ESTA_QUE.md` (GPS del sistema)

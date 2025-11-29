@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.3 (Prisma Migrations Fix)
-**Fecha:** 28 de Noviembre 2025
+**Versión:** 4.4 (Calendar Event Interpretations Fix)
+**Fecha:** 29 de Noviembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -95,6 +95,14 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 Crítico: `JSON.stringify(ragRequest, null, 2)` de 50KB+ comentado  
 📍 Estado: ✅ RESUELTO (27/11/2025)  
 📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#rate-limit-de-railway---fix-completo-frontend-phase-2)
+
+### **Interpretaciones de eventos del calendario no aparecen**
+📍 Causa: URL hardcodeada `localhost:8002` en componente  
+📍 Síntoma: Funciona local pero NO en Railway producción  
+📍 Solución: Proxy API route `/api/interpretar-eventos` implementado  
+📍 Archivos: `app/api/interpretar-eventos/route.ts`, `components/evento-con-interpretacion.tsx`  
+📍 Estado: ✅ RESUELTO (29/11/2025)  
+📋 [Detalles completos en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#interpretaciones-de-eventos-del-calendario-no-aparecen)
 
 ### **Errores de conexión ECONNREFUSED con microservicios**
 📍 Causa: URLs hardcodeadas o variables entorno incorrectas  
@@ -367,7 +375,7 @@ npx prisma studio            # UI para ver DB
 ---
 
 **📍 Ubicación:** `/Users/apple/sidebar-fastapi/DONDE_ESTA_QUE.md`  
-**🔄 Última actualización:** 28 de Noviembre 2025 (v4.3 - Prisma Migrations Fix)  
+**🔄 Última actualización:** 29 de Noviembre 2025 (v4.4 - Calendar Event Interpretations Fix)  
 **📚 Ver también:**
 - [HISTORIAL_FIXES.md](HISTORIAL_FIXES.md) - Detalles históricos completos
 - [docs/current/DOCUMENTACION_INDICE.md](docs/current/DOCUMENTACION_INDICE.md) - Índice general
