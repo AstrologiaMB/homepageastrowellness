@@ -10,8 +10,8 @@ export function calculateDynamicTTL(year: number): number {
   const currentYear = new Date().getFullYear();
   
   if (year === currentYear) {
-    // Año actual: 24 horas en milisegundos
-    return 24 * 60 * 60 * 1000;
+    // Año actual: 30 días en milisegundos (balance óptimo para luna progresada ~1°/mes)
+    return 30 * 24 * 60 * 60 * 1000;
   } else if (year > currentYear) {
     // Año futuro: hasta fin de año
     const endOfYear = new Date(year, 11, 31, 23, 59, 59);
