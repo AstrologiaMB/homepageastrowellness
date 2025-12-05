@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.4 (Calendar Event Interpretations Fix)
-**Fecha:** 29 de Noviembre 2025
+**Versión:** 4.5 (Draconic Cusps Regression Fix)
+**Fecha:** 03 de Diciembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---

@@ -38,6 +38,17 @@
 **Verificación:** Buscar "✅ Usando índice DRACÓNICO separado" en logs  
 **Documentación completa:** `RAG_SEPARATION_IMPLEMENTATION_PLAN.md`
 
+### **Regresión: Cúspides dracónicas caen en casas incorrectas (Fix Definitivo)**
+**Fecha:** 01/12/2025
+**Ubicación:** `../calculo-carta-natal-api/src/calculators/cross_chart_calculator.py`
+**Síntoma:** Casa 1 Dracónica (Aries 29°) caía en Casa 1 Tropical (Aries 0°) en lugar de Casa 12 (Piscis).
+**Causa:** La lógica de búsqueda de casa tropical no manejaba correctamente el cruce de 0°/360° o el orden de las casas en la lista de comparación.
+**Solución:**
+- Se reescribió `encontrar_casa_tropical()` para manejar explícitamente el cruce de 0°.
+- Se aseguró que `cuspides_tropicales` mantenga el orden natural 1-12 y no se reordene por longitud.
+**Verificación:** Casa 1 Dracónica cae correctamente en Casa 12 Tropical.
+
+
 ---
 
 ## 🚀 FIXES DE PERFORMANCE Y CACHE
