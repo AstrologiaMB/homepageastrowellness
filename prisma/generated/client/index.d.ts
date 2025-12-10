@@ -48,6 +48,16 @@ export type HorariaRequest = $Result.DefaultSelection<Prisma.$HorariaRequestPayl
  * 
  */
 export type PersonalCalendarCache = $Result.DefaultSelection<Prisma.$PersonalCalendarCachePayload>
+/**
+ * Model LunarPhasesCache
+ * 
+ */
+export type LunarPhasesCache = $Result.DefaultSelection<Prisma.$LunarPhasesCachePayload>
+/**
+ * Model LunarJournal
+ * 
+ */
+export type LunarJournal = $Result.DefaultSelection<Prisma.$LunarJournalPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -243,6 +253,26 @@ export class PrismaClient<
     * ```
     */
   get personalCalendarCache(): Prisma.PersonalCalendarCacheDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lunarPhasesCache`: Exposes CRUD operations for the **LunarPhasesCache** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LunarPhasesCaches
+    * const lunarPhasesCaches = await prisma.lunarPhasesCache.findMany()
+    * ```
+    */
+  get lunarPhasesCache(): Prisma.LunarPhasesCacheDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lunarJournal`: Exposes CRUD operations for the **LunarJournal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LunarJournals
+    * const lunarJournals = await prisma.lunarJournal.findMany()
+    * ```
+    */
+  get lunarJournal(): Prisma.LunarJournalDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -689,7 +719,9 @@ export namespace Prisma {
     InterpretacionCache: 'InterpretacionCache',
     AstrogematriaCache: 'AstrogematriaCache',
     HorariaRequest: 'HorariaRequest',
-    PersonalCalendarCache: 'PersonalCalendarCache'
+    PersonalCalendarCache: 'PersonalCalendarCache',
+    LunarPhasesCache: 'LunarPhasesCache',
+    LunarJournal: 'LunarJournal'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -708,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache" | "horariaRequest" | "personalCalendarCache"
+      modelProps: "user" | "rectificationEvent" | "cartaNatal" | "interpretacionCache" | "astrogematriaCache" | "horariaRequest" | "personalCalendarCache" | "lunarPhasesCache" | "lunarJournal"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1230,6 +1262,154 @@ export namespace Prisma {
           }
         }
       }
+      LunarPhasesCache: {
+        payload: Prisma.$LunarPhasesCachePayload<ExtArgs>
+        fields: Prisma.LunarPhasesCacheFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LunarPhasesCacheFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LunarPhasesCacheFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          findFirst: {
+            args: Prisma.LunarPhasesCacheFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LunarPhasesCacheFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          findMany: {
+            args: Prisma.LunarPhasesCacheFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>[]
+          }
+          create: {
+            args: Prisma.LunarPhasesCacheCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          createMany: {
+            args: Prisma.LunarPhasesCacheCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LunarPhasesCacheCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>[]
+          }
+          delete: {
+            args: Prisma.LunarPhasesCacheDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          update: {
+            args: Prisma.LunarPhasesCacheUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          deleteMany: {
+            args: Prisma.LunarPhasesCacheDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LunarPhasesCacheUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LunarPhasesCacheUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>[]
+          }
+          upsert: {
+            args: Prisma.LunarPhasesCacheUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarPhasesCachePayload>
+          }
+          aggregate: {
+            args: Prisma.LunarPhasesCacheAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLunarPhasesCache>
+          }
+          groupBy: {
+            args: Prisma.LunarPhasesCacheGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LunarPhasesCacheGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LunarPhasesCacheCountArgs<ExtArgs>
+            result: $Utils.Optional<LunarPhasesCacheCountAggregateOutputType> | number
+          }
+        }
+      }
+      LunarJournal: {
+        payload: Prisma.$LunarJournalPayload<ExtArgs>
+        fields: Prisma.LunarJournalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LunarJournalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LunarJournalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          findFirst: {
+            args: Prisma.LunarJournalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LunarJournalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          findMany: {
+            args: Prisma.LunarJournalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>[]
+          }
+          create: {
+            args: Prisma.LunarJournalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          createMany: {
+            args: Prisma.LunarJournalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LunarJournalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>[]
+          }
+          delete: {
+            args: Prisma.LunarJournalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          update: {
+            args: Prisma.LunarJournalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          deleteMany: {
+            args: Prisma.LunarJournalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LunarJournalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LunarJournalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>[]
+          }
+          upsert: {
+            args: Prisma.LunarJournalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LunarJournalPayload>
+          }
+          aggregate: {
+            args: Prisma.LunarJournalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLunarJournal>
+          }
+          groupBy: {
+            args: Prisma.LunarJournalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LunarJournalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LunarJournalCountArgs<ExtArgs>
+            result: $Utils.Optional<LunarJournalCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1321,6 +1501,8 @@ export namespace Prisma {
     astrogematriaCache?: AstrogematriaCacheOmit
     horariaRequest?: HorariaRequestOmit
     personalCalendarCache?: PersonalCalendarCacheOmit
+    lunarPhasesCache?: LunarPhasesCacheOmit
+    lunarJournal?: LunarJournalOmit
   }
 
   /* Types for Logging */
@@ -1420,6 +1602,8 @@ export namespace Prisma {
     interpretaciones: number
     horariaRequests: number
     personalCalendarCache: number
+    lunarPhasesCache: number
+    lunarJournal: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1428,6 +1612,8 @@ export namespace Prisma {
     interpretaciones?: boolean | UserCountOutputTypeCountInterpretacionesArgs
     horariaRequests?: boolean | UserCountOutputTypeCountHorariaRequestsArgs
     personalCalendarCache?: boolean | UserCountOutputTypeCountPersonalCalendarCacheArgs
+    lunarPhasesCache?: boolean | UserCountOutputTypeCountLunarPhasesCacheArgs
+    lunarJournal?: boolean | UserCountOutputTypeCountLunarJournalArgs
   }
 
   // Custom InputTypes
@@ -1474,6 +1660,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPersonalCalendarCacheArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PersonalCalendarCacheWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLunarPhasesCacheArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LunarPhasesCacheWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLunarJournalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LunarJournalWhereInput
   }
 
 
@@ -1856,6 +2056,8 @@ export namespace Prisma {
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
     personalCalendarCache?: boolean | User$personalCalendarCacheArgs<ExtArgs>
+    lunarPhasesCache?: boolean | User$lunarPhasesCacheArgs<ExtArgs>
+    lunarJournal?: boolean | User$lunarJournalArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1953,6 +2155,8 @@ export namespace Prisma {
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
     horariaRequests?: boolean | User$horariaRequestsArgs<ExtArgs>
     personalCalendarCache?: boolean | User$personalCalendarCacheArgs<ExtArgs>
+    lunarPhasesCache?: boolean | User$lunarPhasesCacheArgs<ExtArgs>
+    lunarJournal?: boolean | User$lunarJournalArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1966,6 +2170,8 @@ export namespace Prisma {
       interpretaciones: Prisma.$InterpretacionCachePayload<ExtArgs>[]
       horariaRequests: Prisma.$HorariaRequestPayload<ExtArgs>[]
       personalCalendarCache: Prisma.$PersonalCalendarCachePayload<ExtArgs>[]
+      lunarPhasesCache: Prisma.$LunarPhasesCachePayload<ExtArgs>[]
+      lunarJournal: Prisma.$LunarJournalPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2393,6 +2599,8 @@ export namespace Prisma {
     interpretaciones<T extends User$interpretacionesArgs<ExtArgs> = {}>(args?: Subset<T, User$interpretacionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterpretacionCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     horariaRequests<T extends User$horariaRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$horariaRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HorariaRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     personalCalendarCache<T extends User$personalCalendarCacheArgs<ExtArgs> = {}>(args?: Subset<T, User$personalCalendarCacheArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalCalendarCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lunarPhasesCache<T extends User$lunarPhasesCacheArgs<ExtArgs> = {}>(args?: Subset<T, User$lunarPhasesCacheArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lunarJournal<T extends User$lunarJournalArgs<ExtArgs> = {}>(args?: Subset<T, User$lunarJournalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2953,6 +3161,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PersonalCalendarCacheScalarFieldEnum | PersonalCalendarCacheScalarFieldEnum[]
+  }
+
+  /**
+   * User.lunarPhasesCache
+   */
+  export type User$lunarPhasesCacheArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    where?: LunarPhasesCacheWhereInput
+    orderBy?: LunarPhasesCacheOrderByWithRelationInput | LunarPhasesCacheOrderByWithRelationInput[]
+    cursor?: LunarPhasesCacheWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LunarPhasesCacheScalarFieldEnum | LunarPhasesCacheScalarFieldEnum[]
+  }
+
+  /**
+   * User.lunarJournal
+   */
+  export type User$lunarJournalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    where?: LunarJournalWhereInput
+    orderBy?: LunarJournalOrderByWithRelationInput | LunarJournalOrderByWithRelationInput[]
+    cursor?: LunarJournalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LunarJournalScalarFieldEnum | LunarJournalScalarFieldEnum[]
   }
 
   /**
@@ -9786,6 +10042,2195 @@ export namespace Prisma {
 
 
   /**
+   * Model LunarPhasesCache
+   */
+
+  export type AggregateLunarPhasesCache = {
+    _count: LunarPhasesCacheCountAggregateOutputType | null
+    _avg: LunarPhasesCacheAvgAggregateOutputType | null
+    _sum: LunarPhasesCacheSumAggregateOutputType | null
+    _min: LunarPhasesCacheMinAggregateOutputType | null
+    _max: LunarPhasesCacheMaxAggregateOutputType | null
+  }
+
+  export type LunarPhasesCacheAvgAggregateOutputType = {
+    year: number | null
+  }
+
+  export type LunarPhasesCacheSumAggregateOutputType = {
+    year: number | null
+  }
+
+  export type LunarPhasesCacheMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    year: number | null
+    events: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LunarPhasesCacheMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    year: number | null
+    events: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LunarPhasesCacheCountAggregateOutputType = {
+    id: number
+    userId: number
+    year: number
+    events: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LunarPhasesCacheAvgAggregateInputType = {
+    year?: true
+  }
+
+  export type LunarPhasesCacheSumAggregateInputType = {
+    year?: true
+  }
+
+  export type LunarPhasesCacheMinAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LunarPhasesCacheMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LunarPhasesCacheCountAggregateInputType = {
+    id?: true
+    userId?: true
+    year?: true
+    events?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LunarPhasesCacheAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LunarPhasesCache to aggregate.
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarPhasesCaches to fetch.
+     */
+    orderBy?: LunarPhasesCacheOrderByWithRelationInput | LunarPhasesCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LunarPhasesCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarPhasesCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarPhasesCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LunarPhasesCaches
+    **/
+    _count?: true | LunarPhasesCacheCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LunarPhasesCacheAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LunarPhasesCacheSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LunarPhasesCacheMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LunarPhasesCacheMaxAggregateInputType
+  }
+
+  export type GetLunarPhasesCacheAggregateType<T extends LunarPhasesCacheAggregateArgs> = {
+        [P in keyof T & keyof AggregateLunarPhasesCache]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLunarPhasesCache[P]>
+      : GetScalarType<T[P], AggregateLunarPhasesCache[P]>
+  }
+
+
+
+
+  export type LunarPhasesCacheGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LunarPhasesCacheWhereInput
+    orderBy?: LunarPhasesCacheOrderByWithAggregationInput | LunarPhasesCacheOrderByWithAggregationInput[]
+    by: LunarPhasesCacheScalarFieldEnum[] | LunarPhasesCacheScalarFieldEnum
+    having?: LunarPhasesCacheScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LunarPhasesCacheCountAggregateInputType | true
+    _avg?: LunarPhasesCacheAvgAggregateInputType
+    _sum?: LunarPhasesCacheSumAggregateInputType
+    _min?: LunarPhasesCacheMinAggregateInputType
+    _max?: LunarPhasesCacheMaxAggregateInputType
+  }
+
+  export type LunarPhasesCacheGroupByOutputType = {
+    id: string
+    userId: string
+    year: number
+    events: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LunarPhasesCacheCountAggregateOutputType | null
+    _avg: LunarPhasesCacheAvgAggregateOutputType | null
+    _sum: LunarPhasesCacheSumAggregateOutputType | null
+    _min: LunarPhasesCacheMinAggregateOutputType | null
+    _max: LunarPhasesCacheMaxAggregateOutputType | null
+  }
+
+  type GetLunarPhasesCacheGroupByPayload<T extends LunarPhasesCacheGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LunarPhasesCacheGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LunarPhasesCacheGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LunarPhasesCacheGroupByOutputType[P]>
+            : GetScalarType<T[P], LunarPhasesCacheGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LunarPhasesCacheSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarPhasesCache"]>
+
+  export type LunarPhasesCacheSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarPhasesCache"]>
+
+  export type LunarPhasesCacheSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarPhasesCache"]>
+
+  export type LunarPhasesCacheSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    year?: boolean
+    events?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LunarPhasesCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "year" | "events" | "createdAt" | "updatedAt", ExtArgs["result"]["lunarPhasesCache"]>
+  export type LunarPhasesCacheInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LunarPhasesCacheIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LunarPhasesCacheIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LunarPhasesCachePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LunarPhasesCache"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      year: number
+      events: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["lunarPhasesCache"]>
+    composites: {}
+  }
+
+  type LunarPhasesCacheGetPayload<S extends boolean | null | undefined | LunarPhasesCacheDefaultArgs> = $Result.GetResult<Prisma.$LunarPhasesCachePayload, S>
+
+  type LunarPhasesCacheCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LunarPhasesCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LunarPhasesCacheCountAggregateInputType | true
+    }
+
+  export interface LunarPhasesCacheDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LunarPhasesCache'], meta: { name: 'LunarPhasesCache' } }
+    /**
+     * Find zero or one LunarPhasesCache that matches the filter.
+     * @param {LunarPhasesCacheFindUniqueArgs} args - Arguments to find a LunarPhasesCache
+     * @example
+     * // Get one LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LunarPhasesCacheFindUniqueArgs>(args: SelectSubset<T, LunarPhasesCacheFindUniqueArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LunarPhasesCache that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LunarPhasesCacheFindUniqueOrThrowArgs} args - Arguments to find a LunarPhasesCache
+     * @example
+     * // Get one LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LunarPhasesCacheFindUniqueOrThrowArgs>(args: SelectSubset<T, LunarPhasesCacheFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LunarPhasesCache that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheFindFirstArgs} args - Arguments to find a LunarPhasesCache
+     * @example
+     * // Get one LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LunarPhasesCacheFindFirstArgs>(args?: SelectSubset<T, LunarPhasesCacheFindFirstArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LunarPhasesCache that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheFindFirstOrThrowArgs} args - Arguments to find a LunarPhasesCache
+     * @example
+     * // Get one LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LunarPhasesCacheFindFirstOrThrowArgs>(args?: SelectSubset<T, LunarPhasesCacheFindFirstOrThrowArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LunarPhasesCaches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LunarPhasesCaches
+     * const lunarPhasesCaches = await prisma.lunarPhasesCache.findMany()
+     * 
+     * // Get first 10 LunarPhasesCaches
+     * const lunarPhasesCaches = await prisma.lunarPhasesCache.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lunarPhasesCacheWithIdOnly = await prisma.lunarPhasesCache.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LunarPhasesCacheFindManyArgs>(args?: SelectSubset<T, LunarPhasesCacheFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LunarPhasesCache.
+     * @param {LunarPhasesCacheCreateArgs} args - Arguments to create a LunarPhasesCache.
+     * @example
+     * // Create one LunarPhasesCache
+     * const LunarPhasesCache = await prisma.lunarPhasesCache.create({
+     *   data: {
+     *     // ... data to create a LunarPhasesCache
+     *   }
+     * })
+     * 
+     */
+    create<T extends LunarPhasesCacheCreateArgs>(args: SelectSubset<T, LunarPhasesCacheCreateArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LunarPhasesCaches.
+     * @param {LunarPhasesCacheCreateManyArgs} args - Arguments to create many LunarPhasesCaches.
+     * @example
+     * // Create many LunarPhasesCaches
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LunarPhasesCacheCreateManyArgs>(args?: SelectSubset<T, LunarPhasesCacheCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LunarPhasesCaches and returns the data saved in the database.
+     * @param {LunarPhasesCacheCreateManyAndReturnArgs} args - Arguments to create many LunarPhasesCaches.
+     * @example
+     * // Create many LunarPhasesCaches
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LunarPhasesCaches and only return the `id`
+     * const lunarPhasesCacheWithIdOnly = await prisma.lunarPhasesCache.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LunarPhasesCacheCreateManyAndReturnArgs>(args?: SelectSubset<T, LunarPhasesCacheCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LunarPhasesCache.
+     * @param {LunarPhasesCacheDeleteArgs} args - Arguments to delete one LunarPhasesCache.
+     * @example
+     * // Delete one LunarPhasesCache
+     * const LunarPhasesCache = await prisma.lunarPhasesCache.delete({
+     *   where: {
+     *     // ... filter to delete one LunarPhasesCache
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LunarPhasesCacheDeleteArgs>(args: SelectSubset<T, LunarPhasesCacheDeleteArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LunarPhasesCache.
+     * @param {LunarPhasesCacheUpdateArgs} args - Arguments to update one LunarPhasesCache.
+     * @example
+     * // Update one LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LunarPhasesCacheUpdateArgs>(args: SelectSubset<T, LunarPhasesCacheUpdateArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LunarPhasesCaches.
+     * @param {LunarPhasesCacheDeleteManyArgs} args - Arguments to filter LunarPhasesCaches to delete.
+     * @example
+     * // Delete a few LunarPhasesCaches
+     * const { count } = await prisma.lunarPhasesCache.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LunarPhasesCacheDeleteManyArgs>(args?: SelectSubset<T, LunarPhasesCacheDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LunarPhasesCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LunarPhasesCaches
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LunarPhasesCacheUpdateManyArgs>(args: SelectSubset<T, LunarPhasesCacheUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LunarPhasesCaches and returns the data updated in the database.
+     * @param {LunarPhasesCacheUpdateManyAndReturnArgs} args - Arguments to update many LunarPhasesCaches.
+     * @example
+     * // Update many LunarPhasesCaches
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LunarPhasesCaches and only return the `id`
+     * const lunarPhasesCacheWithIdOnly = await prisma.lunarPhasesCache.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LunarPhasesCacheUpdateManyAndReturnArgs>(args: SelectSubset<T, LunarPhasesCacheUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LunarPhasesCache.
+     * @param {LunarPhasesCacheUpsertArgs} args - Arguments to update or create a LunarPhasesCache.
+     * @example
+     * // Update or create a LunarPhasesCache
+     * const lunarPhasesCache = await prisma.lunarPhasesCache.upsert({
+     *   create: {
+     *     // ... data to create a LunarPhasesCache
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LunarPhasesCache we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LunarPhasesCacheUpsertArgs>(args: SelectSubset<T, LunarPhasesCacheUpsertArgs<ExtArgs>>): Prisma__LunarPhasesCacheClient<$Result.GetResult<Prisma.$LunarPhasesCachePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LunarPhasesCaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheCountArgs} args - Arguments to filter LunarPhasesCaches to count.
+     * @example
+     * // Count the number of LunarPhasesCaches
+     * const count = await prisma.lunarPhasesCache.count({
+     *   where: {
+     *     // ... the filter for the LunarPhasesCaches we want to count
+     *   }
+     * })
+    **/
+    count<T extends LunarPhasesCacheCountArgs>(
+      args?: Subset<T, LunarPhasesCacheCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LunarPhasesCacheCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LunarPhasesCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LunarPhasesCacheAggregateArgs>(args: Subset<T, LunarPhasesCacheAggregateArgs>): Prisma.PrismaPromise<GetLunarPhasesCacheAggregateType<T>>
+
+    /**
+     * Group by LunarPhasesCache.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarPhasesCacheGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LunarPhasesCacheGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LunarPhasesCacheGroupByArgs['orderBy'] }
+        : { orderBy?: LunarPhasesCacheGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LunarPhasesCacheGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLunarPhasesCacheGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LunarPhasesCache model
+   */
+  readonly fields: LunarPhasesCacheFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LunarPhasesCache.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LunarPhasesCacheClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LunarPhasesCache model
+   */
+  interface LunarPhasesCacheFieldRefs {
+    readonly id: FieldRef<"LunarPhasesCache", 'String'>
+    readonly userId: FieldRef<"LunarPhasesCache", 'String'>
+    readonly year: FieldRef<"LunarPhasesCache", 'Int'>
+    readonly events: FieldRef<"LunarPhasesCache", 'String'>
+    readonly createdAt: FieldRef<"LunarPhasesCache", 'DateTime'>
+    readonly updatedAt: FieldRef<"LunarPhasesCache", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LunarPhasesCache findUnique
+   */
+  export type LunarPhasesCacheFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarPhasesCache to fetch.
+     */
+    where: LunarPhasesCacheWhereUniqueInput
+  }
+
+  /**
+   * LunarPhasesCache findUniqueOrThrow
+   */
+  export type LunarPhasesCacheFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarPhasesCache to fetch.
+     */
+    where: LunarPhasesCacheWhereUniqueInput
+  }
+
+  /**
+   * LunarPhasesCache findFirst
+   */
+  export type LunarPhasesCacheFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarPhasesCache to fetch.
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarPhasesCaches to fetch.
+     */
+    orderBy?: LunarPhasesCacheOrderByWithRelationInput | LunarPhasesCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LunarPhasesCaches.
+     */
+    cursor?: LunarPhasesCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarPhasesCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarPhasesCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LunarPhasesCaches.
+     */
+    distinct?: LunarPhasesCacheScalarFieldEnum | LunarPhasesCacheScalarFieldEnum[]
+  }
+
+  /**
+   * LunarPhasesCache findFirstOrThrow
+   */
+  export type LunarPhasesCacheFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarPhasesCache to fetch.
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarPhasesCaches to fetch.
+     */
+    orderBy?: LunarPhasesCacheOrderByWithRelationInput | LunarPhasesCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LunarPhasesCaches.
+     */
+    cursor?: LunarPhasesCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarPhasesCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarPhasesCaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LunarPhasesCaches.
+     */
+    distinct?: LunarPhasesCacheScalarFieldEnum | LunarPhasesCacheScalarFieldEnum[]
+  }
+
+  /**
+   * LunarPhasesCache findMany
+   */
+  export type LunarPhasesCacheFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarPhasesCaches to fetch.
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarPhasesCaches to fetch.
+     */
+    orderBy?: LunarPhasesCacheOrderByWithRelationInput | LunarPhasesCacheOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LunarPhasesCaches.
+     */
+    cursor?: LunarPhasesCacheWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarPhasesCaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarPhasesCaches.
+     */
+    skip?: number
+    distinct?: LunarPhasesCacheScalarFieldEnum | LunarPhasesCacheScalarFieldEnum[]
+  }
+
+  /**
+   * LunarPhasesCache create
+   */
+  export type LunarPhasesCacheCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LunarPhasesCache.
+     */
+    data: XOR<LunarPhasesCacheCreateInput, LunarPhasesCacheUncheckedCreateInput>
+  }
+
+  /**
+   * LunarPhasesCache createMany
+   */
+  export type LunarPhasesCacheCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LunarPhasesCaches.
+     */
+    data: LunarPhasesCacheCreateManyInput | LunarPhasesCacheCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LunarPhasesCache createManyAndReturn
+   */
+  export type LunarPhasesCacheCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * The data used to create many LunarPhasesCaches.
+     */
+    data: LunarPhasesCacheCreateManyInput | LunarPhasesCacheCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LunarPhasesCache update
+   */
+  export type LunarPhasesCacheUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LunarPhasesCache.
+     */
+    data: XOR<LunarPhasesCacheUpdateInput, LunarPhasesCacheUncheckedUpdateInput>
+    /**
+     * Choose, which LunarPhasesCache to update.
+     */
+    where: LunarPhasesCacheWhereUniqueInput
+  }
+
+  /**
+   * LunarPhasesCache updateMany
+   */
+  export type LunarPhasesCacheUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LunarPhasesCaches.
+     */
+    data: XOR<LunarPhasesCacheUpdateManyMutationInput, LunarPhasesCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which LunarPhasesCaches to update
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * Limit how many LunarPhasesCaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LunarPhasesCache updateManyAndReturn
+   */
+  export type LunarPhasesCacheUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * The data used to update LunarPhasesCaches.
+     */
+    data: XOR<LunarPhasesCacheUpdateManyMutationInput, LunarPhasesCacheUncheckedUpdateManyInput>
+    /**
+     * Filter which LunarPhasesCaches to update
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * Limit how many LunarPhasesCaches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LunarPhasesCache upsert
+   */
+  export type LunarPhasesCacheUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LunarPhasesCache to update in case it exists.
+     */
+    where: LunarPhasesCacheWhereUniqueInput
+    /**
+     * In case the LunarPhasesCache found by the `where` argument doesn't exist, create a new LunarPhasesCache with this data.
+     */
+    create: XOR<LunarPhasesCacheCreateInput, LunarPhasesCacheUncheckedCreateInput>
+    /**
+     * In case the LunarPhasesCache was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LunarPhasesCacheUpdateInput, LunarPhasesCacheUncheckedUpdateInput>
+  }
+
+  /**
+   * LunarPhasesCache delete
+   */
+  export type LunarPhasesCacheDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+    /**
+     * Filter which LunarPhasesCache to delete.
+     */
+    where: LunarPhasesCacheWhereUniqueInput
+  }
+
+  /**
+   * LunarPhasesCache deleteMany
+   */
+  export type LunarPhasesCacheDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LunarPhasesCaches to delete
+     */
+    where?: LunarPhasesCacheWhereInput
+    /**
+     * Limit how many LunarPhasesCaches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LunarPhasesCache without action
+   */
+  export type LunarPhasesCacheDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarPhasesCache
+     */
+    select?: LunarPhasesCacheSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarPhasesCache
+     */
+    omit?: LunarPhasesCacheOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarPhasesCacheInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LunarJournal
+   */
+
+  export type AggregateLunarJournal = {
+    _count: LunarJournalCountAggregateOutputType | null
+    _min: LunarJournalMinAggregateOutputType | null
+    _max: LunarJournalMaxAggregateOutputType | null
+  }
+
+  export type LunarJournalMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    date: Date | null
+    eventType: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LunarJournalMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    date: Date | null
+    eventType: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LunarJournalCountAggregateOutputType = {
+    id: number
+    userId: number
+    date: number
+    eventType: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LunarJournalMinAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    eventType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LunarJournalMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    eventType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LunarJournalCountAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    eventType?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LunarJournalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LunarJournal to aggregate.
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarJournals to fetch.
+     */
+    orderBy?: LunarJournalOrderByWithRelationInput | LunarJournalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LunarJournalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarJournals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarJournals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LunarJournals
+    **/
+    _count?: true | LunarJournalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LunarJournalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LunarJournalMaxAggregateInputType
+  }
+
+  export type GetLunarJournalAggregateType<T extends LunarJournalAggregateArgs> = {
+        [P in keyof T & keyof AggregateLunarJournal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLunarJournal[P]>
+      : GetScalarType<T[P], AggregateLunarJournal[P]>
+  }
+
+
+
+
+  export type LunarJournalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LunarJournalWhereInput
+    orderBy?: LunarJournalOrderByWithAggregationInput | LunarJournalOrderByWithAggregationInput[]
+    by: LunarJournalScalarFieldEnum[] | LunarJournalScalarFieldEnum
+    having?: LunarJournalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LunarJournalCountAggregateInputType | true
+    _min?: LunarJournalMinAggregateInputType
+    _max?: LunarJournalMaxAggregateInputType
+  }
+
+  export type LunarJournalGroupByOutputType = {
+    id: string
+    userId: string
+    date: Date
+    eventType: string
+    notes: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LunarJournalCountAggregateOutputType | null
+    _min: LunarJournalMinAggregateOutputType | null
+    _max: LunarJournalMaxAggregateOutputType | null
+  }
+
+  type GetLunarJournalGroupByPayload<T extends LunarJournalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LunarJournalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LunarJournalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LunarJournalGroupByOutputType[P]>
+            : GetScalarType<T[P], LunarJournalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LunarJournalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    eventType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarJournal"]>
+
+  export type LunarJournalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    eventType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarJournal"]>
+
+  export type LunarJournalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    eventType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lunarJournal"]>
+
+  export type LunarJournalSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    eventType?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LunarJournalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "eventType" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["lunarJournal"]>
+  export type LunarJournalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LunarJournalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LunarJournalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LunarJournalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LunarJournal"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      date: Date
+      eventType: string
+      notes: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["lunarJournal"]>
+    composites: {}
+  }
+
+  type LunarJournalGetPayload<S extends boolean | null | undefined | LunarJournalDefaultArgs> = $Result.GetResult<Prisma.$LunarJournalPayload, S>
+
+  type LunarJournalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LunarJournalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LunarJournalCountAggregateInputType | true
+    }
+
+  export interface LunarJournalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LunarJournal'], meta: { name: 'LunarJournal' } }
+    /**
+     * Find zero or one LunarJournal that matches the filter.
+     * @param {LunarJournalFindUniqueArgs} args - Arguments to find a LunarJournal
+     * @example
+     * // Get one LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LunarJournalFindUniqueArgs>(args: SelectSubset<T, LunarJournalFindUniqueArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LunarJournal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LunarJournalFindUniqueOrThrowArgs} args - Arguments to find a LunarJournal
+     * @example
+     * // Get one LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LunarJournalFindUniqueOrThrowArgs>(args: SelectSubset<T, LunarJournalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LunarJournal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalFindFirstArgs} args - Arguments to find a LunarJournal
+     * @example
+     * // Get one LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LunarJournalFindFirstArgs>(args?: SelectSubset<T, LunarJournalFindFirstArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LunarJournal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalFindFirstOrThrowArgs} args - Arguments to find a LunarJournal
+     * @example
+     * // Get one LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LunarJournalFindFirstOrThrowArgs>(args?: SelectSubset<T, LunarJournalFindFirstOrThrowArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LunarJournals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LunarJournals
+     * const lunarJournals = await prisma.lunarJournal.findMany()
+     * 
+     * // Get first 10 LunarJournals
+     * const lunarJournals = await prisma.lunarJournal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lunarJournalWithIdOnly = await prisma.lunarJournal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LunarJournalFindManyArgs>(args?: SelectSubset<T, LunarJournalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LunarJournal.
+     * @param {LunarJournalCreateArgs} args - Arguments to create a LunarJournal.
+     * @example
+     * // Create one LunarJournal
+     * const LunarJournal = await prisma.lunarJournal.create({
+     *   data: {
+     *     // ... data to create a LunarJournal
+     *   }
+     * })
+     * 
+     */
+    create<T extends LunarJournalCreateArgs>(args: SelectSubset<T, LunarJournalCreateArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LunarJournals.
+     * @param {LunarJournalCreateManyArgs} args - Arguments to create many LunarJournals.
+     * @example
+     * // Create many LunarJournals
+     * const lunarJournal = await prisma.lunarJournal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LunarJournalCreateManyArgs>(args?: SelectSubset<T, LunarJournalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LunarJournals and returns the data saved in the database.
+     * @param {LunarJournalCreateManyAndReturnArgs} args - Arguments to create many LunarJournals.
+     * @example
+     * // Create many LunarJournals
+     * const lunarJournal = await prisma.lunarJournal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LunarJournals and only return the `id`
+     * const lunarJournalWithIdOnly = await prisma.lunarJournal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LunarJournalCreateManyAndReturnArgs>(args?: SelectSubset<T, LunarJournalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LunarJournal.
+     * @param {LunarJournalDeleteArgs} args - Arguments to delete one LunarJournal.
+     * @example
+     * // Delete one LunarJournal
+     * const LunarJournal = await prisma.lunarJournal.delete({
+     *   where: {
+     *     // ... filter to delete one LunarJournal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LunarJournalDeleteArgs>(args: SelectSubset<T, LunarJournalDeleteArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LunarJournal.
+     * @param {LunarJournalUpdateArgs} args - Arguments to update one LunarJournal.
+     * @example
+     * // Update one LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LunarJournalUpdateArgs>(args: SelectSubset<T, LunarJournalUpdateArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LunarJournals.
+     * @param {LunarJournalDeleteManyArgs} args - Arguments to filter LunarJournals to delete.
+     * @example
+     * // Delete a few LunarJournals
+     * const { count } = await prisma.lunarJournal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LunarJournalDeleteManyArgs>(args?: SelectSubset<T, LunarJournalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LunarJournals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LunarJournals
+     * const lunarJournal = await prisma.lunarJournal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LunarJournalUpdateManyArgs>(args: SelectSubset<T, LunarJournalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LunarJournals and returns the data updated in the database.
+     * @param {LunarJournalUpdateManyAndReturnArgs} args - Arguments to update many LunarJournals.
+     * @example
+     * // Update many LunarJournals
+     * const lunarJournal = await prisma.lunarJournal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LunarJournals and only return the `id`
+     * const lunarJournalWithIdOnly = await prisma.lunarJournal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LunarJournalUpdateManyAndReturnArgs>(args: SelectSubset<T, LunarJournalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LunarJournal.
+     * @param {LunarJournalUpsertArgs} args - Arguments to update or create a LunarJournal.
+     * @example
+     * // Update or create a LunarJournal
+     * const lunarJournal = await prisma.lunarJournal.upsert({
+     *   create: {
+     *     // ... data to create a LunarJournal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LunarJournal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LunarJournalUpsertArgs>(args: SelectSubset<T, LunarJournalUpsertArgs<ExtArgs>>): Prisma__LunarJournalClient<$Result.GetResult<Prisma.$LunarJournalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LunarJournals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalCountArgs} args - Arguments to filter LunarJournals to count.
+     * @example
+     * // Count the number of LunarJournals
+     * const count = await prisma.lunarJournal.count({
+     *   where: {
+     *     // ... the filter for the LunarJournals we want to count
+     *   }
+     * })
+    **/
+    count<T extends LunarJournalCountArgs>(
+      args?: Subset<T, LunarJournalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LunarJournalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LunarJournal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LunarJournalAggregateArgs>(args: Subset<T, LunarJournalAggregateArgs>): Prisma.PrismaPromise<GetLunarJournalAggregateType<T>>
+
+    /**
+     * Group by LunarJournal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LunarJournalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LunarJournalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LunarJournalGroupByArgs['orderBy'] }
+        : { orderBy?: LunarJournalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LunarJournalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLunarJournalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LunarJournal model
+   */
+  readonly fields: LunarJournalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LunarJournal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LunarJournalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LunarJournal model
+   */
+  interface LunarJournalFieldRefs {
+    readonly id: FieldRef<"LunarJournal", 'String'>
+    readonly userId: FieldRef<"LunarJournal", 'String'>
+    readonly date: FieldRef<"LunarJournal", 'DateTime'>
+    readonly eventType: FieldRef<"LunarJournal", 'String'>
+    readonly notes: FieldRef<"LunarJournal", 'String'>
+    readonly createdAt: FieldRef<"LunarJournal", 'DateTime'>
+    readonly updatedAt: FieldRef<"LunarJournal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LunarJournal findUnique
+   */
+  export type LunarJournalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarJournal to fetch.
+     */
+    where: LunarJournalWhereUniqueInput
+  }
+
+  /**
+   * LunarJournal findUniqueOrThrow
+   */
+  export type LunarJournalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarJournal to fetch.
+     */
+    where: LunarJournalWhereUniqueInput
+  }
+
+  /**
+   * LunarJournal findFirst
+   */
+  export type LunarJournalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarJournal to fetch.
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarJournals to fetch.
+     */
+    orderBy?: LunarJournalOrderByWithRelationInput | LunarJournalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LunarJournals.
+     */
+    cursor?: LunarJournalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarJournals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarJournals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LunarJournals.
+     */
+    distinct?: LunarJournalScalarFieldEnum | LunarJournalScalarFieldEnum[]
+  }
+
+  /**
+   * LunarJournal findFirstOrThrow
+   */
+  export type LunarJournalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarJournal to fetch.
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarJournals to fetch.
+     */
+    orderBy?: LunarJournalOrderByWithRelationInput | LunarJournalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LunarJournals.
+     */
+    cursor?: LunarJournalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarJournals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarJournals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LunarJournals.
+     */
+    distinct?: LunarJournalScalarFieldEnum | LunarJournalScalarFieldEnum[]
+  }
+
+  /**
+   * LunarJournal findMany
+   */
+  export type LunarJournalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter, which LunarJournals to fetch.
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LunarJournals to fetch.
+     */
+    orderBy?: LunarJournalOrderByWithRelationInput | LunarJournalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LunarJournals.
+     */
+    cursor?: LunarJournalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LunarJournals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LunarJournals.
+     */
+    skip?: number
+    distinct?: LunarJournalScalarFieldEnum | LunarJournalScalarFieldEnum[]
+  }
+
+  /**
+   * LunarJournal create
+   */
+  export type LunarJournalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LunarJournal.
+     */
+    data: XOR<LunarJournalCreateInput, LunarJournalUncheckedCreateInput>
+  }
+
+  /**
+   * LunarJournal createMany
+   */
+  export type LunarJournalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LunarJournals.
+     */
+    data: LunarJournalCreateManyInput | LunarJournalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LunarJournal createManyAndReturn
+   */
+  export type LunarJournalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * The data used to create many LunarJournals.
+     */
+    data: LunarJournalCreateManyInput | LunarJournalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LunarJournal update
+   */
+  export type LunarJournalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LunarJournal.
+     */
+    data: XOR<LunarJournalUpdateInput, LunarJournalUncheckedUpdateInput>
+    /**
+     * Choose, which LunarJournal to update.
+     */
+    where: LunarJournalWhereUniqueInput
+  }
+
+  /**
+   * LunarJournal updateMany
+   */
+  export type LunarJournalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LunarJournals.
+     */
+    data: XOR<LunarJournalUpdateManyMutationInput, LunarJournalUncheckedUpdateManyInput>
+    /**
+     * Filter which LunarJournals to update
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * Limit how many LunarJournals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LunarJournal updateManyAndReturn
+   */
+  export type LunarJournalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * The data used to update LunarJournals.
+     */
+    data: XOR<LunarJournalUpdateManyMutationInput, LunarJournalUncheckedUpdateManyInput>
+    /**
+     * Filter which LunarJournals to update
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * Limit how many LunarJournals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LunarJournal upsert
+   */
+  export type LunarJournalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LunarJournal to update in case it exists.
+     */
+    where: LunarJournalWhereUniqueInput
+    /**
+     * In case the LunarJournal found by the `where` argument doesn't exist, create a new LunarJournal with this data.
+     */
+    create: XOR<LunarJournalCreateInput, LunarJournalUncheckedCreateInput>
+    /**
+     * In case the LunarJournal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LunarJournalUpdateInput, LunarJournalUncheckedUpdateInput>
+  }
+
+  /**
+   * LunarJournal delete
+   */
+  export type LunarJournalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+    /**
+     * Filter which LunarJournal to delete.
+     */
+    where: LunarJournalWhereUniqueInput
+  }
+
+  /**
+   * LunarJournal deleteMany
+   */
+  export type LunarJournalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LunarJournals to delete
+     */
+    where?: LunarJournalWhereInput
+    /**
+     * Limit how many LunarJournals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LunarJournal without action
+   */
+  export type LunarJournalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LunarJournal
+     */
+    select?: LunarJournalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LunarJournal
+     */
+    omit?: LunarJournalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LunarJournalInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9929,6 +12374,31 @@ export namespace Prisma {
   export type PersonalCalendarCacheScalarFieldEnum = (typeof PersonalCalendarCacheScalarFieldEnum)[keyof typeof PersonalCalendarCacheScalarFieldEnum]
 
 
+  export const LunarPhasesCacheScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    year: 'year',
+    events: 'events',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LunarPhasesCacheScalarFieldEnum = (typeof LunarPhasesCacheScalarFieldEnum)[keyof typeof LunarPhasesCacheScalarFieldEnum]
+
+
+  export const LunarJournalScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    date: 'date',
+    eventType: 'eventType',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LunarJournalScalarFieldEnum = (typeof LunarJournalScalarFieldEnum)[keyof typeof LunarJournalScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -10059,6 +12529,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheListRelationFilter
     horariaRequests?: HorariaRequestListRelationFilter
     personalCalendarCache?: PersonalCalendarCacheListRelationFilter
+    lunarPhasesCache?: LunarPhasesCacheListRelationFilter
+    lunarJournal?: LunarJournalListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10093,6 +12565,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
     horariaRequests?: HorariaRequestOrderByRelationAggregateInput
     personalCalendarCache?: PersonalCalendarCacheOrderByRelationAggregateInput
+    lunarPhasesCache?: LunarPhasesCacheOrderByRelationAggregateInput
+    lunarJournal?: LunarJournalOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10130,6 +12604,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheListRelationFilter
     horariaRequests?: HorariaRequestListRelationFilter
     personalCalendarCache?: PersonalCalendarCacheListRelationFilter
+    lunarPhasesCache?: LunarPhasesCacheListRelationFilter
+    lunarJournal?: LunarJournalListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -10694,6 +13170,134 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PersonalCalendarCache"> | Date | string
   }
 
+  export type LunarPhasesCacheWhereInput = {
+    AND?: LunarPhasesCacheWhereInput | LunarPhasesCacheWhereInput[]
+    OR?: LunarPhasesCacheWhereInput[]
+    NOT?: LunarPhasesCacheWhereInput | LunarPhasesCacheWhereInput[]
+    id?: StringFilter<"LunarPhasesCache"> | string
+    userId?: StringFilter<"LunarPhasesCache"> | string
+    year?: IntFilter<"LunarPhasesCache"> | number
+    events?: StringFilter<"LunarPhasesCache"> | string
+    createdAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LunarPhasesCacheOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LunarPhasesCacheWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_year?: LunarPhasesCacheUserIdYearCompoundUniqueInput
+    AND?: LunarPhasesCacheWhereInput | LunarPhasesCacheWhereInput[]
+    OR?: LunarPhasesCacheWhereInput[]
+    NOT?: LunarPhasesCacheWhereInput | LunarPhasesCacheWhereInput[]
+    userId?: StringFilter<"LunarPhasesCache"> | string
+    year?: IntFilter<"LunarPhasesCache"> | number
+    events?: StringFilter<"LunarPhasesCache"> | string
+    createdAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_year">
+
+  export type LunarPhasesCacheOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LunarPhasesCacheCountOrderByAggregateInput
+    _avg?: LunarPhasesCacheAvgOrderByAggregateInput
+    _max?: LunarPhasesCacheMaxOrderByAggregateInput
+    _min?: LunarPhasesCacheMinOrderByAggregateInput
+    _sum?: LunarPhasesCacheSumOrderByAggregateInput
+  }
+
+  export type LunarPhasesCacheScalarWhereWithAggregatesInput = {
+    AND?: LunarPhasesCacheScalarWhereWithAggregatesInput | LunarPhasesCacheScalarWhereWithAggregatesInput[]
+    OR?: LunarPhasesCacheScalarWhereWithAggregatesInput[]
+    NOT?: LunarPhasesCacheScalarWhereWithAggregatesInput | LunarPhasesCacheScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LunarPhasesCache"> | string
+    userId?: StringWithAggregatesFilter<"LunarPhasesCache"> | string
+    year?: IntWithAggregatesFilter<"LunarPhasesCache"> | number
+    events?: StringWithAggregatesFilter<"LunarPhasesCache"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LunarPhasesCache"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LunarPhasesCache"> | Date | string
+  }
+
+  export type LunarJournalWhereInput = {
+    AND?: LunarJournalWhereInput | LunarJournalWhereInput[]
+    OR?: LunarJournalWhereInput[]
+    NOT?: LunarJournalWhereInput | LunarJournalWhereInput[]
+    id?: StringFilter<"LunarJournal"> | string
+    userId?: StringFilter<"LunarJournal"> | string
+    date?: DateTimeFilter<"LunarJournal"> | Date | string
+    eventType?: StringFilter<"LunarJournal"> | string
+    notes?: StringFilter<"LunarJournal"> | string
+    createdAt?: DateTimeFilter<"LunarJournal"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarJournal"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LunarJournalOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    eventType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LunarJournalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LunarJournalWhereInput | LunarJournalWhereInput[]
+    OR?: LunarJournalWhereInput[]
+    NOT?: LunarJournalWhereInput | LunarJournalWhereInput[]
+    userId?: StringFilter<"LunarJournal"> | string
+    date?: DateTimeFilter<"LunarJournal"> | Date | string
+    eventType?: StringFilter<"LunarJournal"> | string
+    notes?: StringFilter<"LunarJournal"> | string
+    createdAt?: DateTimeFilter<"LunarJournal"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarJournal"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type LunarJournalOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    eventType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LunarJournalCountOrderByAggregateInput
+    _max?: LunarJournalMaxOrderByAggregateInput
+    _min?: LunarJournalMinOrderByAggregateInput
+  }
+
+  export type LunarJournalScalarWhereWithAggregatesInput = {
+    AND?: LunarJournalScalarWhereWithAggregatesInput | LunarJournalScalarWhereWithAggregatesInput[]
+    OR?: LunarJournalScalarWhereWithAggregatesInput[]
+    NOT?: LunarJournalScalarWhereWithAggregatesInput | LunarJournalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LunarJournal"> | string
+    userId?: StringWithAggregatesFilter<"LunarJournal"> | string
+    date?: DateTimeWithAggregatesFilter<"LunarJournal"> | Date | string
+    eventType?: StringWithAggregatesFilter<"LunarJournal"> | string
+    notes?: StringWithAggregatesFilter<"LunarJournal"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LunarJournal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LunarJournal"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -10726,6 +13330,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10760,6 +13366,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10794,6 +13402,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10828,6 +13438,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11472,6 +14084,137 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LunarPhasesCacheCreateInput = {
+    id?: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutLunarPhasesCacheInput
+  }
+
+  export type LunarPhasesCacheUncheckedCreateInput = {
+    id?: string
+    userId: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarPhasesCacheUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLunarPhasesCacheNestedInput
+  }
+
+  export type LunarPhasesCacheUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarPhasesCacheCreateManyInput = {
+    id?: string
+    userId: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarPhasesCacheUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarPhasesCacheUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalCreateInput = {
+    id?: string
+    date: Date | string
+    eventType: string
+    notes: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutLunarJournalInput
+  }
+
+  export type LunarJournalUncheckedCreateInput = {
+    id?: string
+    userId: string
+    date: Date | string
+    eventType: string
+    notes: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarJournalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLunarJournalNestedInput
+  }
+
+  export type LunarJournalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalCreateManyInput = {
+    id?: string
+    userId: string
+    date: Date | string
+    eventType: string
+    notes: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarJournalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11570,6 +14313,18 @@ export namespace Prisma {
     none?: PersonalCalendarCacheWhereInput
   }
 
+  export type LunarPhasesCacheListRelationFilter = {
+    every?: LunarPhasesCacheWhereInput
+    some?: LunarPhasesCacheWhereInput
+    none?: LunarPhasesCacheWhereInput
+  }
+
+  export type LunarJournalListRelationFilter = {
+    every?: LunarJournalWhereInput
+    some?: LunarJournalWhereInput
+    none?: LunarJournalWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -11592,6 +14347,14 @@ export namespace Prisma {
   }
 
   export type PersonalCalendarCacheOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LunarPhasesCacheOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LunarJournalOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12127,6 +14890,76 @@ export namespace Prisma {
     year?: SortOrder
   }
 
+  export type LunarPhasesCacheUserIdYearCompoundUniqueInput = {
+    userId: string
+    year: number
+  }
+
+  export type LunarPhasesCacheCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LunarPhasesCacheAvgOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
+  export type LunarPhasesCacheMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LunarPhasesCacheMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    year?: SortOrder
+    events?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LunarPhasesCacheSumOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
+  export type LunarJournalCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    eventType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LunarJournalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    eventType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LunarJournalMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    eventType?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type RectificationEventCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -12162,6 +14995,20 @@ export namespace Prisma {
     connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
   }
 
+  export type LunarPhasesCacheCreateNestedManyWithoutUserInput = {
+    create?: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput> | LunarPhasesCacheCreateWithoutUserInput[] | LunarPhasesCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarPhasesCacheCreateOrConnectWithoutUserInput | LunarPhasesCacheCreateOrConnectWithoutUserInput[]
+    createMany?: LunarPhasesCacheCreateManyUserInputEnvelope
+    connect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+  }
+
+  export type LunarJournalCreateNestedManyWithoutUserInput = {
+    create?: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput> | LunarJournalCreateWithoutUserInput[] | LunarJournalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarJournalCreateOrConnectWithoutUserInput | LunarJournalCreateOrConnectWithoutUserInput[]
+    createMany?: LunarJournalCreateManyUserInputEnvelope
+    connect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+  }
+
   export type RectificationEventUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -12195,6 +15042,20 @@ export namespace Prisma {
     connectOrCreate?: PersonalCalendarCacheCreateOrConnectWithoutUserInput | PersonalCalendarCacheCreateOrConnectWithoutUserInput[]
     createMany?: PersonalCalendarCacheCreateManyUserInputEnvelope
     connect?: PersonalCalendarCacheWhereUniqueInput | PersonalCalendarCacheWhereUniqueInput[]
+  }
+
+  export type LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput> | LunarPhasesCacheCreateWithoutUserInput[] | LunarPhasesCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarPhasesCacheCreateOrConnectWithoutUserInput | LunarPhasesCacheCreateOrConnectWithoutUserInput[]
+    createMany?: LunarPhasesCacheCreateManyUserInputEnvelope
+    connect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+  }
+
+  export type LunarJournalUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput> | LunarJournalCreateWithoutUserInput[] | LunarJournalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarJournalCreateOrConnectWithoutUserInput | LunarJournalCreateOrConnectWithoutUserInput[]
+    createMany?: LunarJournalCreateManyUserInputEnvelope
+    connect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12295,6 +15156,34 @@ export namespace Prisma {
     deleteMany?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
   }
 
+  export type LunarPhasesCacheUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput> | LunarPhasesCacheCreateWithoutUserInput[] | LunarPhasesCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarPhasesCacheCreateOrConnectWithoutUserInput | LunarPhasesCacheCreateOrConnectWithoutUserInput[]
+    upsert?: LunarPhasesCacheUpsertWithWhereUniqueWithoutUserInput | LunarPhasesCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LunarPhasesCacheCreateManyUserInputEnvelope
+    set?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    disconnect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    delete?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    connect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    update?: LunarPhasesCacheUpdateWithWhereUniqueWithoutUserInput | LunarPhasesCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LunarPhasesCacheUpdateManyWithWhereWithoutUserInput | LunarPhasesCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LunarPhasesCacheScalarWhereInput | LunarPhasesCacheScalarWhereInput[]
+  }
+
+  export type LunarJournalUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput> | LunarJournalCreateWithoutUserInput[] | LunarJournalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarJournalCreateOrConnectWithoutUserInput | LunarJournalCreateOrConnectWithoutUserInput[]
+    upsert?: LunarJournalUpsertWithWhereUniqueWithoutUserInput | LunarJournalUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LunarJournalCreateManyUserInputEnvelope
+    set?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    disconnect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    delete?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    connect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    update?: LunarJournalUpdateWithWhereUniqueWithoutUserInput | LunarJournalUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LunarJournalUpdateManyWithWhereWithoutUserInput | LunarJournalUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LunarJournalScalarWhereInput | LunarJournalScalarWhereInput[]
+  }
+
   export type RectificationEventUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -12363,6 +15252,34 @@ export namespace Prisma {
     update?: PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput | PersonalCalendarCacheUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput | PersonalCalendarCacheUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: PersonalCalendarCacheScalarWhereInput | PersonalCalendarCacheScalarWhereInput[]
+  }
+
+  export type LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput> | LunarPhasesCacheCreateWithoutUserInput[] | LunarPhasesCacheUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarPhasesCacheCreateOrConnectWithoutUserInput | LunarPhasesCacheCreateOrConnectWithoutUserInput[]
+    upsert?: LunarPhasesCacheUpsertWithWhereUniqueWithoutUserInput | LunarPhasesCacheUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LunarPhasesCacheCreateManyUserInputEnvelope
+    set?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    disconnect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    delete?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    connect?: LunarPhasesCacheWhereUniqueInput | LunarPhasesCacheWhereUniqueInput[]
+    update?: LunarPhasesCacheUpdateWithWhereUniqueWithoutUserInput | LunarPhasesCacheUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LunarPhasesCacheUpdateManyWithWhereWithoutUserInput | LunarPhasesCacheUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LunarPhasesCacheScalarWhereInput | LunarPhasesCacheScalarWhereInput[]
+  }
+
+  export type LunarJournalUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput> | LunarJournalCreateWithoutUserInput[] | LunarJournalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LunarJournalCreateOrConnectWithoutUserInput | LunarJournalCreateOrConnectWithoutUserInput[]
+    upsert?: LunarJournalUpsertWithWhereUniqueWithoutUserInput | LunarJournalUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LunarJournalCreateManyUserInputEnvelope
+    set?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    disconnect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    delete?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    connect?: LunarJournalWhereUniqueInput | LunarJournalWhereUniqueInput[]
+    update?: LunarJournalUpdateWithWhereUniqueWithoutUserInput | LunarJournalUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LunarJournalUpdateManyWithWhereWithoutUserInput | LunarJournalUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LunarJournalScalarWhereInput | LunarJournalScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRectificationEventsInput = {
@@ -12449,6 +15366,34 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPersonalCalendarCacheInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPersonalCalendarCacheInput, UserUpdateWithoutPersonalCalendarCacheInput>, UserUncheckedUpdateWithoutPersonalCalendarCacheInput>
+  }
+
+  export type UserCreateNestedOneWithoutLunarPhasesCacheInput = {
+    create?: XOR<UserCreateWithoutLunarPhasesCacheInput, UserUncheckedCreateWithoutLunarPhasesCacheInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLunarPhasesCacheInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLunarPhasesCacheNestedInput = {
+    create?: XOR<UserCreateWithoutLunarPhasesCacheInput, UserUncheckedCreateWithoutLunarPhasesCacheInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLunarPhasesCacheInput
+    upsert?: UserUpsertWithoutLunarPhasesCacheInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLunarPhasesCacheInput, UserUpdateWithoutLunarPhasesCacheInput>, UserUncheckedUpdateWithoutLunarPhasesCacheInput>
+  }
+
+  export type UserCreateNestedOneWithoutLunarJournalInput = {
+    create?: XOR<UserCreateWithoutLunarJournalInput, UserUncheckedCreateWithoutLunarJournalInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLunarJournalInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLunarJournalNestedInput = {
+    create?: XOR<UserCreateWithoutLunarJournalInput, UserUncheckedCreateWithoutLunarJournalInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLunarJournalInput
+    upsert?: UserUpsertWithoutLunarJournalInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLunarJournalInput, UserUpdateWithoutLunarJournalInput>, UserUncheckedUpdateWithoutLunarJournalInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12842,6 +15787,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LunarPhasesCacheCreateWithoutUserInput = {
+    id?: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarPhasesCacheUncheckedCreateWithoutUserInput = {
+    id?: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarPhasesCacheCreateOrConnectWithoutUserInput = {
+    where: LunarPhasesCacheWhereUniqueInput
+    create: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type LunarPhasesCacheCreateManyUserInputEnvelope = {
+    data: LunarPhasesCacheCreateManyUserInput | LunarPhasesCacheCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LunarJournalCreateWithoutUserInput = {
+    id?: string
+    date: Date | string
+    eventType: string
+    notes: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarJournalUncheckedCreateWithoutUserInput = {
+    id?: string
+    date: Date | string
+    eventType: string
+    notes: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarJournalCreateOrConnectWithoutUserInput = {
+    where: LunarJournalWhereUniqueInput
+    create: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput>
+  }
+
+  export type LunarJournalCreateManyUserInputEnvelope = {
+    data: LunarJournalCreateManyUserInput | LunarJournalCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RectificationEventUpsertWithWhereUniqueWithoutUserInput = {
     where: RectificationEventWhereUniqueInput
     update: XOR<RectificationEventUpdateWithoutUserInput, RectificationEventUncheckedUpdateWithoutUserInput>
@@ -13004,6 +16003,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PersonalCalendarCache"> | Date | string
   }
 
+  export type LunarPhasesCacheUpsertWithWhereUniqueWithoutUserInput = {
+    where: LunarPhasesCacheWhereUniqueInput
+    update: XOR<LunarPhasesCacheUpdateWithoutUserInput, LunarPhasesCacheUncheckedUpdateWithoutUserInput>
+    create: XOR<LunarPhasesCacheCreateWithoutUserInput, LunarPhasesCacheUncheckedCreateWithoutUserInput>
+  }
+
+  export type LunarPhasesCacheUpdateWithWhereUniqueWithoutUserInput = {
+    where: LunarPhasesCacheWhereUniqueInput
+    data: XOR<LunarPhasesCacheUpdateWithoutUserInput, LunarPhasesCacheUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LunarPhasesCacheUpdateManyWithWhereWithoutUserInput = {
+    where: LunarPhasesCacheScalarWhereInput
+    data: XOR<LunarPhasesCacheUpdateManyMutationInput, LunarPhasesCacheUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LunarPhasesCacheScalarWhereInput = {
+    AND?: LunarPhasesCacheScalarWhereInput | LunarPhasesCacheScalarWhereInput[]
+    OR?: LunarPhasesCacheScalarWhereInput[]
+    NOT?: LunarPhasesCacheScalarWhereInput | LunarPhasesCacheScalarWhereInput[]
+    id?: StringFilter<"LunarPhasesCache"> | string
+    userId?: StringFilter<"LunarPhasesCache"> | string
+    year?: IntFilter<"LunarPhasesCache"> | number
+    events?: StringFilter<"LunarPhasesCache"> | string
+    createdAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarPhasesCache"> | Date | string
+  }
+
+  export type LunarJournalUpsertWithWhereUniqueWithoutUserInput = {
+    where: LunarJournalWhereUniqueInput
+    update: XOR<LunarJournalUpdateWithoutUserInput, LunarJournalUncheckedUpdateWithoutUserInput>
+    create: XOR<LunarJournalCreateWithoutUserInput, LunarJournalUncheckedCreateWithoutUserInput>
+  }
+
+  export type LunarJournalUpdateWithWhereUniqueWithoutUserInput = {
+    where: LunarJournalWhereUniqueInput
+    data: XOR<LunarJournalUpdateWithoutUserInput, LunarJournalUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LunarJournalUpdateManyWithWhereWithoutUserInput = {
+    where: LunarJournalScalarWhereInput
+    data: XOR<LunarJournalUpdateManyMutationInput, LunarJournalUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LunarJournalScalarWhereInput = {
+    AND?: LunarJournalScalarWhereInput | LunarJournalScalarWhereInput[]
+    OR?: LunarJournalScalarWhereInput[]
+    NOT?: LunarJournalScalarWhereInput | LunarJournalScalarWhereInput[]
+    id?: StringFilter<"LunarJournal"> | string
+    userId?: StringFilter<"LunarJournal"> | string
+    date?: DateTimeFilter<"LunarJournal"> | Date | string
+    eventType?: StringFilter<"LunarJournal"> | string
+    notes?: StringFilter<"LunarJournal"> | string
+    createdAt?: DateTimeFilter<"LunarJournal"> | Date | string
+    updatedAt?: DateTimeFilter<"LunarJournal"> | Date | string
+  }
+
   export type UserCreateWithoutRectificationEventsInput = {
     id?: string
     email: string
@@ -13035,6 +16091,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRectificationEventsInput = {
@@ -13068,6 +16126,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRectificationEventsInput = {
@@ -13117,6 +16177,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRectificationEventsInput = {
@@ -13150,6 +16212,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCartasNatalesInput = {
@@ -13183,6 +16247,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCartasNatalesInput = {
@@ -13216,6 +16282,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCartasNatalesInput = {
@@ -13265,6 +16333,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartasNatalesInput = {
@@ -13298,6 +16368,8 @@ export namespace Prisma {
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutInterpretacionesInput = {
@@ -13331,6 +16403,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInterpretacionesInput = {
@@ -13364,6 +16438,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInterpretacionesInput = {
@@ -13413,6 +16489,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInterpretacionesInput = {
@@ -13446,6 +16524,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHorariaRequestsInput = {
@@ -13479,6 +16559,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHorariaRequestsInput = {
@@ -13512,6 +16594,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHorariaRequestsInput = {
@@ -13561,6 +16645,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHorariaRequestsInput = {
@@ -13594,6 +16680,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPersonalCalendarCacheInput = {
@@ -13627,6 +16715,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPersonalCalendarCacheInput = {
@@ -13660,6 +16750,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPersonalCalendarCacheInput = {
@@ -13709,6 +16801,8 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPersonalCalendarCacheInput = {
@@ -13742,6 +16836,320 @@ export namespace Prisma {
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutLunarPhasesCacheInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLunarPhasesCacheInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarJournal?: LunarJournalUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLunarPhasesCacheInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLunarPhasesCacheInput, UserUncheckedCreateWithoutLunarPhasesCacheInput>
+  }
+
+  export type UserUpsertWithoutLunarPhasesCacheInput = {
+    update: XOR<UserUpdateWithoutLunarPhasesCacheInput, UserUncheckedUpdateWithoutLunarPhasesCacheInput>
+    create: XOR<UserCreateWithoutLunarPhasesCacheInput, UserUncheckedCreateWithoutLunarPhasesCacheInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLunarPhasesCacheInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLunarPhasesCacheInput, UserUncheckedUpdateWithoutLunarPhasesCacheInput>
+  }
+
+  export type UserUpdateWithoutLunarPhasesCacheInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLunarPhasesCacheInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarJournal?: LunarJournalUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutLunarJournalInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLunarJournalInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    birthDate?: Date | string | null
+    birthCity?: string | null
+    birthCountry?: string | null
+    birthHour?: number | null
+    birthMinute?: number | null
+    knowsBirthTime?: boolean
+    gender?: string | null
+    residenceCity?: string | null
+    residenceCountry?: string | null
+    timezone?: string | null
+    rectificationRequested?: boolean
+    rectificationAcceptedUncertainty?: boolean
+    rectificationStatus?: string | null
+    rectificationRequestDate?: Date | string | null
+    subscriptionStatus?: string
+    subscriptionExpiresAt?: Date | string | null
+    rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
+    cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
+    interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
+    horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedCreateNestedManyWithoutUserInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLunarJournalInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLunarJournalInput, UserUncheckedCreateWithoutLunarJournalInput>
+  }
+
+  export type UserUpsertWithoutLunarJournalInput = {
+    update: XOR<UserUpdateWithoutLunarJournalInput, UserUncheckedUpdateWithoutLunarJournalInput>
+    create: XOR<UserCreateWithoutLunarJournalInput, UserUncheckedCreateWithoutLunarJournalInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLunarJournalInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLunarJournalInput, UserUncheckedUpdateWithoutLunarJournalInput>
+  }
+
+  export type UserUpdateWithoutLunarJournalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLunarJournalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    birthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    birthCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
+    residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
+    rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
+    rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
+    cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
+    interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
+    horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
+    personalCalendarCache?: PersonalCalendarCacheUncheckedUpdateManyWithoutUserNestedInput
+    lunarPhasesCache?: LunarPhasesCacheUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RectificationEventCreateManyUserInput = {
@@ -13802,6 +17210,23 @@ export namespace Prisma {
     events: string
     calculatedAt: Date | string
     expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarPhasesCacheCreateManyUserInput = {
+    id?: string
+    year: number
+    events: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LunarJournalCreateManyUserInput = {
+    id?: string
+    date: Date | string
+    eventType: string
+    notes: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13988,6 +17413,57 @@ export namespace Prisma {
     events?: StringFieldUpdateOperationsInput | string
     calculatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarPhasesCacheUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarPhasesCacheUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarPhasesCacheUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    events?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LunarJournalUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    notes?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

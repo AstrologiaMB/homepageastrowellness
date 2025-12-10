@@ -229,6 +229,25 @@ exports.Prisma.PersonalCalendarCacheScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LunarPhasesCacheScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  year: 'year',
+  events: 'events',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LunarJournalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  eventType: 'eventType',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -252,7 +271,9 @@ exports.Prisma.ModelName = {
   InterpretacionCache: 'InterpretacionCache',
   AstrogematriaCache: 'AstrogematriaCache',
   HorariaRequest: 'HorariaRequest',
-  PersonalCalendarCache: 'PersonalCalendarCache'
+  PersonalCalendarCache: 'PersonalCalendarCache',
+  LunarPhasesCache: 'LunarPhasesCache',
+  LunarJournal: 'LunarJournal'
 };
 
 /**

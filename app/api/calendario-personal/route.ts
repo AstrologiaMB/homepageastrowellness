@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getCalendarCache, setCalendarCache } from '@/lib/calendar-cache';
+import { setLunarCache } from '@/lib/lunar-cache';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
 
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
   try {
     // Obtener sesión del usuario
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.email) {
       return NextResponse.json(
         { error: 'No autenticado' },
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
     // Intentar obtener del cache (si no es recalculación forzada)
     if (!forceRecalculate) {
       const cachedData = await getCalendarCache(userId, year);
-      
+
       if (cachedData) {
         console.log(`⚡ Devolviendo desde cache`);
         return NextResponse.json({
@@ -132,9 +133,26 @@ export async function POST(request: NextRequest) {
 
     // Guardar en cache
     const cacheSuccess = await setCalendarCache(userId, year, data.events);
-    
+
     if (!cacheSuccess) {
       console.warn('⚠️ No se pudo guardar en cache');
+    }
+
+    // Guardar en cache lunar (Fases y sus aspectos)
+    try {
+      const lunarEvents = data.events.filter((e: any) => {
+        const isPhaseType = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento);
+        const isPhaseAspect = e.metadata && e.metadata.phase_type; // Aspectos generados por el filtro de fases
+        return isPhaseType || isPhaseAspect;
+      });
+
+      if (lunarEvents.length > 0) {
+        await setLunarCache(userId, year, lunarEvents);
+        console.log(`🌙 Guardados ${lunarEvents.length} eventos lunares en cache auxiliar`);
+      }
+    } catch (lunarError) {
+      console.error('Error guardando cache lunar:', lunarError);
+      // No fallamos el request principal por esto
     }
 
     const calculationTime = (Date.now() - startTime) / 1000;
@@ -159,7 +177,7 @@ export async function POST(request: NextRequest) {
           { status: 408 }
         );
       }
-      
+
       return NextResponse.json(
         { error: error.message },
         { status: 500 }

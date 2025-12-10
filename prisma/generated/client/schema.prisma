@@ -39,6 +39,8 @@ model User {
   interpretaciones                 InterpretacionCache[]
   horariaRequests                  HorariaRequest[]
   personalCalendarCache            PersonalCalendarCache[]
+  lunarPhasesCache                 LunarPhasesCache[]
+  lunarJournal                     LunarJournal[]
   // Subscription fields for manual control
   subscriptionStatus               String                  @default("free") // "free" | "premium"
   subscriptionExpiresAt            DateTime?
@@ -134,4 +136,29 @@ model PersonalCalendarCache {
 
   @@unique([userId, year])
   @@index([expiresAt])
+}
+
+model LunarPhasesCache {
+  id        String   @id @default(cuid())
+  userId    String
+  year      Int
+  events    String // JSON string with calculated lunar events (Phases + Eclipses)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year])
+}
+
+model LunarJournal {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime // Date of the event
+  eventType String // "Luna Nueva", "Eclipse Solar", etc.
+  notes     String // User's personal notes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
 }
