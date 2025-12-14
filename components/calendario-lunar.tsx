@@ -172,6 +172,7 @@ export function CalendarioLunar() {
                             key={idx}
                             group={group}
                             initialEntry={entry}
+                            natalData={natalData}
                         />
                     );
                 })}

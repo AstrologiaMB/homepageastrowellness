@@ -81,7 +81,7 @@ export function CalendarioPersonal() {
         hasFetched.current = true; // Marcar que la llamada se ha realizado
 
         const response = await fetchPersonalCalendar(natalData, false);
-        
+
         setEventos(response.events);
         setCalculationStats({
           total_events: response.total_events,
@@ -124,7 +124,7 @@ export function CalendarioPersonal() {
       setCalculationError(null);
 
       const response = await fetchPersonalCalendar(natalData, true);
-      
+
       setEventos(response.events);
       setCalculationStats({
         total_events: response.total_events,
@@ -259,7 +259,7 @@ export function CalendarioPersonal() {
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            El microservicio de calendario personal no está disponible. 
+            El microservicio de calendario personal no está disponible.
             Verifica que esté ejecutándose en el puerto 8004.
           </AlertDescription>
         </Alert>
@@ -298,9 +298,9 @@ export function CalendarioPersonal() {
         </div>
         <div className="flex items-center gap-2">
           {/* Refresh Button */}
-          <Button 
-            variant="outline" 
-            size="icon" 
+          <Button
+            variant="outline"
+            size="icon"
             onClick={handleRefreshCalculation}
             disabled={isCalculating}
           >
@@ -386,10 +386,10 @@ export function CalendarioPersonal() {
 
       {/* House Transits State Card */}
       {(() => {
-        const eventosEspeciales = eventos.filter(evento => 
+        const eventosEspeciales = eventos.filter(evento =>
           evento.tipo_evento === "Tránsito Casa Estado"
         );
-        
+
         if (eventosEspeciales.length > 0) {
           return (
             <Card className="p-4 mb-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
@@ -398,9 +398,10 @@ export function CalendarioPersonal() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {eventosEspeciales.map((evento, index) => (
-                  <EventoConInterpretacion 
-                    key={`house-transit-${index}`} 
-                    evento={evento} 
+                  <EventoConInterpretacion
+                    key={`house-transit-${index}`}
+                    evento={evento}
+                    natalData={natalData}
                   />
                 ))}
               </div>
@@ -419,14 +420,14 @@ export function CalendarioPersonal() {
             if (evento.tipo_evento === "Tránsito Casa Estado") {
               return false;
             }
-            
+
             // Incluir eventos de Luna Progresada que son conjunciones específicas
-            if (evento.tipo_evento === "Luna Progresada" && 
-                evento.descripcion && evento.descripcion.includes("Conjunción")) {
+            if (evento.tipo_evento === "Luna Progresada" &&
+              evento.descripcion && evento.descripcion.includes("Conjunción")) {
               const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
               return isSameDay(fechaEvento, day);
             }
-            
+
             // Incluir todos los demás eventos normales
             const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
             return isSameDay(fechaEvento, day);
@@ -442,14 +443,15 @@ export function CalendarioPersonal() {
                 {isSameDay(day, today) && ' (Hoy)'}
               </h3>
               <Separator className="my-2" />
-              
+
               {eventosDelDia.length > 0 ? (
                 <ScrollArea className="w-full">
                   <div className="flex space-x-4 pb-2 overflow-x-auto">
                     {eventosDelDia.map((evento, index) => (
-                      <EventoConInterpretacion 
-                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`} 
-                        evento={evento} 
+                      <EventoConInterpretacion
+                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
+                        evento={evento}
+                        natalData={natalData}
                       />
                     ))}
                   </div>

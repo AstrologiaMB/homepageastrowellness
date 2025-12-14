@@ -8,8 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, Save } from 'lucide-react';
+import { Loader2, Save, BookOpen } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import { StoryModal } from "./lunar-cycles/StoryModal";
+import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
 
 interface AstroEvent {
     fecha_utc: string;
@@ -39,14 +41,51 @@ interface JournalEntry {
 interface LunarEventCardProps {
     group: LunarEventGroup;
     initialEntry?: JournalEntry;
+    natalData?: any;
 }
 
-export function LunarEventCard({ group, initialEntry }: LunarEventCardProps) {
+export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCardProps) {
     const { mainEvent, aspects, date } = group;
     const [entry, setEntry] = useState<JournalEntry | undefined>(initialEntry);
     const [notes, setNotes] = useState(initialEntry?.notes || '');
     const [isSaving, setIsSaving] = useState(false);
+
+    // Cycle Logic
+    const [cycleData, setCycleData] = useState<ActiveCyclesResponse | null>(null);
+    const [isCycleLoading, setIsCycleLoading] = useState(false);
+    const [isStoryOpen, setIsStoryOpen] = useState(false);
+
     const { toast } = useToast();
+
+    // Fetch Cycle Data on Mount
+    React.useEffect(() => {
+        if (natalData && !cycleData) {
+            const fetchCycles = async () => {
+                setIsCycleLoading(true);
+                try {
+                    // Extract clean date YYYY-MM-DD from event. date is Date object
+                    const datePart = date.toISOString().split('T')[0];
+                    const res = await fetch('/api/cycles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            natalData,
+                            targetDate: datePart
+                        })
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setCycleData(data);
+                    }
+                } catch (e) {
+                    console.error("Cycle fetch error", e);
+                } finally {
+                    setIsCycleLoading(false);
+                }
+            };
+            fetchCycles();
+        }
+    }, [date, natalData, cycleData]);
 
     const isEclipse = mainEvent.tipo_evento.includes('Eclipse') || mainEvent.metadata?.is_eclipse;
     const phaseName = mainEvent.tipo_evento;
@@ -109,6 +148,18 @@ export function LunarEventCard({ group, initialEntry }: LunarEventCardProps) {
                             <Badge variant="destructive" className="animate-pulse">🔥 Eclipse</Badge>
                         )}
                     </div>
+
+                    {/* Cycle Badges */}
+                    {cycleData && cycleData.active_cycles.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                            <Badge variant="outline" className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50">
+                                {cycleData.active_cycles[0].metonic_index === 1
+                                    ? 'Ciclo Inicial'
+                                    : `${cycleData.active_cycles[0].metonic_index - 1}º Retorno`}
+                            </Badge>
+                        </div>
+                    )}
+
                     <p className="text-sm text-muted-foreground font-medium">
                         {format(date, "EEEE d 'de' MMMM, yyyy - HH:mm", { locale: es })}
                     </p>
@@ -126,6 +177,18 @@ export function LunarEventCard({ group, initialEntry }: LunarEventCardProps) {
                         )}
                     </div>
                 </div>
+                {/* Story Button (Desktop Right) */}
+                {cycleData && cycleData.active_cycles.length > 0 && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-purple-700 hover:text-purple-800 hover:bg-purple-100 mr-2 shrink-0 mt-2 md:mt-0"
+                        onClick={() => setIsStoryOpen(true)}
+                    >
+                        <BookOpen className="w-4 h-4 mr-2" />
+                        Ver Historia
+                    </Button>
+                )}
             </div>
 
             {aspects.length > 0 && (
@@ -174,6 +237,13 @@ export function LunarEventCard({ group, initialEntry }: LunarEventCardProps) {
                     </Button>
                 </div>
             </div>
+            {cycleData && cycleData.active_cycles.length > 0 && (
+                <StoryModal
+                    isOpen={isStoryOpen}
+                    onClose={() => setIsStoryOpen(false)}
+                    family={cycleData.active_cycles[0]}
+                />
+            )}
         </Card>
     );
 }

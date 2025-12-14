@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { StoryModal } from "./lunar-cycles/StoryModal";
+import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
+import { BookOpen, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface EventoConInterpretacionProps {
@@ -27,14 +30,60 @@ interface EventoConInterpretacionProps {
       casa_significado: string;
     }>;
     // Otros campos opcionales
+    // Otros campos opcionales
   };
+  natalData?: any; // To avoid import cycles or complex types, using any or specifically NatalData if available
 }
 
-export function EventoConInterpretacion({ evento }: EventoConInterpretacionProps) {
+export function EventoConInterpretacion({ evento, natalData }: EventoConInterpretacionProps) {
   const [interpretacion, setInterpretacion] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Cycle Logic
+  const [cycleData, setCycleData] = useState<ActiveCyclesResponse | null>(null);
+  const [isCycleLoading, setIsCycleLoading] = useState(false);
+  const [isStoryOpen, setIsStoryOpen] = useState(false);
+  // Removed internal hook usage: const { natalData } = useUserNatalData();
+
+  // Determine if it's a phase event
+  const isPhase = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante'].includes(evento.tipo_evento);
+  const isEclipse = evento.tipo_evento.includes('Eclipse');
+
+  // Fetch Cycle Data on Mount if Phase
+  useEffect(() => {
+    if ((isPhase || isEclipse) && natalData && !cycleData) {
+      const fetchCycles = async () => {
+        setIsCycleLoading(true);
+        try {
+          // Extract clean date YYYY-MM-DD from event
+          const datePart = evento.fecha_utc.split('T')[0];
+
+          const res = await fetch('/api/cycles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              natalData,
+              targetDate: datePart
+            })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            setCycleData(data);
+          } else {
+            const errText = await res.text();
+          }
+        } catch (e) {
+          console.error("Cycle fetch error", e);
+        } finally {
+          setIsCycleLoading(false);
+        }
+      };
+      fetchCycles();
+    }
+  }, [evento, isPhase, isEclipse, natalData, cycleData]);
 
   // Función para obtener la interpretación del evento
   const obtenerInterpretacion = async () => {
@@ -59,7 +108,7 @@ export function EventoConInterpretacion({ evento }: EventoConInterpretacionProps
       }
 
       const data = await response.json();
-      
+
       if (data.interpretaciones && data.interpretaciones.length > 0) {
         setInterpretacion(data.interpretaciones[0].interpretacion);
       } else {
@@ -106,8 +155,34 @@ export function EventoConInterpretacion({ evento }: EventoConInterpretacionProps
     <Card className="w-72 flex-shrink-0 h-auto">
       <CardContent className="space-y-2 px-3 py-3">
         <div className="font-semibold">{evento.tipo_evento} a las {horaFormateada}</div>
+
+        {/* Cycle Badges */}
+        {cycleData && cycleData.active_cycles.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1 mb-2">
+            <Badge variant="outline" className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50">
+              {cycleData.active_cycles[0].metonic_index === 1
+                ? 'Ciclo Inicial'
+                : `${cycleData.active_cycles[0].metonic_index - 1}º Retorno`}
+            </Badge>
+            {isEclipse && <Badge variant="destructive" className="text-[10px] py-0 h-5">Eclipse</Badge>}
+          </div>
+        )}
+
         <div>{evento.descripcion}</div>
-        
+
+        {/* Story Button */}
+        {cycleData && cycleData.active_cycles.length > 0 && (
+          <Button
+            variant="secondary"
+            size="sm"
+            className="w-full mt-2 bg-purple-100 text-purple-800 hover:bg-purple-200"
+            onClick={() => setIsStoryOpen(true)}
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            Ver Historia del Ciclo
+          </Button>
+        )}
+
         {/* Información adicional para aspectos */}
         {evento.tipo_evento === "Aspecto" && evento.planeta1 && evento.posicion1 && (
           <>
@@ -166,6 +241,14 @@ export function EventoConInterpretacion({ evento }: EventoConInterpretacionProps
           </div>
         )}
       </CardContent>
+
+      {cycleData && cycleData.active_cycles.length > 0 && (
+        <StoryModal
+          isOpen={isStoryOpen}
+          onClose={() => setIsStoryOpen(false)}
+          family={cycleData.active_cycles[0]}
+        />
+      )}
     </Card>
   );
 }
