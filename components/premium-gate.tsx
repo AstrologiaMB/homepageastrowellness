@@ -38,7 +38,6 @@ function UpgradePrompt({
             <p>🔮 <strong>Calendario Personal</strong> - Eventos astrológicos personalizados</p>
             <p>⭐ <strong>Cartas Avanzadas</strong> - Trópica y Dracónica completas</p>
             <p>🤖 <strong>Interpretaciones IA</strong> - Análisis detallados con IA</p>
-            <p>⏰ <strong>Horas Planetarias</strong> - Sistema completo de cronobiología</p>
           </div>
           <Button asChild className="w-full">
             <Link href="/upgrade">

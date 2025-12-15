@@ -146,33 +146,6 @@ function UpgradeForm() {
             </CardContent>
           </Card>
 
-          <Card className="border-purple-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-purple-600" />
-                Horas Planetarias
-              </CardTitle>
-              <CardDescription>
-                Sistema completo de cronobiología astrológica
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  Cálculo de horas planetarias
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  Cronobiología personal
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  Optimización de actividades
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Call to Action */}

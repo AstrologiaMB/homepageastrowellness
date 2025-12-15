@@ -115,31 +115,6 @@ const getNavigationData = (isPremium: boolean) => ({
         },
       ],
     },
-    {
-      title: "Horas Planetarias",
-      url: "#",
-      icon: Hourglass,
-      tooltip: "Sistema de horas planetarias y cronobiología astrológica",
-      isPremium: true,
-      premiumIcon: <Star className="h-4 w-4 text-yellow-500 ml-2" />,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-          isPremium: true,
-        },
-        {
-          title: "Explorer",
-          url: "#",
-          isPremium: true,
-        },
-        {
-          title: "Quantum",
-          url: "#",
-          isPremium: true,
-        },
-      ],
-    },
   ],
 })
 
