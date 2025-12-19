@@ -1696,11 +1696,13 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     birthHour: number | null
     birthMinute: number | null
+    birthDataChangeCount: number | null
   }
 
   export type UserSumAggregateOutputType = {
     birthHour: number | null
     birthMinute: number | null
+    birthDataChangeCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1720,6 +1722,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean | null
+    birthDataChangeCount: number | null
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
@@ -1749,6 +1752,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean | null
+    birthDataChangeCount: number | null
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
@@ -1778,6 +1782,7 @@ export namespace Prisma {
     birthHour: number
     birthMinute: number
     knowsBirthTime: number
+    birthDataChangeCount: number
     gender: number
     residenceCity: number
     residenceCountry: number
@@ -1795,11 +1800,13 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     birthHour?: true
     birthMinute?: true
+    birthDataChangeCount?: true
   }
 
   export type UserSumAggregateInputType = {
     birthHour?: true
     birthMinute?: true
+    birthDataChangeCount?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1819,6 +1826,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    birthDataChangeCount?: true
     gender?: true
     residenceCity?: true
     residenceCountry?: true
@@ -1848,6 +1856,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    birthDataChangeCount?: true
     gender?: true
     residenceCity?: true
     residenceCountry?: true
@@ -1877,6 +1886,7 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     knowsBirthTime?: true
+    birthDataChangeCount?: true
     gender?: true
     residenceCity?: true
     residenceCountry?: true
@@ -1993,6 +2003,7 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     knowsBirthTime: boolean
+    birthDataChangeCount: number
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
@@ -2041,6 +2052,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    birthDataChangeCount?: boolean
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
@@ -2078,6 +2090,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    birthDataChangeCount?: boolean
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
@@ -2107,6 +2120,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    birthDataChangeCount?: boolean
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
@@ -2136,6 +2150,7 @@ export namespace Prisma {
     birthHour?: boolean
     birthMinute?: boolean
     knowsBirthTime?: boolean
+    birthDataChangeCount?: boolean
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
@@ -2148,7 +2163,7 @@ export namespace Prisma {
     subscriptionExpiresAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "subscriptionStatus" | "subscriptionExpiresAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "subscriptionStatus" | "subscriptionExpiresAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -2190,6 +2205,7 @@ export namespace Prisma {
       birthHour: number | null
       birthMinute: number | null
       knowsBirthTime: boolean
+      birthDataChangeCount: number
       gender: string | null
       residenceCity: string | null
       residenceCountry: string | null
@@ -2646,6 +2662,7 @@ export namespace Prisma {
     readonly birthHour: FieldRef<"User", 'Int'>
     readonly birthMinute: FieldRef<"User", 'Int'>
     readonly knowsBirthTime: FieldRef<"User", 'Boolean'>
+    readonly birthDataChangeCount: FieldRef<"User", 'Int'>
     readonly gender: FieldRef<"User", 'String'>
     readonly residenceCity: FieldRef<"User", 'String'>
     readonly residenceCountry: FieldRef<"User", 'String'>
@@ -12261,6 +12278,7 @@ export namespace Prisma {
     birthHour: 'birthHour',
     birthMinute: 'birthMinute',
     knowsBirthTime: 'knowsBirthTime',
+    birthDataChangeCount: 'birthDataChangeCount',
     gender: 'gender',
     residenceCity: 'residenceCity',
     residenceCountry: 'residenceCountry',
@@ -12514,6 +12532,7 @@ export namespace Prisma {
     birthHour?: IntNullableFilter<"User"> | number | null
     birthMinute?: IntNullableFilter<"User"> | number | null
     knowsBirthTime?: BoolFilter<"User"> | boolean
+    birthDataChangeCount?: IntFilter<"User"> | number
     gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
@@ -12550,6 +12569,7 @@ export namespace Prisma {
     birthHour?: SortOrderInput | SortOrder
     birthMinute?: SortOrderInput | SortOrder
     knowsBirthTime?: SortOrder
+    birthDataChangeCount?: SortOrder
     gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
@@ -12589,6 +12609,7 @@ export namespace Prisma {
     birthHour?: IntNullableFilter<"User"> | number | null
     birthMinute?: IntNullableFilter<"User"> | number | null
     knowsBirthTime?: BoolFilter<"User"> | boolean
+    birthDataChangeCount?: IntFilter<"User"> | number
     gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
@@ -12625,6 +12646,7 @@ export namespace Prisma {
     birthHour?: SortOrderInput | SortOrder
     birthMinute?: SortOrderInput | SortOrder
     knowsBirthTime?: SortOrder
+    birthDataChangeCount?: SortOrder
     gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
@@ -12662,6 +12684,7 @@ export namespace Prisma {
     birthHour?: IntNullableWithAggregatesFilter<"User"> | number | null
     birthMinute?: IntNullableWithAggregatesFilter<"User"> | number | null
     knowsBirthTime?: BoolWithAggregatesFilter<"User"> | boolean
+    birthDataChangeCount?: IntWithAggregatesFilter<"User"> | number
     gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCity?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCountry?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -13315,6 +13338,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -13351,6 +13375,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -13387,6 +13412,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13423,6 +13449,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13459,6 +13486,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -13488,6 +13516,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13517,6 +13546,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14283,6 +14313,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type RectificationEventListRelationFilter = {
     every?: RectificationEventWhereInput
     some?: RectificationEventWhereInput
@@ -14375,6 +14416,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    birthDataChangeCount?: SortOrder
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
@@ -14390,6 +14432,7 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     birthHour?: SortOrder
     birthMinute?: SortOrder
+    birthDataChangeCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -14409,6 +14452,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    birthDataChangeCount?: SortOrder
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
@@ -14438,6 +14482,7 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     knowsBirthTime?: SortOrder
+    birthDataChangeCount?: SortOrder
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
@@ -14453,6 +14498,7 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     birthHour?: SortOrder
     birthMinute?: SortOrder
+    birthDataChangeCount?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -14541,6 +14587,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -14709,17 +14771,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type AstrogematriaCacheCountOrderByAggregateInput = {
     id?: SortOrder
     palabra?: SortOrder
@@ -14769,22 +14820,6 @@ export namespace Prisma {
     valorTotal?: SortOrder
     reduccionZodiacal?: SortOrder
     grados?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type HorariaRequestCountOrderByAggregateInput = {
@@ -15086,6 +15121,14 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type RectificationEventUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -15332,14 +15375,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInterpretacionesInput, UserUpdateWithoutInterpretacionesInput>, UserUncheckedUpdateWithoutInterpretacionesInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserCreateNestedOneWithoutHorariaRequestsInput = {
     create?: XOR<UserCreateWithoutHorariaRequestsInput, UserUncheckedCreateWithoutHorariaRequestsInput>
     connectOrCreate?: UserCreateOrConnectWithoutHorariaRequestsInput
@@ -15462,6 +15497,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15477,17 +15523,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15570,6 +15605,22 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -15595,22 +15646,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type RectificationEventCreateWithoutUserInput = {
@@ -16077,6 +16112,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16112,6 +16148,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16163,6 +16200,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16198,6 +16236,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16233,6 +16272,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16268,6 +16308,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16319,6 +16360,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16354,6 +16396,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16389,6 +16432,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16424,6 +16468,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16475,6 +16520,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16510,6 +16556,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16545,6 +16592,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16580,6 +16628,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16631,6 +16680,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16666,6 +16716,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16701,6 +16752,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16736,6 +16788,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16787,6 +16840,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16822,6 +16876,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16857,6 +16912,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16892,6 +16948,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -16943,6 +17000,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16978,6 +17036,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17013,6 +17072,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -17048,6 +17108,7 @@ export namespace Prisma {
     birthHour?: number | null
     birthMinute?: number | null
     knowsBirthTime?: boolean
+    birthDataChangeCount?: number
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
@@ -17099,6 +17160,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17134,6 +17196,7 @@ export namespace Prisma {
     birthHour?: NullableIntFieldUpdateOperationsInput | number | null
     birthMinute?: NullableIntFieldUpdateOperationsInput | number | null
     knowsBirthTime?: BoolFieldUpdateOperationsInput | boolean
+    birthDataChangeCount?: IntFieldUpdateOperationsInput | number
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null

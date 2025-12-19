@@ -24,6 +24,7 @@ export async function GET(req: Request) {
         gender: true,
         residenceCity: true,
         residenceCountry: true,
+        birthDataChangeCount: true,
       },
     });
 

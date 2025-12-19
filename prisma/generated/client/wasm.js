@@ -137,6 +137,7 @@ exports.Prisma.UserScalarFieldEnum = {
   birthHour: 'birthHour',
   birthMinute: 'birthMinute',
   knowsBirthTime: 'knowsBirthTime',
+  birthDataChangeCount: 'birthDataChangeCount',
   gender: 'gender',
   residenceCity: 'residenceCity',
   residenceCountry: 'residenceCountry',

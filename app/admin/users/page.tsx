@@ -22,6 +22,7 @@ interface User {
   subscriptionExpiresAt: string | null
   createdAt: string
   updatedAt: string
+  birthDataChangeCount: number
 }
 
 export default function AdminUsersPage() {
@@ -84,6 +85,37 @@ export default function AdminUsersPage() {
       }
     } catch (error) {
       console.error('Error updating subscription:', error)
+    } finally {
+      setUpdating(false)
+    }
+  }
+
+  const resetBirthDataCounter = async (userId: string) => {
+    if (!confirm("¿Estás seguro de que quieres reiniciar el contador de cambios para este usuario?")) return;
+
+    setUpdating(true)
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          resetCounter: true,
+        }),
+      })
+
+      if (response.ok) {
+        await fetchUsers() // Recargar la lista
+        setIsDialogOpen(false)
+        setSelectedUser(null)
+        alert("Contador reiniciado exitosamente.")
+      } else {
+        alert("Error al reiniciar contador.")
+      }
+    } catch (error) {
+      console.error('Error resetting counter:', error)
+      alert("Error al reiniciar contador.")
     } finally {
       setUpdating(false)
     }
@@ -242,6 +274,7 @@ export default function AdminUsersPage() {
                 <TableHead>Usuario</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Estado</TableHead>
+                <TableHead>Cambios</TableHead>
                 <TableHead>Fecha de Registro</TableHead>
                 <TableHead>Acciones</TableHead>
               </TableRow>
@@ -263,6 +296,11 @@ export default function AdminUsersPage() {
                   </TableCell>
                   <TableCell>
                     {getStatusBadge(user.subscriptionStatus)}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={user.birthDataChangeCount >= 3 ? "destructive" : "outline"}>
+                      {user.birthDataChangeCount || 0}/3
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     {new Date(user.createdAt).toLocaleDateString('es-ES')}
@@ -333,13 +371,31 @@ export default function AdminUsersPage() {
                   />
                 </div>
               )}
+
+              <div className="pt-4 border-t">
+                <Label className="block mb-2">Restricciones de Datos de Nacimiento</Label>
+                <div className="flex items-center justify-between p-3 border rounded-md bg-slate-50">
+                  <div>
+                    <span className="font-semibold text-sm">Cambios realizados:</span>
+                    <span className="ml-2 text-sm">{selectedUser.birthDataChangeCount || 0} de 3</span>
+                  </div>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => resetBirthDataCounter(selectedUser.id)}
+                    disabled={updating}
+                  >
+                    Resetear Contador
+                  </Button>
+                </div>
+              </div>
             </div>
           )}
 
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
             <div className="flex gap-2 flex-1">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setIsDialogOpen(false)}
               >
                 Cancelar

@@ -3,6 +3,73 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
 
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Verificar autenticación y permisos de admin
+    const session = await getServerSession(authOptions)
+
+    if (!session || !["info@astrochat.online", "info@mariablaquier.com"].includes(session.user?.email || "")) {
+      return NextResponse.json(
+        { error: 'Acceso denegado. Se requieren permisos de administrador.' },
+        { status: 403 }
+      )
+    }
+
+    const userId = params.id
+    const data = await request.json()
+
+    console.log(`Admin ${session.user?.email} updated user ${userId}`, data)
+
+    // Preparar fecha si viene
+    let birthDateFormatted = undefined;
+    if (data.birthDate) {
+      const dateStr = data.birthDate as string;
+      const [year, month, day] = dateStr.split('-').map(Number);
+      birthDateFormatted = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+    }
+
+    // Actualizar usuario
+    // Nota: El admin PUEDE actualizar sin incrementar el contador
+    // Y también podría reiniciar el contador si enviara birthDataChangeCount: 0 -> Pero por ahora solo datos de nacimiento
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        birthDate: birthDateFormatted,
+        birthCity: data.birthCity,
+        birthCountry: data.birthCountry,
+        birthHour: data.birthHour !== undefined ? Number(data.birthHour) : undefined,
+        birthMinute: data.birthMinute !== undefined ? Number(data.birthMinute) : undefined,
+        knowsBirthTime: data.knowsBirthTime !== undefined ? Boolean(data.knowsBirthTime) : undefined,
+        gender: data.gender,
+        residenceCity: data.residenceCity,
+        residenceCountry: data.residenceCountry,
+        // Opcional: Permitir al admin resetear el contador
+        birthDataChangeCount: data.resetCounter ? 0 : undefined,
+      }
+    })
+
+    // IMPORTANTE: Invalidar cache de cartas natales
+    await prisma.cartaNatal.deleteMany({
+      where: { userId: userId }
+    })
+
+    return NextResponse.json({
+      success: true,
+      user: updatedUser
+    })
+
+  } catch (error) {
+    console.error('Error updating user as admin:', error)
+    return NextResponse.json(
+      { error: 'Error interno del servidor al actualizar el usuario.' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
