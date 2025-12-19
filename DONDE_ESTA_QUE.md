@@ -1,7 +1,7 @@
 # 🗺️ DONDE ESTÁ QUE - GPS del Ecosistema Astrowellness
 
-**Versión:** 4.5 (Draconic Cusps Regression Fix)
-**Fecha:** 03 de Diciembre 2025
+**Versión:** 4.6 (Birth Data Restriction Feature)
+**Fecha:** 19 de Diciembre 2025
 **Propósito:** Encontrar cualquier funcionalidad en 30 segundos
 
 ---
@@ -153,7 +153,15 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 📍 Detección automática: `year: new Date().getFullYear()`  
 📍 Estado: ✅ Sistema listo para 2026 (validado 21/11/2025)  
 📍 Acción usuario: Solo acceder al calendario el 1/1/2026  
+📍 Estado: ✅ Sistema listo para 2026 (validado 21/11/2025)  
+📍 Acción usuario: Solo acceder al calendario el 1/1/2026  
 📋 [Detalles del test en HISTORIAL_FIXES.md](HISTORIAL_FIXES.md#qué-ocurre-al-cambiar-de-año-2025--2026)
+
+### **Límite de cambios en datos de nacimiento alcanzado**
+📍 Frontend: `app/completar-datos/page.tsx`
+📍 API: `app/api/user/update/route.ts` (límite hardcoded: 3)
+📍 Admin Override: `/admin/users` → "Gestionar" → "Resetear Contador"
+📍 Notificaciones: Email al usuario al realizar cambios (vía AWS SES/Resend)
 
 ---
 
@@ -167,7 +175,9 @@ NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=https://carta-electiva-api-production.up.rail
 | **Frontend cartas** | sidebar-fastapi | `app/cartas/` |
 | **Autenticación** | sidebar-fastapi | `app/auth/` |
 | **Base de datos** | sidebar-fastapi | `lib/prisma.ts` |
+| **Base de datos** | sidebar-fastapi | `lib/prisma.ts` |
 | **Configuración URLs** | sidebar-fastapi | `lib/api-config.ts` |
+| **Email Service** | sidebar-fastapi | `lib/email-service.ts` |
 
 ### **🎯 Endpoints API**
 | Servicio | Puerto | Endpoint | Health Check |
@@ -340,6 +350,7 @@ rm -rf .next                    # Cache Next.js
 | **Cambiar algoritmo** | Modificar `src/calculators/` | calculo-carta-natal-api |
 | **Actualizar estilos** | Editar `components/` | sidebar-fastapi |
 | **Ver usuarios** | Acceder a `/admin/users` | sidebar-fastapi |
+| **Resetear cambios nacimiento** | `/admin/users` → Gestionar → Resetear | sidebar-fastapi |
 | **Limpiar cache** | DELETE user o `/api/cartas/clear-cache` | sidebar-fastapi |
 
 ---
