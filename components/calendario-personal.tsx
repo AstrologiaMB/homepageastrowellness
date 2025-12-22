@@ -82,7 +82,12 @@ export function CalendarioPersonal() {
 
         const response = await fetchPersonalCalendar(natalData, false);
 
-        setEventos(response.events);
+        // Filter out Lunar Phases and Eclipses (Commercial Separation)
+        const filteredEvents = response.events.filter(e =>
+          !['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
+        );
+
+        setEventos(filteredEvents);
         setCalculationStats({
           total_events: response.total_events,
           calculation_time: response.calculation_time,
@@ -125,7 +130,12 @@ export function CalendarioPersonal() {
 
       const response = await fetchPersonalCalendar(natalData, true);
 
-      setEventos(response.events);
+      // Filter out Lunar Phases and Eclipses (Commercial Separation)
+      const filteredEvents = response.events.filter(e =>
+        !['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
+      );
+
+      setEventos(filteredEvents);
       setCalculationStats({
         total_events: response.total_events,
         calculation_time: response.calculation_time,
