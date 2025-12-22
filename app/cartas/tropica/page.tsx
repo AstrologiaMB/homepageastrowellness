@@ -20,7 +20,6 @@ import { InterpretacionesIndividuales } from "@/components/interpretaciones-indi
 import { useInterpretaciones } from "@/hooks/use-interpretaciones";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock, RefreshCw } from "lucide-react";
 
 interface CartaNatalData {
@@ -62,9 +61,9 @@ export default function CartasTropicaPage() {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         alert(`Caché limpiado exitosamente. ${result.deletedCount} registros eliminados.`);
         // Limpiar estado local también
@@ -87,25 +86,25 @@ export default function CartasTropicaPage() {
     setLoading(true);
     setError(null);
     const startTime = Date.now();
-    
+
     try {
       const response = await fetch('/api/cartas/tropical', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
-      
+
       const data: CartaNatalData = await response.json();
-      
+
       console.log('Respuesta de la API:', data);
-      
+
       if (data.success) {
         console.log('data_reducido:', data.data_reducido);
         console.log('data completa:', data.data);
-        
+
         setCartaData(data.data_reducido);
         setCartaCompleta(data.data);
         setCached(data.cached || false);
-        
+
         const endTime = Date.now();
         const duration = ((endTime - startTime) / 1000).toFixed(2);
         setCalculationTime(duration);
@@ -124,11 +123,11 @@ export default function CartasTropicaPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
-      
+
       <div className="mb-6">
         <div className="flex gap-4 mb-4">
-          <Button 
-            onClick={calcularCarta} 
+          <Button
+            onClick={calcularCarta}
             disabled={loading}
             size="lg"
           >
@@ -144,7 +143,7 @@ export default function CartasTropicaPage() {
               </>
             )}
           </Button>
-          
+
           <Button
             onClick={limpiarCache}
             disabled={clearingCache}
@@ -163,18 +162,9 @@ export default function CartasTropicaPage() {
             )}
           </Button>
 
-          {/* Botón de descarga PDF - solo visible cuando hay datos */}
-          {cartaData && (
-            <PDFDownloadButton
-              type="tropical"
-              chartData={cartaCompleta}
-              interpretations={interpretaciones}
-              size="lg"
-              variant="secondary"
-            />
-          )}
+          {/* Botón de descarga PDF - REMOVIDO */}
         </div>
-        
+
         {cached && calculationTime && (
           <Alert className="mb-4">
             <Clock className="h-4 w-4" />
@@ -183,7 +173,7 @@ export default function CartasTropicaPage() {
             </AlertDescription>
           </Alert>
         )}
-        
+
         {!cached && calculationTime && (
           <Alert className="mb-4">
             <Calculator className="h-4 w-4" />
@@ -193,7 +183,7 @@ export default function CartasTropicaPage() {
           </Alert>
         )}
       </div>
-      
+
       {error && (
         <Alert variant="destructive" className="mb-4">
           <AlertDescription>
@@ -209,7 +199,7 @@ export default function CartasTropicaPage() {
           </AlertDescription>
         </Alert>
       )}
-      
+
       {cartaData && (
         <>
           {/* Visualización gráfica de la carta natal */}
@@ -217,20 +207,20 @@ export default function CartasTropicaPage() {
             <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
             <CartaNatalWrapper chartData={cartaData} />
           </div>
-          
+
           {/* Tabla de datos de la carta natal */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
             <CartaNatalTabla chartData={cartaCompleta} />
           </div>
-          
+
           {/* Sección de Interpretaciones */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
               <div className="flex gap-2">
-                <Button 
-                  onClick={refetchInterpretaciones} 
+                <Button
+                  onClick={refetchInterpretaciones}
                   disabled={interpretacionesLoading}
                   variant="outline"
                   size="sm"
@@ -247,8 +237,8 @@ export default function CartasTropicaPage() {
                     </>
                   )}
                 </Button>
-                <Button 
-                  onClick={clearInterpretacionesCache} 
+                <Button
+                  onClick={clearInterpretacionesCache}
                   disabled={interpretacionesLoading}
                   variant="outline"
                   size="sm"
@@ -257,7 +247,7 @@ export default function CartasTropicaPage() {
                 </Button>
               </div>
             </div>
-            
+
             {/* Interpretación Narrativa */}
             <div className="mb-8">
               <InterpretacionNarrativa
@@ -268,7 +258,7 @@ export default function CartasTropicaPage() {
                 desdeCache={interpretaciones?.desde_cache}
               />
             </div>
-            
+
             {/* Interpretaciones Individuales */}
             <div className="mb-8">
               <InterpretacionesIndividuales
@@ -280,11 +270,11 @@ export default function CartasTropicaPage() {
           </div>
         </>
       )}
-      
+
       {!cartaData && !loading && !error && (
         <Alert>
           <AlertDescription>
-            👆 Haz clic en "Calcular Carta Natal Dinámica" para generar tu carta natal personalizada 
+            👆 Haz clic en "Calcular Carta Natal Dinámica" para generar tu carta natal personalizada
             basada en tus datos de nacimiento.
           </AlertDescription>
         </Alert>

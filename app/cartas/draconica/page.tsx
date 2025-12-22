@@ -18,7 +18,6 @@ import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { DraconicEventsList } from "@/components/DraconicEventsList";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { PDFDownloadButton } from "@/components/pdf-download-button";
 import { Loader2, Calculator, Clock } from "lucide-react";
 import { formatAstrologicalDegrees, formatOrbe, getDraconicSuffix, translateSign, translatePlanet, translateAspect } from "@/lib/astrology-utils";
 
@@ -40,11 +39,11 @@ export default function CartasDraconicaPage() {
   // Estados para carta dracónica (existentes)
   const [cartaData, setCartaData] = useState<any>(null);
   const [cartaCompleta, setCartaCompleta] = useState<any>(null);
-  
+
   // Estados para carta tropical (nuevos)
   const [cartaTropicalData, setCartaTropicalData] = useState<any>(null);
   const [cartaTropicalCompleta, setCartaTropicalCompleta] = useState<any>(null);
-  
+
   // Estados para eventos dracónicos
   const [eventosDraconicos, setEventosDraconicos] = useState<any>(null);
   const [loadingEventos, setLoadingEventos] = useState(false);
@@ -64,11 +63,11 @@ export default function CartasDraconicaPage() {
   // Función helper para formatear grados decimales en textos a formato sexagesimal
   const formatearGradosEnTexto = (texto: string): string => {
     if (!texto) return texto;
-    
+
     // Regex para encontrar patrones como "8.988983013091001°" o "123.456°"
     // Busca: número decimal seguido de "°"
     const regexGrados = /(\d+\.\d+)°/g;
-    
+
     return texto.replace(regexGrados, (match, decimalDegrees) => {
       const degrees = parseFloat(decimalDegrees);
       return formatAstrologicalDegrees(degrees);
@@ -170,7 +169,7 @@ export default function CartasDraconicaPage() {
         // Aplicar formateo de grados y luego traducción de signos
         const descripcionFormateada = formatearGradosEnTexto(cuspide.descripcion);
         const descripcionTraducida = traducirSignosEnTexto(descripcionFormateada);
-        
+
         eventos.push({
           id: `cuspide_${index}`,
           tipo: 'cuspide_cruzada',
@@ -190,7 +189,7 @@ export default function CartasDraconicaPage() {
         // Aplicar formateo de grados y luego traducción de signos
         const descripcionFormateada = formatearGradosEnTexto(aspecto.descripcion);
         const descripcionTraducida = traducirSignosEnTexto(descripcionFormateada);
-        
+
         eventos.push({
           id: `aspecto_${index}`,
           tipo: 'aspecto_cruzado',
@@ -355,7 +354,7 @@ export default function CartasDraconicaPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
-      
+
       <div className="mb-6">
         <div className="flex gap-4 mb-4">
           <Button
@@ -376,20 +375,9 @@ export default function CartasDraconicaPage() {
             )}
           </Button>
 
-          {/* Botón de descarga PDF - solo visible cuando hay datos */}
-          {cartaData && (
-            <PDFDownloadButton
-              type="draconica"
-              chartData={cartaCompleta}
-              tropicalData={cartaTropicalCompleta}
-              interpretations={interpretacionDraconica}
-              draconicEvents={eventosDraconicos}
-              size="lg"
-              variant="secondary"
-            />
-          )}
+          {/* Botón de descarga PDF - REMOVIDO */}
         </div>
-        
+
         {cached && calculationTime && (
           <Alert className="mb-4">
             <Clock className="h-4 w-4" />
@@ -398,7 +386,7 @@ export default function CartasDraconicaPage() {
             </AlertDescription>
           </Alert>
         )}
-        
+
         {!cached && calculationTime && (
           <Alert className="mb-4">
             <Calculator className="h-4 w-4" />
@@ -408,7 +396,7 @@ export default function CartasDraconicaPage() {
           </Alert>
         )}
       </div>
-      
+
       {error && (
         <Alert variant="destructive" className="mb-4">
           <AlertDescription>
@@ -424,7 +412,7 @@ export default function CartasDraconicaPage() {
           </AlertDescription>
         </Alert>
       )}
-      
+
       {cartaData && (
         <>
           {/* Layout de dos cards: Dracónica individual + Superposición */}
@@ -436,19 +424,19 @@ export default function CartasDraconicaPage() {
                 <h3 className="text-lg font-medium mb-3">Carta Dracónica</h3>
                 <CartaNatalWrapper chartData={cartaData} chartId="draconica-individual" />
               </div>
-              
+
               {/* Card derecha: Carta superpuesta (NUEVA) */}
               {cartaTropicalData && (
                 <div>
                   <h3 className="text-lg font-medium mb-3">Superposición: Tropical + Dracónica</h3>
-                  <CartaSuperpuestaWrapper 
-                    tropicalData={cartaTropicalData} 
+                  <CartaSuperpuestaWrapper
+                    tropicalData={cartaTropicalData}
                     draconicaData={cartaData}
                     chartId="carta-superpuesta"
                   />
                 </div>
               )}
-              
+
               {/* Mensaje si no hay datos tropicales */}
               {!cartaTropicalData && (
                 <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg">
@@ -459,7 +447,7 @@ export default function CartasDraconicaPage() {
               )}
             </div>
           </div>
-          
+
           {/* Tabla de datos de la carta dracónica */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
@@ -559,11 +547,11 @@ export default function CartasDraconicaPage() {
           </div>
         </>
       )}
-      
+
       {!cartaData && !loading && !error && (
         <Alert>
           <AlertDescription>
-            👆 Haz clic en "Calcular Carta Dracónica Dinámica" para generar tu carta dracónica personalizada 
+            👆 Haz clic en "Calcular Carta Dracónica Dinámica" para generar tu carta dracónica personalizada
             basada en tus datos de nacimiento.
           </AlertDescription>
         </Alert>
