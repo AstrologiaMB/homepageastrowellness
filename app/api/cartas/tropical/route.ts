@@ -12,6 +12,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }
 
+    // [SECURITY] Enforce Base Bundle
+    const entitlements = (session.user as any).entitlements || {};
+    if (!entitlements.hasBaseBundle) {
+      return NextResponse.json({ error: 'Requiere Sscripción Base' }, { status: 403 });
+    }
+
     // Obtener datos del usuario
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
@@ -28,8 +34,8 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user || !user.birthDate || !user.birthCity) {
-      return NextResponse.json({ 
-        error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.' 
+      return NextResponse.json({
+        error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.'
       }, { status: 400 });
     }
 
@@ -113,8 +119,8 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error en API Gateway:', error);
-    return NextResponse.json({ 
-      error: error instanceof Error ? error.message : 'Error interno del servidor' 
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
     }, { status: 500 });
   }
 }

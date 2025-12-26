@@ -8,7 +8,8 @@ export default async function CalendarioPersonalPage() {
   // Verificar si el usuario está autenticado
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session?.user?.email) {
+    // Should be handled by layout, but safe fallback
     redirect("/login");
   }
 
