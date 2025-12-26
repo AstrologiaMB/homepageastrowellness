@@ -71,12 +71,16 @@ export async function GET(request: NextRequest) {
           birthDate: true,
           birthCity: true,
           birthCountry: true,
+          hasDraconicAccess: true,
           createdAt: true,
           updatedAt: true,
           subscription: {
             select: {
               status: true,
               hasBaseBundle: true,
+              hasLunarCalendar: true,
+              hasAstrogematria: true,
+              hasElectiveChart: true,
               stripeCurrentPeriodEnd: true
             }
           }

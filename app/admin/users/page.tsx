@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { Label } from '@/components/ui/label'
-import { Search, User, Star, Calendar, Mail, Shield, Trash2 } from 'lucide-react'
+import { Search, User, Star, Calendar, Mail, Shield, Trash2, Download } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
@@ -23,12 +23,62 @@ interface User {
   createdAt: string
   updatedAt: string
   birthDataChangeCount: number
+  hasDraconicAccess: boolean
+  subscription?: {
+    hasBaseBundle: boolean
+    hasLunarCalendar: boolean
+    hasAstrogematria: boolean
+    hasElectiveChart: boolean
+  }
 }
 
 export default function AdminUsersPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
+
+  // Growth / Marketing CSV Export
+  const downloadCSV = () => {
+    const headers = [
+      'ID',
+      'Name',
+      'Email',
+      'Join Date',
+      'Status',
+      'Has Base Bundle',
+      'Has Lunar Calendar',
+      'Has Astrogematria',
+      'Has Elective Chart',
+      'Has Draconic (Lifetime)'
+    ];
+
+    const rows = users.map(user => [
+      user.id,
+      user.name || '',
+      user.email,
+      new Date(user.createdAt).toISOString().split('T')[0],
+      user.subscriptionStatus,
+      user.subscription?.hasBaseBundle ? 'YES' : 'NO',
+      user.subscription?.hasLunarCalendar ? 'YES' : 'NO',
+      user.subscription?.hasAstrogematria ? 'YES' : 'NO',
+      user.subscription?.hasElectiveChart ? 'YES' : 'NO',
+      user.hasDraconicAccess ? 'YES' : 'NO'
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(field => `"${field}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `astro_users_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
@@ -194,6 +244,13 @@ export default function AdminUsersPage() {
         <p className="text-muted-foreground">
           Gestiona las suscripciones y permisos de los usuarios de Astrowellness
         </p>
+      </div>
+
+      <div className="flex justify-end mb-6">
+        <Button onClick={downloadCSV} variant="outline" className="flex items-center gap-2">
+          <Download className="h-4 w-4" />
+          Descargar CSV (Marketing)
+        </Button>
       </div>
 
       {/* Estadísticas */}
