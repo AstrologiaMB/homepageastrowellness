@@ -146,8 +146,23 @@ exports.Prisma.UserScalarFieldEnum = {
   rectificationAcceptedUncertainty: 'rectificationAcceptedUncertainty',
   rectificationStatus: 'rectificationStatus',
   rectificationRequestDate: 'rectificationRequestDate',
-  subscriptionStatus: 'subscriptionStatus',
-  subscriptionExpiresAt: 'subscriptionExpiresAt'
+  stripeCustomerId: 'stripeCustomerId',
+  hasDraconicAccess: 'hasDraconicAccess'
+};
+
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeCurrentPeriodEnd: 'stripeCurrentPeriodEnd',
+  stripePriceId: 'stripePriceId',
+  hasBaseBundle: 'hasBaseBundle',
+  hasLunarCalendar: 'hasLunarCalendar',
+  hasAstrogematria: 'hasAstrogematria',
+  hasElectiveChart: 'hasElectiveChart',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RectificationEventScalarFieldEnum = {
@@ -267,6 +282,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  UserSubscription: 'UserSubscription',
   RectificationEvent: 'RectificationEvent',
   CartaNatal: 'CartaNatal',
   InterpretacionCache: 'InterpretacionCache',

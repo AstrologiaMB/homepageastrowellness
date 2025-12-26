@@ -48,53 +48,61 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       // Si tenemos el objeto user, es un inicio de sesión nuevo
       if (user) {
-        // Añadir el ID del usuario al token
         token.userId = user.id;
       }
-      
-      // Verificar si el usuario tiene datos completos y suscripción en cada refresh del token
-      // Esto asegura que el token se actualice cuando el usuario completa sus datos o cambia su suscripción
+
       try {
         const email = user?.email || token.email;
         if (email) {
           const dbUser = await prisma.user.findUnique({
             where: { email: email as string },
-            select: {
-              birthDate: true,
-              birthCity: true,
-              residenceCity: true,
-              subscriptionStatus: true,
-              subscriptionExpiresAt: true
-            }
+            include: { subscription: true }
           });
 
           // Añadir información de datos completos al token
           token.hasCompletedData = !!(dbUser?.birthDate && dbUser?.birthCity && dbUser?.residenceCity);
 
-          // Añadir información de suscripción al token
-          token.subscriptionStatus = dbUser?.subscriptionStatus || 'free';
-          token.subscriptionExpiresAt = dbUser?.subscriptionExpiresAt;
+          // Añadir flags de entitlements al token
+          const hasBaseBundle = dbUser?.subscription?.hasBaseBundle || false;
+          const status = dbUser?.subscription?.status || 'free';
 
-          console.log(`Usuario ${email} - Datos completos: ${token.hasCompletedData}, Suscripción: ${token.subscriptionStatus}`);
+          token.entitlements = {
+            hasBaseBundle,
+            hasLunarCalendar: dbUser?.subscription?.hasLunarCalendar || false,
+            hasAstrogematria: dbUser?.subscription?.hasAstrogematria || false,
+            hasElectiveChart: dbUser?.subscription?.hasElectiveChart || false,
+            // Logic: Draconic requires Base Bundle AND Active Subscription
+            hasDraconicAccess: (dbUser?.hasDraconicAccess && hasBaseBundle && status === 'active') || false,
+            // Status para referencias visuales
+            status
+          };
+
+          // Legacy support (opcional, por si acaso)
+          token.subscriptionStatus = dbUser?.subscription?.hasBaseBundle ? 'premium' : 'free';
         }
       } catch (error) {
         console.error("Error al verificar datos del usuario:", error);
         token.hasCompletedData = false;
-        token.subscriptionStatus = 'free';
-        token.subscriptionExpiresAt = null;
+        token.entitlements = {
+          hasBaseBundle: false,
+          hasLunarCalendar: false,
+          hasAstrogematria: false,
+          hasElectiveChart: false,
+          hasDraconicAccess: false,
+          status: 'error'
+        };
       }
-      
+
       return token;
     },
     async session({ session, token }) {
-      // Pasar la información del token a la sesión
       if (session.user) {
-        // @ts-ignore - Añadir hasCompletedData a la sesión
-        session.user.hasCompletedData = token.hasCompletedData;
-        // @ts-ignore - Añadir información de suscripción a la sesión
-        session.user.subscriptionStatus = token.subscriptionStatus;
         // @ts-ignore
-        session.user.subscriptionExpiresAt = token.subscriptionExpiresAt;
+        session.user.hasCompletedData = token.hasCompletedData;
+        // @ts-ignore
+        session.user.entitlements = token.entitlements;
+        // @ts-ignore
+        session.user.subscriptionStatus = token.subscriptionStatus; // Legacy
       }
       return session;
     },

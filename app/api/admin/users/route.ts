@@ -28,14 +28,33 @@ export async function GET(request: NextRequest) {
     const where: any = {}
 
     if (search) {
-      where.OR = [
+      const searchConditions = [
         { email: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } }
       ]
+
+      if (!where.AND) where.AND = []
+      where.AND.push({ OR: searchConditions })
     }
 
     if (status) {
-      where.subscriptionStatus = status
+      if (!where.AND) where.AND = []
+
+      if (status === 'premium') {
+        where.AND.push({
+          subscription: {
+            status: { in: ['active', 'trialing'] }
+          }
+        })
+      } else {
+        // 'free' or other
+        where.AND.push({
+          OR: [
+            { subscription: null },
+            { subscription: { status: { notIn: ['active', 'trialing'] } } }
+          ]
+        })
+      }
     }
 
     // Obtener usuarios con paginación
@@ -46,14 +65,21 @@ export async function GET(request: NextRequest) {
           id: true,
           email: true,
           name: true,
-          subscriptionStatus: true,
-          subscriptionExpiresAt: true,
+          // subscriptionStatus removed
+          // subscriptionExpiresAt removed
           birthDataChangeCount: true,
           birthDate: true,
           birthCity: true,
           birthCountry: true,
           createdAt: true,
           updatedAt: true,
+          subscription: {
+            select: {
+              status: true,
+              hasBaseBundle: true,
+              stripeCurrentPeriodEnd: true
+            }
+          }
         },
         orderBy: { createdAt: 'desc' },
         skip,
@@ -62,8 +88,33 @@ export async function GET(request: NextRequest) {
       prisma.user.count({ where })
     ])
 
+    const formattedUsers = users.map((user: any) => {
+      let displayStatus = 'free';
+      let expiresAt = null;
+
+      // Override with Stripe status if available
+      if (user.subscription) {
+        if (user.subscription.status === 'active' || user.subscription.status === 'trialing') {
+          displayStatus = 'premium';
+        } else {
+          displayStatus = user.subscription.status;
+        }
+
+        // Map expiration date
+        if (user.subscription.stripeCurrentPeriodEnd) {
+          expiresAt = user.subscription.stripeCurrentPeriodEnd;
+        }
+      }
+
+      return {
+        ...user,
+        subscriptionStatus: displayStatus,
+        subscriptionExpiresAt: expiresAt
+      };
+    });
+
     return NextResponse.json({
-      users,
+      users: formattedUsers,
       pagination: {
         page,
         limit,

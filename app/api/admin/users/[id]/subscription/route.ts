@@ -42,43 +42,50 @@ export async function PUT(
       )
     }
 
-    // Preparar datos de actualización
-    const updateData: any = {
-      subscriptionStatus,
-      updatedAt: new Date()
-    }
+    // Actualizar usuario (upsert en UserSubscription)
+    const status = subscriptionStatus === 'premium' ? 'active' : 'free';
+    const hasBaseBundle = status === 'active';
 
-    // Si es premium, manejar fecha de expiración
-    if (subscriptionStatus === 'premium') {
+    // Si es free, limpiamos las fechas. Si es active, usamos la fecha manual o +30 días por defecto
+    let currentPeriodEnd = new Date();
+    if (status === 'active') {
       if (subscriptionExpiresAt) {
-        updateData.subscriptionExpiresAt = new Date(subscriptionExpiresAt)
+        currentPeriodEnd = new Date(subscriptionExpiresAt);
       } else {
-        // Si no se proporciona fecha de expiración, mantener la existente o no establecer
-        // Esto permite suscripciones premium sin fecha de expiración (control manual)
+        // Default 30 days if not provided
+        currentPeriodEnd.setDate(currentPeriodEnd.getDate() + 30);
       }
-    } else {
-      // Si cambia a free, limpiar fecha de expiración
-      updateData.subscriptionExpiresAt = null
     }
 
-    // Actualizar usuario
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: updateData,
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        subscriptionStatus: true,
-        subscriptionExpiresAt: true,
-        updatedAt: true
+    // Upsert UserSubscription
+    const subscription = await prisma.userSubscription.upsert({
+      where: { userId: userId },
+      create: {
+        userId: userId,
+        stripeSubscriptionId: `manual_${Date.now()}`, // Fake ID for manual override
+        stripeCurrentPeriodEnd: currentPeriodEnd,
+        status: status,
+        hasBaseBundle: hasBaseBundle,
+        // Reset entitlements for manual overrides (or keep them?) 
+        // For simplicity, manual premium = Base Bundle access.
+        hasLunarCalendar: false,
+        hasAstrogematria: false,
+        hasElectiveChart: false
+      },
+      update: {
+        stripeCurrentPeriodEnd: currentPeriodEnd,
+        status: status,
+        hasBaseBundle: hasBaseBundle,
+        // If switching to free, revoke all. If active, grant Base.
+        hasLunarCalendar: status === 'active' ? undefined : false,
+        hasAstrogematria: status === 'active' ? undefined : false,
+        hasElectiveChart: status === 'active' ? undefined : false,
       }
-    })
+    });
 
     return NextResponse.json({
       success: true,
-      user: updatedUser,
-      message: `Suscripción de ${updatedUser.email} actualizada a ${subscriptionStatus}`
+      message: `Suscripción manual actualizada para ${existingUser.email}`
     })
 
   } catch (error) {

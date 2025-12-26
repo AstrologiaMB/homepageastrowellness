@@ -59,6 +59,24 @@ export function NavUser() {
     )
   }
 
+  const handleManageSubscription = async () => {
+    try {
+      const response = await fetch("/api/stripe/portal", {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No se pudo obtener la URL del portal");
+      }
+    } catch (error) {
+      console.error("Error al redirigir al portal:", error);
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full">
@@ -85,6 +103,9 @@ export function NavUser() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem onClick={() => router.push("/completar-datos")}>
           Modificar datos
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleManageSubscription}>
+          Gestionar Suscripción
         </DropdownMenuItem>
         <DropdownMenuItem onClick={async () => {
           await signOut()

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
-import { isPremiumService } from '@/lib/subscription'
+import { isPremiumService, getRequiredEntitlement } from '@/lib/subscription'
 
 export async function middleware(request: NextRequest) {
   // Obtener la ruta actual
@@ -23,17 +23,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url))
   }
 
-  // Si está autenticado, verificar permisos de suscripción para servicios premium
-  if (session?.email && isPremiumService(path)) {
-    // @ts-ignore - subscriptionStatus será añadido por el callback jwt
-    const subscriptionStatus = session.subscriptionStatus
+  // Si está autenticado, verificar permisos de suscripción
+  if (session?.email) {
+    const requiredEntitlement = getRequiredEntitlement(path)
 
-    // Si no tiene suscripción premium, redirigir a página de upgrade
-    if (subscriptionStatus !== 'premium') {
-      const url = new URL('/upgrade', request.url)
-      // Añadir la URL original como parámetro para redirigir después del upgrade
-      url.searchParams.set('callbackUrl', path)
-      return NextResponse.redirect(url)
+    if (requiredEntitlement) {
+      // @ts-ignore
+      const entitlements = (session.entitlements as any) || {}
+      const hasAccess = entitlements[requiredEntitlement] === true
+
+      // Si no tiene el acceso requerido, redirigir a upgrade
+      if (!hasAccess) {
+        const url = new URL('/upgrade', request.url)
+        url.searchParams.set('callbackUrl', path)
+        return NextResponse.redirect(url)
+      }
     }
   }
 
@@ -45,12 +49,12 @@ export async function middleware(request: NextRequest) {
     // @ts-ignore - hasCompletedData será añadido por el callback jwt
     const hasCompletedData = session.hasCompletedData === true
 
-  if (!hasCompletedData && path !== '/') {
-    const url = new URL('/completar-datos', request.url);
-    // Añadir la URL original como parámetro de consulta para redirigir después
-    url.searchParams.set('callbackUrl', path);
-    return NextResponse.redirect(url);
-  }
+    if (!hasCompletedData && path !== '/') {
+      const url = new URL('/completar-datos', request.url);
+      // Añadir la URL original como parámetro de consulta para redirigir después
+      url.searchParams.set('callbackUrl', path);
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next()
