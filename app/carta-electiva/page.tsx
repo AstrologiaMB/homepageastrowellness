@@ -79,7 +79,7 @@ export default function CartaElectivaPage() {
 
     const interval = setInterval(async () => {
       try {
-        const response = await fetch(`http://localhost:8005/progress/${taskId}`);
+        const response = await fetch(`/api/carta-electiva/progress/${taskId}`);
         const data = await response.json();
 
         if (data.error) {
@@ -146,7 +146,7 @@ export default function CartaElectivaPage() {
         timezone: "America/Argentina/Buenos_Aires"
       };
 
-      const response = await fetch('http://localhost:8005/buscar', {
+      const response = await fetch('/api/carta-electiva/buscar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

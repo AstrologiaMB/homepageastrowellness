@@ -3,6 +3,8 @@
  * Uses basic birth data to calculate natal chart dynamically
  */
 
+import { getApiUrl } from '@/lib/api-config';
+
 export interface BirthData {
   name: string;
   birth_date: string; // YYYY-MM-DD
@@ -45,7 +47,8 @@ export interface PersonalCalendarResponse {
   name: string;
 }
 
-const MICROSERVICE_URL = 'http://localhost:8004';
+// Removed hardcoded URL
+// const MICROSERVICE_URL = 'http://localhost:8004';
 
 export class PersonalCalendarDynamicAPI {
   /**
@@ -54,7 +57,8 @@ export class PersonalCalendarDynamicAPI {
   static async calculatePersonalCalendar(birthData: BirthData): Promise<PersonalCalendarResponse> {
     try {
       console.log('Calling dynamic personal calendar API with birth data:', birthData);
-      
+
+      const MICROSERVICE_URL = getApiUrl('CALENDARIO');
       const response = await fetch(`${MICROSERVICE_URL}/calculate-personal-calendar-dynamic`, {
         method: 'POST',
         headers: {
@@ -70,7 +74,7 @@ export class PersonalCalendarDynamicAPI {
 
       const result = await response.json();
       console.log(`Personal calendar calculated successfully: ${result.total_events} events in ${result.calculation_time}s`);
-      
+
       return result;
     } catch (error) {
       console.error('Error calculating personal calendar:', error);
@@ -83,6 +87,7 @@ export class PersonalCalendarDynamicAPI {
    */
   static async checkHealth(): Promise<boolean> {
     try {
+      const MICROSERVICE_URL = getApiUrl('CALENDARIO');
       const response = await fetch(`${MICROSERVICE_URL}/health`);
       return response.ok;
     } catch (error) {
@@ -96,6 +101,7 @@ export class PersonalCalendarDynamicAPI {
    */
   static async getServiceInfo() {
     try {
+      const MICROSERVICE_URL = getApiUrl('CALENDARIO');
       const response = await fetch(`${MICROSERVICE_URL}/info`);
       if (response.ok) {
         return await response.json();
