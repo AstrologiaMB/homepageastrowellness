@@ -59,22 +59,8 @@ export function NavUser() {
     )
   }
 
-  const handleManageSubscription = async () => {
-    try {
-      const response = await fetch("/api/stripe/portal", {
-        method: "POST",
-      });
-
-      const data = await response.json();
-
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        console.error("No se pudo obtener la URL del portal");
-      }
-    } catch (error) {
-      console.error("Error al redirigir al portal:", error);
-    }
+  const handleManageSubscription = () => {
+    router.push("/upgrade");
   };
 
   return (
