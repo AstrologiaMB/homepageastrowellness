@@ -3,6 +3,12 @@ app = 'homepageastrowellness'
 primary_region = 'iad'
 
 [build]
+  [build.args]
+    NEXT_PUBLIC_CALCULOS_API_URL = "https://calculo-carta-natal-api.fly.dev"
+    NEXT_PUBLIC_INTERPRETACIONES_API_URL = "https://astro-interpretador-rag-fastapi.fly.dev"
+    NEXT_PUBLIC_CALENDARIO_API_URL = "https://astro-calendar-personal-fastapi.fly.dev"
+    NEXT_PUBLIC_ASTROGEMATRIA_API_URL = "https://astrogematria-fastapi.fly.dev"
+    NEXT_PUBLIC_CARTA_ELECTIVA_API_URL = "https://carta-electiva-api.fly.dev"
 
 [env]
   NODE_ENV = "production"
