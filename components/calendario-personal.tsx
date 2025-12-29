@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useToast } from "@/hooks/use-toast";
@@ -287,45 +288,95 @@ export function CalendarioPersonal() {
     : [];
 
   const DateSelectContent = (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4">
+    <div className="flex flex-col h-full bg-white">
+      <div className="flex items-center justify-between p-4 border-b">
         {selectedMonth && (
           <Button variant="ghost" size="icon" onClick={handleBackToMonths}>
             &larr;
           </Button>
         )}
         <h3 className="text-lg font-semibold">
-          {selectedMonth ? formatMonthYear(selectedMonth) : 'Seleccionar Mes'}
+          {selectedMonth ? formatMonthYear(selectedMonth) : 'Seleccionar Fecha'}
         </h3>
       </div>
-      <Separator />
-      <ScrollArea className="flex-1 p-4">
+
+      <div className="flex-1 p-4 overflow-hidden">
         {!selectedMonth ? (
-          <div className="grid grid-cols-2 gap-2">
-            {months.map((month) => (
-              <Button
-                key={month.label}
-                variant="outline"
-                onClick={() => handleMonthSelect(month.value)}
-              >
-                {month.label}
-              </Button>
-            ))}
-          </div>
+          <Tabs defaultValue="2025" className="w-full h-full flex flex-col">
+            <TabsList className="grid w-full grid-cols-3 mb-4">
+              {/* 
+                 Dynamic Year Logic: 
+                 Start: 2025
+                 End: Current Year + 1 
+               */}
+              {(() => {
+                const currentYear = new Date().getFullYear();
+                const endYear = currentYear + 1;
+                const years = [];
+                for (let y = 2025; y <= endYear; y++) {
+                  years.push(y);
+                }
+                return years.map(year => (
+                  <TabsTrigger key={year} value={String(year)}>{year}</TabsTrigger>
+                ));
+              })()}
+            </TabsList>
+
+            {(() => {
+              const currentYear = new Date().getFullYear();
+              const endYear = currentYear + 1;
+              const years = [];
+              for (let y = 2025; y <= endYear; y++) {
+                years.push(y);
+              }
+
+              return years.map(year => (
+                <TabsContent key={year} value={String(year)} className="flex-1 mt-0">
+                  <ScrollArea className="h-[280px]">
+                    <div className="grid grid-cols-3 gap-2 pb-4">
+                      {Array.from({ length: 12 }).map((_, monthIndex) => {
+                        const date = new Date(year, monthIndex, 1);
+                        return (
+                          <Button
+                            key={monthIndex}
+                            variant="outline"
+                            className="h-14 flex flex-col items-center justify-center gap-1 hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                            onClick={() => handleMonthSelect(date)}
+                          >
+                            <span className="text-sm font-semibold capitalize">
+                              {format(date, 'MMM', { locale: es })}
+                            </span>
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+              ));
+            })()}
+          </Tabs>
         ) : (
-          <div className="flex flex-col gap-2">
-            {weeksInSelectedMonth.map((week, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                onClick={() => handleDateSelect(week.start)}
-              >
-                {formatWeekRange(week.start, week.end, week.weekNumber)}
-              </Button>
-            ))}
-          </div>
+          <ScrollArea className="h-full pr-4">
+            <div className="flex flex-col gap-2">
+              {weeksInSelectedMonth.map((week, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="justify-start h-auto py-3 px-4"
+                  onClick={() => handleDateSelect(week.start)}
+                >
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="font-medium">Semana {week.weekNumber}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1] ? formatWeekRange(week.start, week.end, week.weekNumber) : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
+                    </span>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </ScrollArea>
         )}
-      </ScrollArea>
+      </div>
     </div>
   );
 
