@@ -54,6 +54,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY --from=builder /app/prisma ./prisma
 
 # Copy package.json for prisma
@@ -69,4 +71,5 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Run Prisma migrations and start app
-CMD npx prisma migrate deploy && node server.js
+# Use prisma from node_modules instead of npx to avoid version mismatch
+CMD node_modules/.bin/prisma migrate deploy && node server.js
