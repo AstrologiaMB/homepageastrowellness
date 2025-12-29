@@ -54,12 +54,13 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY --from=builder /app/prisma ./prisma
 
 # Copy package.json for prisma
 COPY --from=builder /app/package.json ./package.json
+
+# Install Prisma CLI at the exact version from package.json for migrations
+RUN npm install prisma@6.7.0 --save-dev --legacy-peer-deps
 
 RUN chown -R nextjs:nodejs /app
 
