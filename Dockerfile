@@ -72,5 +72,5 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Run Prisma migrations and start app
-# Use prisma from node_modules instead of npx to avoid version mismatch
-CMD node_modules/.bin/prisma migrate deploy && node server.js
+# Use npx with specific version to ensure we use the installed 6.7.0
+CMD npx prisma@6.7.0 migrate deploy && node server.js
