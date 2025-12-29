@@ -1,0 +1,91 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# macOS
+.DS_Store
+
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Prisma
+/prisma/prisma/dev.db
+/prisma/prisma/dev.db-journal
+
+# Logs
+*.log
+logs/
+
+# Development files
+debug_*.py
+test_*.py
+test_*.js
+*_test.py
+*_test.js
+
+# Backup files
+*.backup
+*.backup-*
+*.bak
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Python virtual environments (if any)
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Documentation backups
+*_DOCUMENTATION.md
+*_ANALYSIS.md
+*_REPORT.md
+*_GUIDE.md
+*_SUMMARY.md
+*_INVESTIGATION.md
+*_FIX.md
+
+# Test data
+test_cases.json
+astroseek_reference_data.json
+debug_natal_data_comparison.py
+natal_chart_*.py
+validate_*.sh
+test_*.sh
+
+# Diagnostic files
+diagnostico_*.py
+diagnostico_*.txt
+informe_*.txt
+TITULOS_EVENTOS_*.txt
+
+# Memory bank (development only)
+memory_bank/
