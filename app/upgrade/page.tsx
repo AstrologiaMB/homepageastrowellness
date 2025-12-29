@@ -1,8 +1,6 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -33,7 +31,7 @@ const PRICE_VALUES = {
   DRACONIC: 25.00
 }
 
-export default function UpgradePage() {
+function UpgradePageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const success = searchParams.get('success')
@@ -382,5 +380,13 @@ function TargetIcon(props: any) {
       <circle cx="12" cy="12" r="6" />
       <circle cx="12" cy="12" r="2" />
     </svg>
+  )
+}
+
+export default function UpgradePage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 py-16 text-center">Cargando...</div>}>
+      <UpgradePageContent />
+    </Suspense>
   )
 }
