@@ -16,6 +16,7 @@ import { ThemeToggle } from "./theme-toggle"
 import { AstroSymbol } from "./astro-symbol"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
 import { useSubscription } from "@/hooks/use-subscription"
+import { HelpSheet } from "@/components/help/help-sheet"
 
 
 // Navigation data with premium indicators
@@ -136,7 +137,10 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
       </SidebarContent>
       <SidebarFooter>
         <div className="flex flex-col items-center gap-2">
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <HelpSheet />
+          </div>
           <NavUser />
         </div>
       </SidebarFooter>
