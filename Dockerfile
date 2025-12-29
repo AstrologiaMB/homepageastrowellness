@@ -32,6 +32,10 @@ ENV NEXT_PUBLIC_CALENDARIO_API_URL=$NEXT_PUBLIC_CALENDARIO_API_URL
 ENV NEXT_PUBLIC_ASTROGEMATRIA_API_URL=$NEXT_PUBLIC_ASTROGEMATRIA_API_URL
 ENV NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=$NEXT_PUBLIC_CARTA_ELECTIVA_API_URL
 
+# Dummy secrets for build-time (real values come from Fly.io secrets at runtime)
+ENV STRIPE_SECRET_KEY="sk_test_build_time_placeholder_key_not_used"
+ENV OPENAI_API_KEY="sk-build_time_placeholder_key_not_used"
+
 # Build Next.js
 # This will use the DATABASE_URL from build time if needed
 RUN npm run build
