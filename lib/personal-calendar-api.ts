@@ -57,10 +57,17 @@ interface PersonalCalendarResponse {
  */
 export async function fetchPersonalCalendar(
   natalData: NatalData,
-  forceRecalculate: boolean = false
+  forceRecalculate: boolean = false,
+  year?: number
 ): Promise<PersonalCalendarResponse> {
   try {
-    console.log(`🔄 Solicitando calendario personal (año ${natalData.year}, force: ${forceRecalculate})`);
+    // Si se especifica un año, usamos ese. Si no, usamos el del natalData original.
+    const targetYear = year || natalData.year;
+
+    // Crear copia de natalData con el año correcto si es necesario
+    const requestNatalData = year ? { ...natalData, year: targetYear } : natalData;
+
+    console.log(`🔄 Solicitando calendario personal (año ${targetYear}, force: ${forceRecalculate})`);
 
     const response = await fetch('/api/calendario-personal', {
       method: 'POST',
@@ -68,7 +75,7 @@ export async function fetchPersonalCalendar(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        natalData,
+        natalData: requestNatalData,
         forceRecalculate,
       }),
     });
@@ -91,11 +98,11 @@ export async function fetchPersonalCalendar(
 
   } catch (error) {
     console.error('Error fetching personal calendar:', error);
-    
+
     if (error instanceof Error) {
       throw error;
     }
-    
+
     throw new Error('Error desconocido al obtener el calendario personal');
   }
 }
@@ -108,7 +115,7 @@ export async function checkMicroserviceHealth(): Promise<boolean> {
     const response = await fetch('/api/calendario-personal', {
       method: 'GET',
     });
-    
+
     if (!response.ok) {
       return false;
     }

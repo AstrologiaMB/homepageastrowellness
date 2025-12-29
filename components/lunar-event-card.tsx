@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, Save, BookOpen } from 'lucide-react';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { StoryModal } from "./lunar-cycles/StoryModal";
 import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
 

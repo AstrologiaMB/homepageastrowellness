@@ -1,9 +1,10 @@
 // app/layout.tsx
 import "@/styles/globals.css"
 import { ClientLayout } from "@/components/client-layout"
+import { Toaster } from "@/components/ui/toaster"
 import { Inter } from "next/font/google"
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap'
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientLayout>
           {children}
         </ClientLayout>
+        <Toaster />
       </body>
     </html>
   )
