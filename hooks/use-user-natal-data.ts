@@ -57,7 +57,7 @@ export function useUserNatalData(): UserNatalDataHook {
         setError(null);
 
         const response = await fetch('/api/user/natal-data');
-        
+
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -67,7 +67,7 @@ export function useUserNatalData(): UserNatalDataHook {
         // Verificar si el usuario tiene datos completos
         const requiredFields = ['birthDate', 'birthCity', 'birthHour', 'birthMinute'];
         const missingFields = requiredFields.filter(field => !userData[field] && userData[field] !== 0);
-        
+
         if (missingFields.length > 0) {
           setHasCompleteData(false);
           setError(`Faltan datos natales: ${missingFields.join(', ')}`);
@@ -77,7 +77,7 @@ export function useUserNatalData(): UserNatalDataHook {
 
         // Obtener coordenadas de la ciudad de nacimiento
         const geocodeResponse = await fetch(`/api/geocode?city=${encodeURIComponent(userData.birthCity)}`);
-        
+
         if (!geocodeResponse.ok) {
           throw new Error('Error al obtener coordenadas de la ciudad de nacimiento');
         }
@@ -85,45 +85,25 @@ export function useUserNatalData(): UserNatalDataHook {
         const locationData = await geocodeResponse.json();
 
         // Construir fecha y hora local de nacimiento
+        // Construir fecha y hora local de nacimiento
         const birthDate = new Date(userData.birthDate);
-        const birthDateTime = new Date(
-          birthDate.getFullYear(),
-          birthDate.getMonth(),
-          birthDate.getDate(),
-          userData.birthHour,
-          userData.birthMinute
-        );
 
-        // Obtener carta natal del usuario si existe
-        const cartaNatalResponse = await fetch('/api/user/carta-natal?tipo=tropical');
-        let cartaNatalData = null;
-        
-        if (cartaNatalResponse.ok) {
-          const cartaNatal = await cartaNatalResponse.json();
-          if (cartaNatal?.dataCompleta) {
-            cartaNatalData = JSON.parse(cartaNatal.dataCompleta);
-          }
-        }
+        // FIX: Usar métodos UTC para preservar la fecha exacta guardada en BD
+        // Evita que usuarios en hemisferio oeste (ej. Argentina) vean la fecha desplazada al día anterior
+        const year = birthDate.getUTCFullYear();
+        const month = birthDate.getUTCMonth();
+        const date = birthDate.getUTCDate();
 
-        // Si no hay carta natal, necesitamos calcularla
-        if (!cartaNatalData) {
-          throw new Error('No se encontró carta natal del usuario. Debe generarse primero.');
-        }
-
-        // Función auxiliar para convertir grados decimales a formato de posición
-        const degreesToPosition = (degrees: number): string => {
-          const deg = Math.floor(degrees);
-          const minutes = Math.floor((degrees - deg) * 60);
-          const seconds = Math.floor(((degrees - deg) * 60 - minutes) * 60);
-          return `${deg}°${minutes.toString().padStart(2, '0')}'${seconds.toString().padStart(2, '0')}"`;
-        };
+        // Construir strings directamente para evitar confusiones de objeto Date
+        const birthDateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+        const birthTimeString = `${userData.birthHour.toString().padStart(2, '0')}:${userData.birthMinute.toString().padStart(2, '0')}`;
 
         // Transformar datos al formato de datos básicos para cálculo dinámico
         const transformedData: NatalData = {
           // Para el endpoint dinámico, enviamos datos básicos de nacimiento
           name: userData.name || 'Usuario',
-          birth_date: birthDateTime.toISOString().split('T')[0], // YYYY-MM-DD
-          birth_time: `${userData.birthHour.toString().padStart(2, '0')}:${userData.birthMinute.toString().padStart(2, '0')}`, // HH:MM
+          birth_date: birthDateString, // YYYY-MM-DD (Corregido)
+          birth_time: birthTimeString, // HH:MM
           location: {
             latitude: locationData.latitude,
             longitude: locationData.longitude,
@@ -134,7 +114,7 @@ export function useUserNatalData(): UserNatalDataHook {
           // Campos legacy para compatibilidad (no se usan en endpoint dinámico)
           points: {},
           houses: {},
-          hora_local: birthDateTime.toISOString().slice(0, 19)
+          hora_local: `${birthDateString}T${birthTimeString}:00` // Formato local ISO
         } as any;
 
         setNatalData(transformedData);
