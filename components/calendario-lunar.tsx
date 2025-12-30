@@ -7,7 +7,9 @@ import { fetchLunarJournal, JournalEntry } from '@/lib/lunar-journal-api';
 import { LunarEventCard } from './lunar-event-card';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Loader2, Moon, RefreshCw } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Loader2, Moon, RefreshCw, Lock } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 interface AstroEvent {
     fecha_utc: string;
@@ -29,6 +31,24 @@ export function CalendarioLunar() {
     const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
     const [groups, setGroups] = useState<LunarEventGroup[]>([]);
     const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+    const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
+    const { toast } = useToast();
+
+    // Check year availability (Mid-December Rule)
+    const isYearAvailable = (targetYear: number) => {
+        const currentYear = new Date().getFullYear();
+        if (targetYear <= currentYear) return { available: true };
+
+        // Next year available only after Dec 15th
+        if (targetYear === currentYear + 1) {
+            const today = new Date();
+            // Month is 0-indexed (11 = Dec)
+            const isMidDec = today.getMonth() === 11 && today.getDate() >= 15;
+            if (isMidDec) return { available: true };
+            return { available: false, message: `El año ${targetYear} estará disponible a mediados de diciembre.` };
+        }
+        return { available: false, message: "Año aún no disponible" };
+    };
 
     async function loadData(force: boolean = false) {
         if (!natalData || !hasCompleteData) {
@@ -39,12 +59,12 @@ export function CalendarioLunar() {
         try {
             if (!force) setStatus('loading');
 
-            // 1. Fetch Calendar Events
-            const calendarRes = await fetchPersonalCalendar(natalData, force);
+            // 1. Fetch Calendar Events for selected Year
+            const calendarRes = await fetchPersonalCalendar(natalData, force, selectedYear);
             const allEvents = calendarRes.events;
 
-            // 2. Fetch Journal
-            const journalRes = await fetchLunarJournal(new Date().getFullYear());
+            // 2. Fetch Journal for selected Year
+            const journalRes = await fetchLunarJournal(selectedYear);
             setJournalEntries(journalRes);
 
             // 3. Process & Group Events
@@ -111,7 +131,7 @@ export function CalendarioLunar() {
         if (hasCompleteData) {
             loadData();
         }
-    }, [natalData, hasCompleteData, isLoadingNatal]);
+    }, [natalData, hasCompleteData, isLoadingNatal, selectedYear]);
 
     const handleRefresh = () => {
         loadData(true);
@@ -138,21 +158,68 @@ export function CalendarioLunar() {
 
     return (
         <div className="space-y-8 max-w-4xl mx-auto p-4">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div className="flex items-center gap-3">
                     <div className="p-3 bg-blue-100 rounded-full text-blue-600">
                         <Moon size={32} />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800">Fases Lunares y Eclipses {new Date().getFullYear()}</h1>
+                        <h1 className="text-3xl font-bold text-slate-800">Fases Lunares {selectedYear}</h1>
                         <p className="text-slate-600">
-                            Rastrea los ciclos lunares y su impacto directo en tu carta natal.
+                            Ciclos y eclipses conectados con tu carta natal.
                         </p>
                     </div>
                 </div>
-                <Button variant="outline" onClick={handleRefresh} title="Recalcular eventos">
-                    <RefreshCw className="h-4 w-4" />
-                </Button>
+
+                <div className="flex items-center gap-2">
+                    <Tabs
+                        value={String(selectedYear)}
+                        onValueChange={(val) => {
+                            const year = parseInt(val);
+                            const availability = isYearAvailable(year);
+                            if (availability.available) {
+                                setSelectedYear(year);
+                            } else {
+                                toast({
+                                    title: `Año ${year} Bloqueado 🔒`,
+                                    description: availability.message,
+                                    variant: "destructive"
+                                });
+                            }
+                        }}
+                        className="w-auto"
+                    >
+                        <TabsList>
+                            {(() => {
+                                const currentYear = new Date().getFullYear();
+                                const startYear = 2025;
+                                const endYear = currentYear + 1;
+                                const years = [];
+                                for (let y = startYear; y <= endYear; y++) {
+                                    years.push(y);
+                                }
+                                return years.map(year => {
+                                    const { available } = isYearAvailable(year);
+                                    return (
+                                        <TabsTrigger
+                                            key={year}
+                                            value={String(year)}
+                                            disabled={!available} // Visual disable
+                                            className={!available ? "opacity-50 cursor-not-allowed" : ""}
+                                        >
+                                            {year}
+                                            {!available && <Lock className="ml-1.5 h-3 w-3" />}
+                                        </TabsTrigger>
+                                    );
+                                });
+                            })()}
+                        </TabsList>
+                    </Tabs>
+
+                    <Button variant="outline" onClick={handleRefresh} title="Recalcular eventos" size="icon">
+                        <RefreshCw className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
 
             <div className="space-y-6">
