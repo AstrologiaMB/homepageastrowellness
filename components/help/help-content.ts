@@ -62,12 +62,24 @@ export const HELP_CONTENT: HelpCategory[] = [
         icon: Calendar,
         items: [
             {
-                question: "¿Qué horarios muestra el calendario?",
-                answer: "Todos los eventos se calculan y muestran automáticamente en tu zona horaria local detectada por el navegador."
+                question: "¿Cómo uso el Calendario Personal?",
+                answer: "Tu calendario muestra una vista semanal de tus tránsitos. Puedes navegar entre semanas usando las flechas o seleccionar un mes específico con el calendario desplegable. Cada día te mostrará los contactos exactos entre los planetas en el cielo y tu carta natal."
             },
             {
-                question: "¿Qué es el Calendario Lunar?",
-                answer: "Es un complemento que te permite ver las fases lunares y cómo activan tu carta natal personal (tránsitos a tu Luna y Sol)."
+                question: "¿Qué es el 'Clima Astral de Fondo'?",
+                answer: "Es una fila de tarjetas en la parte superior que muestra por dónde transitan los planetas lentos (Júpiter a Plutón) y tu Luna Progresada en tus Casas Natales. Esta información se actualiza automáticamente el día 1 de cada mes. Además, verás el grado y signo exacto de cada planeta para mayor precisión."
+            },
+            {
+                question: "¿Cómo busco tránsitos específicos?",
+                answer: "Utiliza el botón de Lupa 🔍 'Explorador de Tránsitos'. Allí puedes filtrar por planeta (ej. 'Solo Marte'), tipo de aspecto (ej. 'Conjunciones') o buscar palabras clave como 'Retrógrado'. Al hacer clic en un resultado, el calendario te llevará directamente a la fecha de ese evento."
+            },
+            {
+                question: "¿Qué significan los grados (ej. 15° 30')?",
+                answer: "Mostramos la posición exacta de los planetas en grados (°) y minutos ('). Esto es útil para saber cuándo un planeta está entrando o saliendo de un signo o casa."
+            },
+            {
+                question: "¿Qué horarios muestra el calendario?",
+                answer: "Todos los eventos se calculan y muestran automáticamente en tu zona horaria local detectada por el navegador (ej. si viajas, el horario se ajusta a donde estés)."
             }
         ]
     },
