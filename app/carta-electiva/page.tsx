@@ -55,10 +55,40 @@ const TEMAS_DISPONIBLES = [
   { value: "espiritualidad", label: "🧘 Espiritualidad", description: "Crecimiento espiritual" }
 ];
 
+// Feature Flag para controlar la disponibilidad del servicio
+const IS_ENABLED = false;
+
 /**
  * Componente principal de la página de carta electiva
  */
 export default function CartaElectivaPage() {
+  // GATING LOGIC
+  if (!IS_ENABLED) {
+    return (
+      <div className="p-6 max-w-4xl mx-auto min-h-[60vh] flex items-center justify-center">
+        <Card className="w-full max-w-md border-amber-200 bg-amber-50/30 text-center shadow-lg">
+          <CardHeader className="pb-4">
+            <div className="mx-auto bg-amber-100 p-4 rounded-full w-fit mb-4">
+              <Clock className="h-10 w-10 text-amber-600 animate-pulse" />
+            </div>
+            <CardTitle className="text-2xl font-bold text-amber-900">Buenos Momentos</CardTitle>
+            <CardDescription className="text-amber-700/80 text-base font-medium">
+              Próximamente
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-gray-600">
+              Estamos calibrando nuestros algoritmos e IA para encontrarte los momentos más auspiciosos con precisión matemática.
+            </p>
+            <div className="p-3 bg-white/50 rounded-lg border border-amber-100 text-sm text-amber-800">
+              ⚡️ Tu suscripción premium ya incluye este servicio. Tendrás acceso inmediato en cuanto terminemos la calibración.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   const [tema, setTema] = useState<string>("");
   const [fechaInicio, setFechaInicio] = useState<string>("");
   const [dias, setDias] = useState<string>("30");

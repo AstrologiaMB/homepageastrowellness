@@ -270,31 +270,26 @@ function UpgradePageContent() {
                   <div className="font-semibold text-sm">{entitlements.hasAstrogematria ? 'Activo' : `+$${PRICE_VALUES.ASTRO.toFixed(2)}/mes`}</div>
                 </div>
 
-                {/* Add-on: Elective */}
-                <div className={`flex items-center justify-between p-4 border rounded-lg transition ${entitlements.hasElectiveChart ? 'bg-green-50 border-green-200' : 'bg-card hover:bg-muted/50'}`}>
+                {/* Add-on: Elective (Disabled / Coming Soon) */}
+                <div className={`flex items-center justify-between p-4 border rounded-lg transition bg-gray-50/50 opacity-80`}>
                   <div className="flex items-center gap-3">
                     <Checkbox
                       id="addon-elective"
-                      checked={selectedAddOns.elective || entitlements.hasElectiveChart}
-                      onCheckedChange={(c) => {
-                        if (isBaseActive) {
-                          handleUpdateSubscription(PRICES.ADD_ON_ELECTIVE, !!c ? 'add' : 'remove')
-                        } else {
-                          setSelectedAddOns(prev => ({ ...prev, elective: !!c }))
-                        }
-                      }}
-                      disabled={loading}
+                      checked={false}
+                      disabled={true} // Hard disabled
                     />
-                    <label htmlFor="addon-elective" className="cursor-pointer space-y-1">
-                      <div className="font-medium flex items-center gap-2">
-                        <Clock className={`h-4 w-4 ${entitlements.hasElectiveChart ? 'text-green-600' : 'text-amber-500'}`} />
-                        Carta Electiva (Buenos Momentos)
-                        {entitlements.hasElectiveChart && <Badge variant="secondary" className="bg-green-100 text-green-700 ml-2">Activo</Badge>}
+                    <label htmlFor="addon-elective" className="cursor-not-allowed space-y-1">
+                      <div className="font-medium flex items-center gap-2 text-gray-500">
+                        <Clock className="h-4 w-4 text-gray-400" />
+                        Buenos Momentos
+                        <Badge variant="outline" className="bg-amber-50 text-amber-600 border-amber-200 ml-2 text-xs">
+                          Próximamente
+                        </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground">Encuentra el mejor momento para tus acciones.</p>
                     </label>
                   </div>
-                  <div className="font-semibold text-sm">{entitlements.hasElectiveChart ? 'Activo' : `+$${PRICE_VALUES.ELECTIVE.toFixed(2)}/mes`}</div>
+                  <div className="font-semibold text-sm text-gray-400">No disponible</div>
                 </div>
 
               </div>
