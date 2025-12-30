@@ -330,8 +330,8 @@ export default function CartasDraconicaPage() {
         const eventos = procesarEventosDraconicos(cruzadaData.data, draconicaData.data);
         setEventosDraconicos(eventos);
 
-        // Generar interpretación dracónica en paralelo (saltando cache para testing)
-        calcularInterpretacionDraconica(draconicaData.data, true);
+        // Generar interpretación dracónica en paralelo (usando cache)
+        calcularInterpretacionDraconica(draconicaData.data, false);
 
         setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);
 
