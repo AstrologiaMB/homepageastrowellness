@@ -63,7 +63,7 @@ function UpgradePageContent() {
   }, [success, update])
 
   // 1. Defensively handle loading state
-  if (status === 'loading') {
+  if (status === 'loading' && !success) {
     return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>
   }
 
