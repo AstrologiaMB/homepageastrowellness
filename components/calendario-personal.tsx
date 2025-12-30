@@ -9,10 +9,11 @@ import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
+import { CalendarIcon, RefreshCw, AlertCircle, CheckCircle, Search } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TransitSearchModal } from './transit-search-modal';
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useToast } from "@/hooks/use-toast";
@@ -39,6 +40,7 @@ interface EventoPersonal {
 export function CalendarioPersonal() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // NEW STATE
   const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
   const [eventos, setEventos] = useState<EventoPersonal[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
@@ -443,7 +445,12 @@ export function CalendarioPersonal() {
           </p>
           {calculationStats && (
             <div className="flex items-center gap-2 text-sm justify-between"> {/* Adjusted for consistency */}
-              {/* Stats display logic remains similar but simplified context */}
+              <div className="flex gap-4">
+                <span>{calculationStats.total_events} eventos</span>
+                <span className="text-muted-foreground">
+                  {calculationStats.from_cache ? '(Cache)' : `(${calculationStats.calculation_time.toFixed(2)}s)`}
+                </span>
+              </div>
             </div>
           )}
         </div>
@@ -456,6 +463,16 @@ export function CalendarioPersonal() {
             disabled={isCalculating}
           >
             <RefreshCw className={`h-4 w-4 ${isCalculating ? 'animate-spin' : ''}`} />
+          </Button>
+
+          {/* NEW: Search Button */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsSearchOpen(true)}
+            title="Buscar Tránsitos"
+          >
+            <Search className="h-4 w-4" />
           </Button>
 
           {/* Date Selection Button */}
@@ -616,6 +633,16 @@ export function CalendarioPersonal() {
           </Button>
         </div>
       )}
+
+      {/* MODAL INTEGRATION */}
+      <TransitSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        events={eventos}
+        onSelectEvent={(date) => {
+          setCurrentWeekStart(startOfWeek(date, { locale: es }));
+        }}
+      />
     </div>
   );
 }
