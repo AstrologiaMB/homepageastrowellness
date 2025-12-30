@@ -71,6 +71,6 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Run Prisma migrations and start app
-# Use npx with specific version to ensure we use the installed 6.7.0
-CMD npx prisma@6.7.0 migrate deploy && node server.js
+# Start the Next.js server
+# Migrations are handled by release_command in fly.toml
+CMD ["node", "server.js"]
