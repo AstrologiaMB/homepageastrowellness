@@ -10,12 +10,13 @@ import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, RefreshCw, AlertCircle, CheckCircle, Search } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TransitSearchModal } from './transit-search-modal';
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
+import { degreesToGMS } from '@/lib/astrology-utils';
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoConInterpretacion } from './evento-con-interpretacion';
@@ -543,32 +544,132 @@ export function CalendarioPersonal() {
         </Alert>
       )}
 
-      {/* House Transits State Card */}
-      {(() => {
-        const eventosEspeciales = eventos.filter(evento =>
-          evento.tipo_evento === "Tránsito Casa Estado"
-        );
+      {/* SECCIÓN: ESTADO ACTUAL (Horoscope / Weather) */}
+      {eventos.some(e => e.tipo_evento === 'Tránsito Casa Estado') && (
+        <div className="mb-0 animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="flex items-center gap-2 mb-3 px-1">
+            <span className="text-xl">🪐</span>
+            <h3 className="text-lg font-serif font-bold text-slate-700">
+              Clima Astral de Fondo
+            </h3>
+          </div>
 
-        if (eventosEspeciales.length > 0) {
-          return (
-            <Card className="p-4 mb-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
-              <h3 className="font-semibold text-lg mb-3 text-purple-800">
-                Estado Actual de Tránsitos por Casas
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {eventosEspeciales.map((evento, index) => (
-                  <EventoConInterpretacion
-                    key={`house-transit-${index}`}
-                    evento={evento}
-                    natalData={natalData}
-                  />
-                ))}
-              </div>
-            </Card>
-          );
-        }
-        return null;
-      })()}
+          <ScrollArea className="w-full whitespace-nowrap rounded-lg border bg-slate-50/50 p-4">
+            <div className="flex w-max space-x-4">
+              {(() => {
+                // Lógica de deduplicación para visualización
+                const uniqueHouseTransits = new Map();
+
+                // Filtrar eventos de estado para el mes actual que se está visualizando
+                const stateEvents = eventos.filter(e => e.tipo_evento === 'Tránsito Casa Estado');
+                let targetEvent = null;
+
+                if (stateEvents.length > 0) {
+                  // Estrategia: Buscar el evento más cercano a la semana que se está visualizando.
+                  // Esto evita problemas de timezone (ej. 1 Agosto 00:00 -> 31 Julio 21:00) y asegura
+                  // que siempre mostremos el 'Clima' más relevante temporalmente.
+
+                  let minDiff = Infinity;
+                  const weekCenter = addDays(currentWeekStart, 3); // Comparamos con el centro de la semana
+
+                  stateEvents.forEach(e => {
+                    const eDate = createDateFromUtc(e.fecha_utc, e.hora_utc);
+                    const diff = Math.abs(eDate.getTime() - weekCenter.getTime());
+
+                    if (diff < minDiff) {
+                      minDiff = diff;
+                      targetEvent = e;
+                    }
+                  });
+                }
+
+                if (targetEvent) {
+                  // Extraer items del metadata del evento seleccionado
+                  const houseTransits = targetEvent.metadata?.house_transits || [];
+                  if (Array.isArray(houseTransits)) {
+                    houseTransits.forEach((item: any) => {
+                      // Clave única: Planeta + Casa
+                      const key = `${item.planeta}-${item.casa}`;
+                      if (!uniqueHouseTransits.has(key)) {
+                        uniqueHouseTransits.set(key, item);
+                      }
+                    });
+                  }
+                } else {
+                  // Fallback legacy (solo si no hay eventos de estado)
+                  stateEvents.forEach(event => {
+                    const houseTransits = event.metadata?.house_transits || [];
+                    if (Array.isArray(houseTransits)) {
+                      houseTransits.forEach((item: any) => {
+                        const key = `${item.planeta}-${item.casa}`;
+                        if (!uniqueHouseTransits.has(key)) {
+                          uniqueHouseTransits.set(key, item);
+                        }
+                      });
+                    }
+                  });
+                }
+
+                // Ordenar: Luna Progresada primero, luego por orden tradicional (Júpiter -> Plutón)
+                const planetOrder = ['Luna Progresada', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón'];
+                const sortedItems = Array.from(uniqueHouseTransits.values()).sort((a: any, b: any) => {
+                  return planetOrder.indexOf(a.planeta) - planetOrder.indexOf(b.planeta);
+                });
+
+                return sortedItems.map((item: any, idx) => (
+                  <div
+                    key={`${item.planeta}-${idx}`}
+                    className="flex flex-col justify-between w-[200px] h-[110px] p-3 rounded-xl border bg-white shadow-sm hover:shadow-md transition-all cursor-default select-none relative overflow-hidden group"
+                  >
+                    {/* Background Decor */}
+                    <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br opacity-5 rounded-full -mr-4 -mt-4
+                      ${item.tipo === 'luna_progresada' ? 'from-purple-400 to-blue-400' : 'from-orange-400 to-amber-400'}
+                    `} />
+
+                    {/* Header: Icon + Planet */}
+                    <div className="flex items-center gap-2 z-10 w-full mb-1">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-lg shadow-sm shrink-0
+                        ${item.tipo === 'luna_progresada'
+                          ? 'bg-purple-100 text-purple-700'
+                          : 'bg-orange-100 text-orange-700'
+                        }
+                      `}>
+                        {item.simbolo || (item.tipo === 'luna_progresada' ? '🌙' : '🪐')}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-bold text-sm text-slate-700 line-clamp-1">
+                          {item.planeta}
+                        </span>
+                        {item.signo && (
+                          <span className={`text-[10px] uppercase font-bold leading-none
+                            ${item.tipo === 'luna_progresada' ? 'text-purple-600' : 'text-orange-600'}
+                          `}>
+                            {item.signo} {(() => {
+                              const { degrees, minutes } = degreesToGMS(item.grado);
+                              return `${degrees}° ${minutes}'`;
+                            })()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Content: House Info */}
+                    <div className="flex flex-col z-10">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                        Casa {item.casa}
+                      </span>
+                      <span className="text-xs text-slate-600 line-clamp-2 leading-tight h-8 mt-0.5 whitespace-normal" title={item.casa_significado}>
+                        {item.casa_significado}
+                      </span>
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+      )}
 
       {/* Week Display */}
       <div className="flex flex-col gap-4">
