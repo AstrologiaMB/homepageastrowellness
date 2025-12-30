@@ -157,20 +157,50 @@ function UpgradePageContent() {
 
 
 
+  // 4. Polling for activation (Race Condition Fix)
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+
+    if (success && !isBaseActive) {
+      interval = setInterval(() => {
+        update() // Poll session every 2s until webhook updates DB
+      }, 2000)
+    }
+
+    return () => clearInterval(interval)
+  }, [success, isBaseActive, update])
+
   if (success) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-md mx-auto">
-          <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold mb-4">¡Pago Exitoso!</h1>
-          <p className="text-muted-foreground mb-8">
-            Tu suscripción se ha activado correctamente. Ya puedes acceder a las funcionalidades premium.
-          </p>
-          <Button asChild size="lg" className="w-full">
-            <Link href={callbackUrl || '/calendario/personal'}>
-              Continuar
-            </Link>
-          </Button>
+          {/* Show Syncing State if not yet active */}
+          {!isBaseActive ? (
+            <>
+              <div className="h-20 w-20 mx-auto mb-6 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+              </div>
+              <h1 className="text-3xl font-bold mb-4">Activando Suscripción...</h1>
+              <p className="text-muted-foreground mb-8">
+                Estamos sincronizando tu pago con el servidor. Esto puede tardar unos segundos.
+                <br />
+                <span className="text-xs opacity-70">No cierres esta página.</span>
+              </p>
+            </>
+          ) : (
+            <>
+              <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
+              <h1 className="text-3xl font-bold mb-4">¡Pago Exitoso!</h1>
+              <p className="text-muted-foreground mb-8">
+                Tu suscripción se ha activado correctamente. Ya puedes acceder a las funcionalidades premium.
+              </p>
+              <Button asChild size="lg" className="w-full">
+                <Link href={callbackUrl || '/calendario/personal'}>
+                  Continuar
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     )
