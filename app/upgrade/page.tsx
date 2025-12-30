@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -137,6 +137,12 @@ function UpgradePageContent() {
   }
 
   if (success) {
+    // Force session update to ensure new entitlements are reflected immediately
+    // ignoring race conditions with webhook
+    useEffect(() => {
+      update()
+    }, [update])
+
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-md mx-auto">
