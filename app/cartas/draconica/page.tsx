@@ -11,7 +11,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
 import { CartaSuperpuestaWrapper } from "@/components/carta-superpuesta-wrapper";
 import { CartaNatalTabla } from "@/components/carta-natal-tabla";
@@ -351,51 +351,22 @@ export default function CartasDraconicaPage() {
     }
   };
 
+  // Efecto para calcular la carta automáticamente al cargar
+  useEffect(() => {
+    calcularCarta();
+  }, []);
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
 
-      <div className="mb-6">
-        <div className="flex gap-4 mb-4">
-          <Button
-            onClick={calcularCarta}
-            disabled={loading}
-            size="lg"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Calculando carta dracónica...
-              </>
-            ) : (
-              <>
-                <Calculator className="mr-2 h-4 w-4" />
-                Calcular Carta Dracónica Dinámica
-              </>
-            )}
-          </Button>
-
-          {/* Botón de descarga PDF - REMOVIDO */}
+      {/* Loader visual cuando se está calculando la carta inicialmente */}
+      {!cartaData && loading && (
+        <div className="flex flex-col items-center justify-center p-8 border rounded-lg bg-muted/20 mb-6">
+          <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
+          <p className="text-muted-foreground">Calculando carta dracónica...</p>
         </div>
-
-        {cached && calculationTime && (
-          <Alert className="mb-4">
-            <Clock className="h-4 w-4" />
-            <AlertDescription>
-              ✅ Carta cargada desde caché en {calculationTime}s (calculada previamente)
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {!cached && calculationTime && (
-          <Alert className="mb-4">
-            <Calculator className="h-4 w-4" />
-            <AlertDescription>
-              🆕 Carta calculada dinámicamente en {calculationTime}s y guardada en caché
-            </AlertDescription>
-          </Alert>
-        )}
-      </div>
+      )}
 
       {error && (
         <Alert variant="destructive" className="mb-4">
@@ -548,14 +519,7 @@ export default function CartasDraconicaPage() {
         </>
       )}
 
-      {!cartaData && !loading && !error && (
-        <Alert>
-          <AlertDescription>
-            👆 Haz clic en "Calcular Carta Dracónica Dinámica" para generar tu carta dracónica personalizada
-            basada en tus datos de nacimiento.
-          </AlertDescription>
-        </Alert>
-      )}
+
     </div>
   );
 }
