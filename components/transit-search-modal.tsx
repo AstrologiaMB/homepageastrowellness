@@ -29,7 +29,7 @@ interface TransitSearchModalProps {
 }
 
 const TRANSIT_PLANETS = [
-  "Luna Progresada", "Marte", "Júpiter", "Saturno", "Urano", "Neptuno", "Plutón", "Quirón", "Nodo Norte"
+  "Luna Progresada", "Marte", "Júpiter", "Saturno", "Urano", "Neptuno", "Plutón"
 ];
 
 const ASPECTS = [
