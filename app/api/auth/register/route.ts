@@ -100,16 +100,16 @@ async function sendWelcomeEmail(email: string, name: string) {
       },
       Message: {
         Subject: {
-          Data: '¡Bienvenido a Astrowellness!',
+          Data: '¡Bienvenido a Astrochat!',
         },
         Body: {
           Html: {
             Data: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrowellness, ${name}!</h1>
+                <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrochat, ${name}!</h1>
 
                 <p style="color: #666; line-height: 1.6;">
-                  Gracias por registrarte en Astrowellness. Tu cuenta ha sido creada exitosamente.
+                  Gracias por registrarte en Astrochat. Tu cuenta ha sido creada exitosamente.
                 </p>
 
                 <p style="color: #666; line-height: 1.6;">
@@ -131,7 +131,7 @@ async function sendWelcomeEmail(email: string, name: string) {
                   <a href="${appUrl}"
                      style="background-color: #007bff; color: white; padding: 12px 24px;
                             text-decoration: none; border-radius: 5px; display: inline-block;">
-                    Explorar Astrowellness
+                    Explorar Astrochat
                   </a>
                 </div>
 
@@ -152,36 +152,34 @@ async function sendWelcomeEmail(email: string, name: string) {
     await resend.emails.send({
       from: fromEmail,
       to: email,
-      subject: '¡Bienvenido a Astrowellness!',
+      subject: '¡Bienvenido a Astrochat!',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrowellness, ${name}!</h1>
+          <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrochat, ${name}!</h1>
 
-          <p style="color: #666; line-height: 1.6;">
-            Gracias por registrarte en Astrowellness. Tu cuenta ha sido creada exitosamente.
-          </p>
+          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
+            <p style="color: #666; line-height: 1.6;">
+              Gracias por registrarte en Astrochat. Tu cuenta ha sido creada exitosamente.
+            </p>
 
-          <p style="color: #666; line-height: 1.6;">
-            Ya puedes acceder a todos nuestros servicios astrológicos:
-          </p>
+            <p style="color: #666; line-height: 1.6;">
+              Ya puedes acceder a todos nuestros servicios astrológicos:
+            </p>
 
-          <ul style="color: #666; line-height: 1.6;">
-            <li>Cartas natales de alta precisión</li>
-            <li>Interpretaciones con IA</li>
-            <li>Calendarios personales</li>
-            <li>Astrogematria</li>
-          </ul>
+            <ul style="color: #666; line-height: 1.6;">
+              <li>Cartas natales de alta precisión</li>
+              <li>Interpretaciones con IA</li>
+              <li>Calendarios personales</li>
+              <li>Astrogematria</li>
+            </ul>
 
-          <p style="color: #666; line-height: 1.6;">
-            ¡Comienza tu viaje astrológico ahora!
-          </p>
-
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${appUrl}"
-               style="background-color: #007bff; color: white; padding: 12px 24px;
-                      text-decoration: none; border-radius: 5px; display: inline-block;">
-              Explorar Astrowellness
-            </a>
+            <div style="text-align: center; margin-top: 30px;">
+              <a href="${appUrl}"
+                 style="background-color: #007bff; color: white; padding: 12px 24px;
+                        text-decoration: none; border-radius: 5px; display: inline-block;">
+                Explorar Astrochat
+              </a>
+            </div>
           </div>
 
           <p style="color: #999; font-size: 12px; text-align: center;">

@@ -47,7 +47,7 @@ export function HelpSheet() {
                 <SheetHeader>
                     <SheetTitle className="flex items-center gap-2">
                         <HelpCircle className="h-5 w-5 text-purple-600" />
-                        Centro de Ayuda Astrowellness
+                        Centro de Ayuda Astrochat
                     </SheetTitle>
                     <SheetDescription>
                         Encuentra respuestas rápidas sin salir de tu sesión.

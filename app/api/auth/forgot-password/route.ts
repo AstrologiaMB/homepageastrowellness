@@ -108,7 +108,7 @@ async function sendResetPasswordEmail(email: string, name: string, resetToken: s
       },
       Message: {
         Subject: {
-          Data: 'Restablece tu contraseña - Astrowellness',
+          Data: 'Restablece tu contraseña - Astrochat',
         },
         Body: {
           Html: {
@@ -121,7 +121,7 @@ async function sendResetPasswordEmail(email: string, name: string, resetToken: s
                 </p>
 
                 <p style="color: #666; line-height: 1.6;">
-                  Hemos recibido una solicitud para restablecer tu contraseña en Astrowellness.
+                  Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
                   Si no solicitaste este cambio, puedes ignorar este email.
                 </p>
 
@@ -177,7 +177,7 @@ Si no solicitaste este cambio, ignora este email.
     await resend.emails.send({
       from: fromEmail,
       to: email,
-      subject: 'Restablece tu contraseña - Astrowellness',
+      subject: 'Restablece tu contraseña - Astrochat',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #333; text-align: center;">Restablece tu contraseña</h1>

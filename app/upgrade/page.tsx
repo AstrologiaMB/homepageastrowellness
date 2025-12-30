@@ -165,7 +165,7 @@ function UpgradePageContent() {
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-          Elige tu Plan Astrowellness
+          Elige tu Plan Astrochat
         </h1>
         <p className="text-muted-foreground text-lg">
           Personaliza tu experiencia astrológica añadiendo los módulos que necesitas.

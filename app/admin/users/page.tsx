@@ -242,7 +242,7 @@ export default function AdminUsersPage() {
           Panel de Administración - Usuarios
         </h1>
         <p className="text-muted-foreground">
-          Gestiona las suscripciones y permisos de los usuarios de Astrowellness
+          Gestiona las suscripciones y permisos de los usuarios de Astrochat
         </p>
       </div>
 

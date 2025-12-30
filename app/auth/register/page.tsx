@@ -102,7 +102,7 @@ export default function RegisterPage() {
             Crear Cuenta
           </CardTitle>
           <CardDescription className="text-center">
-            Únete a Astrowellness y descubre tu camino astrológico
+            Únete a Astrochat y descubre tu camino astrológico
           </CardDescription>
         </CardHeader>
         <CardContent>

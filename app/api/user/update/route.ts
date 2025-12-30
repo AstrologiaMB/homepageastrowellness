@@ -115,7 +115,7 @@ export async function POST(req: Request) {
 
         await sendEmail({
           to: session.user.email,
-          subject: "Actualización de Datos de Nacimiento - Astrowellness",
+          subject: "Actualización de Datos de Nacimiento - Astrochat",
           html: `
             <div style="font-family: Arial, sans-serif; padding: 20px;">
               <h2>Has actualizado tus datos de nacimiento</h2>
