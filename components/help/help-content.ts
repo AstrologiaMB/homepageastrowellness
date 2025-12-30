@@ -1,4 +1,4 @@
-import { CreditCard, Map, Calendar, User, HelpCircle } from "lucide-react";
+import { CreditCard, Map, Calendar, User, HelpCircle, Moon } from "lucide-react";
 
 export interface HelpCategory {
     id: string;
@@ -53,6 +53,29 @@ export const HELP_CONTENT: HelpCategory[] = [
             {
                 question: "¿Qué sistema de casas utilizas?",
                 answer: "Por defecto utilizamos el sistema Placidus, que es el más común en la astrología psicológica moderna."
+            }
+        ]
+    },
+    {
+        id: "lunar_calendar",
+        title: "Calendario Lunar",
+        icon: Moon, // Need to import Moon
+        items: [
+            {
+                question: "¿Qué muestra el Calendario Lunar?",
+                answer: "Muestra las Fases Lunares (Nueva, Llena, Cuartos) y Eclipses del año. Lo especial es que calcula si estos eventos hacen 'conjunción' exacta (0°) con tus planetas natales, activando áreas específicas de tu vida."
+            },
+            {
+                question: "¿Cómo veo años anteriores o futuros?",
+                answer: "En la parte superior verás pestañas por año (ej: [2025] [2026]). Simplemente haz clic para cambiar de año. El sistema guarda un histórico desde el 2025 en adelante."
+            },
+            {
+                question: "¿Por qué el próximo año tiene un candado 🔒?",
+                answer: "Los calendarios futuros se desbloquean automáticamente a mediados de Diciembre del año actual. Esto asegura que la información astrológica sea precisa y oportuna."
+            },
+            {
+                question: "¿Qué significa el Diario Lunar?",
+                answer: "Es tu espacio privado para registrar intenciones en Luna Nueva o soltar cargas en Luna Llena. Tus notas se guardan vinculadas a cada evento lunar específico."
             }
         ]
     },
