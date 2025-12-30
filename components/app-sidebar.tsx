@@ -57,7 +57,7 @@ const getNavigationData = (isPremium: boolean) => ({
       title: "Cartas",
       url: "/cartas",
       icon: Star,
-      tooltip: "Cartas astrológicas: natal, horaria, trópica, dracónica y electiva",
+      tooltip: "Cartas astrológicas: natal, horaria, trópica, dracónica",
       items: [
         {
           title: "Carta Horaria",
@@ -76,13 +76,16 @@ const getNavigationData = (isPremium: boolean) => ({
           isPremium: true,
           premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
         },
-        {
-          title: "Carta Electiva",
-          url: "/carta-electiva",
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
-        },
       ],
+    },
+    {
+      title: "Buenos Momentos",
+      url: "/carta-electiva",
+      icon: Target,
+      tooltip: "Búsqueda de momentos astrológicos óptimos",
+      isPremium: true,
+      premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+      items: [],
     },
     {
       title: "Rectificacion Carta",
