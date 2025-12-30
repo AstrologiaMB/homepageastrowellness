@@ -55,6 +55,13 @@ function UpgradePageContent() {
   const [buyingDraconic, setBuyingDraconic] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  // 3. Side effects (Moved up to avoid conditional return violation)
+  useEffect(() => {
+    if (success) {
+      update()
+    }
+  }, [success, update])
+
   // 1. Defensively handle loading state
   if (status === 'loading') {
     return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>
@@ -149,12 +156,6 @@ function UpgradePageContent() {
 
 
 
-  // 3. Side effects
-  useEffect(() => {
-    if (success) {
-      update()
-    }
-  }, [success, update])
 
   if (success) {
     return (
