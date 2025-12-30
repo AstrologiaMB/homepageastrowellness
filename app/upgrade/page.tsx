@@ -51,6 +51,10 @@ function UpgradePageContent() {
     elective: false
   })
 
+  // State hooks (MUST be before any conditional return)
+  const [buyingDraconic, setBuyingDraconic] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   // 1. Defensively handle loading state
   if (status === 'loading') {
     return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>
@@ -58,8 +62,7 @@ function UpgradePageContent() {
 
   // 2. Safe access to entitlements (already defined above)
 
-  const [buyingDraconic, setBuyingDraconic] = useState(false)
-  const [loading, setLoading] = useState(false)
+
 
   // Calculate Monthly Total
   const monthlyTotal = PRICE_VALUES.BASE +
