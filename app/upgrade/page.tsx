@@ -38,7 +38,8 @@ function UpgradePageContent() {
   const canceled = searchParams.get('canceled')
   const callbackUrl = searchParams.get('callbackUrl')
 
-  const { data: session, update } = useSession()
+  // Properly destructure session and status
+  const { data: session, status, update } = useSession()
   const user = session?.user as any
   const entitlements = user?.entitlements || {}
   const isBaseActive = entitlements.hasBaseBundle && entitlements.status === 'active'
@@ -49,6 +50,13 @@ function UpgradePageContent() {
     astro: false,
     elective: false
   })
+
+  // 1. Defensively handle loading state
+  if (status === 'loading') {
+    return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>
+  }
+
+  // 2. Safe access to entitlements (already defined above)
 
   const [buyingDraconic, setBuyingDraconic] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -135,6 +143,8 @@ function UpgradePageContent() {
       setLoading(false)
     }
   }
+
+
 
   if (success) {
     // Force session update to ensure new entitlements are reflected immediately
