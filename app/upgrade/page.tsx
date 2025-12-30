@@ -149,13 +149,14 @@ function UpgradePageContent() {
 
 
 
-  if (success) {
-    // Force session update to ensure new entitlements are reflected immediately
-    // ignoring race conditions with webhook
-    useEffect(() => {
+  // 3. Side effects
+  useEffect(() => {
+    if (success) {
       update()
-    }, [update])
+    }
+  }, [success, update])
 
+  if (success) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-md mx-auto">
