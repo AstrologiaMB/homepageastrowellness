@@ -87,6 +87,7 @@ export default function AdminUsersPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [userToDelete, setUserToDelete] = useState<User | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [clearingCache, setClearingCache] = useState(false)
 
   // Verificar si el usuario es admin
   useEffect(() => {
@@ -193,6 +194,32 @@ export default function AdminUsersPage() {
       alert('Error al eliminar usuario')
     } finally {
       setDeleting(false)
+    }
+  }
+
+  const clearUserCache = async (userId: string) => {
+    if (!confirm("⚠️ ATENCIÓN: Esto eliminará TODAS las interpretaciones guardadas para este usuario. Se volverán a generar (consumiendo créditos/costo) la próxima vez que el usuario entre. ¿Estás seguro?")) return;
+
+    setClearingCache(true)
+    try {
+      const response = await fetch(`/api/admin/users/${userId}/cache`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        alert(`✅ Éxito: ${data.message} (${data.deletedCount || 0} registros)`)
+        setIsDialogOpen(false)
+        setSelectedUser(null)
+      } else {
+        const data = await response.json()
+        alert(`❌ Error: ${data.error || 'Error al limpiar caché'}`)
+      }
+    } catch (error) {
+      console.error('Error clearing cache:', error)
+      alert('❌ Error de conexión al intentar limpiar la caché.')
+    } finally {
+      setClearingCache(false)
     }
   }
 
@@ -443,6 +470,27 @@ export default function AdminUsersPage() {
                     disabled={updating}
                   >
                     Resetear Contador
+                  </Button>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t">
+                <Label className="block mb-2 text-amber-600 font-semibold">Zona de Mantenimiento</Label>
+                <div className="flex items-center justify-between p-3 border border-amber-200 rounded-md bg-amber-50">
+                  <div className="space-y-1">
+                    <span className="font-medium text-sm text-amber-900 block">Limpiar Caché de Interpretaciones</span>
+                    <span className="text-xs text-amber-700 block max-w-[200px]">
+                      Elimina textos generados corruptos. Obliga a regenerar con IA nueva.
+                    </span>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-amber-500 text-amber-700 hover:bg-amber-100"
+                    onClick={() => clearUserCache(selectedUser.id)}
+                    disabled={clearingCache || updating}
+                  >
+                    {clearingCache ? 'Limpiando...' : '🧹 Limpiar Caché'}
                   </Button>
                 </div>
               </div>
