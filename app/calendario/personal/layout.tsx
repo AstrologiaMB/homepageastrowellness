@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import prisma from "@/lib/prisma";
 
 export default async function CalendarioPersonalLayout({
     children,
@@ -11,7 +10,7 @@ export default async function CalendarioPersonalLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/auth/login?callbackUrl=/calendario/personal");
+        redirect("/login?callbackUrl=/calendario/personal");
     }
 
     const entitlements = (session.user as any).entitlements || {};
@@ -19,18 +18,6 @@ export default async function CalendarioPersonalLayout({
     // Requirement: Base Bundle
     if (!entitlements.hasBaseBundle) {
         redirect("/upgrade");
-    }
-
-    // Verificar si el usuario tiene datos completos
-    const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: { birthDate: true, birthCity: true, residenceCity: true }
-    });
-
-    const missingData = !user?.birthDate || !user?.birthCity || !user?.residenceCity;
-
-    if (missingData) {
-        redirect("/completar-datos?callbackUrl=/calendario/personal");
     }
 
     return <>{children}</>;
