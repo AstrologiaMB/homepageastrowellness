@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user || !user.birthDate || !user.birthCity) {
-      return NextResponse.json({ 
-        error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.' 
+      return NextResponse.json({
+        error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.'
       }, { status: 400 });
     }
 
@@ -90,16 +90,39 @@ export async function POST(request: NextRequest) {
     }
 
     // Guardar en caché
-    await prisma.cartaNatal.create({
-      data: {
-        userId: user.id,
-        tipo: 'draconica',
-        dataCompleta: JSON.stringify(resultado.data),
-        dataReducida: JSON.stringify(resultado.data_reducido),
-        fechaNacimiento: user.birthDate,
-        lugarNacimiento
+    // Guardar en caché (Upsert para evitar colisiones)
+    // Guardar en caché (Upsert para evitar colisiones)
+    try {
+      await prisma.cartaNatal.upsert({
+        where: {
+          userId_tipo_fechaNacimiento_lugarNacimiento: {
+            userId: user.id,
+            tipo: 'draconica',
+            fechaNacimiento: user.birthDate,
+            lugarNacimiento
+          }
+        },
+        update: {
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data_reducido),
+        },
+        create: {
+          userId: user.id,
+          tipo: 'draconica',
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data_reducido),
+          fechaNacimiento: user.birthDate,
+          lugarNacimiento
+        }
+      });
+    } catch (e: any) {
+      // Ignorar error de unique constraint race condition
+      if (e.code !== 'P2002') {
+        console.error('Error guardando carta dracónica:', e);
+      } else {
+        console.log('Race condition (P2002) ignorada: La carta ya existe.');
       }
-    });
+    }
 
     console.log('Carta dracónica calculada y guardada en caché');
 
@@ -113,8 +136,8 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error en API Gateway:', error);
-    return NextResponse.json({ 
-      error: error instanceof Error ? error.message : 'Error interno del servidor' 
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : 'Error interno del servidor'
     }, { status: 500 });
   }
 }

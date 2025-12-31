@@ -183,16 +183,39 @@ export async function POST(request: NextRequest) {
     */
 
     // Guardar en caché
-    await prisma.cartaNatal.create({
-      data: {
-        userId: user.id,
-        tipo: 'cruzada',
-        dataCompleta: JSON.stringify(resultado.data),
-        dataReducida: JSON.stringify(resultado.data), // Para cruzada usamos los mismos datos
-        fechaNacimiento: user.birthDate,
-        lugarNacimiento
+    // Guardar en caché
+    // Guardar en caché (Upsert para evitar colisiones)
+    try {
+      await prisma.cartaNatal.upsert({
+        where: {
+          userId_tipo_fechaNacimiento_lugarNacimiento: {
+            userId: user.id,
+            tipo: 'cruzada',
+            fechaNacimiento: user.birthDate,
+            lugarNacimiento
+          }
+        },
+        update: {
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data),
+        },
+        create: {
+          userId: user.id,
+          tipo: 'cruzada',
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data),
+          fechaNacimiento: user.birthDate,
+          lugarNacimiento
+        }
+      });
+    } catch (e: any) {
+      // Ignorar error de unique constraint race condition
+      if (e.code !== 'P2002') {
+        console.error('Error guardando carta cruzada:', e);
+      } else {
+        console.log('Race condition (P2002) ignorada: La carta cruzada ya existe.');
       }
-    });
+    }
 
     console.log('Análisis cruzado calculado y guardado en caché');
 

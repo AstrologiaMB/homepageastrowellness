@@ -96,16 +96,39 @@ export async function POST(request: NextRequest) {
     }
 
     // Guardar en caché
-    await prisma.cartaNatal.create({
-      data: {
-        userId: user.id,
-        tipo: 'tropical',
-        dataCompleta: JSON.stringify(resultado.data),
-        dataReducida: JSON.stringify(resultado.data_reducido),
-        fechaNacimiento: user.birthDate,
-        lugarNacimiento
+    // Guardar en caché (Upsert para evitar colisiones)
+    // Guardar en caché (Upsert para evitar colisiones)
+    try {
+      await prisma.cartaNatal.upsert({
+        where: {
+          userId_tipo_fechaNacimiento_lugarNacimiento: {
+            userId: user.id,
+            tipo: 'tropical',
+            fechaNacimiento: user.birthDate,
+            lugarNacimiento
+          }
+        },
+        update: {
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data_reducido),
+          // No actualizamos fecha/lugar porque son parte de la clave
+        },
+        create: {
+          userId: user.id,
+          tipo: 'tropical',
+          dataCompleta: JSON.stringify(resultado.data),
+          dataReducida: JSON.stringify(resultado.data_reducido),
+          fechaNacimiento: user.birthDate,
+          lugarNacimiento
+        }
+      });
+    } catch (e: any) {
+      if (e.code !== 'P2002') {
+        console.error('Error guardando carta tropical:', e);
+      } else {
+        console.log('Race condition (P2002) ignorada: La carta ya existe.');
       }
-    });
+    }
 
     console.log('Carta natal calculada y guardada en caché');
 
