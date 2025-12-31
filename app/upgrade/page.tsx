@@ -62,6 +62,19 @@ function UpgradePageContent() {
     }
   }, [success, update])
 
+  // 4. Polling for activation (Race Condition Fix)
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+
+    if (success && !isBaseActive) {
+      interval = setInterval(() => {
+        update() // Poll session every 2s until webhook updates DB
+      }, 2000)
+    }
+
+    return () => clearInterval(interval)
+  }, [success, isBaseActive, update])
+
   // 1. Defensively handle loading state
   if (status === 'loading' && !success) {
     return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>
@@ -157,18 +170,7 @@ function UpgradePageContent() {
 
 
 
-  // 4. Polling for activation (Race Condition Fix)
-  useEffect(() => {
-    let interval: NodeJS.Timeout
 
-    if (success && !isBaseActive) {
-      interval = setInterval(() => {
-        update() // Poll session every 2s until webhook updates DB
-      }, 2000)
-    }
-
-    return () => clearInterval(interval)
-  }, [success, isBaseActive, update])
 
   if (success) {
     return (
@@ -392,10 +394,16 @@ function UpgradePageContent() {
             <Button
               onClick={() => handleCheckout('payment')}
               className="w-full"
-              variant="outline"
-              disabled={loading || entitlements.hasDraconicAccess}
+              variant={isBaseActive ? "outline" : "ghost"}
+              disabled={loading || entitlements.hasDraconicAccess || !isBaseActive}
             >
-              {loading ? '...' : (entitlements.hasDraconicAccess ? 'Ya adquirido' : 'Comprar Carta Dracónica')}
+              {loading
+                ? '...'
+                : entitlements.hasDraconicAccess
+                  ? 'Ya adquirido'
+                  : isBaseActive
+                    ? 'Comprar Carta Dracónica'
+                    : 'Requiere Suscripción Base'}
             </Button>
           </CardFooter>
         </Card>
