@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 
-export default async function CalendarioPersonalLayout({
+export default async function CalendarioGeneralLayout({
     children,
 }: {
     children: React.ReactNode;
@@ -11,14 +11,7 @@ export default async function CalendarioPersonalLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/auth/login?callbackUrl=/calendario/personal");
-    }
-
-    const entitlements = (session.user as any).entitlements || {};
-
-    // Requirement: Base Bundle
-    if (!entitlements.hasBaseBundle) {
-        redirect("/upgrade");
+        redirect("/auth/login?callbackUrl=/calendario/general");
     }
 
     // Verificar si el usuario tiene datos completos
@@ -30,7 +23,7 @@ export default async function CalendarioPersonalLayout({
     const missingData = !user?.birthDate || !user?.birthCity || !user?.residenceCity;
 
     if (missingData) {
-        redirect("/completar-datos?callbackUrl=/calendario/personal");
+        redirect("/completar-datos?callbackUrl=/calendario/general");
     }
 
     return <>{children}</>;
