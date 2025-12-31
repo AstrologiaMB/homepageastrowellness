@@ -63,7 +63,8 @@ function LoginForm() {
       if (result?.error) {
         setError('Email o contraseña incorrectos')
       } else if (result?.ok) {
-        // Login exitoso - redirigir al dashboard
+        // Login exitoso - refrescar sesión y redirigir
+        router.refresh() // Revalida server components y sincroniza sesión
         router.push('/')
       }
     } catch (error) {
