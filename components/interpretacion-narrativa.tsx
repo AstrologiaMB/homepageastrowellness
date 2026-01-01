@@ -1,5 +1,7 @@
 'use client'
 
+import ReactMarkdown from 'react-markdown'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
@@ -13,12 +15,12 @@ interface InterpretacionNarrativaProps {
   desdeCache?: boolean
 }
 
-export function InterpretacionNarrativa({ 
-  interpretacion, 
-  loading, 
-  error, 
+export function InterpretacionNarrativa({
+  interpretacion,
+  loading,
+  error,
   tiempoGeneracion,
-  desdeCache 
+  desdeCache
 }: InterpretacionNarrativaProps) {
   if (loading) {
     return (
@@ -90,16 +92,16 @@ export function InterpretacionNarrativa({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="prose prose-sm max-w-none">
-          {interpretacion.split('\n').map((paragraph, index) => {
-            if (paragraph.trim() === '') return null
-            
-            return (
-              <p key={index} className="mb-4 text-sm leading-relaxed text-gray-700">
-                {paragraph.trim()}
-              </p>
-            )
-          })}
+        <div className="prose prose-stone prose-sm max-w-none text-gray-700">
+          <ReactMarkdown
+            components={{
+              p: ({ node, ...props }) => (
+                <p className="mb-4 last:mb-0 leading-relaxed" {...props} />
+              ),
+            }}
+          >
+            {interpretacion}
+          </ReactMarkdown>
         </div>
       </CardContent>
     </Card>

@@ -1,5 +1,7 @@
 'use client'
 
+import ReactMarkdown from 'react-markdown'
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
@@ -73,7 +75,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
             {getTypeLabel(item.tipo)}
           </Badge>
         </div>
-        
+
         {/* Información astrológica en texto simple */}
         <div className="text-xs text-muted-foreground mt-2">
           {item.planeta && item.signo && `${item.planeta} en ${item.signo}`}
@@ -81,18 +83,18 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
           {item.casa && ` • Casa ${item.casa}`}
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0">
-        <div className="text-sm leading-relaxed text-gray-700">
-          {item.interpretacion.split('\n').map((paragraph, index) => {
-            if (paragraph.trim() === '') return null
-            
-            return (
-              <p key={index} className="mb-2 last:mb-0">
-                {paragraph.trim()}
-              </p>
-            )
-          })}
+        <div className="prose prose-stone prose-sm max-w-none text-gray-700">
+          <ReactMarkdown
+            components={{
+              p: ({ node, ...props }) => (
+                <p className="mb-2 last:mb-0 leading-relaxed" {...props} />
+              ),
+            }}
+          >
+            {item.interpretacion}
+          </ReactMarkdown>
         </div>
       </CardContent>
     </Card>
@@ -123,10 +125,10 @@ function InterpretacionItemSkeleton() {
   )
 }
 
-export function InterpretacionesIndividuales({ 
-  interpretaciones, 
-  loading, 
-  error 
+export function InterpretacionesIndividuales({
+  interpretaciones,
+  loading,
+  error
 }: InterpretacionesIndividualesProps) {
   if (loading) {
     return (
@@ -168,7 +170,7 @@ export function InterpretacionesIndividuales({
           {interpretaciones.length} elementos
         </Badge>
       </div>
-      
+
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {interpretaciones.map((item, index) => (
           <InterpretacionItemCard key={index} item={item} />
