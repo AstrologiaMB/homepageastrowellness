@@ -1,4 +1,4 @@
-import { CreditCard, Map, Calendar, User, HelpCircle, Moon } from "lucide-react";
+import { CreditCard, Map, Calendar, User, HelpCircle, Moon, Cpu } from "lucide-react";
 
 export interface HelpCategory {
     id: string;
@@ -34,6 +34,33 @@ export const HELP_CONTENT: HelpCategory[] = [
             {
                 question: "¿Cómo actualizo mi tarjeta de crédito?",
                 answer: "Ve a 'Gestionar Suscripción' y serás redirigido al portal seguro de Stripe donde puedes agregar o quitar métodos de pago."
+            }
+        ]
+    },
+    {
+        id: "methodology",
+        title: "Metodología y Tecnología",
+        icon: Cpu,
+        items: [
+            {
+                question: "¿Qué sistema de cálculo utilizan?",
+                answer: "Utilizamos el sistema de casas **Placidus** para todos los cálculos trópicos (el estándar en astrología psicológica). Para la **Carta Dracónica**, aplicamos la técnica avanzada de superposición: calculamos tu carta desde los Nodos Lunares y la superponemos a tu carta trópica para revelar cómo tu misión espiritual impacta tu realidad diaria."
+            },
+            {
+                question: "¿Quién escribe mi reporte? ¿Es 100% IA?",
+                answer: "Es una colaboración híbrida única. Utilizamos tecnología de IA de última generación para *redactar* y *conectar* los puntos de tu carta, pero el **contenido astrológico base** proviene estrictamente de la académica **María Blaquier**. La tecnología es el vehículo que personaliza el reporte; la sabiduría y las definiciones son 100% de la autora."
+            },
+            {
+                question: "¿Por qué mi carta se ve diferente a otros sitios?",
+                answer: "Pequeñas diferencias (de 1° o 2°) son posibles. Nosotros calculamos específicamente el **Nodo Norte Verdadero** (True Node), mientras que otros sitios usan por defecto el Nodo Medio (Mean Node). Nuestros cálculos están calibrados con *Swiss Ephemeris*, la fuente astronómica más precisa del mundo."
+            },
+            {
+                question: "¿Puedo regenerar mi interpretación si no me gusta?",
+                answer: "No. La regeneración es una función técnica reservada para administradores en caso de fallos del sistema. Tu reporte es único."
+            },
+            {
+                question: "¿Esto reemplaza a un astrólogo?",
+                answer: "Este informe es una herramienta poderosa de autoconocimiento y guía inicial, diseñada con rigor profesional. Sin embargo, ninguna herramienta digital puede replicar la sensibilidad, la intuición y el diálogo transformador de una sesión 1 a 1. Úsalo como un mapa para tu viaje."
             }
         ]
     },
