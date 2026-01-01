@@ -6,7 +6,7 @@
  * Incluye sistema de caché para optimizar el rendimiento.
  * 
  * @author Astrowellness Team
- * @version 3.0.0 - Implementación de superposición de cartas tropicales y dracónicas
+ * @version 3.1.0 - Implementación de Markdown rendering con componentes reutilizables
  */
 
 "use client";
@@ -16,6 +16,8 @@ import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
 import { CartaSuperpuestaWrapper } from "@/components/carta-superpuesta-wrapper";
 import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { DraconicEventsList } from "@/components/DraconicEventsList";
+import { InterpretacionNarrativa } from "@/components/interpretacion-narrativa";
+import { InterpretacionesIndividuales } from "@/components/interpretaciones-individuales";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Calculator, Clock } from "lucide-react";
@@ -439,82 +441,23 @@ export default function CartasDraconicaPage() {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">🔮 Interpretación Dracónica</h2>
 
-            {loadingInterpretacion && (
-              <div className="flex items-center justify-center py-8">
-                <div className="flex items-center space-x-3">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  <span className="text-muted-foreground">Generando interpretación dracónica con IA...</span>
-                </div>
-              </div>
-            )}
+            {/* Componente de Interpretación Narrativa con Markdown */}
+            <div className="mb-6">
+              <InterpretacionNarrativa
+                interpretacion={interpretacionDraconica?.interpretacion_narrativa}
+                loading={loadingInterpretacion}
+                error={errorInterpretacion ? errorInterpretacion : (!interpretacionDraconica && !loadingInterpretacion ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación." : null)}
+                tiempoGeneracion={interpretacionDraconica?.tiempo_generacion}
+                desdeCache={interpretacionDraconica?.desde_cache}
+              />
+            </div>
 
-            {errorInterpretacion && (
-              <Alert variant="destructive" className="mb-4">
-                <AlertDescription>
-                  <strong>Error en interpretación:</strong> {errorInterpretacion}
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {interpretacionDraconica && (
-              <>
-                {/* Interpretación Narrativa */}
-                {interpretacionDraconica.interpretacion_narrativa && (
-                  <div className="mb-6">
-                    <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-lg p-6">
-                      <h3 className="text-lg font-semibold text-primary mb-3">📖 Interpretación Narrativa</h3>
-                      <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed">
-                        {interpretacionDraconica.interpretacion_narrativa.split('\n').map((paragraph: string, index: number) => (
-                          paragraph.trim() && (
-                            <p key={index} className="mb-3">
-                              {paragraph}
-                            </p>
-                          )
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Interpretaciones Individuales */}
-                {interpretacionDraconica.interpretaciones_individuales && interpretacionDraconica.interpretaciones_individuales.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">🔍 Análisis Detallado</h3>
-                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                      {interpretacionDraconica.interpretaciones_individuales.map((item: any, index: number) => (
-                        <div key={index} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
-                          <div className="flex items-start justify-between mb-2">
-                            <h4 className="font-semibold text-foreground">{item.titulo}</h4>
-                            <span className="text-xs bg-accent/20 text-accent px-2 py-1 rounded-full">
-                              {item.tipo}
-                            </span>
-                          </div>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {item.interpretacion}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Tiempo de generación */}
-                {interpretacionDraconica.tiempo_generacion && (
-                  <div className="mt-4 text-xs text-muted-foreground text-center">
-                    Interpretación generada en {interpretacionDraconica.tiempo_generacion.toFixed(2)}s
-                    {interpretacionDraconica.desde_cache && " (desde caché)"}
-                  </div>
-                )}
-              </>
-            )}
-
-            {!loadingInterpretacion && !errorInterpretacion && !interpretacionDraconica && (
-              <Alert>
-                <AlertDescription>
-                  Haz clic en "Calcular Carta Dracónica Dinámica" para generar la interpretación automática con IA.
-                </AlertDescription>
-              </Alert>
-            )}
+            {/* Componente de Interpretaciones Individuales con Markdown */}
+            <InterpretacionesIndividuales
+              interpretaciones={interpretacionDraconica?.interpretaciones_individuales}
+              loading={loadingInterpretacion}
+              error={errorInterpretacion}
+            />
           </div>
         </>
       )}
