@@ -9,8 +9,6 @@ import { simpleStorage } from './storage';
 // Token storage keys
 export const TOKEN_KEYS = {
   user: 'auth_user_token',
-  admin: 'auth_admin_token',
-  trainer: 'auth_trainer_token',
 } as const;
 
 export type AuthRole = keyof typeof TOKEN_KEYS;
@@ -51,9 +49,7 @@ export function clearAllTokens(): void {
 export function getActiveToken(): string | null {
   // Check in order: admin, user, trainer
   return (
-    loadToken('admin') ||
-    loadToken('user') ||
-    loadToken('trainer')
+    loadToken('user')
   );
 }
 
@@ -61,9 +57,7 @@ export function getActiveToken(): string | null {
  * Get the role of the active token
  */
 export function getActiveRole(): AuthRole | null {
-  if (loadToken('admin')) return 'admin';
   if (loadToken('user')) return 'user';
-  if (loadToken('trainer')) return 'trainer';
   return null;
 }
 
