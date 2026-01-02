@@ -1,8 +1,12 @@
 "use client";
 
 import { CalendarioPersonalWrapper } from "./CalendarioPersonalWrapper";
+import { ProtectedPage } from "@/components/protected-page";
 
 export default function CalendarioPersonalPage() {
-  // La protección de rutas y obtención de sesión se maneja en el Wrapper o Middleware
-  return <CalendarioPersonalWrapper />;
+  return (
+    <ProtectedPage requiredEntitlement="hasBaseBundle">
+      <CalendarioPersonalWrapper />
+    </ProtectedPage>
+  );
 }

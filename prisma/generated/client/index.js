@@ -277,7 +277,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/apple/sidebar-fastapi/prisma/generated/client",
+      "value": "/Users/nicolasariasescudero/Downloads/homepageastrowellness/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -295,12 +295,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/apple/sidebar-fastapi/prisma/schema.prisma",
+    "sourceFilePath": "/Users/nicolasariasescudero/Downloads/homepageastrowellness/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "6.7.0",
