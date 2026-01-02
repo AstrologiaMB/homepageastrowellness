@@ -6744,6 +6744,7 @@ export namespace Prisma {
     lugarNacimiento: string | null
     gender: string | null
     tipo: string | null
+    status: string | null
     interpretacionNarrativa: string | null
     interpretacionesIndividuales: string | null
     tiempoGeneracion: number | null
@@ -6758,6 +6759,7 @@ export namespace Prisma {
     lugarNacimiento: string | null
     gender: string | null
     tipo: string | null
+    status: string | null
     interpretacionNarrativa: string | null
     interpretacionesIndividuales: string | null
     tiempoGeneracion: number | null
@@ -6772,6 +6774,7 @@ export namespace Prisma {
     lugarNacimiento: number
     gender: number
     tipo: number
+    status: number
     interpretacionNarrativa: number
     interpretacionesIndividuales: number
     tiempoGeneracion: number
@@ -6796,6 +6799,7 @@ export namespace Prisma {
     lugarNacimiento?: true
     gender?: true
     tipo?: true
+    status?: true
     interpretacionNarrativa?: true
     interpretacionesIndividuales?: true
     tiempoGeneracion?: true
@@ -6810,6 +6814,7 @@ export namespace Prisma {
     lugarNacimiento?: true
     gender?: true
     tipo?: true
+    status?: true
     interpretacionNarrativa?: true
     interpretacionesIndividuales?: true
     tiempoGeneracion?: true
@@ -6824,6 +6829,7 @@ export namespace Prisma {
     lugarNacimiento?: true
     gender?: true
     tipo?: true
+    status?: true
     interpretacionNarrativa?: true
     interpretacionesIndividuales?: true
     tiempoGeneracion?: true
@@ -6925,9 +6931,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status: string
+    interpretacionNarrativa: string | null
+    interpretacionesIndividuales: string | null
+    tiempoGeneracion: number | null
     createdAt: Date
     updatedAt: Date
     _count: InterpretacionCacheCountAggregateOutputType | null
@@ -6958,6 +6965,7 @@ export namespace Prisma {
     lugarNacimiento?: boolean
     gender?: boolean
     tipo?: boolean
+    status?: boolean
     interpretacionNarrativa?: boolean
     interpretacionesIndividuales?: boolean
     tiempoGeneracion?: boolean
@@ -6973,6 +6981,7 @@ export namespace Prisma {
     lugarNacimiento?: boolean
     gender?: boolean
     tipo?: boolean
+    status?: boolean
     interpretacionNarrativa?: boolean
     interpretacionesIndividuales?: boolean
     tiempoGeneracion?: boolean
@@ -6988,6 +6997,7 @@ export namespace Prisma {
     lugarNacimiento?: boolean
     gender?: boolean
     tipo?: boolean
+    status?: boolean
     interpretacionNarrativa?: boolean
     interpretacionesIndividuales?: boolean
     tiempoGeneracion?: boolean
@@ -7003,6 +7013,7 @@ export namespace Prisma {
     lugarNacimiento?: boolean
     gender?: boolean
     tipo?: boolean
+    status?: boolean
     interpretacionNarrativa?: boolean
     interpretacionesIndividuales?: boolean
     tiempoGeneracion?: boolean
@@ -7010,7 +7021,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type InterpretacionCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fechaNacimiento" | "lugarNacimiento" | "gender" | "tipo" | "interpretacionNarrativa" | "interpretacionesIndividuales" | "tiempoGeneracion" | "createdAt" | "updatedAt", ExtArgs["result"]["interpretacionCache"]>
+  export type InterpretacionCacheOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fechaNacimiento" | "lugarNacimiento" | "gender" | "tipo" | "status" | "interpretacionNarrativa" | "interpretacionesIndividuales" | "tiempoGeneracion" | "createdAt" | "updatedAt", ExtArgs["result"]["interpretacionCache"]>
   export type InterpretacionCacheInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7033,9 +7044,10 @@ export namespace Prisma {
       lugarNacimiento: string
       gender: string
       tipo: string
-      interpretacionNarrativa: string
-      interpretacionesIndividuales: string
-      tiempoGeneracion: number
+      status: string
+      interpretacionNarrativa: string | null
+      interpretacionesIndividuales: string | null
+      tiempoGeneracion: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["interpretacionCache"]>
@@ -7468,6 +7480,7 @@ export namespace Prisma {
     readonly lugarNacimiento: FieldRef<"InterpretacionCache", 'String'>
     readonly gender: FieldRef<"InterpretacionCache", 'String'>
     readonly tipo: FieldRef<"InterpretacionCache", 'String'>
+    readonly status: FieldRef<"InterpretacionCache", 'String'>
     readonly interpretacionNarrativa: FieldRef<"InterpretacionCache", 'String'>
     readonly interpretacionesIndividuales: FieldRef<"InterpretacionCache", 'String'>
     readonly tiempoGeneracion: FieldRef<"InterpretacionCache", 'Float'>
@@ -13611,6 +13624,7 @@ export namespace Prisma {
     lugarNacimiento: 'lugarNacimiento',
     gender: 'gender',
     tipo: 'tipo',
+    status: 'status',
     interpretacionNarrativa: 'interpretacionNarrativa',
     interpretacionesIndividuales: 'interpretacionesIndividuales',
     tiempoGeneracion: 'tiempoGeneracion',
@@ -14227,9 +14241,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
     gender?: StringFilter<"InterpretacionCache"> | string
     tipo?: StringFilter<"InterpretacionCache"> | string
-    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
-    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
-    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    status?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringNullableFilter<"InterpretacionCache"> | string | null
+    interpretacionesIndividuales?: StringNullableFilter<"InterpretacionCache"> | string | null
+    tiempoGeneracion?: FloatNullableFilter<"InterpretacionCache"> | number | null
     createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
     updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14242,9 +14257,10 @@ export namespace Prisma {
     lugarNacimiento?: SortOrder
     gender?: SortOrder
     tipo?: SortOrder
-    interpretacionNarrativa?: SortOrder
-    interpretacionesIndividuales?: SortOrder
-    tiempoGeneracion?: SortOrder
+    status?: SortOrder
+    interpretacionNarrativa?: SortOrderInput | SortOrder
+    interpretacionesIndividuales?: SortOrderInput | SortOrder
+    tiempoGeneracion?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -14261,9 +14277,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
     gender?: StringFilter<"InterpretacionCache"> | string
     tipo?: StringFilter<"InterpretacionCache"> | string
-    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
-    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
-    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    status?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringNullableFilter<"InterpretacionCache"> | string | null
+    interpretacionesIndividuales?: StringNullableFilter<"InterpretacionCache"> | string | null
+    tiempoGeneracion?: FloatNullableFilter<"InterpretacionCache"> | number | null
     createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
     updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14276,9 +14293,10 @@ export namespace Prisma {
     lugarNacimiento?: SortOrder
     gender?: SortOrder
     tipo?: SortOrder
-    interpretacionNarrativa?: SortOrder
-    interpretacionesIndividuales?: SortOrder
-    tiempoGeneracion?: SortOrder
+    status?: SortOrder
+    interpretacionNarrativa?: SortOrderInput | SortOrder
+    interpretacionesIndividuales?: SortOrderInput | SortOrder
+    tiempoGeneracion?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: InterpretacionCacheCountOrderByAggregateInput
@@ -14298,9 +14316,10 @@ export namespace Prisma {
     lugarNacimiento?: StringWithAggregatesFilter<"InterpretacionCache"> | string
     gender?: StringWithAggregatesFilter<"InterpretacionCache"> | string
     tipo?: StringWithAggregatesFilter<"InterpretacionCache"> | string
-    interpretacionNarrativa?: StringWithAggregatesFilter<"InterpretacionCache"> | string
-    interpretacionesIndividuales?: StringWithAggregatesFilter<"InterpretacionCache"> | string
-    tiempoGeneracion?: FloatWithAggregatesFilter<"InterpretacionCache"> | number
+    status?: StringWithAggregatesFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringNullableWithAggregatesFilter<"InterpretacionCache"> | string | null
+    interpretacionesIndividuales?: StringNullableWithAggregatesFilter<"InterpretacionCache"> | string | null
+    tiempoGeneracion?: FloatNullableWithAggregatesFilter<"InterpretacionCache"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"InterpretacionCache"> | Date | string
   }
@@ -15206,9 +15225,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInterpretacionesInput
@@ -15221,9 +15241,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15234,9 +15255,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInterpretacionesNestedInput
@@ -15249,9 +15271,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15263,9 +15286,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15276,9 +15300,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15290,9 +15315,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16218,15 +16244,15 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type InterpretacionCacheUserIdFechaNacimientoLugarNacimientoGenderTipoCompoundUniqueInput = {
@@ -16244,6 +16270,7 @@ export namespace Prisma {
     lugarNacimiento?: SortOrder
     gender?: SortOrder
     tipo?: SortOrder
+    status?: SortOrder
     interpretacionNarrativa?: SortOrder
     interpretacionesIndividuales?: SortOrder
     tiempoGeneracion?: SortOrder
@@ -16262,6 +16289,7 @@ export namespace Prisma {
     lugarNacimiento?: SortOrder
     gender?: SortOrder
     tipo?: SortOrder
+    status?: SortOrder
     interpretacionNarrativa?: SortOrder
     interpretacionesIndividuales?: SortOrder
     tiempoGeneracion?: SortOrder
@@ -16276,6 +16304,7 @@ export namespace Prisma {
     lugarNacimiento?: SortOrder
     gender?: SortOrder
     tipo?: SortOrder
+    status?: SortOrder
     interpretacionNarrativa?: SortOrder
     interpretacionesIndividuales?: SortOrder
     tiempoGeneracion?: SortOrder
@@ -16287,20 +16316,20 @@ export namespace Prisma {
     tiempoGeneracion?: SortOrder
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type AstrogematriaCacheCountOrderByAggregateInput = {
@@ -16937,8 +16966,8 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -17210,20 +17239,20 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type RectificationEventCreateWithoutUserInput = {
@@ -17294,9 +17323,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17307,9 +17337,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17574,9 +17605,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFilter<"InterpretacionCache"> | string
     gender?: StringFilter<"InterpretacionCache"> | string
     tipo?: StringFilter<"InterpretacionCache"> | string
-    interpretacionNarrativa?: StringFilter<"InterpretacionCache"> | string
-    interpretacionesIndividuales?: StringFilter<"InterpretacionCache"> | string
-    tiempoGeneracion?: FloatFilter<"InterpretacionCache"> | number
+    status?: StringFilter<"InterpretacionCache"> | string
+    interpretacionNarrativa?: StringNullableFilter<"InterpretacionCache"> | string | null
+    interpretacionesIndividuales?: StringNullableFilter<"InterpretacionCache"> | string | null
+    tiempoGeneracion?: FloatNullableFilter<"InterpretacionCache"> | number | null
     createdAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
     updatedAt?: DateTimeFilter<"InterpretacionCache"> | Date | string
   }
@@ -19084,9 +19116,10 @@ export namespace Prisma {
     lugarNacimiento: string
     gender: string
     tipo: string
-    interpretacionNarrativa: string
-    interpretacionesIndividuales: string
-    tiempoGeneracion: number
+    status?: string
+    interpretacionNarrativa?: string | null
+    interpretacionesIndividuales?: string | null
+    tiempoGeneracion?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19205,9 +19238,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19218,9 +19252,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19231,9 +19266,10 @@ export namespace Prisma {
     lugarNacimiento?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
-    interpretacionNarrativa?: StringFieldUpdateOperationsInput | string
-    interpretacionesIndividuales?: StringFieldUpdateOperationsInput | string
-    tiempoGeneracion?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    interpretacionNarrativa?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretacionesIndividuales?: NullableStringFieldUpdateOperationsInput | string | null
+    tiempoGeneracion?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

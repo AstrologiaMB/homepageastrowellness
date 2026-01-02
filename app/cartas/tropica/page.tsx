@@ -151,6 +151,7 @@ export default function CartasTropicaPage() {
                 error={interpretacionesError}
                 tiempoGeneracion={interpretaciones?.tiempo_generacion}
                 desdeCache={interpretaciones?.desde_cache}
+                loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
               />
             </div>
 

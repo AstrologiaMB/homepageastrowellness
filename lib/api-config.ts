@@ -30,12 +30,12 @@ interface ApiUrls {
  */
 const API_URLS: Record<'development' | 'production', ApiUrls> = {
   development: {
-    CALCULOS: 'http://localhost:8001',
-    INTERPRETACIONES: 'http://localhost:8002',
-    CALENDARIO: 'http://localhost:8004', // Corregido: calendario usa puerto 8004
-    ASTROGEMATRIA: 'http://localhost:8003',
-    CARTA_ELECTIVA: 'http://localhost:8005',
-    FRONTEND_INTERNAL: 'http://localhost:3000' // Next.js local dev server
+    CALCULOS: 'http://127.0.0.1:8001',
+    INTERPRETACIONES: 'http://127.0.0.1:8002',
+    CALENDARIO: 'http://127.0.0.1:8004', // Corregido: calendario usa puerto 8004
+    ASTROGEMATRIA: 'http://127.0.0.1:8003',
+    CARTA_ELECTIVA: 'http://127.0.0.1:8005',
+    FRONTEND_INTERNAL: 'http://127.0.0.1:3000' // Next.js local dev server
   },
   production: {
     CALCULOS: process.env.NEXT_PUBLIC_CALCULOS_API_URL || '',
@@ -64,14 +64,14 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
 export function getApiUrl(service: ApiService): string {
   const urls = API_URLS[ENV as 'development' | 'production'] || API_URLS.development;
   const url = urls[service];
-  
+
   if (!url && ENV === 'production') {
     throw new Error(
       `API URL for ${service} is not configured. ` +
       `Please set ${service}_API_URL environment variable in Railway.`
     );
   }
-  
+
   return url;
 }
 
@@ -90,7 +90,7 @@ export function getAllApiUrls(): ApiUrls {
  */
 export function areAllApiUrlsConfigured(): boolean {
   if (ENV === 'development') return true;
-  
+
   const urls = API_URLS.production;
   return Object.values(urls).every(url => url && url.length > 0);
 }

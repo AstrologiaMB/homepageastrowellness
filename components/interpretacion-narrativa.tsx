@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import { Clock, Sparkles } from "lucide-react"
+import { Clock, Sparkles, Loader2 } from "lucide-react"
 
 interface InterpretacionNarrativaProps {
   interpretacion: string | null
@@ -13,6 +13,7 @@ interface InterpretacionNarrativaProps {
   error: string | null
   tiempoGeneracion?: number
   desdeCache?: boolean
+  loadingMessage?: string
 }
 
 export function InterpretacionNarrativa({
@@ -20,26 +21,40 @@ export function InterpretacionNarrativa({
   loading,
   error,
   tiempoGeneracion,
-  desdeCache
+  desdeCache,
+  loadingMessage
 }: InterpretacionNarrativaProps) {
   if (loading) {
     return (
       <Card className="w-full">
         <CardHeader>
           <div className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-purple-500" />
+            <Sparkles className="h-5 w-5 text-purple-500 animate-pulse" />
             <Skeleton className="h-6 w-64" />
           </div>
           <Skeleton className="h-4 w-48" />
         </CardHeader>
-        <CardContent className="space-y-3">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-2/3" />
+        <CardContent className="space-y-4">
+          {loadingMessage && (
+            <div className="p-4 bg-purple-50 border border-purple-100 rounded-lg text-sm text-purple-800 flex items-center gap-3">
+              <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+              <p>{loadingMessage}</p>
+            </div>
+          )}
+          {!loadingMessage && (
+            <div className="space-y-3">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+          )}
+          {loadingMessage && (
+            <div className="space-y-3 opacity-50">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+          )}
         </CardContent>
       </Card>
     )

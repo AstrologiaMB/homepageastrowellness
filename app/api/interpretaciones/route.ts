@@ -24,27 +24,18 @@ interface InterpretacionResponse {
   tiempo_generacion: number
 }
 
-interface CartaNatalData {
-  nombre: string
-  points: Record<string, any>
-  houses: Record<string, any>
-  aspects: Array<any>
-  cuspides_cruzadas?: Array<any>
-}
-
-
 // Función para combinar información de casa con planetas en signo
 function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): InterpretacionItem[] {
   // Crear un mapa de planetas en casa
   const planetasEnCasa = new Map<string, string>()
-  
+
   // Buscar todos los registros "PlanetaEnCasa" y mapear planeta -> casa
   interpretaciones.forEach(item => {
     if (item.tipo === 'PlanetaEnCasa' && item.planeta && item.casa) {
       planetasEnCasa.set(item.planeta, item.casa)
     }
   })
-  
+
   // Combinar información: agregar casa a los registros "PlanetaEnSigno"
   return interpretaciones.map(item => {
     if (item.tipo === 'PlanetaEnSigno' && item.planeta && !item.casa) {
@@ -60,52 +51,116 @@ function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): Interp
   })
 }
 
-export async function POST(request: NextRequest) {
+// Función auxiliar para procesar en background (Fire & Forget)
+async function procesarInterpretacionBackground(
+  cacheId: string,
+  ragRequest: any,
+  getRequestCookies: () => string
+) {
   try {
-    // Verificar autenticación
-    const session = await getServerSession(authOptions)
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      )
+    console.log(`🔄 Iniciando procesamiento background para ${cacheId}...`)
+    const startTime = Date.now()
+
+    // Para cartas dracónicas, obtener datos cruzados (si aplica)
+    if (ragRequest.tipo === "draco") {
+      try {
+        const cruzadaResponse = await fetch(`${getApiUrl('FRONTEND_INTERNAL')}/api/cartas/cruzada`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': getRequestCookies()
+          }
+        })
+
+        if (cruzadaResponse.ok) {
+          const cruzadaData = await cruzadaResponse.json()
+          if (cruzadaData.success && cruzadaData.data) {
+            if (cruzadaData.data.cuspides_cruzadas) {
+              ragRequest.carta_natal.cuspides_cruzadas = cruzadaData.data.cuspides_cruzadas
+            }
+            if (cruzadaData.data.aspectos_cruzados) {
+              ragRequest.carta_natal.aspectos_cruzados = cruzadaData.data.aspectos_cruzados
+            }
+          }
+        }
+      } catch (cruzadaError) {
+        console.error('⚠️ Error al llamar API de datos cruzados (Background):', cruzadaError)
+      }
     }
 
-    // Obtener datos del request
+    // Llamar al microservicio RAG
+    const ragResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(ragRequest),
+      signal: AbortSignal.timeout(600000) // 10 minutos server-side timeout
+    })
+
+    if (!ragResponse.ok) {
+      throw new Error(`Error RAG Microservice: ${await ragResponse.text()}`)
+    }
+
+    const interpretacionData: InterpretacionResponse = await ragResponse.json()
+    const duration = (Date.now() - startTime) / 1000
+
+    console.log(`✅ Interpretación generada en background (${duration}s)`)
+
+    // Actualizar DB a COMPLETED
+    await prisma.interpretacionCache.update({
+      where: { id: cacheId },
+      data: {
+        status: 'COMPLETED',
+        interpretacionNarrativa: JSON.stringify(interpretacionData.interpretacion_narrativa),
+        interpretacionesIndividuales: JSON.stringify(interpretacionData.interpretaciones_individuales),
+        tiempoGeneracion: interpretacionData.tiempo_generacion,
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (error) {
+    console.error(`❌ Error en procesamiento background para ${cacheId}:`, error)
+
+    // Actualizar DB a FAILED
+    await prisma.interpretacionCache.update({
+      where: { id: cacheId },
+      data: {
+        status: 'FAILED',
+        updatedAt: new Date()
+      }
+    }).catch(e => console.error("Error updating status to FAILED:", e))
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+
     const { cartaNatalData, tipo = 'tropical', skipCache = false } = await request.json()
 
     if (!cartaNatalData) {
-      return NextResponse.json(
-        { error: 'Datos de carta natal requeridos' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Datos de carta natal requeridos' }, { status: 400 })
     }
 
-    // Obtener usuario de la base de datos
     const user = await prisma.user.findUnique({
       where: { email: session.user.email }
     })
 
-    if (!user) {
+    if (!user || !user.gender) {
       return NextResponse.json(
-        { error: 'Usuario no encontrado' },
+        { error: 'Usuario no encontrado o género no configurado' },
         { status: 404 }
       )
     }
 
-    // Verificar que el usuario tenga género configurado
-    if (!user.gender) {
-      return NextResponse.json(
-        { error: 'Género del usuario no configurado. Por favor completa tu perfil.' },
-        { status: 400 }
-      )
-    }
-
-    // Crear clave de cache
     const fechaNacimiento = new Date(user.birthDate!)
     const lugarNacimiento = `${user.birthCity}, ${user.birthCountry}`
 
-    // Verificar cache existente (solo si no se solicita saltar el cache)
+    // 1. Verificar Cache
     if (!skipCache) {
       const cacheExistente = await prisma.interpretacionCache.findUnique({
         where: {
@@ -119,179 +174,110 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      // Si existe cache y es reciente (menos de 30 días), devolverlo
       if (cacheExistente) {
-        const diasDesdeCreacion = (Date.now() - cacheExistente.createdAt.getTime()) / (1000 * 60 * 60 * 24)
+        // COMPLETED: Devolver datos
+        if (cacheExistente.status === 'COMPLETED' && cacheExistente.interpretacionNarrativa && cacheExistente.interpretacionesIndividuales) {
+          const diasDesdeCreacion = (Date.now() - cacheExistente.createdAt.getTime()) / (1000 * 60 * 60 * 24)
+          if (diasDesdeCreacion < 30) {
+            console.log('📋 Devolviendo interpretación desde cache (COMPLETED)')
+            const interpretacionesIndividuales = JSON.parse(cacheExistente.interpretacionesIndividuales)
+            const interpretacionesCombinadas = combinarInformacionCasa(interpretacionesIndividuales)
 
-        if (diasDesdeCreacion < 30) {
-          console.log('📋 Devolviendo interpretación desde cache')
+            return NextResponse.json({
+              status: 'COMPLETED',
+              interpretacion_narrativa: JSON.parse(cacheExistente.interpretacionNarrativa),
+              interpretaciones_individuales: interpretacionesCombinadas,
+              tiempo_generacion: cacheExistente.tiempoGeneracion,
+              desde_cache: true
+            })
+          }
+        }
 
-          // Combinar información de casa con planetas en signo
-          const interpretacionesIndividuales = JSON.parse(cacheExistente.interpretacionesIndividuales)
-          const interpretacionesCombinadas = combinarInformacionCasa(interpretacionesIndividuales)
+        // PROCESSING: Devolver 202
+        if (cacheExistente.status === 'PROCESSING') {
+          // Verificar si no está "stuck" (ej. más de 1 min para testing)
+          const minutosProcesando = (Date.now() - cacheExistente.updatedAt.getTime()) / (1000 * 60)
+          if (minutosProcesando < 1) {
+            console.log('⏳ Interpretación en proceso...')
+            return NextResponse.json({ status: 'PROCESSING' }, { status: 202 })
+          } else {
+            console.log('⚠️ Interpretación cacheada como PROCESSING pero expiró (Stuck > 1min). Reiniciando.')
+          }
+        }
 
-          return NextResponse.json({
-            interpretacion_narrativa: JSON.parse(cacheExistente.interpretacionNarrativa),
-            interpretaciones_individuales: interpretacionesCombinadas,
-            tiempo_generacion: cacheExistente.tiempoGeneracion,
-            desde_cache: true
-          })
+        // FAILED: Devolver error y detener loop, PERO permitir reintento tras 15s
+        if (cacheExistente.status === 'FAILED') {
+          const segundosDesdeFallo = (Date.now() - cacheExistente.updatedAt.getTime()) / 1000
+          if (segundosDesdeFallo < 15) {
+            console.log('❌ Interpretación fallida recientemente. Deteniendo reintentos inmediatos.')
+            return NextResponse.json({
+              status: 'FAILED',
+              error: 'La generación anterior falló. Reintentando...'
+            }, { status: 500 })
+          } else {
+            console.log('🔄 Interpretación fallida antigua. Reintentando generación...')
+            // Permitimos que continúe hacia la generación (fall-through)
+          }
         }
       }
-    } else {
-      console.log('⏭️ Saltando verificación de cache (skipCache=true)')
     }
 
-    // Preparar datos para el microservicio RAG
-    const ragRequest: {
-      carta_natal: {
-        nombre: string
-        points: any
-        houses: any
-        aspects: any
-        cuspides_cruzadas?: any
-        aspectos_cruzados?: any
-      }
-      genero: string
-      tipo: string
-    } = {
+    // 2. Iniciar Nuevo Procesamiento (Async)
+    console.log(`🚀 Iniciando generación ASYNC para ${user.email} (${tipo})`)
+
+    const ragRequest = {
       carta_natal: {
         nombre: user.name || 'Usuario',
         points: cartaNatalData.points,
         houses: cartaNatalData.houses,
-        aspects: cartaNatalData.aspects
+        aspects: cartaNatalData.aspects,
+        cuspides_cruzadas: undefined, // Se llenará en background para draco
+        aspectos_cruzados: undefined   // Se llenará en background para draco
       },
       genero: user.gender,
-      tipo: tipo  // "tropical" o "draco"
+      tipo: tipo
     }
 
-    // Para cartas dracónicas, también obtener y agregar cúspides cruzadas y aspectos cruzados
-    if (tipo === "draco") {
-      try {
-        // console.log('🔮 Obteniendo datos cruzados para carta dracónica...')
-        const cruzadaResponse = await fetch(`${getApiUrl('FRONTEND_INTERNAL')}/api/cartas/cruzada`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Cookie': request.headers.get('cookie') || '' // Pasar cookies para autenticación
-          }
-        })
-
-        if (cruzadaResponse.ok) {
-          const cruzadaData = await cruzadaResponse.json()
-          if (cruzadaData.success && cruzadaData.data) {
-            // Agregar cúspides cruzadas
-            if (cruzadaData.data.cuspides_cruzadas) {
-              ragRequest.carta_natal.cuspides_cruzadas = cruzadaData.data.cuspides_cruzadas
-              // console.log(`✅ Agregadas ${cruzadaData.data.cuspides_cruzadas.length} cúspides cruzadas al payload RAG`)
-            }
-            
-            // Agregar aspectos cruzados
-            if (cruzadaData.data.aspectos_cruzados) {
-              ragRequest.carta_natal.aspectos_cruzados = cruzadaData.data.aspectos_cruzados
-              // console.log(`✅ Agregados ${cruzadaData.data.aspectos_cruzados.length} aspectos cruzados al payload RAG`)
-            } else {
-              // console.log('⚠️ No se encontraron aspectos cruzados en la respuesta')
-            }
-          } else {
-            // console.log('⚠️ No se encontraron datos cruzados en la respuesta')
-          }
-        } else {
-          // console.log('⚠️ Error al obtener datos cruzados:', cruzadaResponse.status)
-        }
-      } catch (cruzadaError) {
-        console.error('⚠️ Error al llamar API de datos cruzados:', cruzadaError)
-        // No fallar la interpretación por este error, continuar sin datos cruzados
-      }
-    }
-
-    // console.log('🔄 Llamando al microservicio RAG...')
-    // 🚫 CONSOLE.LOG COMENTADO TEMPORALMENTE PARA REDUCIR RATE LIMIT (Railway 500 logs/sec)
-    // Este JSON.stringify puede ser 50KB+ con 200+ eventos astrológicos = 500+ líneas por request
-    // console.log('🔍 DEBUG: Payload completo enviado al RAG:', JSON.stringify(ragRequest, null, 2))
-    
-    // Llamar al microservicio RAG
-    const ragResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(ragRequest),
-      // Timeout de 5 minutos (cartas dracónicas pueden tardar más con GPT-4)
-      signal: AbortSignal.timeout(300000)
-    })
-
-    if (!ragResponse.ok) {
-      const errorText = await ragResponse.text()
-      console.error('❌ Error del microservicio RAG:', errorText)
-      
-      return NextResponse.json(
-        { error: 'Error al generar interpretación. El servicio no está disponible.' },
-        { status: 503 }
-      )
-    }
-
-    const interpretacionData: InterpretacionResponse = await ragResponse.json()
-
-    console.log(`✅ Interpretación generada en ${interpretacionData.tiempo_generacion.toFixed(2)} segundos`)
-
-    // Guardar en cache
-    try {
-      await prisma.interpretacionCache.upsert({
-        where: {
-          userId_fechaNacimiento_lugarNacimiento_gender_tipo: {
-            userId: user.id,
-            fechaNacimiento,
-            lugarNacimiento,
-            gender: user.gender,
-            tipo
-          }
-        },
-        update: {
-          interpretacionNarrativa: JSON.stringify(interpretacionData.interpretacion_narrativa),
-          interpretacionesIndividuales: JSON.stringify(interpretacionData.interpretaciones_individuales),
-          tiempoGeneracion: interpretacionData.tiempo_generacion,
-          updatedAt: new Date()
-        },
-        create: {
+    // Upsert a PROCESSING
+    const cacheRecord = await prisma.interpretacionCache.upsert({
+      where: {
+        userId_fechaNacimiento_lugarNacimiento_gender_tipo: {
           userId: user.id,
           fechaNacimiento,
           lugarNacimiento,
           gender: user.gender,
-          tipo,
-          interpretacionNarrativa: JSON.stringify(interpretacionData.interpretacion_narrativa),
-          interpretacionesIndividuales: JSON.stringify(interpretacionData.interpretaciones_individuales),
-          tiempoGeneracion: interpretacionData.tiempo_generacion
+          tipo
         }
-      })
-
-      console.log('💾 Interpretación guardada en cache')
-    } catch (cacheError) {
-      console.error('⚠️ Error al guardar en cache:', cacheError)
-      // No fallar la request por error de cache
-    }
-
-    // Combinar información de casa con planetas en signo para interpretaciones nuevas
-    const interpretacionesCombinadas = combinarInformacionCasa(interpretacionData.interpretaciones_individuales)
-
-    // Devolver interpretación
-    return NextResponse.json({
-      interpretacion_narrativa: interpretacionData.interpretacion_narrativa,
-      interpretaciones_individuales: interpretacionesCombinadas,
-      tiempo_generacion: interpretacionData.tiempo_generacion,
-      desde_cache: false
+      },
+      update: {
+        status: 'PROCESSING',
+        updatedAt: new Date()
+        // Resetear campos de datos si existían
+      },
+      create: {
+        userId: user.id,
+        fechaNacimiento,
+        lugarNacimiento,
+        gender: user.gender,
+        tipo,
+        status: 'PROCESSING',
+        interpretacionNarrativa: null,
+        interpretacionesIndividuales: null
+      }
     })
+
+    // 3. Trigger Background Job
+    // Capturamos cookies actuales para pasarlas al background request si es necesario (para llamadas internas autenticadas)
+    const cookiesStr = request.headers.get('cookie') || ''
+
+    // [IMPORTANTE] No hacemos await aquí para liberar la respuesta
+    procesarInterpretacionBackground(cacheRecord.id, ragRequest, () => cookiesStr)
+
+    // 4. Responder inmediatamente al cliente
+    return NextResponse.json({ status: 'PROCESSING' }, { status: 202 })
 
   } catch (error) {
     console.error('❌ Error en API de interpretaciones:', error)
-    
-    if (error instanceof Error && error.name === 'AbortError') {
-      return NextResponse.json(
-        { error: 'Timeout: La generación de interpretación tomó demasiado tiempo' },
-        { status: 408 }
-      )
-    }
-
     return NextResponse.json(
       { error: 'Error interno del servidor' },
       { status: 500 }
@@ -299,45 +285,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Endpoint para limpiar cache de un usuario
+// Endpoint para limpiar cache (Mantenemos igual pero logs actualizados)
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      )
-    }
+    if (!session?.user?.email) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email }
-    })
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+    if (!user) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
 
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado' },
-        { status: 404 }
-      )
-    }
+    const deleted = await prisma.interpretacionCache.deleteMany({ where: { userId: user.id } })
 
-    // Eliminar todas las interpretaciones en cache del usuario
-    const deleted = await prisma.interpretacionCache.deleteMany({
-      where: { userId: user.id }
-    })
-
-    console.log(`🗑️ Eliminadas ${deleted.count} interpretaciones del cache`)
-
-    return NextResponse.json({
-      message: `Cache limpiado: ${deleted.count} interpretaciones eliminadas`,
-      count: deleted.count
-    })
-
+    return NextResponse.json({ message: `Cache limpiado`, count: deleted.count })
   } catch (error) {
-    console.error('❌ Error al limpiar cache:', error)
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Error interno' }, { status: 500 })
   }
 }

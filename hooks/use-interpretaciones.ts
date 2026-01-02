@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface InterpretacionItem {
   titulo: string
@@ -35,15 +35,32 @@ export function useInterpretaciones(cartaNatalData: any, tipo: string = 'tropica
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchInterpretaciones = async () => {
+  // Ref para controlar el polling y evitar duplicados/memory leaks
+  const pollingRef = useRef<NodeJS.Timeout | null>(null)
+  const isMounted = useRef(true)
+
+  // Limpiar timeout y flag al desmontar
+  useEffect(() => {
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+      if (pollingRef.current) {
+        clearTimeout(pollingRef.current)
+      }
+    }
+  }, [])
+
+  const fetchInterpretaciones = async (isPolling: boolean = false) => {
     if (!cartaNatalData) return
 
-    setLoading(true)
-    setError(null)
+    if (!isPolling) {
+      setLoading(true)
+      setError(null)
+    }
 
     try {
-      console.log('🔄 Solicitando interpretaciones...')
-      
+      if (!isPolling) console.log(`🔄 Solicitando interpretaciones (${tipo})...`)
+
       const response = await fetch('/api/interpretaciones', {
         method: 'POST',
         headers: {
@@ -51,33 +68,59 @@ export function useInterpretaciones(cartaNatalData: any, tipo: string = 'tropica
         },
         body: JSON.stringify({
           cartaNatalData,
-          tipo
+          tipo,
+          skipCache: false // Nunca skippear cache en polling para ver si ya terminó
         }),
       })
+
+      // Caso 202: Procesando (Async) -> Iniciar Polling
+      if (response.status === 202) {
+        if (!isMounted.current) return
+
+        console.log('⏳ Interpretación en proceso (202 Accepted). Reintentando en 5s...')
+
+        // Configurar próximo poll
+        if (pollingRef.current) clearTimeout(pollingRef.current)
+        pollingRef.current = setTimeout(() => {
+          if (isMounted.current) fetchInterpretaciones(true)
+        }, 5000)
+
+        return // Mantener loading = true
+      }
 
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Error al obtener interpretaciones')
       }
 
+      // Caso 200: Completado
       const data: InterpretacionData = await response.json()
-      
+
+      if (!isMounted.current) return
+
       console.log(`✅ Interpretaciones obtenidas ${data.desde_cache ? 'desde cache' : 'generadas'} en ${data.tiempo_generacion.toFixed(2)}s`)
-      
+
       setInterpretaciones(data)
+      setLoading(false) // Detener loading
+      if (pollingRef.current) clearTimeout(pollingRef.current)
+
     } catch (err) {
+      if (!isMounted.current) return
+
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido'
       console.error('❌ Error al obtener interpretaciones:', errorMessage)
+
+      // Si falla en polling, mostramos error
       setError(errorMessage)
-    } finally {
       setLoading(false)
+      if (pollingRef.current) clearTimeout(pollingRef.current)
     }
   }
 
   const clearCache = async () => {
     try {
       console.log('🗑️ Limpiando cache de interpretaciones...')
-      
+
       const response = await fetch('/api/interpretaciones', {
         method: 'DELETE',
       })
@@ -89,9 +132,11 @@ export function useInterpretaciones(cartaNatalData: any, tipo: string = 'tropica
 
       const data = await response.json()
       console.log(`✅ ${data.message}`)
-      
-      // Refetch después de limpiar cache
-      await fetchInterpretaciones()
+
+      // Refetch después de limpiar cache (iniciará proceso async nuevo)
+      // timeout pequeño para asegurar consistencia DB
+      setTimeout(() => fetchInterpretaciones(false), 500)
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al limpiar cache'
       console.error('❌ Error al limpiar cache:', errorMessage)
@@ -100,14 +145,17 @@ export function useInterpretaciones(cartaNatalData: any, tipo: string = 'tropica
   }
 
   const refetch = () => {
-    fetchInterpretaciones()
+    if (pollingRef.current) clearTimeout(pollingRef.current)
+    fetchInterpretaciones(false)
   }
 
   // Auto-fetch cuando cambian los datos de carta natal
   useEffect(() => {
     if (cartaNatalData) {
-      fetchInterpretaciones()
+      if (pollingRef.current) clearTimeout(pollingRef.current)
+      fetchInterpretaciones(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartaNatalData, tipo])
 
   return {

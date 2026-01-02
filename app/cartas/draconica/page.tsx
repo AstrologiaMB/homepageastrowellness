@@ -18,6 +18,7 @@ import { CartaNatalTabla } from "@/components/carta-natal-tabla";
 import { DraconicEventsList } from "@/components/DraconicEventsList";
 import { InterpretacionNarrativa } from "@/components/interpretacion-narrativa";
 import { InterpretacionesIndividuales } from "@/components/interpretaciones-individuales";
+import { useInterpretaciones } from "@/hooks/use-interpretaciones";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Calculator, Clock } from "lucide-react";
@@ -51,10 +52,12 @@ export default function CartasDraconicaPage() {
   const [loadingEventos, setLoadingEventos] = useState(false);
   const [errorEventos, setErrorEventos] = useState<string | null>(null);
 
-  // Estados para interpretaciones dracónicas
-  const [interpretacionDraconica, setInterpretacionDraconica] = useState<any>(null);
-  const [loadingInterpretacion, setLoadingInterpretacion] = useState(false);
-  const [errorInterpretacion, setErrorInterpretacion] = useState<string | null>(null);
+  // Hook para interpretaciones RAG (Reemplaza la lógica manual anterior)
+  const {
+    interpretaciones: interpretacionDraconica,
+    loading: loadingInterpretacion,
+    error: errorInterpretacion
+  } = useInterpretaciones(cartaCompleta, 'draco');
 
   // Estados compartidos
   const [loading, setLoading] = useState(false);
@@ -258,36 +261,6 @@ export default function CartasDraconicaPage() {
     }
   };
 
-  const calcularInterpretacionDraconica = async (cartaDraconicaData: any, skipCache: boolean = false) => {
-    setLoadingInterpretacion(true);
-    setErrorInterpretacion(null);
-
-    try {
-      const response = await fetch('/api/interpretaciones', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cartaNatalData: cartaDraconicaData,
-          tipo: 'draco',
-          skipCache: skipCache
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.interpretacion_narrativa || data.interpretaciones_individuales) {
-        setInterpretacionDraconica(data);
-      } else {
-        setErrorInterpretacion(data.error || 'Error generando interpretación dracónica');
-      }
-    } catch (err) {
-      setErrorInterpretacion('Error de conexión al generar interpretación dracónica');
-      console.error('Error:', err);
-    } finally {
-      setLoadingInterpretacion(false);
-    }
-  };
-
   const calcularCarta = async () => {
     setLoading(true);
     setError(null);
@@ -332,8 +305,8 @@ export default function CartasDraconicaPage() {
         const eventos = procesarEventosDraconicos(cruzadaData.data, draconicaData.data);
         setEventosDraconicos(eventos);
 
-        // Generar interpretación dracónica en paralelo (usando cache)
-        calcularInterpretacionDraconica(draconicaData.data, false);
+        // NOTA: La interpretación ahora se maneja automáticamente via useEffect/hook
+        // cuando setCartaCompleta actualiza el estado.
 
         setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);
 
@@ -449,6 +422,7 @@ export default function CartasDraconicaPage() {
                 error={errorInterpretacion ? errorInterpretacion : (!interpretacionDraconica && !loadingInterpretacion ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación." : null)}
                 tiempoGeneracion={interpretacionDraconica?.tiempo_generacion}
                 desdeCache={interpretacionDraconica?.desde_cache}
+                loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
               />
             </div>
 

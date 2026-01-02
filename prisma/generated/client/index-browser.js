@@ -195,6 +195,7 @@ exports.Prisma.InterpretacionCacheScalarFieldEnum = {
   lugarNacimiento: 'lugarNacimiento',
   gender: 'gender',
   tipo: 'tipo',
+  status: 'status',
   interpretacionNarrativa: 'interpretacionNarrativa',
   interpretacionesIndividuales: 'interpretacionesIndividuales',
   tiempoGeneracion: 'tiempoGeneracion',
