@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
     // @ts-ignore - hasCompletedData será añadido por el callback jwt
     const hasCompletedData = session.hasCompletedData === true
 
-    if (!hasCompletedData && path !== '/') {
+    if (!hasCompletedData && path !== '/' && path !== '/calendario/general' && path !== '/upgrade' && path !== '/rectificacion-carta' && path !== '/cartas/horaria') {
       const url = new URL('/completar-datos', request.url);
       // Añadir la URL original como parámetro de consulta para redirigir después
       url.searchParams.set('callbackUrl', path);

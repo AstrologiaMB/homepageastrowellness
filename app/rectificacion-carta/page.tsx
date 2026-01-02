@@ -81,7 +81,7 @@ export default function RectificacionCartaPage() {
       acceptConsiderations: false,
     },
   });
-  
+
   // Formulario para los eventos
   const eventsForm = useForm<z.infer<typeof eventsFormSchema>>({
     resolver: zodResolver(eventsFormSchema),
@@ -111,11 +111,11 @@ export default function RectificacionCartaPage() {
           if (response.ok) {
             const data = await response.json();
             setUserData(data);
-            
-            // Verificar si el usuario ha completado sus datos
-            if (!data.birthDate || !data.birthCity || !data.birthCountry) {
-              router.push(`/completar-datos?callbackUrl=${encodeURIComponent("/rectificacion-carta")}`);
-            }
+
+            // Verificar si el usuario ha completado sus datos (Opcional: No redirigir forzosamente)
+            // if (!data.birthDate || !data.birthCity || !data.birthCountry) {
+            //   router.push(`/completar-datos?callbackUrl=${encodeURIComponent("/rectificacion-carta")}`);
+            // }
           }
         } catch (error) {
           console.error("Error al cargar datos del usuario:", error);
@@ -124,7 +124,7 @@ export default function RectificacionCartaPage() {
         }
       }
     }
-    
+
     loadUserData();
   }, [status, session, router]);
 
@@ -139,13 +139,13 @@ export default function RectificacionCartaPage() {
         },
         body: JSON.stringify({ acceptUncertainty: data.acceptUncertainty }),
       });
-      
+
       const result = await response.json();
-      
+
       if (!result.success) {
         throw new Error(result.error || "Error al procesar la solicitud");
       }
-      
+
       if (data.acceptUncertainty === "yes") {
         setStep(2);
       } else {
@@ -163,7 +163,7 @@ export default function RectificacionCartaPage() {
       setStep(3);
     }
   };
-  
+
   // Manejar envío del formulario de eventos
   const onEventsSubmit = async (data: z.infer<typeof eventsFormSchema>) => {
     try {
@@ -175,13 +175,13 @@ export default function RectificacionCartaPage() {
         },
         body: JSON.stringify(data),
       });
-      
+
       const result = await response.json();
-      
+
       if (!result.success) {
         throw new Error(result.error || "Error al procesar la solicitud");
       }
-      
+
       alert("¡Solicitud de rectificación enviada con éxito! Te contactaremos pronto.");
       router.push("/");
     } catch (error) {
@@ -212,10 +212,10 @@ export default function RectificacionCartaPage() {
           </CardHeader>
           <CardContent>
             <p className="mb-6">
-              Por ejemplo, si dudas entre haber nacido a las 7 AM o a las 9 AM, el servicio es adecuado. 
+              Por ejemplo, si dudas entre haber nacido a las 7 AM o a las 9 AM, el servicio es adecuado.
               Sin embargo, si la duda abarca un rango mayor, como entre las 7 AM y la 1 PM, no aplica.
             </p>
-            
+
             <Form {...uncertaintyForm}>
               <form onSubmit={uncertaintyForm.handleSubmit(onUncertaintySubmit)} className="space-y-6">
                 <FormField
@@ -281,7 +281,7 @@ export default function RectificacionCartaPage() {
                   <p>{session?.user?.email}</p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-sm font-medium">Fecha de nacimiento</h3>
@@ -290,13 +290,13 @@ export default function RectificacionCartaPage() {
                 <div>
                   <h3 className="text-sm font-medium">Hora de nacimiento a rectificar</h3>
                   <p>
-                    {userData.knowsBirthTime 
+                    {userData.knowsBirthTime
                       ? `${String(userData.birthHour).padStart(2, '0')}:${String(userData.birthMinute).padStart(2, '0')}`
                       : "No especificada"}
                   </p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-sm font-medium">País de nacimiento</h3>
@@ -310,29 +310,29 @@ export default function RectificacionCartaPage() {
             </div>
 
             <Separator className="my-6" />
-            
+
             <div>
               <h2 className="text-xl font-semibold mb-4">Consideraciones</h2>
               <p className="mb-4">
                 Para una correcta rectificación de la hora de nacimiento se precisan 4 eventos (2 tristes y 2 alegres, con día, mes y año del evento)
               </p>
-              
+
               <p className="mb-4">
                 Como eventos tristes, los mejores para verificar una hora natal son las muertes: la de nuestros padres, abuelos (hay que especificar si es materno o paterno) o una muerte que te haya impactado.
               </p>
-              
+
               <p className="mb-4">
                 A veces un accidente califica como algo triste, o la pérdida de un empleo, mudanza de país, etc.
               </p>
-              
+
               <p className="mb-4">
                 Los eventos alegres más recomendados son la fecha de la boda y el nacimiento del PRIMER hijo, el resto de los nacimientos no cuentan.
               </p>
-              
+
               <p className="mb-4">
                 Otros eventos posibles: fecha de graduación de la universidad, el inicio de una relación, la firma de la escritura de una propiedad, etc. La adopción de una mascota también es posible.
               </p>
-              
+
               <Form {...considerationsForm}>
                 <form onSubmit={considerationsForm.handleSubmit(onConsiderationsSubmit)} className="space-y-6">
                   <FormField
@@ -376,7 +376,7 @@ export default function RectificacionCartaPage() {
               <form onSubmit={eventsForm.handleSubmit(onEventsSubmit)} className="space-y-8">
                 <div className="space-y-6">
                   <h3 className="text-lg font-medium">Eventos Tristes (2)</h3>
-                  
+
                   {/* Evento Triste 1 */}
                   <div className="border p-4 rounded-md">
                     <h4 className="font-medium mb-4">Evento Triste 1</h4>
@@ -394,7 +394,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.0.eventDate`}
@@ -408,7 +408,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.0.notes`}
@@ -422,11 +422,11 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <input type="hidden" {...eventsForm.register(`events.0.eventType`)} value="sad" />
                     </div>
                   </div>
-                  
+
                   {/* Evento Triste 2 */}
                   <div className="border p-4 rounded-md">
                     <h4 className="font-medium mb-4">Evento Triste 2</h4>
@@ -444,7 +444,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.1.eventDate`}
@@ -458,7 +458,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.1.notes`}
@@ -472,15 +472,15 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <input type="hidden" {...eventsForm.register(`events.1.eventType`)} value="sad" />
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="space-y-6">
                   <h3 className="text-lg font-medium">Eventos Alegres (2)</h3>
-                  
+
                   {/* Evento Alegre 1 */}
                   <div className="border p-4 rounded-md">
                     <h4 className="font-medium mb-4">Evento Alegre 1</h4>
@@ -498,7 +498,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.2.eventDate`}
@@ -512,7 +512,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.2.notes`}
@@ -526,11 +526,11 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <input type="hidden" {...eventsForm.register(`events.2.eventType`)} value="happy" />
                     </div>
                   </div>
-                  
+
                   {/* Evento Alegre 2 */}
                   <div className="border p-4 rounded-md">
                     <h4 className="font-medium mb-4">Evento Alegre 2</h4>
@@ -548,7 +548,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.3.eventDate`}
@@ -562,7 +562,7 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={eventsForm.control}
                         name={`events.3.notes`}
@@ -576,12 +576,12 @@ export default function RectificacionCartaPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <input type="hidden" {...eventsForm.register(`events.3.eventType`)} value="happy" />
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <Button type="button" variant="outline" onClick={() => setStep(2)}>
                     Volver
@@ -601,7 +601,7 @@ export default function RectificacionCartaPage() {
           </CardHeader>
           <CardContent>
             <p className="mb-6">
-              Estimado {session?.user?.name}, lamentablemente no podemos rectificar tu carta natal, 
+              Estimado {session?.user?.name}, lamentablemente no podemos rectificar tu carta natal,
               dado que no cumples los requisitos previos necesarios.
             </p>
             <Button onClick={() => router.push("/")}>Volver al inicio</Button>

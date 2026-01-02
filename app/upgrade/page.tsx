@@ -229,7 +229,7 @@ function UpgradePageContent() {
               <span className="text-xl font-bold">${PRICE_VALUES.BASE.toFixed(2)}<span className="text-sm font-normal text-muted-foreground">/mes</span></span>
             </CardTitle>
             <CardDescription>
-              Incluye Carta Trópica y Calendario Personal. Es la base para todos los servicios.
+              Tu puerta de entrada al autoconocimiento. Incluye tu Carta Natal Trópica esencial y tu Calendario Personal diario.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -238,14 +238,14 @@ function UpgradePageContent() {
                 <div className="bg-purple-100 p-2 rounded-full"><Calendar className="h-5 w-5 text-purple-600" /></div>
                 <div>
                   <h4 className="font-semibold">Calendario Personal</h4>
-                  <p className="text-xs text-muted-foreground">Tránsitos diarios y semanales personalizados.</p>
+                  <p className="text-xs text-muted-foreground">Tu clima astrológico personal día a día.</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <div className="bg-indigo-100 p-2 rounded-full"><Star className="h-5 w-5 text-indigo-600" /></div>
                 <div>
                   <h4 className="font-semibold">Carta Trópica</h4>
-                  <p className="text-xs text-muted-foreground">Visualización e interpreteación básica.</p>
+                  <p className="text-xs text-muted-foreground">Mapa completo de tu psique y potenciales natales.</p>
                 </div>
               </div>
             </div>
@@ -290,7 +290,7 @@ function UpgradePageContent() {
                         Fases Lunares
                         {entitlements.hasLunarCalendar && <Badge variant="secondary" className="bg-green-100 text-green-700 ml-2">Activo</Badge>}
                       </div>
-                      <p className="text-xs text-muted-foreground">Calendario lunar detallado y fases.</p>
+                      <p className="text-xs text-muted-foreground">Sincroniza tus intenciones con el ciclo de la Luna.</p>
                     </label>
                   </div>
                   <div className="font-semibold text-sm">{entitlements.hasLunarCalendar ? 'Activo' : `+$${PRICE_VALUES.LUNAR.toFixed(2)}/mes`}</div>
@@ -317,7 +317,7 @@ function UpgradePageContent() {
                         Astrogematria
                         {entitlements.hasAstrogematria && <Badge variant="secondary" className="bg-green-100 text-green-700 ml-2">Activo</Badge>}
                       </div>
-                      <p className="text-xs text-muted-foreground">Interpretaciones numerológicas completas.</p>
+                      <p className="text-xs text-muted-foreground">La alquimia entre tus palabras y tu mapa astral.</p>
                     </label>
                   </div>
                   <div className="font-semibold text-sm">{entitlements.hasAstrogematria ? 'Activo' : `+$${PRICE_VALUES.ASTRO.toFixed(2)}/mes`}</div>
@@ -378,7 +378,7 @@ function UpgradePageContent() {
             <Badge variant="outline" className="w-fit mb-2 border-amber-500 text-amber-700">Pago Único</Badge>
             <CardTitle className="text-xl">Carta Dracónica</CardTitle>
             <CardDescription>
-              Descubre tu propósito del alma con la astrología dracónica.
+              Revela la misión de tu alma. Un análisis profundo de tu Carta Dracónica para entender tu viaje espiritual.
             </CardDescription>
           </CardHeader>
           <CardContent>
