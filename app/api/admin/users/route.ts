@@ -137,3 +137,56 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    // 1. Verificar Autenticación de Admin
+    const session = await getServerSession(authOptions)
+    if (!session || session.user?.email !== 'info@astrochat.online') {
+      return NextResponse.json(
+        { error: 'Acceso denegado. Se requieren permisos de administrador.' },
+        { status: 403 }
+      )
+    }
+
+    // 2. Obtener User ID del body
+    const body = await request.json()
+    const { userId } = body
+
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
+    }
+
+    // 3. Ejecutar Transacción de Borrado Seguro (Manual Cascade)
+    await prisma.$transaction(async (tx) => {
+      // Orden crítico: Hijos primero, Padre al final
+
+      // A. Tablas de Caché y Datos Astrológicos
+      await tx.interpretacionCache.deleteMany({ where: { userId } })
+      await tx.personalCalendarCache.deleteMany({ where: { userId } })
+      await tx.lunarPhasesCache.deleteMany({ where: { userId } })
+      // AstrogematriaCache is global, not per-user
+
+      // B. Tablas de Contenido Generado por Usuario
+      await tx.lunarJournal.deleteMany({ where: { userId } })
+      await tx.rectificationEvent.deleteMany({ where: { userId } })
+      await tx.cartaNatal.deleteMany({ where: { userId } })
+      await tx.horariaRequest.deleteMany({ where: { userId } })
+
+      // C. Tablas de Suscripción y Financieras
+      await tx.userSubscription.deleteMany({ where: { userId } })
+
+      // D. User
+      await tx.user.delete({ where: { id: userId } })
+    })
+
+    return NextResponse.json({ message: 'Usuario eliminado correctamente (Secure Hard Delete)' })
+
+  } catch (error) {
+    console.error('Error during secure delete:', error)
+    return NextResponse.json(
+      { error: 'Error al eliminar usuario. Verifica los logs del servidor.' },
+      { status: 500 }
+    )
+  }
+}

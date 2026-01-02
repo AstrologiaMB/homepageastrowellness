@@ -67,7 +67,7 @@ model UserSubscription {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
 }
 
 model RectificationEvent {
@@ -79,7 +79,7 @@ model RectificationEvent {
   notes       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 }
 
 model CartaNatal {
@@ -110,7 +110,7 @@ model InterpretacionCache {
   tiempoGeneracion             Float? // Tiempo que tomó generar en segundos (Optional)
   createdAt                    DateTime @default(now())
   updatedAt                    DateTime @updatedAt
-  user                         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                         User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([userId, fechaNacimiento, lugarNacimiento, gender, tipo])
 }
@@ -145,7 +145,7 @@ model HorariaRequest {
   responseDate         DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
-  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Restrict)
 }
 
 model PersonalCalendarCache {
@@ -157,7 +157,7 @@ model PersonalCalendarCache {
   expiresAt    DateTime
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([userId, year])
   @@index([expiresAt])
@@ -170,7 +170,7 @@ model LunarPhasesCache {
   events    String // JSON string with calculated lunar events (Phases + Eclipses)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([userId, year])
 }
@@ -183,7 +183,7 @@ model LunarJournal {
   notes     String // User's personal notes
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@index([userId, date])
 }
