@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env
+.env.local
+npm-debug.log
+README.md
+*.md
+start_services.sh
+tmp
+venv
+.DS_Store
