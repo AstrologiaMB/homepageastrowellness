@@ -308,6 +308,7 @@ core/
 
 ### **Índice Principal**
 - **[Índice de Documentación](docs/current/DOCUMENTACION_INDICE.md)** - Navegación completa
+- **[FAQ y Guía de Uso](docs/current/FAQ_USUARIO.md)** - 🆕 Guía para el usuario final (Async update)
 - **[Historial de Fixes](HISTORIAL_FIXES.md)** - Registro detallado de soluciones ⭐
 - **[Overview de Microservicios](docs/current/MICROSERVICIOS_OVERVIEW.md)** - Arquitectura técnica
 
