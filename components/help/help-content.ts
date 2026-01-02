@@ -1,4 +1,4 @@
-import { CreditCard, Map, Calendar, User, HelpCircle, Moon, Cpu } from "lucide-react";
+import { CreditCard, Map, Calendar, User, HelpCircle, Moon, Cpu, Bot } from "lucide-react";
 
 export interface HelpCategory {
     id: string;
@@ -14,6 +14,44 @@ export interface HelpItem {
 }
 
 export const HELP_CONTENT: HelpCategory[] = [
+    {
+        id: "interpretation_async",
+        title: "Interpretación Inteligente (NUEVO)",
+        icon: Bot, // Using Bot icon as it fits AI context
+        items: [
+            {
+                question: "¿Cuánto tarda en generarse mi interpretación?",
+                answer: "El análisis de una carta natal (especialmente la Carta Dracónica) es un proceso profundo que cruza miles de variables con IA. Por lo general, toma entre 1 y 2 minutos."
+            },
+            {
+                question: "¿Tengo que esperar con la ventana abierta?",
+                answer: "¡No! Gracias a nuestra nueva tecnología 'Async', puedes solicitar la interpretación y salir de la página. El sistema seguirá trabajando en segundo plano. Cuando vuelvas, tu análisis estará listo."
+            },
+            {
+                question: "¿Qué hago si veo un error momentáneo durante el proceso?",
+                answer: "El sistema tiene auto-recuperación. Si ves un error de 'Procesando', espera unos 15 segundos y refresca la página. Lo más probable es que tu interpretación aparezca completada."
+            },
+            {
+                question: "¿Por qué la Carta Dracónica tarda más?",
+                answer: "Requiere un cálculo doble: primero calculamos tu carta trópica (personalidad) y luego la transformamos al zodíaco dracónico (alma), realizando además un análisis cruzado (sinastría intra-personal)."
+            }
+        ]
+    },
+    {
+        id: "troubleshooting",
+        title: "Solución de Problemas",
+        icon: HelpCircle,
+        items: [
+            {
+                question: "No puedo ver mi interpretación dracónica (Candado 🔒)",
+                answer: "Suele ocurrir si tu sesión no se ha actualizado tras la compra. Solución: 1) Cierra Sesión en el menú lateral. 2) Vuelve a iniciar sesión. El candado desaparecerá."
+            },
+            {
+                question: "Veo datos antiguos o desactualizados",
+                answer: "Puede ser una versión en caché. Si cambiaste tu hora de nacimiento recientemente (más de 15 minutos de diferencia), solicita una Rectificación formal o contacta a soporte."
+            }
+        ]
+    },
     {
         id: "billing",
         title: "Suscripciones y Pagos",
