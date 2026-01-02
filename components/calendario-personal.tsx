@@ -67,8 +67,21 @@ export function CalendarioPersonal() {
   // Verificar estado del microservicio al montar el componente
   useEffect(() => {
     async function checkMicroservice() {
-      const isHealthy = await checkMicroserviceHealth();
-      setMicroserviceStatus(isHealthy ? 'available' : 'unavailable');
+      let attempts = 0;
+      const maxAttempts = 5; // Intentar durante 5 segundos
+
+      while (attempts < maxAttempts) {
+        const isHealthy = await checkMicroserviceHealth();
+        if (isHealthy) {
+          setMicroserviceStatus('available');
+          return;
+        }
+        // Esperar 1 segundo antes del siguiente intento
+        attempts++;
+        if (attempts < maxAttempts) await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      setMicroserviceStatus('unavailable');
     }
     checkMicroservice();
   }, []);
@@ -157,9 +170,10 @@ export function CalendarioPersonal() {
           );
 
           setEventos(prev => {
-            // Unir eventos nuevos con los existentes
-            // Podríamos filtrar duplicados si tememos solapamiento, pero idealmente no lo hay entre años distintos
-            return [...prev, ...filteredEvents].sort((a, b) => {
+            // Eliminar eventos existentes para este año antes de agregar los nuevos (evitar duplicados)
+            const otherYearsEvents = prev.filter(e => !e.fecha_utc.startsWith(String(year)));
+
+            return [...otherYearsEvents, ...filteredEvents].sort((a, b) => {
               // Ordenar por fecha y hora
               if (a.fecha_utc !== b.fecha_utc) return a.fecha_utc.localeCompare(b.fecha_utc);
               return a.hora_utc.localeCompare(b.hora_utc);
