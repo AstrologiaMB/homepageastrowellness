@@ -1,24 +1,7 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
-export default async function CalendarioPersonalLayout({
+export default function CalendarioPersonalLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/calendario/personal");
-    }
-
-    const entitlements = (session.user as any).entitlements || {};
-
-    // Requirement: Base Bundle
-    if (!entitlements.hasBaseBundle) {
-        redirect("/upgrade");
-    }
-
     return <>{children}</>;
 }

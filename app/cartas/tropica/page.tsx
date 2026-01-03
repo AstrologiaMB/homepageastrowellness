@@ -21,6 +21,7 @@ import { useInterpretaciones } from "@/hooks/use-interpretaciones";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, RefreshCw } from "lucide-react";
+import { ProtectedPage } from "@/components/protected-page";
 
 interface CartaNatalData {
   success: boolean;
@@ -101,73 +102,75 @@ export default function CartasTropicaPage() {
 
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
+    <ProtectedPage requiredEntitlement="hasBaseBundle" entitlementRedirect="/upgrade">
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
 
 
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertDescription>
-            <strong>Error:</strong> {error}
-            {error.includes('FastAPI') && (
-              <div className="mt-2 text-sm">
-                <strong>Solución:</strong> Ejecuta el servidor FastAPI:
-                <code className="block mt-1 p-2 bg-gray-100 rounded text-xs">
-                  cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
-                </code>
-              </div>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription>
+              <strong>Error:</strong> {error}
+              {error.includes('FastAPI') && (
+                <div className="mt-2 text-sm">
+                  <strong>Solución:</strong> Ejecuta el servidor FastAPI:
+                  <code className="block mt-1 p-2 bg-gray-100 rounded text-xs">
+                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
+                  </code>
+                </div>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
 
-      {cartaData && (
-        <>
-          {/* Visualización gráfica de la carta natal */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
-            <CartaNatalWrapper chartData={cartaData} />
-          </div>
-
-          {/* Tabla de datos de la carta natal */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
-            <CartaNatalTabla chartData={cartaCompleta} />
-          </div>
-
-          {/* Sección de Interpretaciones */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
-              <div className="flex gap-2">
-              </div>
-            </div>
-
-            {/* Interpretación Narrativa */}
+        {cartaData && (
+          <>
+            {/* Visualización gráfica de la carta natal */}
             <div className="mb-8">
-              <InterpretacionNarrativa
-                interpretacion={interpretaciones?.interpretacion_narrativa || null}
-                loading={interpretacionesLoading}
-                error={interpretacionesError}
-                tiempoGeneracion={interpretaciones?.tiempo_generacion}
-                desdeCache={interpretaciones?.desde_cache}
-                loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
-              />
+              <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
+              <CartaNatalWrapper chartData={cartaData} />
             </div>
 
-            {/* Interpretaciones Individuales */}
+            {/* Tabla de datos de la carta natal */}
             <div className="mb-8">
-              <InterpretacionesIndividuales
-                interpretaciones={interpretaciones?.interpretaciones_individuales || null}
-                loading={interpretacionesLoading}
-                error={interpretacionesError}
-              />
+              <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
+              <CartaNatalTabla chartData={cartaCompleta} />
             </div>
-          </div>
-        </>
-      )}
+
+            {/* Sección de Interpretaciones */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
+                <div className="flex gap-2">
+                </div>
+              </div>
+
+              {/* Interpretación Narrativa */}
+              <div className="mb-8">
+                <InterpretacionNarrativa
+                  interpretacion={interpretaciones?.interpretacion_narrativa || null}
+                  loading={interpretacionesLoading}
+                  error={interpretacionesError}
+                  tiempoGeneracion={interpretaciones?.tiempo_generacion}
+                  desdeCache={interpretaciones?.desde_cache}
+                  loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
+                />
+              </div>
+
+              {/* Interpretaciones Individuales */}
+              <div className="mb-8">
+                <InterpretacionesIndividuales
+                  interpretaciones={interpretaciones?.interpretaciones_individuales || null}
+                  loading={interpretacionesLoading}
+                  error={interpretacionesError}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
 
-    </div>
+      </div>
+    </ProtectedPage>
   );
 }

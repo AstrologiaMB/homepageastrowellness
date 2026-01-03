@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
+import { useAuth } from '@/auth/auth-provider'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -15,6 +16,7 @@ import { Loader2, Eye, EyeOff } from 'lucide-react'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -54,22 +56,16 @@ function LoginForm() {
     setError('')
 
     try {
-      const result = await signIn('credentials', {
+      await login({
         email: formData.email.trim().toLowerCase(),
         password: formData.password,
-        redirect: false,
       })
 
-      if (result?.error) {
-        setError('Email o contraseña incorrectos')
-      } else if (result?.ok) {
-        // Login exitoso - refrescar sesión y redirigir
-        router.refresh() // Revalida server components y sincroniza sesión
-        router.push('/')
-      }
+      router.refresh()
+      router.push('/')
     } catch (error) {
       console.error('Error:', error)
-      setError('Error de conexión. Inténtalo de nuevo.')
+      setError('Email o contraseña incorrectos')
     } finally {
       setIsLoading(false)
     }
