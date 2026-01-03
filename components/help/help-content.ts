@@ -1,4 +1,4 @@
-import { CreditCard, Map, Calendar, User, HelpCircle, Moon, Cpu, Bot } from "lucide-react";
+import { CreditCard, Map, Calendar, User, HelpCircle, Moon, Cpu, Bot, Star, Sparkles, BookOpen } from "lucide-react";
 
 export interface HelpCategory {
     id: string;
@@ -15,174 +15,109 @@ export interface HelpItem {
 
 export const HELP_CONTENT: HelpCategory[] = [
     {
-        id: "interpretation_async",
-        title: "Interpretación Inteligente (NUEVO)",
-        icon: Bot, // Using Bot icon as it fits AI context
+        id: "getting_started",
+        title: "Primeros Pasos",
+        icon: Sparkles,
         items: [
             {
+                question: "¿Qué puedo hacer en Astrochat?",
+                answer: "Astrochat es tu centro de comando astrológico. Aquí puedes generar reportes profundos de tu carta natal, consultar tu calendario personal de tránsitos diarios y planificar tu vida con los ciclos de la Luna. Todo personalizado con tu hora exacta de nacimiento."
+            },
+            {
+                question: "¿Por dónde empiezo?",
+                answer: "Te recomendamos ir a la sección 'Cartas' y generar tu Carta Trópica. Es el mapa base de tu personalidad. Luego, explora el Calendario Personal para ver qué acciones te favorecen hoy."
+            },
+            {
                 question: "¿Cuánto tarda en generarse mi interpretación?",
-                answer: "El análisis de una carta natal (especialmente la Carta Dracónica) es un proceso profundo que cruza miles de variables con IA. Por lo general, toma entre 1 y 2 minutos."
-            },
-            {
-                question: "¿Tengo que esperar con la ventana abierta?",
-                answer: "¡No! Gracias a nuestra nueva tecnología 'Async', puedes solicitar la interpretación y salir de la página. El sistema seguirá trabajando en segundo plano. Cuando vuelvas, tu análisis estará listo."
-            },
-            {
-                question: "¿Qué hago si veo un error momentáneo durante el proceso?",
-                answer: "El sistema tiene auto-recuperación. Si ves un error de 'Procesando', espera unos 15 segundos y refresca la página. Lo más probable es que tu interpretación aparezca completada."
-            },
-            {
-                question: "¿Por qué la Carta Dracónica tarda más?",
-                answer: "Requiere un cálculo doble: primero calculamos tu carta trópica (personalidad) y luego la transformamos al zodíaco dracónico (alma), realizando además un análisis cruzado (sinastría intra-personal)."
+                answer: "El análisis de una carta natal (especialmente la Carta Dracónica) es un proceso profundo que cruza miles de variables con IA. Por lo general, toma entre 1 y 2 minutos. Puedes cerrar la ventana y relajarte, nosotros te avisaremos cuando esté listo (Notificación 'Fire & Forget')."
             }
         ]
     },
     {
-        id: "troubleshooting",
-        title: "Solución de Problemas",
-        icon: HelpCircle,
+        id: "charts_services",
+        title: "Cartas y AstroGematria",
+        icon: Map,
         items: [
             {
-                question: "No puedo ver mi interpretación dracónica (Candado 🔒)",
-                answer: "Suele ocurrir si tu sesión no se ha actualizado tras la compra. Solución: 1) Cierra Sesión en el menú lateral. 2) Vuelve a iniciar sesión. El candado desaparecerá."
+                question: "¿Qué es la Carta Dracónica?",
+                answer: "Es una carta basada en los Nodos Lunares, que refleja el propósito del alma y vidas pasadas. Si tienes suscripción, este cálculo es automático y revela la misión espiritual detrás de tu personalidad."
             },
             {
-                question: "Veo datos antiguos o desactualizados",
-                answer: "Puede ser una versión en caché. Si cambiaste tu hora de nacimiento recientemente (más de 15 minutos de diferencia), solicita una Rectificación formal o contacta a soporte."
+                question: "¿Cómo funciona el servicio de Carta Horaria?",
+                answer: "Si tienes una consulta horaria puedes completar el formulario. Recibiremos tu consulta y si se puede responder (si es radical) te avisaremos y enviaremos un link de pago para recibir tu respuesta profesional."
+            },
+            {
+                question: "¿Quiero Rectificar mi hora de nacimiento",
+                answer: "Si te interesa rectificar tu hora de nacimiento, completa el formulario. Verificaremos que es posible rectificar tu horario de nacimiento con los datos provistos y, de ser viable, te enviaremos un link de pago."
+            },
+            {
+                question: "¿Qué es AstroGematria?",
+                answer: "Te permite calcular el valor astrogematrico de cualquier palabra y ver en qué parte precisa de tu carta natal cae. Es ideal para analizar nombres, ciudades o marcas."
+            },
+            {
+                question: "¿Términos Homeopáticos?",
+                answer: "Hemos incorporado términos homeopáticos para que fácilmente veas dónde se ubican en tu carta natal. Importante: No es una recomendación homeopática, siempre consulta a tu médico homeópata."
+            }
+        ]
+    },
+    {
+        id: "calendar",
+        title: "Mi Universo (Calendario)",
+        icon: Calendar,
+        items: [
+            {
+                question: "¿Cómo uso el Calendario Personal?",
+                answer: "Tu calendario muestra una vista semanal de tus tránsitos. Navega entre semanas o meses para ver cómo los planetas activan tu carta día a día."
+            },
+            {
+                question: "¿Qué es el 'Clima Astral'?",
+                answer: "Es la energía de fondo del mes. Muestra por qué Casas de tu carta transitan los planetas lentos (Júpiter a Plutón). Es el escenario donde ocurre tu vida este mes."
+            },
+            {
+                question: "¿Qué muestra el Calendario Lunar?",
+                answer: "Muestra las Fases Lunares y Eclipses. Lo especial es que calcula si estos eventos tocan tus puntos sensibles (conjunciones). Recuerda que los calendarios de años futuros se desbloquean en Diciembre."
             }
         ]
     },
     {
         id: "billing",
-        title: "Suscripciones y Pagos",
+        title: "Mi Suscripción",
         icon: CreditCard,
         items: [
             {
                 question: "¿Cómo cancelo mi suscripción?",
-                answer: "Puedes cancelar en cualquier momento desde: Menú Usuario (abajo izquierda) -> Gestionar Suscripción -> Ir al Portal de Facturación. Tu acceso continuará hasta el final del período pagado."
+                answer: "Puedes cancelar en cualquier momento desde: Menú Usuario (abajo izquierda) -> Gestionar Suscripción. Tu acceso continuará hasta el final del período pagado."
             },
             {
                 question: "¿Qué incluye el Base Bundle?",
                 answer: "El paquete base incluye la Carta Natal Trópica ilimitada y el Calendario Personal Básico. Es el requisito para adquirir otros complementos."
             },
             {
-                question: "¿Si cancelo, pierdo mis compras de por vida?",
-                answer: "No. Las compras 'Lifetime' (como la Carta Dracónica) son tuyas para siempre, incluso si cancelas la suscripción mensual base."
-            },
-            {
-                question: "¿Cómo actualizo mi tarjeta de crédito?",
-                answer: "Ve a 'Gestionar Suscripción' y serás redirigido al portal seguro de Stripe donde puedes agregar o quitar métodos de pago."
+                question: "¿Si cancelo, pierdo mis compras?",
+                answer: "Sí. El acceso a los reportes y herramientas premium se mantiene solo mientras tu suscripción esté activa. Si cancelas, perderás el acceso al finalizar tu periodo de facturación actual."
             }
         ]
     },
     {
-        id: "methodology",
-        title: "Metodología y Tecnología",
-        icon: Cpu,
+        id: "support",
+        title: "Soporte y Metodología",
+        icon: HelpCircle,
         items: [
             {
-                question: "¿Qué sistema de cálculo utilizan?",
-                answer: "Utilizamos el sistema de casas **Placidus** para todos los cálculos trópicos (el estándar en astrología psicológica). Para la **Carta Dracónica**, aplicamos la técnica avanzada de superposición: calculamos tu carta desde los Nodos Lunares y la superponemos a tu carta trópica para revelar cómo tu misión espiritual impacta tu realidad diaria."
+                question: "Veo un candado 🔒 en una función",
+                answer: "Suele ocurrir si tu sesión no se ha actualizado tras una compra. Prueba Cerrar Sesión y volver a entrar para recargar tus permisos."
             },
             {
-                question: "¿Quién escribe mi reporte? ¿Es 100% IA?",
-                answer: "Es una colaboración híbrida única. Utilizamos tecnología de IA de última generación para *redactar* y *conectar* los puntos de tu carta, pero el **contenido astrológico base** proviene estrictamente de la académica **María Blaquier**. La tecnología es el vehículo que personaliza el reporte; la sabiduría y las definiciones son 100% de la autora."
+                question: "Veo datos antiguos",
+                answer: "Si cambaste tu hora de nacimiento recientemente en 'Completar Datos', asegúrate de contactar a soporte si la diferencia no se actualiza (puede ser caché)."
             },
             {
-                question: "¿Por qué mi carta se ve diferente a otros sitios?",
-                answer: "Pequeñas diferencias (de 1° o 2°) son posibles. Nosotros calculamos específicamente el **Nodo Norte Verdadero** (True Node), mientras que otros sitios usan por defecto el Nodo Medio (Mean Node). Nuestros cálculos están calibrados con *Swiss Ephemeris*, la fuente astronómica más precisa del mundo."
-            },
-            {
-                question: "¿Puedo regenerar mi interpretación si no me gusta?",
-                answer: "No. La regeneración es una función técnica reservada para administradores en caso de fallos del sistema. Tu reporte es único."
-            },
-            {
-                question: "¿Esto reemplaza a un astrólogo?",
-                answer: "Este informe es una herramienta poderosa de autoconocimiento y guía inicial, diseñada con rigor profesional. Sin embargo, ninguna herramienta digital puede replicar la sensibilidad, la intuición y el diálogo transformador de una sesión 1 a 1. Úsalo como un mapa para tu viaje."
-            }
-        ]
-    },
-    {
-        id: "charts",
-        title: "Cartas y AstroGematria",
-        icon: Map,
-        items: [
-            {
-                question: "¿Qué es la Carta Dracónica?",
-                answer: "Es una carta basada en los Nodos Lunares, que refleja el propósito del alma y vidas pasadas. Se accede como un complemento de pago único."
-            },
-            {
-                question: "¿Por qué mi Ascendente parece incorrecto?",
-                answer: "Asegúrate de que la hora de nacimiento sea exacta (de tu partida de nacimiento). Un error de 4 minutos puede cambiar el grado del Ascendente."
-            },
-            {
-                question: "¿Qué sistema de casas utilizas?",
-                answer: "Por defecto utilizamos el sistema Placidus, que es el más común en la astrología psicológica moderna."
-            }
-        ]
-    },
-    {
-        id: "lunar_calendar",
-        title: "Calendario Lunar",
-        icon: Moon, // Need to import Moon
-        items: [
-            {
-                question: "¿Qué muestra el Calendario Lunar?",
-                answer: "Muestra las Fases Lunares (Nueva, Llena, Cuartos) y Eclipses del año. Lo especial es que calcula si estos eventos hacen 'conjunción' exacta (0°) con tus planetas natales, activando áreas específicas de tu vida."
-            },
-            {
-                question: "¿Cómo veo años anteriores o futuros?",
-                answer: "En la parte superior verás pestañas por año (ej: [2025] [2026]). Simplemente haz clic para cambiar de año. El sistema guarda un histórico desde el 2025 en adelante."
-            },
-            {
-                question: "¿Por qué el próximo año tiene un candado 🔒?",
-                answer: "Los calendarios futuros se desbloquean automáticamente a mediados de Diciembre del año actual. Esto asegura que la información astrológica sea precisa y oportuna."
-            },
-            {
-                question: "¿Qué significa el Diario Lunar?",
-                answer: "Es tu espacio privado para registrar intenciones en Luna Nueva o soltar cargas en Luna Llena. Tus notas se guardan vinculadas a cada evento lunar específico."
-            }
-        ]
-    },
-    {
-        id: "calendar",
-        title: "Calendario y Eventos",
-        icon: Calendar,
-        items: [
-            {
-                question: "¿Cómo uso el Calendario Personal?",
-                answer: "Tu calendario muestra una vista semanal de tus tránsitos. Puedes navegar entre semanas usando las flechas o seleccionar un mes específico con el calendario desplegable. Cada día te mostrará los contactos exactos entre los planetas en el cielo y tu carta natal."
-            },
-            {
-                question: "¿Qué es el 'Clima Astral de Fondo'?",
-                answer: "Es una fila de tarjetas en la parte superior que muestra por dónde transitan los planetas lentos (Júpiter a Plutón) y tu Luna Progresada en tus Casas Natales. Esta información se actualiza automáticamente el día 1 de cada mes. Además, verás el grado y signo exacto de cada planeta para mayor precisión."
-            },
-            {
-                question: "¿Cómo busco tránsitos específicos?",
-                answer: "Utiliza el botón de Lupa 🔍 'Explorador de Tránsitos'. Allí puedes filtrar por planeta (ej. 'Solo Marte'), tipo de aspecto (ej. 'Conjunciones') o buscar palabras clave como 'Retrógrado'. Al hacer clic en un resultado, el calendario te llevará directamente a la fecha de ese evento."
-            },
-            {
-                question: "¿Qué significan los grados (ej. 15° 30')?",
-                answer: "Mostramos la posición exacta de los planetas en grados (°) y minutos ('). Esto es útil para saber cuándo un planeta está entrando o saliendo de un signo o casa."
-            },
-            {
-                question: "¿Qué horarios muestra el calendario?",
-                answer: "Todos los eventos se calculan y muestran automáticamente en tu zona horaria local detectada por el navegador (ej. si viajas, el horario se ajusta a donde estés)."
-            }
-        ]
-    },
-    {
-        id: "account",
-        title: "Cuenta y Soporte",
-        icon: User,
-        items: [
-            {
-                question: "¿Cómo cambio mis datos de nacimiento?",
-                answer: "Puedes editar tus datos de nacimiento hasta 3 veces por seguridad. Ve a Configuración de Usuario. Si necesitas más cambios, contacta a soporte."
+                question: "¿Qué sistema de casas utilizan?",
+                answer: "Utilizamos Placidus para cálculos trópicos y Nodos Verdaderos (True Node) con precisión de Swiss Ephemeris."
             },
             {
                 question: "Encontré un error, ¿qué hago?",
-                answer: "Por favor, toma una captura de pantalla y envíala a info@astrochat.online con una breve descripción de lo que estabas haciendo."
+                answer: "Toma una captura de pantalla y envíala a info@astrochat.online con una breve descripción."
             }
         ]
     }
