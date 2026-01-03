@@ -10,6 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
 
+import { TermsCheckbox } from '@/components/auth/terms-checkbox'
+
 export default function RegisterPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +22,8 @@ export default function RegisterPage() {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    termsAccepted: false
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +77,8 @@ export default function RegisterPage() {
         body: JSON.stringify({
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
-          password: formData.password
+          password: formData.password,
+          termsAccepted: formData.termsAccepted
         }),
       })
 
@@ -201,10 +205,18 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            <div className="space-y-4">
+              <TermsCheckbox
+                checked={formData.termsAccepted}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, termsAccepted: checked }))}
+                disabled={isLoading}
+              />
+            </div>
+
             <Button
               type="submit"
               className="w-full"
-              disabled={isLoading}
+              disabled={isLoading || !formData.termsAccepted}
             >
               {isLoading ? (
                 <>

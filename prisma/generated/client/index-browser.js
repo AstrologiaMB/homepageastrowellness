@@ -147,7 +147,9 @@ exports.Prisma.UserScalarFieldEnum = {
   rectificationStatus: 'rectificationStatus',
   rectificationRequestDate: 'rectificationRequestDate',
   stripeCustomerId: 'stripeCustomerId',
-  hasDraconicAccess: 'hasDraconicAccess'
+  hasDraconicAccess: 'hasDraconicAccess',
+  termsAccepted: 'termsAccepted',
+  termsAcceptedAt: 'termsAcceptedAt'
 };
 
 exports.Prisma.UserSubscriptionScalarFieldEnum = {

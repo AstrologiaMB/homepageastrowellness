@@ -46,6 +46,10 @@ model User {
   stripeCustomerId                 String?                 @unique
   hasDraconicAccess                Boolean                 @default(false) // One-time purchase
 
+  // Terms and Conditions
+  termsAccepted   Boolean   @default(false)
+  termsAcceptedAt DateTime?
+
   subscription UserSubscription?
 }
 
