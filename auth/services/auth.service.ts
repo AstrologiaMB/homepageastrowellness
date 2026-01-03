@@ -1,4 +1,4 @@
-const AUTH_API_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:8001/api/v1';
+import { signIn } from 'next-auth/react';
 
 export interface LoginCredentials {
   email: string;
@@ -21,15 +21,26 @@ export interface LoginResponse {
 }
 
 export async function loginUser(credentials: LoginCredentials): Promise<LoginResponse> {
-  const response = await fetch(`${AUTH_API_BASE_URL}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
+  // Use NextAuth's signIn with credentials provider
+  const result = await signIn('credentials', {
+    email: credentials.email,
+    password: credentials.password,
+    redirect: false,
   });
 
-  if (!response.ok) {
+  if (!result?.ok || result?.error) {
     throw new Error('Credenciales inválidas');
   }
 
-  return response.json();
+  // Return a mock response since NextAuth handles the session
+  // The actual user data will come from the session
+  return {
+    token: 'nextauth-session', // NextAuth uses sessions, not tokens
+    user: {
+      id: '', // Will be populated from session
+      email: credentials.email,
+      name: '',
+      role: 'user',
+    },
+  };
 }
