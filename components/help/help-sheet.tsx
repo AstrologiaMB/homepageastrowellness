@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Search, HelpCircle, FileQuestion } from "lucide-react";
 import { HELP_CONTENT, HelpCategory } from "./help-content";
 
-export function HelpSheet() {
+export function HelpSheet({ trigger }: { trigger?: React.ReactNode }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [open, setOpen] = useState(false);
 
@@ -38,10 +38,12 @@ export function HelpSheet() {
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground">
-                    <HelpCircle className="h-4 w-4" />
-                    <span className="sr-only">Ayuda</span>
-                </Button>
+                {trigger || (
+                    <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground">
+                        <HelpCircle className="h-4 w-4" />
+                        <span className="sr-only">Ayuda</span>
+                    </Button>
+                )}
             </SheetTrigger>
             <SheetContent className="w-[400px] sm:w-[540px] flex flex-col h-full">
                 <SheetHeader>

@@ -56,6 +56,8 @@ export async function POST(request: NextRequest) {
         name: name.trim(),
         password: hashedPassword,
         emailVerified: new Date(), // Para simplificar, marcamos como verificado
+        termsAccepted: true, // Frontend lo garantiza
+        termsAcceptedAt: new Date(),
       },
       select: {
         id: true,

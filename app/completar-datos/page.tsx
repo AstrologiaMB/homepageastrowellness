@@ -154,8 +154,9 @@ function CompletarDatosForm() {
       // Actualizar la sesión
       await update();
 
-      // Redirigir
-      router.push(callbackUrl);
+      // Redirigir a la página de procesamiento (intermedia) con el callbackUrl original
+      const targetUrl = `/procesando-datos?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+      router.push(targetUrl);
     } catch (error) {
       console.error("Error:", error);
       alert("Error al guardar datos. Por favor, intenta nuevamente.");
@@ -179,6 +180,16 @@ function CompletarDatosForm() {
     <>
       <div className="max-w-xl mx-auto mt-10 p-6 border rounded-md shadow-md bg-white">
         <h1 className="text-2xl font-bold mb-6">Completar Datos Personales</h1>
+
+        <Alert className="mb-6 bg-blue-50 border-blue-200">
+          <AlertCircle className="h-4 w-4 text-blue-600" />
+          <AlertTitle className="text-blue-800">Importante: Precisión requerida</AlertTitle>
+          <AlertDescription className="text-blue-700 mt-2">
+            Por favor completa tus datos personales para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos, sobre todo hora y lugar de nacimiento.
+            <br />
+            <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente, de lo contrario tendrás que contactar al administrador.
+          </AlertDescription>
+        </Alert>
 
         {userData.birthDataChangeCount > 0 && (
           <Alert variant={userData.birthDataChangeCount >= 3 ? "destructive" : "default"} className={`mb-6 ${userData.birthDataChangeCount < 3 ? "border-yellow-500 bg-yellow-50" : ""}`}>

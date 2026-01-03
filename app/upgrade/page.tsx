@@ -216,6 +216,7 @@ function UpgradePageContent() {
         </h1>
         <p className="text-muted-foreground text-lg">
           Personaliza tu experiencia astrológica añadiendo los módulos que necesitas.
+          Elige los servicios que desees, recuerda que siempre como mínimo hay que comprar la suscripción mensual de USD 3 por mes.
         </p>
       </div>
 

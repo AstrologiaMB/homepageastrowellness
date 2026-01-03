@@ -1824,6 +1824,8 @@ export namespace Prisma {
     rectificationRequestDate: Date | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean | null
+    termsAccepted: boolean | null
+    termsAcceptedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1854,6 +1856,8 @@ export namespace Prisma {
     rectificationRequestDate: Date | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean | null
+    termsAccepted: boolean | null
+    termsAcceptedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1884,6 +1888,8 @@ export namespace Prisma {
     rectificationRequestDate: number
     stripeCustomerId: number
     hasDraconicAccess: number
+    termsAccepted: number
+    termsAcceptedAt: number
     _all: number
   }
 
@@ -1928,6 +1934,8 @@ export namespace Prisma {
     rectificationRequestDate?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
+    termsAccepted?: true
+    termsAcceptedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1958,6 +1966,8 @@ export namespace Prisma {
     rectificationRequestDate?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
+    termsAccepted?: true
+    termsAcceptedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1988,6 +1998,8 @@ export namespace Prisma {
     rectificationRequestDate?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
+    termsAccepted?: true
+    termsAcceptedAt?: true
     _all?: true
   }
 
@@ -2105,6 +2117,8 @@ export namespace Prisma {
     rectificationRequestDate: Date | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean
+    termsAccepted: boolean
+    termsAcceptedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -2154,6 +2168,8 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: boolean
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
     interpretaciones?: boolean | User$interpretacionesArgs<ExtArgs>
@@ -2193,6 +2209,8 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2223,6 +2241,8 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2253,9 +2273,11 @@ export namespace Prisma {
     rectificationRequestDate?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "stripeCustomerId" | "hasDraconicAccess", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "stripeCustomerId" | "hasDraconicAccess" | "termsAccepted" | "termsAcceptedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -2310,6 +2332,8 @@ export namespace Prisma {
       rectificationRequestDate: Date | null
       stripeCustomerId: string | null
       hasDraconicAccess: boolean
+      termsAccepted: boolean
+      termsAcceptedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2768,6 +2792,8 @@ export namespace Prisma {
     readonly rectificationRequestDate: FieldRef<"User", 'DateTime'>
     readonly stripeCustomerId: FieldRef<"User", 'String'>
     readonly hasDraconicAccess: FieldRef<"User", 'Boolean'>
+    readonly termsAccepted: FieldRef<"User", 'Boolean'>
+    readonly termsAcceptedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -13564,7 +13590,9 @@ export namespace Prisma {
     rectificationStatus: 'rectificationStatus',
     rectificationRequestDate: 'rectificationRequestDate',
     stripeCustomerId: 'stripeCustomerId',
-    hasDraconicAccess: 'hasDraconicAccess'
+    hasDraconicAccess: 'hasDraconicAccess',
+    termsAccepted: 'termsAccepted',
+    termsAcceptedAt: 'termsAcceptedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13838,6 +13866,8 @@ export namespace Prisma {
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
     stripeCustomerId?: StringNullableFilter<"User"> | string | null
     hasDraconicAccess?: BoolFilter<"User"> | boolean
+    termsAccepted?: BoolFilter<"User"> | boolean
+    termsAcceptedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
@@ -13876,6 +13906,8 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrderInput | SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     hasDraconicAccess?: SortOrder
+    termsAccepted?: SortOrder
+    termsAcceptedAt?: SortOrderInput | SortOrder
     rectificationEvents?: RectificationEventOrderByRelationAggregateInput
     cartasNatales?: CartaNatalOrderByRelationAggregateInput
     interpretaciones?: InterpretacionCacheOrderByRelationAggregateInput
@@ -13917,6 +13949,8 @@ export namespace Prisma {
     rectificationStatus?: StringNullableFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
     hasDraconicAccess?: BoolFilter<"User"> | boolean
+    termsAccepted?: BoolFilter<"User"> | boolean
+    termsAcceptedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     rectificationEvents?: RectificationEventListRelationFilter
     cartasNatales?: CartaNatalListRelationFilter
     interpretaciones?: InterpretacionCacheListRelationFilter
@@ -13955,6 +13989,8 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrderInput | SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     hasDraconicAccess?: SortOrder
+    termsAccepted?: SortOrder
+    termsAcceptedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -13993,6 +14029,8 @@ export namespace Prisma {
     rectificationRequestDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     stripeCustomerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     hasDraconicAccess?: BoolWithAggregatesFilter<"User"> | boolean
+    termsAccepted?: BoolWithAggregatesFilter<"User"> | boolean
+    termsAcceptedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type UserSubscriptionWhereInput = {
@@ -14742,6 +14780,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -14780,6 +14820,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -14818,6 +14860,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -14856,6 +14900,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -14894,6 +14940,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14924,6 +14972,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14954,6 +15004,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserSubscriptionCreateInput = {
@@ -15940,6 +15992,8 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
+    termsAccepted?: SortOrder
+    termsAcceptedAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -15976,6 +16030,8 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
+    termsAccepted?: SortOrder
+    termsAcceptedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -16006,6 +16062,8 @@ export namespace Prisma {
     rectificationRequestDate?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
+    termsAccepted?: SortOrder
+    termsAcceptedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -17805,6 +17863,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -17842,6 +17902,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -17895,6 +17957,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -17932,6 +17996,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -17969,6 +18035,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -18006,6 +18074,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -18059,6 +18129,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -18096,6 +18168,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -18133,6 +18207,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -18170,6 +18246,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -18223,6 +18301,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -18260,6 +18340,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -18297,6 +18379,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestCreateNestedManyWithoutUserInput
@@ -18334,6 +18418,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     horariaRequests?: HorariaRequestUncheckedCreateNestedManyWithoutUserInput
@@ -18387,6 +18473,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUpdateManyWithoutUserNestedInput
@@ -18424,6 +18512,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     horariaRequests?: HorariaRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -18461,6 +18551,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -18498,6 +18590,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -18551,6 +18645,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -18588,6 +18684,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -18625,6 +18723,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -18662,6 +18762,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -18715,6 +18817,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -18752,6 +18856,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -18789,6 +18895,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -18826,6 +18934,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -18879,6 +18989,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -18916,6 +19028,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput
@@ -18953,6 +19067,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheCreateNestedManyWithoutUserInput
@@ -18990,6 +19106,8 @@ export namespace Prisma {
     rectificationRequestDate?: Date | string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
+    termsAccepted?: boolean
+    termsAcceptedAt?: Date | string | null
     rectificationEvents?: RectificationEventUncheckedCreateNestedManyWithoutUserInput
     cartasNatales?: CartaNatalUncheckedCreateNestedManyWithoutUserInput
     interpretaciones?: InterpretacionCacheUncheckedCreateNestedManyWithoutUserInput
@@ -19043,6 +19161,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUpdateManyWithoutUserNestedInput
@@ -19080,6 +19200,8 @@ export namespace Prisma {
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
+    termsAccepted?: BoolFieldUpdateOperationsInput | boolean
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rectificationEvents?: RectificationEventUncheckedUpdateManyWithoutUserNestedInput
     cartasNatales?: CartaNatalUncheckedUpdateManyWithoutUserNestedInput
     interpretaciones?: InterpretacionCacheUncheckedUpdateManyWithoutUserNestedInput

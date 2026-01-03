@@ -135,6 +135,20 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  events: {
+    async createUser({ user }) {
+      // Update the user to set termsAccepted to true
+      // We assume that since the UI blocks the Google button until checked,
+      // any user created via OAuth has accepted the terms.
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          termsAccepted: true,
+          termsAcceptedAt: new Date(),
+        },
+      });
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
