@@ -7,10 +7,10 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { Label } from '@/components/ui/label'
-import { Search, User, Star, Calendar, Mail, Shield, Trash2, Download } from 'lucide-react'
+import { Search, User as UserIcon, Star, Calendar, Mail, Shield, Trash2, Download } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
@@ -22,6 +22,7 @@ interface User {
   subscriptionExpiresAt: string | null
   createdAt: string
   updatedAt: string
+  emailVerified?: string | null
   birthDataChangeCount: number
   hasDraconicAccess: boolean
   subscription?: {
@@ -84,10 +85,17 @@ export default function AdminUsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [updating, setUpdating] = useState(false)
+
+  // Delete state
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [userToDelete, setUserToDelete] = useState<User | null>(null)
   const [deleting, setDeleting] = useState(false)
+
+  // Maintenance actions state
   const [clearingCache, setClearingCache] = useState(false)
+  const [resettingPassword, setResettingPassword] = useState(false)
+  const [tempPassword, setTempPassword] = useState<string | null>(null)
+  const [verifyingEmail, setVerifyingEmail] = useState(false)
 
   // Verificar si el usuario es admin
   useEffect(() => {
@@ -162,7 +170,8 @@ export default function AdminUsersPage() {
         setSelectedUser(null)
         alert("Contador reiniciado exitosamente.")
       } else {
-        alert("Error al reiniciar contador.")
+        const data = await response.json()
+        alert(data.error || "Error al reiniciar contador.")
       }
     } catch (error) {
       console.error('Error resetting counter:', error)
@@ -224,6 +233,65 @@ export default function AdminUsersPage() {
       alert('❌ Error de conexión al intentar limpiar la caché.')
     } finally {
       setClearingCache(false)
+    }
+  }
+
+  const resetUserPassword = async (userId: string) => {
+    if (!confirm("⚠️ ¿Estás seguro? Esto invalidará la contraseña actual del usuario y generará una nueva inmediatamente.")) return;
+
+    setResettingPassword(true)
+    setTempPassword(null) // Limpiar anterior si hubo
+    try {
+      const response = await fetch(`/api/admin/users/${userId}/reset-password`, {
+        method: 'PUT',
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setTempPassword(data.tempPassword)
+        // No cerramos el dialog para que pueda ver la password
+      } else {
+        const data = await response.json()
+        alert(`❌ Error: ${data.error || 'Error al restablecer contraseña'}`)
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error)
+      alert('❌ Error de conexión.')
+    } finally {
+      setResettingPassword(false)
+    }
+  }
+
+  const verifyUserEmail = async (userId: string) => {
+    if (!confirm("¿Confirmas que quieres marcar este email como verificado manualmente?")) return;
+
+    setVerifyingEmail(true)
+    try {
+      const response = await fetch(`/api/admin/users/${userId}/verify-email`, {
+        method: 'PUT',
+      })
+
+      if (response.ok) {
+        await fetchUsers() // Recargar para ver el cambio en la lista si lo hubiera
+        alert("✅ Usuario marcado como verificado.")
+        // Actualizamos el usuario seleccionado localmente para que se refleje en el dialog
+        if (selectedUser) {
+          // Create a new object to avoid type errors
+          const updatedUser: User = {
+            ...selectedUser,
+            emailVerified: new Date().toISOString()
+          };
+          setSelectedUser(updatedUser)
+        }
+      } else {
+        const data = await response.json()
+        alert(`❌ Error: ${data.error || 'Error al verificar email'}`)
+      }
+    } catch (error) {
+      console.error('Error verifying email:', error)
+      alert('❌ Error de conexión.')
+    } finally {
+      setVerifyingEmail(false)
     }
   }
 
@@ -289,7 +357,7 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Usuarios</CardTitle>
-            <User className="h-4 w-4 text-muted-foreground" />
+            <UserIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{users.length}</div>
@@ -309,7 +377,7 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Usuarios Gratuitos</CardTitle>
-            <User className="h-4 w-4 text-muted-foreground" />
+            <UserIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -372,7 +440,7 @@ export default function AdminUsersPage() {
                 <TableRow key={user.id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-muted-foreground" />
+                      <UserIcon className="h-4 w-4 text-muted-foreground" />
                       {user.name || 'Sin nombre'}
                     </div>
                   </TableCell>
@@ -414,7 +482,7 @@ export default function AdminUsersPage() {
 
       {/* Dialog para editar suscripción */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Gestionar Suscripción</DialogTitle>
             <DialogDescription>
@@ -478,26 +546,102 @@ export default function AdminUsersPage() {
                 </div>
               </div>
 
+              {/* Account Verification Section */}
               <div className="pt-4 border-t">
-                <Label className="block mb-2 text-amber-600 font-semibold">Zona de Mantenimiento</Label>
-                <div className="flex items-center justify-between p-3 border border-amber-200 rounded-md bg-amber-50">
-                  <div className="space-y-1">
-                    <span className="font-medium text-sm text-amber-900 block">Limpiar Caché de Interpretaciones</span>
-                    <span className="text-xs text-amber-700 block max-w-[200px]">
-                      Elimina textos generados corruptos. Obliga a regenerar con IA nueva.
-                    </span>
+                <Label className="block mb-2">Estado de la Cuenta</Label>
+                <div className="flex items-center justify-between p-3 border rounded-md bg-slate-50">
+                  <div>
+                    <span className="font-semibold text-sm block">Email Verificado:</span>
+                    {selectedUser.email && !selectedUser.emailVerified ? (
+                      <span className="text-red-500 text-xs font-bold">❌ Pendiente</span>
+                    ) : (
+                      <span className="text-green-600 text-xs font-bold">✅ Verificado</span>
+                    )}
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-amber-500 text-amber-700 hover:bg-amber-100"
-                    onClick={() => clearUserCache(selectedUser.id)}
-                    disabled={clearingCache || updating}
-                  >
-                    {clearingCache ? 'Limpiando...' : '🧹 Limpiar Caché'}
-                  </Button>
+                  {selectedUser.email && !selectedUser.emailVerified && (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                      onClick={() => verifyUserEmail(selectedUser.id)}
+                      disabled={verifyingEmail || updating}
+                    >
+                      {verifyingEmail ? 'Verificando...' : '✅ Marcar como Verificado'}
+                    </Button>
+                  )}
                 </div>
               </div>
+
+              <div className="pt-4 border-t">
+                <Label className="block mb-2 text-amber-600 font-semibold">Zona de Mantenimiento</Label>
+                <div className="flex flex-col gap-3">
+                  {/* Reset Password */}
+                  <div className="flex items-center justify-between p-3 border border-amber-200 rounded-md bg-amber-50">
+                    <div className="space-y-1">
+                      <span className="font-medium text-sm text-amber-900 block">Restablecer Contraseña</span>
+                      <span className="text-xs text-amber-700 block max-w-[200px]">
+                        Genera una contraseña temporal segura para que el usuario pueda ingresar.
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-amber-500 text-amber-700 hover:bg-amber-100"
+                      onClick={() => resetUserPassword(selectedUser.id)}
+                      disabled={resettingPassword || updating}
+                    >
+                      {resettingPassword ? 'Generando...' : '🔑 Reset Password'}
+                    </Button>
+                  </div>
+
+                  {/* Clear Cache */}
+                  <div className="flex items-center justify-between p-3 border border-amber-200 rounded-md bg-amber-50">
+                    <div className="space-y-1">
+                      <span className="font-medium text-sm text-amber-900 block">Limpiar Caché de Interpretaciones</span>
+                      <span className="text-xs text-amber-700 block max-w-[200px]">
+                        Elimina textos generados corruptos. Obliga a regenerar con IA nueva.
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-amber-500 text-amber-700 hover:bg-amber-100"
+                      onClick={() => clearUserCache(selectedUser.id)}
+                      disabled={clearingCache || updating}
+                    >
+                      {clearingCache ? 'Limpiando...' : '🧹 Limpiar Caché'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resultado del Reset Password */}
+              {tempPassword && (
+                <div className="p-4 mt-4 bg-green-100 border-2 border-green-500 rounded-lg animate-in fade-in slide-in-from-top-2">
+                  <h4 className="text-green-800 font-bold mb-2 flex items-center gap-2">
+                    ✅ Contraseña Restablecida Exitosamente
+                  </h4>
+                  <p className="text-green-700 text-sm mb-3">
+                    Copia esta contraseña y envíala al usuario <strong>({selectedUser.email})</strong>.
+                    Solo se muestra una vez.
+                  </p>
+                  <div className="flex gap-2">
+                    <code className="flex-1 p-3 bg-white border border-green-300 rounded font-mono text-lg font-bold text-center tracking-wider select-all">
+                      {tempPassword}
+                    </code>
+                    <Button
+                      variant="default"
+                      className="bg-green-600 hover:bg-green-700"
+                      onClick={() => {
+                        navigator.clipboard.writeText(tempPassword);
+                        alert("Contraseña copiada al portapapeles");
+                      }}
+                    >
+                      Copiar
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
