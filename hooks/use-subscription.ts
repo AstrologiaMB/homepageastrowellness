@@ -1,18 +1,18 @@
-import { useSession } from 'next-auth/react'
+import { useAuth } from '@/auth/auth-provider'
 import { hasActiveSubscription, getSubscriptionDaysRemaining, SUBSCRIPTION_STATUS } from '@/lib/subscription'
 
 export function useSubscription() {
-  const { data: session, status } = useSession()
-  const user = session?.user as any
+  // Usar useAuth para tener acceso unificado a custom auth + next-auth
+  const { user, isLoading } = useAuth()
 
   const isPremium = hasActiveSubscription(user)
   const daysRemaining = getSubscriptionDaysRemaining(user)
-  const statusText = user?.subscriptionStatus || SUBSCRIPTION_STATUS.FREE
-  const expiresAt = user?.subscriptionExpiresAt
+  const statusText = (user as any)?.subscriptionStatus || SUBSCRIPTION_STATUS.FREE
+  const expiresAt = (user as any)?.subscriptionExpiresAt
 
   return {
     // Estado de carga
-    isLoading: status === 'loading',
+    isLoading,
 
     // Estado de suscripción
     isPremium,

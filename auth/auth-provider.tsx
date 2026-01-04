@@ -1,13 +1,11 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
+import React, { createContext, useContext, useCallback, useMemo, ReactNode } from 'react';
 import { useSession, signOut as nextAuthSignOut } from 'next-auth/react';
-import { saveToStorage, loadFromStorage, clearFromStorage } from './utils/storage';
-import { saveToken, clearAllTokens, getActiveToken, createAuthHeaders } from './utils/token';
+import { createAuthHeaders } from './utils/token';
 import { loginUser, LoginCredentials } from './services/auth.service';
 import { User, AuthContextType } from './types/auth.types';
 
-const STORAGE_KEY = 'auth_user';
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function useAuth(): AuthContextType {
@@ -23,30 +21,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Custom auth state (email/password)
-  const [customUser, setCustomUser] = useState<User | null>(null);
-  const [customLoading, setCustomLoading] = useState(true);
-
-  // next-auth state (Google OAuth)
+  // next-auth state (handles BOTH Google OAuth AND email/password)
   const { data: nextAuthSession, status: nextAuthStatus } = useSession();
-  const nextAuthLoading = nextAuthStatus === 'loading';
+  const isLoading = nextAuthStatus === 'loading';
 
-  // Load custom auth user from storage on mount
-  useEffect(() => {
-    const storedUser = loadFromStorage<User>(STORAGE_KEY);
-    if (storedUser) {
-      setCustomUser(storedUser);
-    }
-    setCustomLoading(false);
-  }, []);
-
-  // Unified user: prefer custom auth, fallback to next-auth
+  // Map next-auth session to our User type
   const user = useMemo<User | null>(() => {
-    if (customUser) {
-      return customUser;
-    }
     if (nextAuthSession?.user) {
-      // Map next-auth session to our User type
       return {
         id: (nextAuthSession.user as any).id,
         email: nextAuthSession.user.email || undefined,
@@ -55,34 +36,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       };
     }
     return null;
-  }, [customUser, nextAuthSession]);
+  }, [nextAuthSession]);
 
-  // Unified loading state: loading if EITHER source is loading
-  const isLoading = customLoading || nextAuthLoading;
-
-  // Unified authenticated state: authenticated if EITHER source has user
+  // Authenticated if we have a user from NextAuth session
   const isAuthenticated = useMemo(() => !!user, [user]);
 
-  // Email/password login (custom auth)
+  // Email/password login (delegates to NextAuth)
   const login = useCallback(async (credentials: LoginCredentials): Promise<void> => {
-    setCustomLoading(true);
-    try {
-      const { token, user: userData } = await loginUser(credentials);
-      saveToken('user', token);
-      setCustomUser(userData);
-      saveToStorage(STORAGE_KEY, userData);
-    } finally {
-      setCustomLoading(false);
-    }
+    // loginUser internally calls NextAuth signIn which creates the session
+    await loginUser(credentials);
+    // Session will be automatically updated by NextAuth
   }, []);
 
-  // Unified logout: clears BOTH auth sources
+  // Logout: clears NextAuth session
   const logout = useCallback((): void => {
-    // Clear custom auth
-    setCustomUser(null);
-    clearFromStorage(STORAGE_KEY);
-    clearAllTokens();
-    // Clear next-auth session (Google OAuth)
+    // Clear NextAuth session (works for both Google OAuth and email/password)
     nextAuthSignOut({ redirect: false });
   }, []);
 
@@ -92,10 +60,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Determine auth source (for debugging/logging)
   const authSource = useMemo(() => {
-    if (customUser) return 'custom';
-    if (nextAuthSession?.user) return 'google';
+    if (nextAuthSession?.user) {
+      // Check if user logged in with Google or credentials
+      return (nextAuthSession.user as any).image ? 'google' : 'credentials';
+    }
     return null;
-  }, [customUser, nextAuthSession]);
+  }, [nextAuthSession]);
 
   const value = useMemo<AuthContextType>(() => ({
     user,

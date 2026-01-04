@@ -278,7 +278,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/nicolasariasescudero/Downloads/homepageastrowellness/prisma/generated/client",
+      "value": "/Users/nicolasariasescudero/Downloads/Astrologia/homepageastrowellness/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -296,7 +296,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/nicolasariasescudero/Downloads/homepageastrowellness/prisma/schema.prisma",
+    "sourceFilePath": "/Users/nicolasariasescudero/Downloads/Astrologia/homepageastrowellness/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -309,11 +309,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://astrowellness@localhost:5432/astrowellness_dev_clean"
+        "value": null
       }
     }
   },

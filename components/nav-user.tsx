@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession, signOut } from "next-auth/react"
+import { useAuth } from "@/auth/auth-provider"
 import { useRouter } from "next/navigation"
 import { User } from "lucide-react"
 import {
@@ -18,11 +18,11 @@ import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 
 export function NavUser() {
-  const { data: session } = useSession()
+  const { user, logout } = useAuth()
   const router = useRouter()
   const { state } = useSidebar()
 
-  if (!session?.user) {
+  if (!user) {
     return (
       <div className="flex flex-col gap-2 w-full">
         {/* Opción Email/Password */}
@@ -68,18 +68,18 @@ export function NavUser() {
       <DropdownMenuTrigger className="w-full">
         <div className="flex items-center gap-3 p-2 rounded-md hover:bg-muted transition">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={session.user.image ?? ""} />
+            <AvatarImage src={(user as any)?.image ?? ""} />
             <AvatarFallback>
-              {session.user.name?.[0] ?? "U"}
+              {user.name?.[0] ?? "U"}
             </AvatarFallback>
           </Avatar>
           {state === "expanded" && (
             <div className="flex flex-col text-left">
               <span className="text-sm font-medium truncate">
-                {session.user.name}
+                {user.name}
               </span>
               <span className="text-xs text-muted-foreground truncate">
-                {session.user.email}
+                {user.email}
               </span>
             </div>
           )}
@@ -93,8 +93,8 @@ export function NavUser() {
         <DropdownMenuItem onClick={handleManageSubscription}>
           Gestionar Suscripción
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={async () => {
-          await signOut()
+        <DropdownMenuItem onClick={() => {
+          logout()
           router.push("/")
         }}>
           Cerrar sesión
