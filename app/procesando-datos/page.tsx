@@ -63,7 +63,7 @@ function ProcesandoDatosContent() {
                 {/* Header Animation */}
                 <div className="relative h-24 w-24 mx-auto">
                     <div className="absolute inset-0 border-t-4 border-l-4 border-indigo-600 rounded-full animate-spin"></div>
-                    <div className="absolute inset-3 border-r-4 border-b-4 border-purple-600 rounded-full animate-spin duration-[3000ms]"></div>
+                    <div className="absolute inset-3 border-r-4 border-b-4 border-purple-600 rounded-full animate-[spin_3s_linear_infinite]"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                         <Sparkles className="h-8 w-8 text-amber-400 animate-pulse" />
                     </div>
