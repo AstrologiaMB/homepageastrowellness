@@ -77,6 +77,7 @@ export async function POST(req: Request) {
             metadata: {
                 userId: user.id,
             },
+            allow_promotion_codes: true,
             // If subscription, allow them to manage it? 
             // If 'payment' (Draconic/One-time), invoice_creation is automatic usually.
         });
