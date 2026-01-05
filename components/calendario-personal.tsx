@@ -576,7 +576,7 @@ export function CalendarioPersonal() {
 
                 // Filtrar eventos de estado para el mes actual que se está visualizando
                 const stateEvents = eventos.filter(e => e.tipo_evento === 'Tránsito Casa Estado');
-                let targetEvent = null;
+                let targetEvent: EventoPersonal | null = null;
 
                 if (stateEvents.length > 0) {
                   // Estrategia: Buscar el evento más cercano a la semana que se está visualizando.
@@ -599,7 +599,7 @@ export function CalendarioPersonal() {
 
                 if (targetEvent) {
                   // Extraer items del metadata del evento seleccionado
-                  const houseTransits = targetEvent.metadata?.house_transits || [];
+                  const houseTransits = (targetEvent as any).metadata?.house_transits || [];
                   if (Array.isArray(houseTransits)) {
                     houseTransits.forEach((item: any) => {
                       // Clave única: Planeta + Casa

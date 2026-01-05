@@ -48,16 +48,16 @@ export default function AstrogematriaCalculosPage() {
     setLoading(true);
     setError(null);
     setResultado(null);
-    
+
     try {
       const response = await fetch('/api/astrogematria/calcular', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ palabra: palabra.trim() })
       });
-      
+
       const data: AstrogematriaResponse = await response.json();
-      
+
       if (data.success && data.data) {
         setResultado(data.data);
         setCached(data.cached || false);
@@ -77,15 +77,15 @@ export default function AstrogematriaCalculosPage() {
   const obtenerCartaNatal = async () => {
     setCartaNatalLoading(true);
     setCartaNatalError(null);
-    
+
     try {
       const response = await fetch('/api/cartas/tropical', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.data_reducido) {
         setCartaNatal(data.data_reducido);
       } else {
@@ -133,10 +133,11 @@ export default function AstrogematriaCalculosPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            La astrogematría es un sistema que asigna valores numéricos a las letras para calcular 
-            la posición zodiacal correspondiente a palabras y frases. Cada letra tiene un valor 
-            específico que se suma para obtener un total, el cual se reduce según las reglas 
-            zodiacales para determinar la posición en la rueda astrológica.
+            La astrogematría es un sistema que asigna valores numéricos a las letras para calcular
+            la posición zodiacal correspondiente a palabras y frases. Cada letra tiene un valor
+            específico que se suma para obtener un total, el cual se reduce según las reglas
+            zodiacales para determinar la posición en la rueda astrológica. El cálculo del valor
+            astrogematrico está basado en una investigación de Jesús Gabriel Gutiérrez.
           </p>
         </CardContent>
       </Card>
@@ -167,10 +168,10 @@ export default function AstrogematriaCalculosPage() {
                 className="mt-1"
               />
             </div>
-            
+
             <div className="flex gap-2">
-              <Button 
-                onClick={calcularAstrogematria} 
+              <Button
+                onClick={calcularAstrogematria}
                 disabled={loading || !palabra.trim()}
                 className="flex items-center gap-2"
               >
@@ -186,10 +187,10 @@ export default function AstrogematriaCalculosPage() {
                   </>
                 )}
               </Button>
-              
+
               {(resultado || error) && (
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={limpiarFormulario}
                   disabled={loading}
                 >
@@ -235,14 +236,14 @@ export default function AstrogematriaCalculosPage() {
                   </Label>
                   <p className="text-lg font-semibold">{resultado.palabra_original}</p>
                 </div>
-                
+
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">
                     Palabra Procesada
                   </Label>
                   <p className="text-lg">{resultado.palabra_procesada}</p>
                 </div>
-                
+
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">
                     Valor Astrogematrico
@@ -261,14 +262,14 @@ export default function AstrogematriaCalculosPage() {
                   </Label>
                   <p className="text-lg">{resultado.reduccion_zodiacal}</p>
                 </div>
-                
+
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">
                     Signo Zodiacal
                   </Label>
                   <p className="text-lg font-semibold">{resultado.signo}</p>
                 </div>
-                
+
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">
                     Posición Completa
@@ -327,8 +328,8 @@ export default function AstrogematriaCalculosPage() {
                         <strong>Para ver tu carta natal con la posición astrogematrícica, necesitas completar tus datos natales.</strong>
                       </p>
                       <p className="text-sm">
-                        Una vez que tengas tu carta natal, podrás ver exactamente dónde se ubica 
-                        <strong> "{resultado.palabra_original}"</strong> en <strong>{resultado.posicion_completa}</strong> 
+                        Una vez que tengas tu carta natal, podrás ver exactamente dónde se ubica
+                        <strong> "{resultado.palabra_original}"</strong> en <strong>{resultado.posicion_completa}</strong>
                         dentro de tu mapa astrológico personal.
                       </p>
                       <div className="mt-4">
@@ -348,7 +349,7 @@ export default function AstrogematriaCalculosPage() {
 
           {cartaNatal && !cartaNatalLoading && !cartaNatalError && (
             <div key={`force-remount-${resultado.palabra_original}-${Date.now()}`}>
-              <CartaNatalAstrogematriaWrapper 
+              <CartaNatalAstrogematriaWrapper
                 chartData={cartaNatal}
                 astrogematriaData={resultado}
               />
