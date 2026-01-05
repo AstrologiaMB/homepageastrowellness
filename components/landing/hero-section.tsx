@@ -12,8 +12,21 @@ export function HeroSection() {
         TODO: Replace with <video> tag when asset is provided.
         Current: Deep Indigo gradient + subtle pulse to simulate movement.
       */}
+            {/* Video Background */}
+            <div className="absolute inset-0 z-0">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover opacity-60"
+                >
+                    <source src="/assets/landing/hero-loop.mp4" type="video/mp4" />
+                </video>
+            </div>
+
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F19]/80 via-[#1a1f3c]/50 to-[#0B0F19] z-10" />
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2988&auto=format&fit=crop')] bg-cover bg-center opacity-20 animate-pulse-slow" />
 
             <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-8 mx-auto">
 
