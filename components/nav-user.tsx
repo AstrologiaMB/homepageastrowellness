@@ -59,8 +59,8 @@ export function NavUser() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full">
-        <div className="flex items-center gap-3 p-2 rounded-md hover:bg-sidebar-accent/50 transition-colors">
-          <Avatar className="h-8 w-8">
+        <div className="flex items-center gap-3 p-2 rounded-md hover:bg-sidebar-accent/50 transition-colors group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0">
+          <Avatar className="h-8 w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8">
             <AvatarImage src={(user as any)?.image ?? ""} />
             <AvatarFallback>
               {user.name?.[0] ?? "U"}
