@@ -326,7 +326,7 @@ export default function AdminUsersPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
           <Shield className="mx-auto h-12 w-12 text-red-500 mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Acceso Denegado</h1>
+          <h1 className="text-2xl font-bold mb-2">Acceso Denegado XD</h1>
           <p className="text-muted-foreground">No tienes permisos para acceder a esta página.</p>
         </div>
       </div>
