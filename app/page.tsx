@@ -6,11 +6,14 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowRight, Star } from "lucide-react";
-import { TermsCheckbox } from "@/components/auth/terms-checkbox";
+// import { TermsCheckbox } from "@/components/auth/terms-checkbox"; // Unused in new design
+import { HeroSection } from "@/components/landing/hero-section";
+import { BentoFeatures } from "@/components/landing/bento-features";
+import { ComparisonTable } from "@/components/landing/comparison-table";
 
 export default function Page() {
   const { data: session, status } = useSession();
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  // const [termsAccepted, setTermsAccepted] = useState(false); // Unused
   const isLoading = status === "loading";
 
   // Loading State
@@ -95,57 +98,17 @@ export default function Page() {
     );
   }
 
-  // LOGGED OUT STATE: Landing (Simple)
+  // LOGGED OUT STATE: Landing (High Impact)
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-background to-accent/5">
-      <Card className="mx-auto max-w-lg text-center shadow-xl border border-accent/30 bg-card/98 backdrop-blur-sm">
-        <CardContent className="p-14">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight text-foreground drop-shadow-sm">
-                Astrowellness
-              </h1>
-              <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto rounded-full"></div>
-            </div>
-            <p className="text-muted-foreground text-lg leading-relaxed font-medium">
-              Tu app personal de astrología profesional.
-            </p>
-            <div className="grid gap-3 pt-4">
-              <div className="space-y-4 pt-2">
-                <div className="flex justify-center">
-                  <TermsCheckbox
-                    checked={termsAccepted}
-                    onCheckedChange={setTermsAccepted}
-                  />
-                </div>
+    <main className="min-h-screen bg-[#0B0F19] text-white selection:bg-[#D4AF37] selection:text-[#0B0F19]">
+      <HeroSection />
+      <BentoFeatures />
+      <ComparisonTable />
 
-                <Button variant="outline" className="w-full" onClick={() => signIn("google", { callbackUrl: "/" })} disabled={!termsAccepted}>
-                  <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                    <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                  </svg>
-                  Continuar con Google
-                </Button>
-              </div>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">O</span>
-                </div>
-              </div>
-
-              <Button asChild size="lg" className="w-full">
-                <Link href="/auth/login">Iniciar Sesión</Link>
-              </Button>
-              <Button variant="ghost" asChild className="w-full">
-                <Link href="/auth/register">Crear Cuenta</Link>
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+      {/* Simple Footer Placeholder */}
+      <footer className="py-8 text-center text-gray-600 text-sm border-t border-white/5">
+        <p>© 2026 AstroChat. Precisión Suiza para el Alma.</p>
+      </footer>
+    </main>
   );
 }
