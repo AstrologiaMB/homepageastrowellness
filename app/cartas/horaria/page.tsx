@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react"; // Removed
+import { useAuth } from "@/auth/auth-provider"; // Added
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -281,7 +282,7 @@ const horariaFormSchema = z.object({
 type HorariaFormData = z.infer<typeof horariaFormSchema>;
 
 export default function CartasHorariaPage() {
-  const { data: session, status } = useSession();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null);
   const [loadingData, setLoadingData] = useState(true);
@@ -305,15 +306,15 @@ export default function CartasHorariaPage() {
 
   // Verificar autenticación
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push(`/auth/login?callbackUrl=${encodeURIComponent("/cartas/horaria")}`);
+    if (!isLoading && !isAuthenticated) {
+      router.push(`/login?callbackUrl=${encodeURIComponent("/cartas/horaria")}`);
     }
-  }, [status, router]);
+  }, [isLoading, isAuthenticated, router]);
 
   // Cargar datos del usuario
   useEffect(() => {
     async function loadUserData() {
-      if (status === "authenticated" && session?.user?.email) {
+      if (isAuthenticated && user?.email) {
         try {
           const response = await fetch("/api/user/profile");
           if (response.ok) {
@@ -321,9 +322,9 @@ export default function CartasHorariaPage() {
             setUserData(data);
 
             // Pre-llenar campos con datos del usuario
-            form.setValue("firstName", session.user.name?.split(" ")[0] || "");
-            form.setValue("lastName", session.user.name?.split(" ").slice(1).join(" ") || "");
-            form.setValue("email", session.user.email || "");
+            form.setValue("firstName", user.name?.split(" ")[0] || "");
+            form.setValue("lastName", user.name?.split(" ").slice(1).join(" ") || "");
+            form.setValue("email", user.email || "");
 
             // Verificar si el usuario ha completado sus datos
             if (!data.birthDate || !data.birthCity || !data.residenceCity) {
@@ -338,8 +339,10 @@ export default function CartasHorariaPage() {
       }
     }
 
-    loadUserData();
-  }, [status, session, router, form]);
+    if (!isLoading) {
+        loadUserData();
+    }
+  }, [isAuthenticated, isLoading, user, router, form]);
 
   // Manejar envío del formulario
   const onSubmit = async (data: HorariaFormData) => {
@@ -370,7 +373,7 @@ export default function CartasHorariaPage() {
   };
 
   // Mostrar pantalla de carga mientras se verifica la autenticación
-  if (status === "loading" || loadingData) {
+  if (isLoading || loadingData) {
     return (
       <div className="max-w-4xl mx-auto mt-10 p-6 text-center">
         <p>Cargando...</p>

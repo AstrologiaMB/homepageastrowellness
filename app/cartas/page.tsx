@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ProtectedPage } from "@/components/protected-page";
 import { Star, Compass, HelpCircle, MoveRight } from "lucide-react";
 
 const charts = [
@@ -29,7 +30,8 @@ const charts = [
 
 export default function ChartsHub() {
   return (
-    <div className="min-h-screen bg-white p-6 md:p-12">
+    <ProtectedPage>
+      <div className="min-h-screen bg-white p-6 md:p-12">
       <div className="max-w-4xl mx-auto space-y-16">
         {/* Header */}
         <div className="space-y-4 text-center">
@@ -73,5 +75,6 @@ export default function ChartsHub() {
         </div>
       </div>
     </div>
+    </ProtectedPage>
   );
 }

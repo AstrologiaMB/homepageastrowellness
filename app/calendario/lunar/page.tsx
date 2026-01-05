@@ -1,8 +1,12 @@
 "use client";
 
 import { CalendarioLunarWrapper } from "./CalendarioLunarWrapper";
+import { ProtectedPage } from "@/components/protected-page";
 
 export default function CalendarioLunarPage() {
-    // La protección de rutas y obtención de sesión se maneja en el Wrapper o Middleware
-    return <CalendarioLunarWrapper />;
+    return (
+        <ProtectedPage requiredEntitlement="hasLunarCalendar">
+            <CalendarioLunarWrapper />
+        </ProtectedPage>
+    );
 }
