@@ -10,7 +10,7 @@ export default async function TropicaLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/cartas/tropica");
+        redirect("/auth/login?callbackUrl=/cartas/tropica");
     }
 
     const entitlements = (session.user as any).entitlements || {};

@@ -10,7 +10,7 @@ export default async function CartaElectivaLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/carta-electiva");
+        redirect("/auth/login?callbackUrl=/carta-electiva");
     }
 
     const entitlements = (session.user as any).entitlements || {};

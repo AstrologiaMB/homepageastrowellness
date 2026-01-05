@@ -5,15 +5,14 @@ import {
   Bot,
   Calendar,
   ClipboardEdit,
-  Hourglass,
   Star,
   Target,
+  Sparkles,
 } from "lucide-react"
 
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { ThemeToggle } from "./theme-toggle"
-import { AstroSymbol } from "./astro-symbol"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
 import { useSubscription } from "@/hooks/use-subscription"
 import { HelpSheet } from "@/components/help/help-sheet"
@@ -43,13 +42,13 @@ const getNavigationData = (isPremium: boolean) => ({
           title: "Personal",
           url: "/calendario/personal",
           isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
         {
           title: "Planificador Lunar",
           url: "/calendario/lunar",
           isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
       ],
     },
@@ -68,13 +67,13 @@ const getNavigationData = (isPremium: boolean) => ({
           title: "Carta Trópica",
           url: "/cartas/tropica",
           isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
         {
           title: "Carta Dracónica",
           url: "/cartas/draconica",
           isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
       ],
     },
@@ -84,7 +83,7 @@ const getNavigationData = (isPremium: boolean) => ({
       icon: Target,
       tooltip: "Búsqueda de momentos astrológicos óptimos",
       isPremium: true,
-      premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+      premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
       items: [],
     },
     {
@@ -110,7 +109,7 @@ const getNavigationData = (isPremium: boolean) => ({
           title: "Interpretaciones",
           url: "/astrogematria/interpretaciones",
           isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
+          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
         {
           title: "Referencias",
@@ -123,7 +122,7 @@ const getNavigationData = (isPremium: boolean) => ({
 })
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  isHomepage: boolean; // Add isHomepage prop
+  isHomepage: boolean;
 }
 
 export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
@@ -133,21 +132,34 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        {/* TeamSwitcher removed - component was unused */}
+        <div className="flex items-center gap-3 px-3 py-4 group-data-[collapsible=icon]:px-2">
+          <div className="flex h-10 w-10 items-center justify-center group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8">
+            <Sparkles className="h-5 w-5 text-sidebar-foreground/80 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:w-4" strokeWidth={1.5} />
+          </div>
+          <div className="flex flex-col gap-0.5 group-data-[collapsible=icon]:hidden">
+            <span className="text-sm font-light tracking-wide text-sidebar-foreground">
+              Astrowellness
+            </span>
+            <span className="text-[10px] text-sidebar-foreground/50 font-light tracking-wider uppercase">
+              Professional Astrology
+            </span>
+          </div>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navigationData.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center gap-3 p-2">
+          <div className="flex items-center gap-2 w-full justify-center group-data-[collapsible=icon]:flex-col">
             <ThemeToggle />
             <HelpSheet />
           </div>
-          <NavUser />
+          <div className="w-full border-t border-sidebar-border/50 pt-2">
+            <NavUser />
+          </div>
         </div>
       </SidebarFooter>
-      {/* Removed the conditionally rendered SidebarTrigger */}
       <SidebarRail />
     </Sidebar>
   )

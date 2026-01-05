@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, ArrowRight, Star } from "lucide-react";
-import { TermsCheckbox } from "@/components/auth/terms-checkbox";
+import { Calendar, Star, Sparkles, MoveRight } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -16,8 +15,8 @@ export default function Page() {
   // Loading State
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-background to-accent/5">
-        <div className="text-muted-foreground animate-pulse">Sincronizando...</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white/60">Sincronizando...</p>
       </div>
     );
   }
@@ -25,127 +24,176 @@ export default function Page() {
   // LOGGED IN STATE: Dashboard
   if (session) {
     return (
-      <div className="min-h-screen p-6 md:p-12 space-y-8 bg-gradient-to-br from-background via-background to-accent/5">
+      <div className="min-h-screen bg-white p-6 md:p-12">
+        <div className="max-w-4xl mx-auto space-y-16">
+          {/* Header */}
+          <div className="space-y-4 text-center">
+            <h1 className="text-3xl md:text-4xl font-light tracking-tight text-black">
+              Hola, {session.user?.name?.split(' ')[0] || "Viajero Astral"}
+            </h1>
+            <p className="text-black/60 max-w-md mx-auto leading-relaxed">
+              Bienvenido a Astrowellness
+            </p>
+          </div>
 
-        {/* Header de Bienvenida */}
-        <div className="max-w-4xl mx-auto space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Hola, {session.user?.name || "Viajero Astral"}
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Bienvenido a Astrowellness. Tu guía astrológica para el 2026 está lista.
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto grid gap-6 md:grid-cols-2">
-
-          {/* HERO CARD: Calendario General (Free) */}
-          <Card className="col-span-1 md:col-span-2 border-primary/20 shadow-lg bg-card/60 backdrop-blur">
-            <CardHeader>
-              <div className="flex items-center gap-2 text-primary mb-2">
-                <Calendar className="h-5 w-5" />
-                <span className="text-sm font-semibold uppercase tracking-wider">Acceso Gratuito</span>
+          {/* Main Actions */}
+          <div className="space-y-4">
+            {/* Calendario General - Free */}
+            <Link
+              href="/calendario/general"
+              className="group block border border-black/10 hover:border-black/30 transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="p-8 md:p-10 flex items-center justify-between">
+                <div className="flex items-center space-x-6">
+                  <div className="flex-shrink-0">
+                    <Calendar className="w-8 h-8 text-black/70 group-hover:text-black transition-colors" strokeWidth={1.5} />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-xs uppercase tracking-wider text-black/40 mb-2">
+                      Acceso Gratuito
+                    </div>
+                    <h2 className="text-xl md:text-2xl font-light text-black tracking-tight">
+                      Calendario General 2026
+                    </h2>
+                    <p className="text-sm text-black/50">
+                      Explora los tránsitos planetarios del año
+                    </p>
+                  </div>
+                </div>
+                <MoveRight className="w-5 h-5 text-black/30 group-hover:text-black/60 group-hover:translate-x-1 transition-all" strokeWidth={1.5} />
               </div>
-              <CardTitle className="text-2xl">Calendario General 2026</CardTitle>
-              <CardDescription className="text-base text-muted-foreground mt-2">
-                Explora los tránsitos planetarios que definirán este año. Además, la posibilidad de solicitar tu Carta Horaria o Rectificación de Carta (estos servicios son pagos).
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild size="lg" className="w-full sm:w-auto font-semibold">
-                <Link href="/calendario/general">
-                  Ver Calendario 2026
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+            </Link>
 
-          {/* SECONDARY CARD: Carta Natal (Upsell/Teaser) */}
-          <Card className="col-span-1 md:col-span-2 border-muted bg-muted/20 opacity-90 hover:opacity-100 transition-opacity">
-            <CardHeader>
-              <div className="flex items-center gap-2 text-muted-foreground mb-2">
-                <Star className="h-5 w-5" />
-                <span className="text-sm font-semibold uppercase tracking-wider">Servicios Premium</span>
-              </div>
-              <CardTitle className="text-xl">Tu Universo Completo</CardTitle>
-              <CardDescription className="space-y-2 pt-2">
-                <p>
-                  Accede a herramientas profesionales diseñadas para tu evolución:
-                </p>
-                <ul className="grid sm:grid-cols-2 gap-2 text-sm list-disc pl-4 pt-1">
-                  <li><strong>Carta Natal & Dracónica:</strong> Tu propósito vital y viaje del alma (Visión M. Blaquier).</li>
-                  <li><strong>Calendario Personal:</strong> Tránsitos diarios y semanales exclusivos.</li>
-                  <li><strong>Journal Lunar:</strong> Sincroniza proyectos con las fases lunares.</li>
-                  <li><strong>Astrogematría:</strong> Descubre el valor vibracional de tus palabras.</li>
-                </ul>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" asChild className="w-full hover:bg-primary/5 hover:text-primary transition-colors border-primary/20">
-                <Link href="/upgrade">
+            {/* Premium Services */}
+            <div className="border border-black/10 p-8 md:p-10">
+              <div className="space-y-6">
+                <div className="space-y-1">
+                  <div className="text-xs uppercase tracking-wider text-black/40 mb-2">
+                    Servicios Premium
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-light text-black tracking-tight">
+                    Tu Universo Completo
+                  </h2>
+                </div>
+
+                <div className="space-y-3 text-sm text-black/60">
+                  <p>Accede a herramientas profesionales diseñadas para tu evolución:</p>
+                  <ul className="space-y-2 list-none">
+                    <li className="flex items-start gap-3">
+                      <span className="text-black/30 mt-0.5">—</span>
+                      <span>Carta Natal & Dracónica: Tu propósito vital y viaje del alma</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-black/30 mt-0.5">—</span>
+                      <span>Calendario Personal: Tránsitos diarios y semanales exclusivos</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-black/30 mt-0.5">—</span>
+                      <span>Journal Lunar: Sincroniza proyectos con las fases lunares</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-black/30 mt-0.5">—</span>
+                      <span>Astrogematría: Descubre el valor vibracional de tus palabras</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <Link
+                  href="/upgrade"
+                  className="inline-block border border-black/20 px-6 py-3 text-sm text-black hover:bg-black hover:text-white transition-colors"
+                >
                   Ver Planes Disponibles
                 </Link>
-              </Button>
-            </CardContent>
-          </Card>
-
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  // LOGGED OUT STATE: Landing (Simple)
+  // LOGGED OUT STATE: Landing
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-background to-accent/5">
-      <Card className="mx-auto max-w-lg text-center shadow-xl border border-accent/30 bg-card/98 backdrop-blur-sm">
-        <CardContent className="p-14">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight text-foreground drop-shadow-sm">
-                Astrowellness
-              </h1>
-              <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mx-auto rounded-full"></div>
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle animated background stars */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse" />
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white rounded-full animate-pulse delay-75" />
+        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-white rounded-full animate-pulse delay-150" />
+      </div>
+
+      <div className="w-full max-w-md space-y-8 relative z-10">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <Sparkles className="w-8 h-8 mx-auto text-white/80" strokeWidth={1.5} />
+          <h1 className="text-2xl font-light tracking-wide text-white">
+            Astrowellness
+          </h1>
+          <p className="text-sm text-white/60">
+            Tu app personal de astrología profesional
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="space-y-6">
+          {/* Terms and Conditions */}
+          <div className="flex items-start space-x-3">
+            <Checkbox
+              id="terms-home"
+              checked={termsAccepted}
+              onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+              className="mt-0.5 border-white/20 data-[state=checked]:bg-white data-[state=checked]:text-black"
+            />
+            <label htmlFor="terms-home" className="text-sm text-white/60 leading-relaxed">
+              Acepto los{' '}
+              <Link href="/legal" className="text-white underline decoration-white/20 underline-offset-4 hover:text-white/80 transition-colors">
+                Términos y Condiciones
+              </Link>
+              {' '}y la{' '}
+              <Link href="/legal" className="text-white underline decoration-white/20 underline-offset-4 hover:text-white/80 transition-colors">
+                Política de Privacidad
+              </Link>
+            </label>
+          </div>
+
+          {/* Google Login */}
+          <Button
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+            disabled={!termsAccepted}
+            className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all h-12 rounded-sm font-light tracking-wide disabled:opacity-50"
+          >
+            Continuar con Google
+          </Button>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/10" />
             </div>
-            <p className="text-muted-foreground text-lg leading-relaxed font-medium">
-              Tu app personal de astrología profesional.
-            </p>
-            <div className="grid gap-3 pt-4">
-              <div className="space-y-4 pt-2">
-                <div className="flex justify-center">
-                  <TermsCheckbox
-                    checked={termsAccepted}
-                    onCheckedChange={setTermsAccepted}
-                  />
-                </div>
-
-                <Button variant="outline" className="w-full" onClick={() => signIn("google", { callbackUrl: "/" })} disabled={!termsAccepted}>
-                  <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                    <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                  </svg>
-                  Continuar con Google
-                </Button>
-              </div>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">O</span>
-                </div>
-              </div>
-
-              <Button asChild size="lg" className="w-full">
-                <Link href="/auth/login">Iniciar Sesión</Link>
-              </Button>
-              <Button variant="ghost" asChild className="w-full">
-                <Link href="/auth/register">Crear Cuenta</Link>
-              </Button>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-black px-4 text-white/40 tracking-wider">
+                O
+              </span>
             </div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Email Login */}
+          <Button
+            asChild
+            className="w-full bg-white text-black hover:bg-white/90 transition-all h-12 rounded-sm font-light tracking-wide"
+          >
+            <Link href="/auth/login">Iniciar Sesión</Link>
+          </Button>
+
+          <Button
+            asChild
+            variant="ghost"
+            className="w-full text-white hover:bg-white/5 h-12 rounded-sm font-light tracking-wide"
+          >
+            <Link href="/auth/register">Crear Cuenta</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

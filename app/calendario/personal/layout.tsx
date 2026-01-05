@@ -10,7 +10,7 @@ export default async function CalendarioPersonalLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/calendario/personal");
+        redirect("/auth/login?callbackUrl=/calendario/personal");
     }
 
     const entitlements = (session.user as any).entitlements || {};

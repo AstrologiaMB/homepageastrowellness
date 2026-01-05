@@ -1,67 +1,77 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calendar, Moon, Globe } from "lucide-react";
+import { Calendar, Moon, Globe, MoveRight } from "lucide-react";
+
+const calendars = [
+  {
+    title: "Personal",
+    description: "Tu calendario astrológico personal",
+    icon: Calendar,
+    href: "/calendario/personal",
+    color: "hover:border-white/30"
+  },
+  {
+    title: "Lunar",
+    description: "Tus ciclos lunares para el año",
+    icon: Moon,
+    href: "/calendario/lunar",
+    color: "hover:border-white/30"
+  },
+  {
+    title: "General",
+    description: "Calendario astrológico para el año",
+    icon: Globe,
+    href: "/calendario/general",
+    color: "hover:border-white/30"
+  }
+];
 
 export default function CalendarHub() {
-    return (
-        <div className="container mx-auto p-6 md:p-12 space-y-8 animate-in fade-in zoom-in duration-500">
-            <header className="text-center mb-12">
-                <h1 className="text-3xl md:text-4xl font-serif text-slate-800 mb-2">
-                    Calendarios
-                </h1>
-                <p className="text-muted-foreground">
-                    Selecciona el tipo de calendario que deseas consultar.
-                </p>
-            </header>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {/* 1. Personal */}
-                <Link href="/calendario/personal" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-purple-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-purple-50 group-hover:bg-purple-100 mb-4 transition-colors">
-                                <Calendar className="w-8 h-8 text-purple-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">Personal</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                Tu calendario astrólogico.
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-
-                {/* 2. Lunar */}
-                <Link href="/calendario/lunar" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-blue-50 group-hover:bg-blue-100 mb-4 transition-colors">
-                                <Moon className="w-8 h-8 text-blue-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">Lunar</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                Tus ciclos lunares para el año.
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-
-                {/* 3. General */}
-                <Link href="/calendario/general" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-amber-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-amber-50 group-hover:bg-amber-100 mb-4 transition-colors">
-                                <Globe className="w-8 h-8 text-amber-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">General</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                Calendario astrológico para el año.
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-            </div>
+  return (
+    <div className="min-h-screen bg-white p-6 md:p-12">
+      <div className="max-w-4xl mx-auto space-y-16">
+        {/* Header */}
+        <div className="space-y-4 text-center">
+          <h1 className="text-3xl md:text-4xl font-light tracking-tight text-black">
+            Calendarios
+          </h1>
+          <p className="text-black/60 max-w-md mx-auto leading-relaxed">
+            Selecciona el tipo de calendario que deseas consultar
+          </p>
         </div>
-    );
+
+        {/* Calendar Options */}
+        <div className="space-y-4">
+          {calendars.map((calendar, index) => {
+            const Icon = calendar.icon;
+            return (
+              <Link
+                key={index}
+                href={calendar.href}
+                className={`group block border border-black/10 ${calendar.color} transition-all duration-300 hover:-translate-y-1`}
+              >
+                <div className="p-8 md:p-10 flex items-center justify-between">
+                  <div className="flex items-center space-x-6">
+                    <div className="flex-shrink-0">
+                      <Icon className="w-8 h-8 text-black/70 group-hover:text-black transition-colors" strokeWidth={1.5} />
+                    </div>
+                    <div className="space-y-1">
+                      <h2 className="text-xl md:text-2xl font-light text-black tracking-tight">
+                        {calendar.title}
+                      </h2>
+                      <p className="text-sm text-black/50">
+                        {calendar.description}
+                      </p>
+                    </div>
+                  </div>
+                  <MoveRight className="w-5 h-5 text-black/30 group-hover:text-black/60 group-hover:translate-x-1 transition-all" strokeWidth={1.5} />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }

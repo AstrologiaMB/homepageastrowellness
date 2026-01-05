@@ -15,7 +15,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { SidebarFlyout } from "./sidebar-flyout" // Import the new SidebarFlyout component
+import { SidebarFlyout } from "./sidebar-flyout"
 
 export function NavMain({
   items,
@@ -45,9 +45,8 @@ export function NavMain({
         {items.map((item, index) => {
           // Render SidebarFlyout if the item has sub-items AND the sidebar is collapsed
           if (item.items && Array.isArray(item.items) && item.items.length > 0 && isSidebarCollapsed) {
-            // Ensure we have a valid icon before trying to render it
             const iconElement = item.icon ? <item.icon /> : null;
-            
+
             return (
               <SidebarFlyout
                 key={`${item.title}-${item.url}-${index}`}
@@ -71,20 +70,20 @@ export function NavMain({
                <Collapsible key={`${item.title}-${item.url}-${index}`} asChild defaultOpen={item.isActive} className="group/collapsible">
                  <SidebarMenuItem>
                    <CollapsibleTrigger asChild>
-                     <SidebarMenuButton tooltip={item.tooltip || item.title}>
-                       {item.icon && <item.icon />}
-                       <span>{item.title}</span>
-                       {item.premiumIcon && item.premiumIcon}
-                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                     <SidebarMenuButton tooltip={item.tooltip || item.title} className="group/menu-item hover:bg-sidebar-accent/50 transition-colors">
+                       {item.icon && <item.icon className="transition-opacity group-hover/menu-item:opacity-70" strokeWidth={1.5} />}
+                       <span className="font-light">{item.title}</span>
+                       {item.premiumIcon && <span className="ml-1">{item.premiumIcon}</span>}
+                       <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                      </SidebarMenuButton>
                    </CollapsibleTrigger>
-                   <CollapsibleContent>
+                   <CollapsibleContent className="transition-all data-[state=closed]:animate-out data-[state=open]:animate-in">
                      <SidebarMenuSub>
                        {Array.isArray(item.items) && item.items.map((subItem, subIndex) => (
                          subItem && subItem.title && subItem.url ? (
                            <SidebarMenuSubItem key={`${subItem.title}-${subItem.url}-${subIndex}`}>
-                             <SidebarMenuSubButton asChild>
-                               <Link href={subItem.url}>
+                             <SidebarMenuSubButton asChild className="group/sub-item hover:bg-sidebar-accent/30 transition-colors">
+                               <Link href={subItem.url} className="font-light">
                                  <span>{subItem.title}</span>
                                  {subItem.premiumIcon && subItem.premiumIcon}
                                </Link>
@@ -99,22 +98,22 @@ export function NavMain({
              );
           }
 
-
           // Render a standard menu item if the item has no sub-items (regardless of collapsed state)
           if (!item.items || !Array.isArray(item.items) || item.items.length === 0) {
              return (
                <SidebarMenuItem key={`${item.title}-${item.url}-${index}`}>
-                 <SidebarMenuButton tooltip={item.tooltip || item.title} asChild>
-                    <Link href={item.url}>
-                       {item.icon && <item.icon />}
-                       <span>{item.title}</span>
+                 <SidebarMenuButton tooltip={item.tooltip || item.title} asChild className="group/menu-item hover:bg-sidebar-accent/50 transition-colors">
+                    <Link href={item.url} className="flex items-center gap-2">
+                       {item.icon && <item.icon className="transition-opacity group-hover/menu-item:opacity-70" strokeWidth={1.5} />}
+                       <span className="font-light">{item.title}</span>
+                       {item.premiumIcon && <span className="ml-auto">{item.premiumIcon}</span>}
                     </Link>
                  </SidebarMenuButton>
                </SidebarMenuItem>
              );
           }
 
-          return null; // Should not reach here if logic is correct
+          return null;
         })}
       </SidebarMenu>
     </SidebarGroup>

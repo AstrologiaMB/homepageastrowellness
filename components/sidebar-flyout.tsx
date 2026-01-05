@@ -35,10 +35,12 @@ export function SidebarFlyout({ icon, label, tooltip, items, isCollapsed }: Side
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10 hover:bg-muted"
+            className="h-10 w-10 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-violet-500/10 transition-all duration-300 group"
             aria-label={label}
           >
-            {icon}
+            <div className="transition-all duration-300 group-hover:scale-110 group-hover:text-purple-500">
+              {icon}
+            </div>
           </Button>
         </div>
       </PopoverTrigger>
@@ -46,12 +48,13 @@ export function SidebarFlyout({ icon, label, tooltip, items, isCollapsed }: Side
       <PopoverContent
         side="right"
         align="start"
-        className="w-48 p-2"
-        sideOffset={4}
+        className="w-52 p-3 border-2 border-sidebar-border/50 bg-sidebar/95 backdrop-blur-xl shadow-2xl shadow-purple-500/10"
+        sideOffset={8}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
       >
-        <div className="text-xs font-medium text-muted-foreground px-1 mb-2">
+        <div className="text-xs font-bold text-purple-600 px-1 mb-3 flex items-center gap-2">
+          <div className="h-1 w-1 rounded-full bg-purple-500 animate-pulse"></div>
           {tooltip || label}
         </div>
         <div className="flex flex-col gap-1">
@@ -61,10 +64,13 @@ export function SidebarFlyout({ icon, label, tooltip, items, isCollapsed }: Side
                 key={`${item.href}-${item.label}-${index}`}
                 href={item.href}
                 className={cn(
-                  "text-sm px-2 py-1 rounded hover:bg-accent hover:text-accent-foreground transition-colors"
+                  "text-sm px-3 py-2 rounded-lg hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-violet-500/10 transition-all duration-200 font-medium group/item hover:translate-x-1"
                 )}
               >
-                {item.label}
+                <span className="relative">
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-violet-500 transition-all duration-300 group-hover/item:w-full"></span>
+                </span>
               </Link>
             ) : null
           ))}

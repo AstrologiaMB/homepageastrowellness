@@ -98,7 +98,7 @@ export default function RectificacionCartaPage() {
   // Verificar autenticación
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push(`/login?callbackUrl=${encodeURIComponent("/rectificacion-carta")}`);
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent("/rectificacion-carta")}`);
     }
   }, [status, router]);
 
