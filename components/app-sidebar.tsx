@@ -112,11 +112,7 @@ const getNavigationData = (isPremium: boolean) => ({
           isPremium: true,
           premiumIcon: <Star className="h-3 w-3 text-yellow-500 ml-1" />,
         },
-        {
-          title: "Referencias",
-          url: "#",
-          isPremium: false,
-        },
+
       ],
     },
   ],
