@@ -306,7 +306,7 @@ export default function CartasHorariaPage() {
   // Verificar autenticación
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push(`/login?callbackUrl=${encodeURIComponent("/cartas/horaria")}`);
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent("/cartas/horaria")}`);
     }
   }, [status, router]);
 

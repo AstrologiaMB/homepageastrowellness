@@ -10,7 +10,7 @@ export default async function CalendarioLunarLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/calendario/lunar");
+        redirect("/auth/login?callbackUrl=/calendario/lunar");
     }
 
     const entitlements = (session.user as any).entitlements || {};

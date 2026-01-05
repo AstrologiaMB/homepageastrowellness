@@ -24,13 +24,13 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         <SidebarProvider defaultOpen={isHomepage}>
           <AppSidebar isHomepage={isHomepage} />
           <SidebarInset>
-            <header className="flex h-16 items-center gap-2 px-4 border-b">
+            <header className="flex h-14 sm:h-16 items-center gap-2 px-3 sm:px-4 lg:px-6 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               {!isHomepage && <SidebarTrigger />}
-              {!isHomepage && <Separator orientation="vertical" className="h-6 mx-2" />}
+              {!isHomepage && <Separator orientation="vertical" className="h-4 sm:h-6 mx-1 sm:mx-2" />}
               {!isHomepage && <DynamicBreadcrumb />}
             </header>
 
-            <main className="flex-1 p-4 overflow-auto">
+            <main className="flex-1 p-3 sm:p-4 lg:p-6 overflow-auto">
               {children}
             </main>
           </SidebarInset>

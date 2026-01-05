@@ -10,7 +10,7 @@ export default async function DraconicaLayout({
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/cartas/draconica");
+        redirect("/auth/login?callbackUrl=/cartas/draconica");
     }
 
     const entitlements = (session.user as any).entitlements || {};
