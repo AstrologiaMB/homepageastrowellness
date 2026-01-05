@@ -157,7 +157,7 @@ async function sendResetPasswordEmail(email: string, name: string, resetToken: s
             Data: `
 Hola ${name},
 
-Hemos recibido una solicitud para restablecer tu contraseña en Astrowellness.
+Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
 
 Para restablecer tu contraseña, visita: ${resetUrl}
 
@@ -187,7 +187,7 @@ Si no solicitaste este cambio, ignora este email.
           </p>
 
           <p style="color: #666; line-height: 1.6;">
-            Hemos recibido una solicitud para restablecer tu contraseña en Astrowellness.
+            Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
             Si no solicitaste este cambio, puedes ignorar este email.
           </p>
 

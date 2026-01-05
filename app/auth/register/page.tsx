@@ -108,9 +108,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center space-y-2">
-          <Sparkles className="w-8 h-8 mx-auto text-black/80 dark:text-white/80" strokeWidth={1.5} />
+          <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-light tracking-wide text-black dark:text-white">
-            Astrowellness
+            Astrochat
           </h1>
           <p className="text-sm text-black/60 dark:text-white/60">
             Únete a tu camino astrológico
@@ -246,7 +246,7 @@ export default function RegisterPage() {
           <Button
             type="submit"
             disabled={isLoading || !formData.termsAccepted}
-            className="w-full bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 transition-all h-12 rounded-sm font-light tracking-wide disabled:opacity-50"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide disabled:opacity-50"
           >
             {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
           </Button>

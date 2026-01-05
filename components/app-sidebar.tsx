@@ -130,11 +130,11 @@ export function AppSidebar({ isHomepage, ...props }: AppSidebarProps) {
       <SidebarHeader>
         <div className="flex items-center gap-3 px-3 py-4 group-data-[collapsible=icon]:px-2">
           <div className="flex h-10 w-10 items-center justify-center group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8">
-            <Sparkles className="h-5 w-5 text-sidebar-foreground/80 group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:w-4" strokeWidth={1.5} />
+            <Sparkles className="h-5 w-5 text-sidebar-primary group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:w-4" strokeWidth={1.5} />
           </div>
           <div className="flex flex-col gap-0.5 group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-light tracking-wide text-sidebar-foreground">
-              Astrowellness
+              Astrochat
             </span>
             <span className="text-[10px] text-sidebar-foreground/50 font-light tracking-wider uppercase">
               Professional Astrology

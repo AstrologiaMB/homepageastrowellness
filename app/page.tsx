@@ -32,7 +32,7 @@ export default function Page() {
               Hola, {session.user?.name?.split(' ')[0] || "Viajero Astral"}
             </h1>
             <p className="text-black/60 dark:text-white/60 max-w-md mx-auto leading-relaxed">
-              Bienvenido a Astrowellness
+              Bienvenido a Astrochat
             </p>
           </div>
 
@@ -100,7 +100,7 @@ export default function Page() {
 
                 <Link
                   href="/upgrade"
-                  className="inline-block border border-black/20 dark:border-white/20 px-6 py-3 text-sm text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+                  className="inline-block border border-black/20 dark:border-white/20 px-6 py-3 text-sm text-black dark:text-white hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
                 >
                   Ver Planes Disponibles
                 </Link>
@@ -125,9 +125,9 @@ export default function Page() {
       <div className="w-full max-w-md space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center space-y-2">
-          <Sparkles className="w-8 h-8 mx-auto text-black/80 dark:text-white/80" strokeWidth={1.5} />
+          <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-light tracking-wide text-black dark:text-white">
-            Astrowellness
+            Astrochat
           </h1>
           <p className="text-sm text-black/60 dark:text-white/60">
             Tu app personal de astrología profesional
@@ -180,7 +180,7 @@ export default function Page() {
           {/* Email Login */}
           <Button
             asChild
-            className="w-full bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 transition-all h-12 rounded-sm font-light tracking-wide"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
           >
             <Link href="/auth/login">Iniciar Sesión</Link>
           </Button>
