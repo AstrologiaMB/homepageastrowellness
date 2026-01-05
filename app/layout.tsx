@@ -21,6 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="font/ttf"
           crossOrigin="anonymous"
         />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0B0F19" />
       </head>
       <body>
         <ClientLayout>
