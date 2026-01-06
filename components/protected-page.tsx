@@ -32,18 +32,22 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
+        setIsChecking(false);
         router.replace(redirectTo);
-      } else if (requiredEntitlement) {
+        return;
+      }
+
+      if (requiredEntitlement) {
         // Check entitlement
         const hasEntitlement = user?.entitlements?.[requiredEntitlement];
         if (!hasEntitlement) {
-          router.replace(entitlementRedirect);
-        } else {
           setIsChecking(false);
+          router.replace(entitlementRedirect);
+          return;
         }
-      } else {
-        setIsChecking(false);
       }
+
+      setIsChecking(false);
     }
   }, [isAuthenticated, isLoading, router, redirectTo, requiredEntitlement, entitlementRedirect, user]);
 
