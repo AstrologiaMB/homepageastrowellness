@@ -154,9 +154,8 @@ function CompletarDatosForm() {
       // Actualizar la sesión
       await update();
 
-      // Redirigir a la página de procesamiento (intermedia) con el callbackUrl original
-      const targetUrl = `/procesando-datos?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-      router.push(targetUrl);
+      // Redirigir directamente al Dashboard (evitando página intermedia)
+      router.push(callbackUrl);
     } catch (error) {
       console.error("Error:", error);
       alert("Error al guardar datos. Por favor, intenta nuevamente.");
