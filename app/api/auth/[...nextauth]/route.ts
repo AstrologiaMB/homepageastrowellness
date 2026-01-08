@@ -79,6 +79,19 @@ export const authOptions: NextAuthOptions = {
 
           // Legacy support (opcional, por si acaso)
           token.subscriptionStatus = dbUser?.subscription?.hasBaseBundle ? 'premium' : 'free';
+
+          // OVERRIDE: Admin User Full Access
+          if (email === 'info@astrochat.online') {
+            token.entitlements = {
+              hasBaseBundle: true,
+              hasLunarCalendar: true,
+              hasAstrogematria: true,
+              hasElectiveChart: true,
+              hasDraconicAccess: true,
+              status: 'active'
+            };
+            token.subscriptionStatus = 'premium';
+          }
         }
       } catch (error) {
         console.error("Error al verificar datos del usuario:", error);
