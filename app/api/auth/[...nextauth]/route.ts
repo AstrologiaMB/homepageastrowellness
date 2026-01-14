@@ -144,6 +144,7 @@ export const authOptions: NextAuthOptions = {
     }
   },
   secret: process.env.NEXTAUTH_SECRET,
+  useSecureCookies: process.env.NEXTAUTH_URL?.startsWith('https://'),
   pages: {
     signIn: '/auth/login',
     error: '/auth/login',
