@@ -13,9 +13,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Verificar si el usuario está autenticado
+  const useSecureCookies = process.env.NEXTAUTH_URL?.startsWith('https://') ?? false
   const session = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: useSecureCookies,
   })
 
   // Si no está autenticado y está intentando acceder a una ruta protegida
