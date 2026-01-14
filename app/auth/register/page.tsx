@@ -5,12 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Eye, EyeOff } from 'lucide-react'
-
-import { TermsCheckbox } from '@/components/auth/terms-checkbox'
+import { Eye, EyeOff, Sparkles } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -32,7 +28,6 @@ export default function RegisterPage() {
       ...prev,
       [name]: value
     }))
-    // Limpiar error cuando el usuario empiece a escribir
     if (error) setError('')
   }
 
@@ -55,6 +50,10 @@ export default function RegisterPage() {
     }
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden')
+      return false
+    }
+    if (!formData.termsAccepted) {
+      setError('Debes aceptar los términos y condiciones')
       return false
     }
     return true
@@ -85,7 +84,6 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (response.ok) {
-        // Registro exitoso - redirigir al login
         router.push('/auth/login?message=Cuenta creada exitosamente. Ahora puedes iniciar sesión.')
       } else {
         setError(data.error || 'Error al crear la cuenta')
@@ -99,156 +97,181 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
-            Crear Cuenta
-          </CardTitle>
-          <CardDescription className="text-center">
-            Únete a Astrochat y descubre tu camino astrológico
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
+      {/* Subtle animated background stars */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
+        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="name">Nombre completo</Label>
+      <div className="w-full max-w-md space-y-8 relative z-10">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
+          <h1 className="text-2xl font-light tracking-wide text-black dark:text-white">
+            Astrochat
+          </h1>
+          <p className="text-sm text-black/60 dark:text-white/60">
+            Únete a tu camino astrológico
+          </p>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="border border-red-500/20 bg-red-500/5 backdrop-blur-sm p-4 rounded-sm">
+            <p className="text-sm text-red-600 dark:text-red-400 text-center">
+              {error}
+            </p>
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="name" className="sr-only">
+                Nombre completo
+              </label>
               <Input
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Tu nombre completo"
+                placeholder="Nombre completo"
                 value={formData.name}
                 onChange={handleInputChange}
                 disabled={isLoading}
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="tu@email.com"
+                placeholder="Email"
                 value={formData.email}
                 onChange={handleInputChange}
                 disabled={isLoading}
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Mínimo 8 caracteres"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Repite tu contraseña"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  disabled={isLoading}
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <TermsCheckbox
-                checked={formData.termsAccepted}
-                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, termsAccepted: checked }))}
+            <div className="relative">
+              <label htmlFor="password" className="sr-only">
+                Contraseña
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña (mínimo 8 caracteres)"
+                value={formData.password}
+                onChange={handleInputChange}
                 disabled={isLoading}
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm pr-10"
+                required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={isLoading}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading || !formData.termsAccepted}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creando cuenta...
-                </>
-              ) : (
-                'Crear Cuenta'
-              )}
-            </Button>
-          </form>
+            <div className="relative">
+              <label htmlFor="confirmPassword" className="sr-only">
+                Confirmar contraseña
+              </label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirmar contraseña"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                disabled={isLoading}
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm pr-10"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                disabled={isLoading}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
 
-          <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">¿Ya tienes cuenta? </span>
+          {/* Terms and Conditions */}
+          <div className="flex items-start space-x-3">
+            <Checkbox
+              id="terms"
+              checked={formData.termsAccepted}
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, termsAccepted: checked as boolean }))}
+              disabled={isLoading}
+              className="mt-0.5 border-black/20 dark:border-white/20 data-[state=checked]:bg-black dark:data-[state=checked]:bg-white data-[state=checked]:text-white dark:data-[state=checked]:text-black"
+            />
+            <label htmlFor="terms" className="text-sm text-black/60 dark:text-white/60 leading-relaxed">
+              Acepto los{' '}
+              <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
+                Términos y Condiciones
+              </Link>
+              {' '}y la{' '}
+              <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
+                Política de Privacidad
+              </Link>
+            </label>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isLoading || !formData.termsAccepted}
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide disabled:opacity-50"
+          >
+            {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
+          </Button>
+        </form>
+
+        {/* Links */}
+        <div className="space-y-4 text-center">
+          <div className="text-sm">
+            <span className="text-black/60 dark:text-white/60">¿Ya tienes cuenta? </span>
             <Link
               href="/auth/login"
-              className="text-primary hover:underline font-medium"
+              className="text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors underline decoration-black/20 dark:decoration-white/20 underline-offset-4"
             >
               Inicia sesión
             </Link>
           </div>
 
-          <div className="mt-4 text-center">
-            <Link
-              href="/"
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
-              ← Volver al inicio
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+          <Link
+            href="/"
+            className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+          >
+            ← Volver al inicio
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

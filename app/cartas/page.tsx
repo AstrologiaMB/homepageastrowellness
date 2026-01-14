@@ -1,67 +1,80 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Star, Compass, HelpCircle } from "lucide-react";
+import { ProtectedPage } from "@/components/protected-page";
+import { Star, Compass, HelpCircle, MoveRight } from "lucide-react";
+
+const charts = [
+  {
+    title: "Trópica",
+    description: "Tu carta natal clásica",
+    icon: Compass,
+    href: "/cartas/tropica",
+    color: "hover:border-white/30"
+  },
+  {
+    title: "Dracónica",
+    description: "Tu carta del alma",
+    icon: Star,
+    href: "/cartas/draconica",
+    color: "hover:border-white/30"
+  },
+  {
+    title: "Horaria",
+    description: "¿Cuál es tu pregunta para el cielo?",
+    icon: HelpCircle,
+    href: "/cartas/horaria",
+    color: "hover:border-white/30"
+  }
+];
 
 export default function ChartsHub() {
-    return (
-        <div className="container mx-auto p-6 md:p-12 space-y-8 animate-in fade-in zoom-in duration-500">
-            <header className="text-center mb-12">
-                <h1 className="text-3xl md:text-4xl font-serif text-slate-800 mb-2">
-                    Cartas Astrales
-                </h1>
-                <p className="text-muted-foreground">
-                    Explora los diferentes mapas del cielo.
-                </p>
-            </header>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {/* 1. Tropica */}
-                <Link href="/cartas/tropica" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-orange-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-orange-50 group-hover:bg-orange-100 mb-4 transition-colors">
-                                <Compass className="w-8 h-8 text-orange-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">Trópica</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                Tu carta natal clásica.
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-
-                {/* 2. Draconica */}
-                <Link href="/cartas/draconica" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-indigo-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-indigo-50 group-hover:bg-indigo-100 mb-4 transition-colors">
-                                <Star className="w-8 h-8 text-indigo-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">Dracónica</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                Tu carta del alma.
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-
-                {/* 3. Horaria */}
-                <Link href="/cartas/horaria" className="group">
-                    <Card className="h-full hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group-hover:-translate-y-1">
-                        <CardHeader className="text-center flex flex-col items-center">
-                            <div className="p-4 rounded-full bg-emerald-50 group-hover:bg-emerald-100 mb-4 transition-colors">
-                                <HelpCircle className="w-8 h-8 text-emerald-600" />
-                            </div>
-                            <CardTitle className="text-xl text-slate-800">Horaria</CardTitle>
-                            <CardDescription className="text-center mt-2">
-                                ¿Cuál es tu pregunta para el cielo?
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                </Link>
-            </div>
+  return (
+    <ProtectedPage>
+      <div className="min-h-screen bg-white p-6 md:p-12">
+      <div className="max-w-4xl mx-auto space-y-16">
+        {/* Header */}
+        <div className="space-y-4 text-center">
+          <h1 className="text-3xl md:text-4xl font-light tracking-tight text-black">
+            Cartas Astrales
+          </h1>
+          <p className="text-black/60 max-w-md mx-auto leading-relaxed">
+            Explora los diferentes mapas del cielo
+          </p>
         </div>
-    );
+
+        {/* Chart Options */}
+        <div className="space-y-4">
+          {charts.map((chart, index) => {
+            const Icon = chart.icon;
+            return (
+              <Link
+                key={index}
+                href={chart.href}
+                className={`group block border border-black/10 ${chart.color} transition-all duration-300 hover:-translate-y-1`}
+              >
+                <div className="p-8 md:p-10 flex items-center justify-between">
+                  <div className="flex items-center space-x-6">
+                    <div className="flex-shrink-0">
+                      <Icon className="w-8 h-8 text-black/70 group-hover:text-black transition-colors" strokeWidth={1.5} />
+                    </div>
+                    <div className="space-y-1">
+                      <h2 className="text-xl md:text-2xl font-light text-black tracking-tight">
+                        {chart.title}
+                      </h2>
+                      <p className="text-sm text-black/50">
+                        {chart.description}
+                      </p>
+                    </div>
+                  </div>
+                  <MoveRight className="w-5 h-5 text-black/30 group-hover:text-black/60 group-hover:translate-x-1 transition-all" strokeWidth={1.5} />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+    </ProtectedPage>
+  );
 }

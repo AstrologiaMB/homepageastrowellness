@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Calculator, Clock } from "lucide-react";
 import { formatAstrologicalDegrees, formatOrbe, getDraconicSuffix, translateSign, translatePlanet, translateAspect } from "@/lib/astrology-utils";
+import { ProtectedPage } from "@/components/protected-page";
 
 interface CartaNatalData {
   success: boolean;
@@ -332,111 +333,113 @@ export default function CartasDraconicaPage() {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
+    <ProtectedPage requiredEntitlement="hasDraconicAccess" entitlementRedirect="/upgrade">
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
 
-      {/* Loader visual cuando se está calculando la carta inicialmente */}
-      {!cartaData && loading && (
-        <div className="flex flex-col items-center justify-center p-8 border rounded-lg bg-muted/20 mb-6">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
-          <p className="text-muted-foreground">Calculando carta dracónica...</p>
-        </div>
-      )}
+        {/* Loader visual cuando se está calculando la carta inicialmente */}
+        {!cartaData && loading && (
+          <div className="flex flex-col items-center justify-center p-8 border rounded-lg bg-muted/20 mb-6">
+            <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
+            <p className="text-muted-foreground">Calculando carta dracónica...</p>
+          </div>
+        )}
 
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertDescription>
-            <strong>Error:</strong> {error}
-            {error.includes('FastAPI') && (
-              <div className="mt-2 text-sm">
-                <strong>Solución:</strong> Ejecuta el servidor FastAPI:
-                <code className="block mt-1 p-2 bg-muted rounded text-xs">
-                  cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
-                </code>
-              </div>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription>
+              <strong>Error:</strong> {error}
+              {error.includes('FastAPI') && (
+                <div className="mt-2 text-sm">
+                  <strong>Solución:</strong> Ejecuta el servidor FastAPI:
+                  <code className="block mt-1 p-2 bg-muted rounded text-xs">
+                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
+                  </code>
+                </div>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
 
-      {cartaData && (
-        <>
-          {/* Layout de dos cards: Dracónica individual + Superposición */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Card izquierda: Carta dracónica individual (PRESERVADA) */}
-              <div>
-                <h3 className="text-lg font-medium mb-3">Carta Dracónica</h3>
-                <CartaNatalWrapper chartData={cartaData} chartId="draconica-individual" />
-              </div>
-
-              {/* Card derecha: Carta superpuesta (NUEVA) */}
-              {cartaTropicalData && (
+        {cartaData && (
+          <>
+            {/* Layout de dos cards: Dracónica individual + Superposición */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Card izquierda: Carta dracónica individual (PRESERVADA) */}
                 <div>
-                  <h3 className="text-lg font-medium mb-3">Superposición: Tropical + Dracónica</h3>
-                  <CartaSuperpuestaWrapper
-                    tropicalData={cartaTropicalData}
-                    draconicaData={cartaData}
-                    chartId="carta-superpuesta"
-                  />
+                  <h3 className="text-lg font-medium mb-3">Carta Dracónica</h3>
+                  <CartaNatalWrapper chartData={cartaData} chartId="draconica-individual" />
                 </div>
-              )}
 
-              {/* Mensaje si no hay datos tropicales */}
-              {!cartaTropicalData && (
-                <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg">
-                  <p className="text-muted-foreground text-center">
-                    Cargando carta tropical para superposición...
-                  </p>
-                </div>
-              )}
+                {/* Card derecha: Carta superpuesta (NUEVA) */}
+                {cartaTropicalData && (
+                  <div>
+                    <h3 className="text-lg font-medium mb-3">Superposición: Tropical + Dracónica</h3>
+                    <CartaSuperpuestaWrapper
+                      tropicalData={cartaTropicalData}
+                      draconicaData={cartaData}
+                      chartId="carta-superpuesta"
+                    />
+                  </div>
+                )}
+
+                {/* Mensaje si no hay datos tropicales */}
+                {!cartaTropicalData && (
+                  <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg">
+                    <p className="text-muted-foreground text-center">
+                      Cargando carta tropical para superposición...
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Tabla de datos de la carta dracónica */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
-            <CartaNatalTabla chartData={cartaCompleta} />
-          </div>
+            {/* Tabla de datos de la carta dracónica */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
+              <CartaNatalTabla chartData={cartaCompleta} />
+            </div>
 
-          {/* Sección de Eventos Dracónicos */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">🔮 Eventos Dracónicos</h2>
-            <DraconicEventsList
-              eventos={eventosDraconicos}
-              loading={loadingEventos}
-              error={errorEventos}
-            />
-          </div>
-
-          {/* Sección de Interpretación Dracónica */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">🔮 Interpretación Dracónica</h2>
-
-            {/* Componente de Interpretación Narrativa con Markdown */}
-            <div className="mb-6">
-              <InterpretacionNarrativa
-                interpretacion={interpretacionDraconica?.interpretacion_narrativa}
-                loading={loadingInterpretacion}
-                error={errorInterpretacion ? errorInterpretacion : (!interpretacionDraconica && !loadingInterpretacion ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación." : null)}
-                tiempoGeneracion={interpretacionDraconica?.tiempo_generacion}
-                desdeCache={interpretacionDraconica?.desde_cache}
-                loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
+            {/* Sección de Eventos Dracónicos */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">🔮 Eventos Dracónicos</h2>
+              <DraconicEventsList
+                eventos={eventosDraconicos}
+                loading={loadingEventos}
+                error={errorEventos}
               />
             </div>
 
-            {/* Componente de Interpretaciones Individuales con Markdown */}
-            <InterpretacionesIndividuales
-              interpretaciones={interpretacionDraconica?.interpretaciones_individuales}
-              loading={loadingInterpretacion}
-              error={errorInterpretacion}
-            />
-          </div>
-        </>
-      )}
+            {/* Sección de Interpretación Dracónica */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">🔮 Interpretación Dracónica</h2>
+
+              {/* Componente de Interpretación Narrativa con Markdown */}
+              <div className="mb-6">
+                <InterpretacionNarrativa
+                  interpretacion={interpretacionDraconica?.interpretacion_narrativa}
+                  loading={loadingInterpretacion}
+                  error={errorInterpretacion ? errorInterpretacion : (!interpretacionDraconica && !loadingInterpretacion ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación." : null)}
+                  tiempoGeneracion={interpretacionDraconica?.tiempo_generacion}
+                  desdeCache={interpretacionDraconica?.desde_cache}
+                  loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
+                />
+              </div>
+
+              {/* Componente de Interpretaciones Individuales con Markdown */}
+              <InterpretacionesIndividuales
+                interpretaciones={interpretacionDraconica?.interpretaciones_individuales}
+                loading={loadingInterpretacion}
+                error={errorInterpretacion}
+              />
+            </div>
+          </>
+        )}
 
 
-    </div>
+      </div>
+    </ProtectedPage>
   );
 }

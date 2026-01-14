@@ -11,7 +11,7 @@ export default async function AstrogematriaLayout({
 
     // 1. Check Login
     if (!session?.user?.email) {
-        redirect("/login?callbackUrl=/astrogematria");
+        redirect("/auth/login?callbackUrl=/astrogematria");
     }
 
     // 2. Check Entitlement

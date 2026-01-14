@@ -10,9 +10,10 @@ import { Card } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarIcon, ChevronRight } from 'lucide-react';
+import { CalendarIcon, ChevronRight, Sparkles } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
+import { Badge } from "@/components/ui/badge";
 
 import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -136,12 +137,19 @@ export function CalendarioGeneral() {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 pt-0">
+    <div className="flex flex-col gap-6 p-4 pt-0">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-        <div>
-          <h2 className="text-xl font-bold">Calendario Astral - Semana {currentWeekNumber}</h2>
-          <p className="text-muted-foreground">Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {currentWeekStart.getFullYear()}</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <h2 className="text-2xl font-bold text-violet-700 dark:text-transparent dark:bg-gradient-to-r dark:from-violet-400 dark:to-fuchsia-400 dark:bg-clip-text">
+              Calendario Astral - Semana {currentWeekNumber}
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {currentWeekStart.getFullYear()}
+          </p>
         </div>
         <div className="flex items-center gap-2">
           {/* Year Selector */}
@@ -236,7 +244,7 @@ export function CalendarioGeneral() {
       </div>
 
       {/* Week Display */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         {weekDays.map((day) => {
           // Filtrar eventos para este día
           const eventosDelDia = eventos.filter(evento => {
@@ -244,33 +252,58 @@ export function CalendarioGeneral() {
             return isSameDay(fechaEvento, day);
           });
 
+          const isToday = isSameDay(day, today);
+
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-64 md:w-auto p-4 ${isSameDay(day, today) ? 'border-primary' : ''}`}
+              className={`flex-none w-64 md:w-auto transition-all duration-200 hover:shadow-lg ${
+                isToday
+                  ? 'border-2 border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
+                  : 'border-border/40'
+              }`}
             >
-              <h3 className="font-semibold">
-                {format(day, 'EEEE d', { locale: es })}
-                {isSameDay(day, today) && ' (Hoy)'}
-              </h3>
-              <Separator className="my-2" />
-              
-              {eventosDelDia.length > 0 ? (
-                <ScrollArea className="w-full">
-                  <div className="flex space-x-4 pb-2 overflow-x-auto">
-                    {eventosDelDia.map((evento, index) => (
-                      <EventoAstrologico 
-                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`} 
-                        evento={evento} 
-                      />
-                    ))}
-                  </div>
-                </ScrollArea>
-              ) : (
-                <p className="text-muted-foreground">
-                  (No hay eventos)
-                </p>
-              )}
+              {/* Day Header with gradient and badge */}
+              <div className={`p-4 rounded-t-lg ${
+                isToday
+                  ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
+                  : 'bg-muted/50 dark:bg-muted/30'
+              }`}>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
+                    {format(day, 'EEEE d', { locale: es })}
+                    {isToday && (
+                      <Badge variant="default" className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs">
+                        Hoy
+                      </Badge>
+                    )}
+                  </h3>
+                  {eventosDelDia.length > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {eventosDelDia.length} {eventosDelDia.length === 1 ? 'evento' : 'eventos'}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-4">
+                {eventosDelDia.length > 0 ? (
+                  <ScrollArea className="w-full">
+                    <div className="flex space-x-4 pb-2 overflow-x-auto">
+                      {eventosDelDia.map((evento, index) => (
+                        <EventoAstrologico
+                          key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
+                          evento={evento}
+                        />
+                      ))}
+                    </div>
+                  </ScrollArea>
+                ) : (
+                  <p className="text-muted-foreground text-sm text-center py-4">
+                    No hay eventos programados
+                  </p>
+                )}
+              </div>
             </Card>
           );
         })}

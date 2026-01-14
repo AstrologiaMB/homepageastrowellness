@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/auth/auth-provider';
 
 interface NatalData {
   points: {
@@ -38,7 +38,7 @@ interface UserNatalDataHook {
 }
 
 export function useUserNatalData(): UserNatalDataHook {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const [natalData, setNatalData] = useState<NatalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export function useUserNatalData(): UserNatalDataHook {
 
   useEffect(() => {
     async function fetchUserNatalData() {
-      if (!session?.user?.email) {
+      if (!user?.email) {
         setIsLoading(false);
         setError('Usuario no autenticado');
         return;
@@ -130,7 +130,7 @@ export function useUserNatalData(): UserNatalDataHook {
     }
 
     fetchUserNatalData();
-  }, [session?.user?.email]);
+  }, [user?.email]);
 
   return {
     natalData,

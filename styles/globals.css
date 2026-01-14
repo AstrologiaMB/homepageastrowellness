@@ -9,6 +9,41 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Enhanced glassmorphism effects */
+  .glass-card {
+    @apply backdrop-blur-xl bg-card/80 border border-border/50;
+  }
+
+  .glass-card-strong {
+    @apply backdrop-blur-2xl bg-card/95 border border-border/60;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Enhanced shadow utilities */
+  .shadow-elegant {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+
+  .shadow-elegant-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+                0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Gradient text utilities */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary via-purple-500 to-indigo-600 bg-clip-text text-transparent;
+  }
+
+  /* Responsive container with better padding */
+  .container-responsive {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
 }
 
 @layer base {
@@ -20,20 +55,20 @@
     --card-foreground: 0 0% 20%;           /* gris oscuro */
     --popover: 0 0% 100%;                  /* blanco puro */
     --popover-foreground: 0 0% 20%;        /* gris oscuro */
-    --primary: 246.9065 74.3316% 63.3333%; /* #6C5CE7 - púrpura exacto */
+    --primary: 248 72.6% 65.7%;            /* #7968e7 - nuevo púrpura */
     --primary-foreground: 0 0% 100%;       /* blanco puro */
     --secondary: 210.3704 75.7009% 79.0196%; /* #A1C9F2 - azul claro exacto */
     --secondary-foreground: 0 0% 20%;      /* gris oscuro */
     --muted: 45.0000 15.6250% 74.9020%;    /* beige/gris cálido */
     --muted-foreground: 0 0% 43.1373%;     /* gris medio */
-    --accent: 72.0000 17.9283% 49.2157%;   /* #8B9467 - verde oliva exacto */
+    --accent: 248 72.6% 65.7%;             /* #7968e7 - nuevo púrpura (unificado) */
     --accent-foreground: 0 0% 100%;        /* blanco puro */
     --destructive: 0 84.2365% 60.1961%;    /* rojo estándar */
     --destructive-foreground: 0 0% 100%;   /* blanco puro */
     --border: 0 0% 83.1373%;               /* gris claro para bordes */
     --input: 0 0% 83.1373%;                /* gris claro para inputs */
-    --ring: 246.9065 74.3316% 63.3333%;    /* púrpura para focus */
-    --chart-1: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --ring: 248 72.6% 65.7%;               /* púrpura para focus */
+    --chart-1: 248 72.6% 65.7%;            /* púrpura */
     --chart-2: 282.2857 43.5685% 47.2549%; /* púrpura oscuro */
     --chart-3: 274.6154 100% 25.4902%;     /* púrpura muy oscuro */
     --chart-4: 218.5401 79.1908% 66.0784%; /* azul brillante */
@@ -41,12 +76,12 @@
     --radius: 0.5rem;                      /* radio original */
     --sidebar-background: 0 0% 97.6471%;   /* mismo que background */
     --sidebar-foreground: 0 0% 20%;        /* mismo que foreground */
-    --sidebar-primary: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-primary: 248 72.6% 65.7%;    /* púrpura */
     --sidebar-primary-foreground: 0 0% 100%; /* blanco */
-    --sidebar-accent: 72.0000 17.9283% 49.2157%; /* verde oliva */
+    --sidebar-accent: 248 72.6% 65.7%;     /* púrpura (unificado) */
     --sidebar-accent-foreground: 0 0% 100%; /* blanco */
     --sidebar-border: 0 0% 83.1373%;       /* gris claro */
-    --sidebar-ring: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-ring: 248 72.6% 65.7%;       /* púrpura */
   }
   
   .dark {
@@ -57,20 +92,20 @@
     --card-foreground: 0 0% 98%;            /* blanco casi puro */
     --popover: 0 0% 3.9%;                   /* negro casi puro */
     --popover-foreground: 0 0% 98%;         /* blanco casi puro */
-    --primary: 246.9065 74.3316% 63.3333%;  /* púrpura exacto (mismo que light) */
+    --primary: 248 72.6% 65.7%;             /* púrpura exacto (mismo que light) */
     --primary-foreground: 0 0% 98%;         /* blanco casi puro */
     --secondary: 210.3704 75.7009% 79.0196%; /* azul claro exacto (mismo que light) */
     --secondary-foreground: 0 0% 9%;        /* negro para contraste */
     --muted: 0 0% 14.9%;                    /* gris oscuro */
     --muted-foreground: 0 0% 63.9%;         /* gris medio */
-    --accent: 72.0000 17.9283% 49.2157%;    /* verde oliva exacto (mismo que light) */
+    --accent: 248 72.6% 65.7%;              /* púrpura exacto (mismo que light) */
     --accent-foreground: 0 0% 98%;          /* blanco casi puro */
     --destructive: 0 84.2365% 60.1961%;     /* rojo exacto (mismo que light) */
     --destructive-foreground: 0 0% 98%;     /* blanco casi puro */
     --border: 0 0% 14.9%;                   /* gris oscuro para bordes */
     --input: 0 0% 14.9%;                    /* gris oscuro para inputs */
-    --ring: 246.9065 74.3316% 63.3333%;     /* púrpura para focus */
-    --chart-1: 246.9065 74.3316% 63.3333%;  /* púrpura */
+    --ring: 248 72.6% 65.7%;                /* púrpura para focus */
+    --chart-1: 248 72.6% 65.7%;             /* púrpura */
     --chart-2: 282.2857 43.5685% 47.2549%;  /* púrpura oscuro */
     --chart-3: 274.6154 100% 25.4902%;      /* púrpura muy oscuro */
     --chart-4: 218.5401 79.1908% 66.0784%;  /* azul brillante */
@@ -78,12 +113,12 @@
     --radius: 0.5rem;                       /* radio original */
     --sidebar-background: 0 0% 3.9%;        /* mismo que background */
     --sidebar-foreground: 0 0% 98%;         /* mismo que foreground */
-    --sidebar-primary: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-primary: 248 72.6% 65.7%;     /* púrpura */
     --sidebar-primary-foreground: 0 0% 98%; /* blanco */
-    --sidebar-accent: 72.0000 17.9283% 49.2157%; /* verde oliva */
+    --sidebar-accent: 248 72.6% 65.7%;      /* púrpura */
     --sidebar-accent-foreground: 0 0% 98%;  /* blanco */
     --sidebar-border: 0 0% 14.9%;           /* gris oscuro */
-    --sidebar-ring: 246.9065 74.3316% 63.3333%; /* púrpura */
+    --sidebar-ring: 248 72.6% 65.7%;        /* púrpura */
   }
 }
 
