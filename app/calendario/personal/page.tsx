@@ -5,7 +5,7 @@ import { ProtectedPage } from "@/components/protected-page";
 
 export default function CalendarioPersonalPage() {
   return (
-    <ProtectedPage requiredEntitlement="hasBaseBundle">
+    <ProtectedPage>
       <CalendarioPersonalWrapper />
     </ProtectedPage>
   );
