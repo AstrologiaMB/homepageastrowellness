@@ -2,23 +2,33 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 import { isPremiumService, getRequiredEntitlement } from '@/lib/subscription'
+import { getAuthConfig } from '@/lib/auth-utils'
 
 export async function middleware(request: NextRequest) {
-  // Obtener la ruta actual
   const path = request.nextUrl.pathname
+  const authConfig = getAuthConfig()
 
-  // No hacer nada si ya estamos en /completar-datos o /auth/login
   if (path === '/completar-datos' || path === '/auth/login') {
     return NextResponse.next()
   }
 
-  // Verificar si el usuario está autenticado
-  const useSecureCookies = process.env.NEXTAUTH_URL?.startsWith('https://') ?? false
   const session = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
-    secureCookie: useSecureCookies,
+    secureCookie: authConfig.useSecureCookies,
   })
+
+  const cookies = request.cookies.getAll()
+  const sessionCookie = cookies.find(c => c.name === authConfig.cookieName)
+
+  console.log('🔍 Middleware Debug:')
+  console.log('  - Path:', path)
+  console.log('  - NEXTAUTH_URL:', process.env.NEXTAUTH_URL)
+  console.log('  - useSecureCookies:', authConfig.useSecureCookies)
+  console.log('  - Expected cookie:', authConfig.cookieName)
+  console.log('  - All cookies:', cookies.map(c => c.name))
+  console.log('  - Session cookie found:', !!sessionCookie)
+  console.log('  - Session from getToken:', session ? '✅' : '❌')
 
   // Si no está autenticado y está intentando acceder a una ruta protegida
   if (!session && (path.startsWith('/calendario') || path.startsWith('/cartas') || path.startsWith('/rectificacion') || path.startsWith('/astrogematria'))) {

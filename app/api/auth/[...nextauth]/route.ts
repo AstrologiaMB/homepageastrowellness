@@ -5,6 +5,9 @@ import prisma from "@/lib/prisma"
 import { NextAuthOptions } from "next-auth"
 import { User, Account, Profile } from "next-auth"
 import bcrypt from "bcryptjs"
+import { getAuthConfig } from "@/lib/auth-utils"
+
+const authConfig = getAuthConfig()
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -144,7 +147,13 @@ export const authOptions: NextAuthOptions = {
     }
   },
   secret: process.env.NEXTAUTH_SECRET,
-  useSecureCookies: process.env.NEXTAUTH_URL?.startsWith('https://'),
+  useSecureCookies: authConfig.useSecureCookies,
+  cookies: {
+    sessionToken: {
+      name: authConfig.cookieName,
+      options: authConfig.cookieOptions,
+    },
+  },
   pages: {
     signIn: '/auth/login',
     error: '/auth/login',
