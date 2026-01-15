@@ -7,11 +7,14 @@ export interface AuthConfig {
     sameSite: 'lax' | 'strict' | 'none'
     path: string
     secure: boolean
+    domain?: string
   }
 }
 
 export const getAuthConfig = (): AuthConfig => {
   const isProduction = process.env.NEXTAUTH_URL?.startsWith('https://') ?? false
+
+  const domain = isProduction ? '.fly.dev' : undefined
 
   return {
     isProduction,
@@ -19,9 +22,10 @@ export const getAuthConfig = (): AuthConfig => {
     cookieName: `${isProduction ? '__Secure-' : ''}next-auth.session-token`,
     cookieOptions: {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
       secure: isProduction,
+      domain,
     },
   }
 }
