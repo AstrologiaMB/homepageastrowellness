@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAuthOptionsSync } from "@/lib/auth-url";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
@@ -22,7 +22,7 @@ export async function PUT(
 ) {
     try {
         // 1. Verificar Autenticación y Permisos de Admin
-        const session = await getServerSession(authOptions);
+        const session = await getServerSession(getAuthOptionsSync());
 
         if (!session || session.user?.email !== "info@astrochat.online") {
             return NextResponse.json(

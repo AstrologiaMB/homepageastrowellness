@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getAuthOptionsSync } from '@/lib/auth-url'
 import prisma from '@/lib/prisma'
 
 export async function PUT(
@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   try {
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(getAuthOptionsSync())
 
     if (!session || !["info@astrochat.online", "info@mariablaquier.com"].includes(session.user?.email || "")) {
       return NextResponse.json(
@@ -76,7 +76,7 @@ export async function DELETE(
 ) {
   try {
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(getAuthOptionsSync())
 
     if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(

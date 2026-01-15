@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getAuthOptionsSync } from '@/lib/auth-url';
 import prisma from '@/lib/prisma';
 import { getCycleAnalysis } from '@/lib/services/cycles-service';
 
 export async function POST(request: NextRequest) {
     try {
         // 1. Auth Check
-        const session = await getServerSession(authOptions);
+        const session = await getServerSession(getAuthOptionsSync());
         if (!session?.user?.email) {
             return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
         }

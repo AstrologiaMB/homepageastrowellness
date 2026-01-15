@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { getAuthOptionsSync } from "@/lib/auth-url";
 import prisma from "@/lib/prisma";
 import { sendEmail } from "@/lib/email-service";
 
@@ -21,7 +21,7 @@ const horariaFormSchema = {
 export async function POST(request: NextRequest) {
   try {
     // Verificar autenticación
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptionsSync());
 
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
 // Método GET para obtener solicitudes del usuario (opcional)
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptionsSync());
 
     if (!session || !session.user?.email) {
       return NextResponse.json(

@@ -1,7 +1,7 @@
 
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getAuthOptionsSync } from '@/lib/auth-url'
 import prisma from '@/lib/prisma'
 
 export async function DELETE(
@@ -9,7 +9,7 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     try {
-        const session = await getServerSession(authOptions)
+        const session = await getServerSession(getAuthOptionsSync())
 
         // 1. Verificación estricta de Admin
         if (!session || session.user?.email !== 'info@astrochat.online') {

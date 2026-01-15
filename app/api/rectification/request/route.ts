@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAuthOptionsSync } from "@/lib/auth-url";
 import prisma from "@/lib/prisma";
 import { sendEmail } from "@/lib/email-service";
 
 export async function POST(req: Request) {
   try {
     // Verificar autenticación
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptionsSync());
     if (!session?.user?.email) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }

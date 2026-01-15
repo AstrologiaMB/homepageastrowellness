@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAuthOptionsSync } from "@/lib/auth-url";
 
 export default async function CartaElectivaLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(getAuthOptionsSync());
 
     if (!session?.user?.email) {
         redirect("/auth/login?callbackUrl=/carta-electiva");

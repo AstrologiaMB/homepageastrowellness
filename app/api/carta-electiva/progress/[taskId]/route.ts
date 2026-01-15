@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../auth/[...nextauth]/route';
+import { getAuthOptionsSync } from '@/lib/auth-url';
 import { getApiUrl } from '@/lib/api-config';
 
 export async function GET(
@@ -9,7 +9,7 @@ export async function GET(
 ) {
     try {
         // Check auth
-        const session = await getServerSession(authOptions);
+        const session = await getServerSession(getAuthOptionsSync());
         if (!session?.user?.email) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
