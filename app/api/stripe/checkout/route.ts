@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { getAuthOptionsSync } from '@/lib/auth-url';
+import { authOptions } from '../../auth/[...nextauth]/route';
 import { stripe, STRIPE_PRICES } from '@/lib/stripe';
 import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
     try {
-        const session = await getServerSession(getAuthOptionsSync());
+        const session = await getServerSession(authOptions);
 
         if (!session?.user?.email) {
             return new NextResponse('Unauthorized', { status: 401 });

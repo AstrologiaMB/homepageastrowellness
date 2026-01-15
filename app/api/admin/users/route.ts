@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { getAuthOptionsSync } from '@/lib/auth-url'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
   try {
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(getAuthOptionsSync())
+    const session = await getServerSession(authOptions)
 
     if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // 1. Verificar Autenticación de Admin
-    const session = await getServerSession(getAuthOptionsSync())
+    const session = await getServerSession(authOptions)
     if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(
         { error: 'Acceso denegado. Se requieren permisos de administrador.' },

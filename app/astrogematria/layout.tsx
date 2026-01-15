@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { getAuthOptionsSync } from "@/lib/auth-url";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function AstrogematriaLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getServerSession(getAuthOptionsSync());
+    const session = await getServerSession(authOptions);
 
     // 1. Check Login
     if (!session?.user?.email) {

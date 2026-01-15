@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { getAuthOptionsSync } from '@/lib/auth-url'
+import { authOptions } from '../auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
 import { getApiUrl } from '@/lib/api-config'
 
@@ -135,7 +135,7 @@ async function procesarInterpretacionBackground(
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(getAuthOptionsSync())
+    const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
@@ -288,7 +288,7 @@ export async function POST(request: NextRequest) {
 // Endpoint para limpiar cache (Mantenemos igual pero logs actualizados)
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await getServerSession(getAuthOptionsSync())
+    const session = await getServerSession(authOptions)
     if (!session?.user?.email) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
 
     const user = await prisma.user.findUnique({ where: { email: session.user.email } })

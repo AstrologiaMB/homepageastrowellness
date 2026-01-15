@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { getAuthOptionsSync } from '@/lib/auth-url';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getCalendarCache, setCalendarCache } from '@/lib/calendar-cache';
 import { setLunarCache } from '@/lib/lunar-cache';
 import prisma from '@/lib/prisma';
@@ -39,7 +39,7 @@ interface NatalData {
 export async function POST(request: NextRequest) {
   try {
     // Obtener sesión del usuario
-    const session = await getServerSession(getAuthOptionsSync());
+    const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
       return NextResponse.json(

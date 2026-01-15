@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { getAuthOptionsSync } from "@/lib/auth-url";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
     // Verificar autenticación
-    const session = await getServerSession(getAuthOptionsSync());
+    const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
@@ -87,7 +87,7 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     // Verificar autenticación
-    const session = await getServerSession(getAuthOptionsSync());
+    const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }

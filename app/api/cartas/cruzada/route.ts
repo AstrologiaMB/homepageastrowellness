@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { getAuthOptionsSync } from '@/lib/auth-url';
+import { authOptions } from '../../auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 
 import { getApiUrl } from '@/lib/api-config';
@@ -8,7 +8,7 @@ import { getApiUrl } from '@/lib/api-config';
 export async function POST(request: NextRequest) {
   try {
     // Verificar autenticación
-    const session = await getServerSession(getAuthOptionsSync());
+    const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }

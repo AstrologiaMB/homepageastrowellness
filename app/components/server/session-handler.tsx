@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth"
-import { getAuthOptionsSync } from "@/lib/auth-url"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
 
@@ -10,7 +10,7 @@ export function CompletarDatosSessionHandler({ children }: { children: React.Rea
 }
 
 export default async function SessionHandler({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession(getAuthOptionsSync())
+  const session = await getServerSession(authOptions)
 
   if (session?.user?.email) {
     const user = await prisma.user.findUnique({
