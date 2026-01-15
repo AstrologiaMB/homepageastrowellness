@@ -2,11 +2,14 @@
 
 import { CalendarioLunarWrapper } from "./CalendarioLunarWrapper";
 import { ProtectedPage } from "@/components/protected-page";
+import { RequireCompletedData } from "@/components/require-completed-data";
 
 export default function CalendarioLunarPage() {
     return (
-        <ProtectedPage>
-            <CalendarioLunarWrapper />
-        </ProtectedPage>
+        <RequireCompletedData>
+            <ProtectedPage>
+                <CalendarioLunarWrapper />
+            </ProtectedPage>
+        </RequireCompletedData>
     );
 }

@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, RefreshCw } from "lucide-react";
 import { ProtectedPage } from "@/components/protected-page";
+import { RequireCompletedData } from "@/components/require-completed-data";
 
 interface CartaNatalData {
   success: boolean;

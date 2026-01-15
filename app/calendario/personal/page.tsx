@@ -2,11 +2,14 @@
 
 import { CalendarioPersonalWrapper } from "./CalendarioPersonalWrapper";
 import { ProtectedPage } from "@/components/protected-page";
+import { RequireCompletedData } from "@/components/require-completed-data";
 
 export default function CalendarioPersonalPage() {
   return (
-    <ProtectedPage>
-      <CalendarioPersonalWrapper />
-    </ProtectedPage>
+    <RequireCompletedData>
+      <ProtectedPage>
+        <CalendarioPersonalWrapper />
+      </ProtectedPage>
+    </RequireCompletedData>
   );
 }

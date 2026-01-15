@@ -32,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         id: (nextAuthSession.user as any).id,
         email: nextAuthSession.user.email || undefined,
         name: nextAuthSession.user.name || undefined,
+        hasCompletedData: (nextAuthSession.user as any).hasCompletedData,
         entitlements: (nextAuthSession.user as any).entitlements,
       };
     }

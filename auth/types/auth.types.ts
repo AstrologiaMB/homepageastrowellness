@@ -4,6 +4,8 @@ export interface User {
   email?: string;
   name?: string;
   role?: string;
+  // Profile completion status
+  hasCompletedData?: boolean;
   // Astrology-specific entitlements
   entitlements?: {
     hasBaseBundle?: boolean;
