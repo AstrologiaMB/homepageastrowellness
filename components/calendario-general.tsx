@@ -278,7 +278,7 @@ export function CalendarioGeneral() {
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
+              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
                 isToday
                   ? 'border-[2px] border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
                   : 'border border-border/40'

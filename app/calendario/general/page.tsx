@@ -1,14 +1,14 @@
 "use client";
 
 import { CalendarioGeneral } from "@/components/calendario-general";
-import { ProtectedPage } from "@/components/protected-page";
 import { AstroBackButtonInline } from "@/components/navigation/astro-back-button";
+import { ProtectedPage } from "@/components/protected-page";
 import { Globe } from "lucide-react";
 
 export default function CalendarioGeneralPage() {
   return (
     <ProtectedPage>
-      <div className="px-1 py-4 md:p-6 max-w-7xl mx-auto">
+      <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
         {/* Navigation */}
         <div className="mb-6">
           <AstroBackButtonInline href="/calendario" />
