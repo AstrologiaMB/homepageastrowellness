@@ -88,11 +88,35 @@ const config: Config = {
 					to: {
 						height: '0'
 					}
+				},
+				'twinkle': {
+					'0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+					'50%': { opacity: '1', transform: 'scale(1.2)' }
+				},
+				'twinkle-slow': {
+					'0%, 100%': { opacity: '0.4' },
+					'50%': { opacity: '0.8' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translate(0, 0)' },
+					'25%': { transform: 'translate(5px, -5px)' },
+					'50%': { transform: 'translate(0, -10px)' },
+					'75%': { transform: 'translate(-5px, -5px)' }
+				},
+				'shooting-star': {
+					'0%': { transform: 'translateX(0) translateY(0) rotate(-45deg)', opacity: '1' },
+					'10%': { opacity: '1' },
+					'80%': { opacity: '0' },
+					'100%': { transform: 'translateX(-300px) translateY(300px) rotate(-45deg)', opacity: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'twinkle': 'twinkle 3s ease-in-out infinite',
+				'twinkle-slow': 'twinkle-slow 5s ease-in-out infinite',
+				'float': 'float 20s ease-in-out infinite',
+				'shooting-star': 'shooting-star 1.5s ease-out forwards'
 			}
 		}
 	},

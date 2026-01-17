@@ -7,8 +7,9 @@ import { signIn } from 'next-auth/react'
 import { useAuth } from '@/auth/auth-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Mail } from 'lucide-react'
+import { Mail, Sparkles, Lock } from 'lucide-react'
 
+import { StarField } from '@/components/auth/star-field'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
@@ -22,7 +23,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { loginSchema, type LoginFormData } from '@/lib/form-schemas'
-import { Sparkles } from 'lucide-react'
 
 function LoginForm() {
   const router = useRouter()
@@ -79,34 +79,26 @@ function LoginForm() {
   }
 
   return (
-    <div className="h-dvh bg-white dark:bg-black flex flex-col relative overflow-hidden transition-colors duration-300">
-      {/* Subtle animated background stars */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
-        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
-      </div>
+    <div className="h-dvh bg-white dark:bg-black flex items-center justify-center relative overflow-hidden transition-colors duration-300">
+      <StarField />
 
-      {/* Fixed Header */}
-      <div className="flex-shrink-0 text-center space-y-0.5 pt-6 pb-3 px-4 relative z-10">
-        <Sparkles className="w-7 h-7 mx-auto text-primary" strokeWidth={1.5} />
-        <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
-          Astrochat
-        </h1>
-        <p className="text-xs text-black/60 dark:text-white/60 uppercase tracking-wide">
-          Accede a tu cuenta
-        </p>
-      </div>
+      <div className="px-4 relative z-10 w-full max-w-sm sm:max-w-md">
+        {/* Header */}
+        <div className="text-center space-y-0.5 pb-6">
+          <Sparkles className="w-7 h-7 mx-auto text-primary" strokeWidth={1.5} />
+          <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
+            Astrochat
+          </h1>
+          <p className="text-xs text-black/60 dark:text-white/60 uppercase tracking-wide">
+            Accede a tu cuenta
+          </p>
+        </div>
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 relative z-10">
-        <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-2 sm:space-y-2.5 py-2 pb-6">
+        {/* Form Content */}
+        <div className="space-y-2 sm:space-y-2.5">
           {/* Success Message */}
           {successMessage && (
-            <FormSuccess
-              dismissible
-              onDismiss={() => setSuccessMessage('')}
-            >
+            <FormSuccess dismissible onDismiss={() => setSuccessMessage('')}>
               {successMessage}
             </FormSuccess>
           )}
@@ -121,101 +113,102 @@ function LoginForm() {
           {/* Form */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="space-y-1.5">
-                  <FormLabel className="sr-only">Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      leftIcon={<Mail className="h-4 w-4" />}
-                      inputSize="lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        leftIcon={<Mail className="h-4 w-4" />}
+                        inputSize="lg"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="space-y-1.5">
-                  <FormLabel className="sr-only">Contraseña</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      placeholder="Contraseña"
-                      inputSize="lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="sr-only">Contraseña</FormLabel>
+                    <FormControl>
+                      <PasswordInput
+                        placeholder="Contraseña"
+                        inputSize="lg"
+                        leftIcon={<Lock className="h-4 w-4" />}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
-            >
-              {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
-            </Button>
-          </form>
-        </Form>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
+              >
+                {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
+              </Button>
+            </form>
+          </Form>
 
-        {/* Divider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-black/10 dark:border-white/10" />
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-black/10 dark:border-white/10" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white dark:bg-black px-4 text-black/40 dark:text-white/40 tracking-wider">
+                O
+              </span>
+            </div>
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white dark:bg-black px-4 text-black/40 dark:text-white/40 tracking-wider">
-              O
-            </span>
-          </div>
-        </div>
 
-        {/* Google Login */}
-        <Button
-          onClick={handleGoogleLogin}
-          disabled={isLoading}
-          type="button"
-          className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all h-12 rounded-sm font-light tracking-wide"
-        >
-          Continuar con Google
-        </Button>
-
-        {/* Links */}
-        <div className="space-y-1.5 text-center">
-          <Link
-            href="/auth/forgot-password"
-            className="block text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
+          {/* Google Login */}
+          <Button
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            type="button"
+            className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all h-12 rounded-sm font-light tracking-wide"
           >
-            ¿Olvidaste tu contraseña?
-          </Link>
+            Continuar con Google
+          </Button>
 
-          <div className="text-sm">
-            <span className="text-black/60 dark:text-white/60">¿No tienes cuenta? </span>
+          {/* Links */}
+          <div className="space-y-1.5 text-center">
             <Link
-              href="/auth/register"
-              className="text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors underline decoration-black/20 dark:decoration-white/20 underline-offset-4"
+              href="/auth/forgot-password"
+              className="block text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
             >
-              Regístrate aquí
+              ¿Olvidaste tu contraseña?
+            </Link>
+
+            <div className="text-sm">
+              <span className="text-black/60 dark:text-white/60">¿No tienes cuenta? </span>
+              <Link
+                href="/auth/register"
+                className="text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors underline decoration-black/20 dark:decoration-white/20 underline-offset-4"
+              >
+                Regístrate aquí
+              </Link>
+            </div>
+
+            <Link
+              href="/"
+              className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+            >
+              ← Volver al inicio
             </Link>
           </div>
-
-          <Link
-            href="/"
-            className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
         </div>
       </div>
     </div>
@@ -225,7 +218,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen-dvh bg-white dark:bg-black flex items-center justify-center">
+      <div className="h-dvh bg-white dark:bg-black flex items-center justify-center">
         <p className="text-black/60 dark:text-white/60">Cargando...</p>
       </div>
     }>
