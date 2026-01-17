@@ -27,15 +27,25 @@ ARG NEXT_PUBLIC_CALENDARIO_API_URL
 ARG NEXT_PUBLIC_ASTROGEMATRIA_API_URL
 ARG NEXT_PUBLIC_CARTA_ELECTIVA_API_URL
 
-ENV NEXT_PUBLIC_CALCULOS_API_URL=$NEXT_PUBLIC_CALCULOS_API_URL
-ENV NEXT_PUBLIC_INTERPRETACIONES_API_URL=$NEXT_PUBLIC_INTERPRETACIONES_API_URL
-ENV NEXT_PUBLIC_CALENDARIO_API_URL=$NEXT_PUBLIC_CALENDARIO_API_URL
-ENV NEXT_PUBLIC_ASTROGEMATRIA_API_URL=$NEXT_PUBLIC_ASTROGEMATRIA_API_URL
-ENV NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=$NEXT_PUBLIC_CARTA_ELECTIVA_API_URL
+# Provide default dummy URLs if not supplied (for build time only)
+ENV NEXT_PUBLIC_CALCULOS_API_URL=${NEXT_PUBLIC_CALCULOS_API_URL:-https://placeholder.example.com}
+ENV NEXT_PUBLIC_INTERPRETACIONES_API_URL=${NEXT_PUBLIC_INTERPRETACIONES_API_URL:-https://placeholder.example.com}
+ENV NEXT_PUBLIC_CALENDARIO_API_URL=${NEXT_PUBLIC_CALENDARIO_API_URL:-https://placeholder.example.com}
+ENV NEXT_PUBLIC_ASTROGEMATRIA_API_URL=${NEXT_PUBLIC_ASTROGEMATRIA_API_URL:-https://placeholder.example.com}
+ENV NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=${NEXT_PUBLIC_CARTA_ELECTIVA_API_URL:-https://placeholder.example.com}
 
 # Dummy secrets for build-time (real values come from Fly.io secrets at runtime)
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+ENV NEXTAUTH_SECRET="build-time-placeholder-secret-not-used-in-production"
+ENV NEXTAUTH_URL="http://localhost:3000"
+ENV GOOGLE_CLIENT_ID="build-time-placeholder-client-id"
+ENV GOOGLE_CLIENT_SECRET="build-time-placeholder-client-secret"
+ENV JWT_SECRET="build-time-placeholder-jwt-secret"
+ENV OPENCAGE_API_KEY="build-time-placeholder-opencage-key"
 ENV STRIPE_SECRET_KEY="sk_test_build_time_placeholder_key_not_used"
+ENV STRIPE_WEBHOOK_SECRET="build-time-placeholder-webhook-secret"
 ENV OPENAI_API_KEY="sk-build_time_placeholder_key_not_used"
+ENV FROM_EMAIL="noreply@example.com"
 
 # Build Next.js
 # This will use the DATABASE_URL from build time if needed
