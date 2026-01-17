@@ -26,7 +26,9 @@ export function InterpretacionNarrativa({
 }: InterpretacionNarrativaProps) {
   if (loading) {
     return (
-      <Card className="w-full">
+      <Card className="w-full border border-violet-200 dark:border-violet-500/30
+        bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5
+        hover:shadow-md transition-all duration-200">
         <CardHeader>
           <div className="flex items-center space-x-2">
             <Sparkles className="h-5 w-5 text-purple-500 animate-pulse" />
@@ -62,7 +64,9 @@ export function InterpretacionNarrativa({
 
   if (error) {
     return (
-      <Card className="w-full border-red-200 bg-red-50">
+      <Card className="w-full border border-red-200 dark:border-red-500/30
+        bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-500/5 dark:to-rose-500/5
+        hover:shadow-md transition-all duration-200">
         <CardHeader>
           <div className="flex items-center space-x-2">
             <Sparkles className="h-5 w-5 text-red-500" />
@@ -81,7 +85,9 @@ export function InterpretacionNarrativa({
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full border border-violet-200 dark:border-violet-500/30
+      bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5
+      hover:shadow-md transition-all duration-200">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -107,7 +113,7 @@ export function InterpretacionNarrativa({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="prose prose-stone prose-sm max-w-none text-gray-700">
+        <div className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300">
           <ReactMarkdown
             components={{
               p: ({ ...props }) => <p className="mb-4 last:mb-0 leading-relaxed" {...props} />,

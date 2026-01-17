@@ -44,13 +44,28 @@ export function CartaNatal({ chartData, chartId = 'chart-container' }: CartaNata
     if (chartRef.current && chartData && chartData.planets && chartData.cusps) {
       // Limpiar cualquier gráfico anterior
       chartRef.current.innerHTML = '';
-      
+
       try {
         // Crear nuevo gráfico con dimensiones 500x500 (optimizado para grid responsive)
         const chart = new Chart(chartId, 500, 500);
-        
+
         // Renderizar la carta natal con los datos proporcionados
         chart.radix(chartData);
+
+        // Hacer el SVG responsive después de que se renderiza
+        setTimeout(() => {
+          const svg = chartRef.current?.querySelector('svg');
+          if (svg) {
+            svg.removeAttribute('width');
+            svg.removeAttribute('height');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.style.width = '100%';
+            svg.style.height = '100%';
+            svg.style.maxWidth = '100%';
+            svg.style.maxHeight = '100%';
+          }
+        }, 0);
       } catch (error) {
         console.error('Error renderizando carta natal:', error);
         if (chartRef.current) {
@@ -77,10 +92,14 @@ export function CartaNatal({ chartData, chartId = 'chart-container' }: CartaNata
   }
   
   return (
-    <Card className="shadow-md h-full">
-      <CardContent className="p-6">
-        <div className="flex flex-col items-center">
-          <div id={chartId} ref={chartRef} className="w-full max-w-3xl h-auto" />
+    <Card className="shadow-md h-full overflow-hidden">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex flex-col items-center w-full">
+          <div
+            id={chartId}
+            ref={chartRef}
+            className="w-full aspect-square chart-svg-container"
+          />
         </div>
       </CardContent>
     </Card>

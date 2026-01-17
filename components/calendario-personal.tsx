@@ -16,11 +16,11 @@ import {
 import { es } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon, RefreshCw, AlertCircle, Search } from 'lucide-react';
+import { CalendarIcon, RefreshCw, AlertCircle, Search, Sparkles } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -494,19 +494,22 @@ export function CalendarioPersonal() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 pt-0">
+    <div className="flex flex-col gap-5 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-        <div>
-          <h2 className="text-xl font-bold">Calendario Personal</h2>
-          <p className="text-muted-foreground">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <h2 className="text-2xl font-bold text-violet-700 dark:text-transparent dark:bg-gradient-to-r dark:from-violet-400 dark:to-fuchsia-400 dark:bg-clip-text">
+              Calendario Personal
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
             Eventos personales de la semana del mes de{' '}
             {format(currentWeekStart, 'MMMM yyyy', { locale: es })}
           </p>
           {calculationStats && (
-            <div className="flex items-center gap-2 text-sm justify-between">
-              {' '}
-              {/* Adjusted for consistency */}
+            <div className="flex items-center gap-2 text-sm">
               <div className="flex gap-4">
                 <span>{calculationStats.total_events} eventos</span>
                 <span className="text-muted-foreground">
@@ -750,7 +753,7 @@ export function CalendarioPersonal() {
       )}
 
       {/* Week Display */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         {weekDays.map((day) => {
           // Filtrar eventos para este día
           const eventosDelDia = eventos.filter((evento) => {
@@ -774,32 +777,64 @@ export function CalendarioPersonal() {
             return isSameDay(fechaEvento, day);
           });
 
+          const isToday = isSameDay(day, today);
+
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-64 md:w-auto p-4 ${isSameDay(day, today) ? 'border-primary' : ''}`}
+              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
+                isToday
+                  ? 'border-[2px] border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
+                  : 'border border-border/40'
+              }`}
             >
-              <h3 className="font-semibold">
-                {format(day, 'EEEE d', { locale: es })}
-                {isSameDay(day, today) && ' (Hoy)'}
-              </h3>
-              <Separator className="my-2" />
+              {/* Day Header with gradient */}
+              <div
+                className={`px-3 py-3 md:p-4 rounded-t-lg ${
+                  isToday
+                    ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
+                    : 'bg-muted/50 dark:bg-muted/30'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
+                    {format(day, 'EEEE d', { locale: es })}
+                    {isToday && (
+                      <Badge
+                        variant="default"
+                        className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs"
+                      >
+                        Hoy
+                      </Badge>
+                    )}
+                  </h3>
+                  {eventosDelDia.length > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {eventosDelDia.length} {eventosDelDia.length === 1 ? 'evento' : 'eventos'}
+                    </Badge>
+                  )}
+                </div>
+              </div>
 
-              {eventosDelDia.length > 0 ? (
-                <ScrollArea className="w-full">
-                  <div className="flex space-x-4 pb-2 overflow-x-auto">
-                    {eventosDelDia.map((evento, index) => (
-                      <EventoConInterpretacion
-                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
-                        evento={evento}
-                        natalData={natalData}
-                      />
-                    ))}
-                  </div>
-                </ScrollArea>
-              ) : (
-                <p className="text-muted-foreground">(No hay eventos personales)</p>
-              )}
+              <div className="px-2 py-3 md:p-4">
+                {eventosDelDia.length > 0 ? (
+                  <ScrollArea className="w-full">
+                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-2 sm:overflow-x-auto">
+                      {eventosDelDia.map((evento, index) => (
+                        <EventoConInterpretacion
+                          key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
+                          evento={evento}
+                          natalData={natalData}
+                        />
+                      ))}
+                    </div>
+                  </ScrollArea>
+                ) : (
+                  <p className="text-muted-foreground text-sm text-center py-4">
+                    No hay eventos personales programados
+                  </p>
+                )}
+              </div>
             </Card>
           );
         })}

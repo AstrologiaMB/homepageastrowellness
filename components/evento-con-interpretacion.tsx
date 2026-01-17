@@ -156,8 +156,8 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
   }
 
   return (
-    <Card className="w-72 flex-shrink-0 h-auto">
-      <CardContent className="space-y-2 px-3 py-3">
+    <Card className="w-full sm:w-72 flex-shrink-0 h-auto">
+      <CardContent className="space-y-2 px-3 py-3 sm:px-4 sm:py-4">
         <div className="font-semibold">
           {evento.tipo_evento} a las {horaFormateada}
         </div>

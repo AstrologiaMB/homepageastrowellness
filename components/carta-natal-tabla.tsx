@@ -193,7 +193,9 @@ export function CartaNatalTabla({ chartData }: CartaNatalTablaProps) {
     <div className="mt-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Columna de planetas */}
-        <Card className="shadow-md">
+        <Card className="shadow-md border border-purple-200 dark:border-purple-500/30
+          bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-500/5 dark:to-pink-500/5
+          hover:shadow-md transition-all duration-200">
           <CardHeader>
             <h2 className="text-xl font-bold">Planetas</h2>
           </CardHeader>
@@ -265,7 +267,9 @@ export function CartaNatalTabla({ chartData }: CartaNatalTablaProps) {
         </Card>
 
         {/* Columna de casas */}
-        <Card className="shadow-md">
+        <Card className="shadow-md border border-pink-200 dark:border-pink-500/30
+          bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-500/5 dark:to-rose-500/5
+          hover:shadow-md transition-all duration-200">
           <CardHeader>
             <h2 className="text-xl font-bold">Casas</h2>
           </CardHeader>

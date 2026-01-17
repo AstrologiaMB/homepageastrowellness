@@ -29,19 +29,19 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
   const getTypeColor = (tipo: string) => {
     switch (tipo) {
       case 'PlanetaEnSigno':
-        return 'bg-blue-50 border-blue-200 text-blue-700';
+        return 'bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-500/10 dark:to-cyan-500/10 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300';
       case 'PlanetaEnCasa':
-        return 'bg-green-50 border-green-200 text-green-700';
+        return 'bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-500/10 dark:to-teal-500/10 border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300';
       case 'Aspecto':
-        return 'bg-purple-50 border-purple-200 text-purple-700';
+        return 'bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-500/10 dark:to-pink-500/10 border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300';
       case 'CasaEnSigno':
-        return 'bg-orange-50 border-orange-200 text-orange-700';
+        return 'bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-500/10 dark:to-orange-500/10 border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-300';
       case 'PlanetaRetrogrado':
-        return 'bg-red-50 border-red-200 text-red-700';
+        return 'bg-gradient-to-br from-red-100 to-rose-100 dark:from-red-500/10 dark:to-rose-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300';
       case 'AspectoComplejo':
-        return 'bg-indigo-50 border-indigo-200 text-indigo-700';
+        return 'bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-indigo-500/10 dark:to-violet-500/10 border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300';
       default:
-        return 'bg-gray-50 border-gray-200 text-gray-700';
+        return 'bg-gradient-to-br from-gray-100 to-slate-100 dark:from-gray-500/10 dark:to-slate-500/10 border-gray-200 dark:border-gray-500/30 text-gray-700 dark:text-gray-300';
     }
   };
 
@@ -66,7 +66,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
 
   return (
     <Card
-      className={`w-full transition-all duration-200 hover:shadow-md ${getTypeColor(item.tipo)}`}
+      className={`w-full transition-all duration-200 hover:shadow-md border ${getTypeColor(item.tipo)}`}
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
@@ -85,7 +85,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="prose prose-stone prose-sm max-w-none text-gray-700">
+        <div className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300">
           <ReactMarkdown
             components={{
               p: ({ ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,

@@ -151,8 +151,8 @@ export function CalendarioLunar() {
 
   if (isLoadingNatal || status === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-slate-500">
-        <Loader2 className="h-8 w-8 animate-spin mb-4" />
+      <div className="flex flex-col items-center justify-center p-12 text-muted-foreground">
+        <Loader2 className="h-8 w-8 animate-spin mb-4 text-violet-500 dark:text-violet-400" />
         <p>Calculando fases lunares y conjunciones natales...</p>
       </div>
     );
@@ -173,12 +173,12 @@ export function CalendarioLunar() {
     <div className="space-y-8 max-w-4xl mx-auto p-4">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-blue-100 rounded-full text-blue-600">
+          <div className="p-3 bg-violet-100 dark:bg-violet-500/20 rounded-full text-violet-600 dark:text-violet-400">
             <Moon size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">Fases Lunares {selectedYear}</h1>
-            <p className="text-slate-600">Ciclos y eclipses conectados con tu carta natal.</p>
+            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">Fases Lunares {selectedYear}</h1>
+            <p className="text-slate-600 dark:text-slate-400">Ciclos y eclipses conectados con tu carta natal.</p>
           </div>
         </div>
 
@@ -252,8 +252,8 @@ export function CalendarioLunar() {
       </div>
 
       {groups.length === 0 && (
-        <div className="text-center p-12 bg-slate-50 rounded-lg">
-          <p className="text-slate-500">
+        <div className="text-center p-12 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+          <p className="text-muted-foreground">
             No se encontraron conjunciones lunares para el año en curso.
           </p>
         </div>

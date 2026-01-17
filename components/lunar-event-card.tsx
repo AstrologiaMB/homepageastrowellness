@@ -137,12 +137,12 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
 
   return (
     <Card
-      className={`p-6 border-l-4 ${isEclipse ? 'border-l-orange-500 bg-orange-50/50' : 'border-l-blue-400'}`}
+      className={`p-6 border-l-4 ${isEclipse ? 'border-l-orange-500 bg-orange-50/50 dark:bg-orange-500/10' : 'border-l-violet-400 dark:border-l-violet-500'}`}
     >
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-xl font-bold capitalize text-slate-800">
+            <h3 className="text-xl font-bold capitalize text-slate-800 dark:text-slate-100">
               {phaseName} {mainEvent.signo && `en ${mainEvent.signo}`}
             </h3>
             {isEclipse && (
@@ -157,7 +157,7 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
             <div className="flex flex-wrap gap-1 mt-1">
               <Badge
                 variant="outline"
-                className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50"
+                className="text-[10px] py-0 h-5 border-purple-400 dark:border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/20"
               >
                 {cycleData.active_cycles[0].metonic_index === 1
                   ? 'Ciclo Inicial'
@@ -172,12 +172,12 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
 
           <div className="mt-2 space-y-1">
             {mainEvent.grado !== undefined && mainEvent.signo && (
-              <p className="text-sm">
+              <p className="text-sm text-slate-700 dark:text-slate-300">
                 📍 <strong>Posición:</strong> {formatDegree(mainEvent.grado, mainEvent.signo)}
               </p>
             )}
             {mainEvent.casa_natal && (
-              <p className="text-sm">
+              <p className="text-sm text-slate-700 dark:text-slate-300">
                 🏠 <strong>Casa Natal:</strong> {mainEvent.casa_natal}
               </p>
             )}
@@ -188,7 +188,7 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
           <Button
             variant="ghost"
             size="sm"
-            className="text-purple-700 hover:text-purple-800 hover:bg-purple-100 mr-2 shrink-0 mt-2 md:mt-0"
+            className="text-purple-700 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-500/20 mr-2 shrink-0 mt-2 md:mt-0"
             onClick={() => setIsStoryOpen(true)}
           >
             <BookOpen className="w-4 h-4 mr-2" />
@@ -198,12 +198,12 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
       </div>
 
       {aspects.length > 0 && (
-        <div className="mb-6 bg-white/50 p-3 rounded-lg border border-slate-100">
-          <h4 className="text-sm font-semibold mb-2 text-slate-700">Aspectos Natales:</h4>
+        <div className="mb-6 bg-white/50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700">
+          <h4 className="text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Aspectos Natales:</h4>
           <ul className="space-y-1">
             {aspects.map((aspect, idx) => (
-              <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+              <li key={idx} className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-2">
+                <span className="text-violet-500 dark:text-violet-400 mt-1">•</span>
                 <span>{aspect.descripcion}</span>
               </li>
             ))}
@@ -214,14 +214,14 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
       <Separator className="my-4" />
 
       <div className="space-y-3">
-        <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
+        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
           📖 Tu Diario Lunar
         </label>
         <Textarea
           placeholder={`Escribe tus intenciones, sensaciones o eventos manifestados durante esta ${phaseName.toLowerCase()}...`}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="min-h-[100px] bg-white"
+          className="min-h-[100px] bg-white dark:bg-slate-900"
         />
         <div className="flex justify-end">
           <Button
