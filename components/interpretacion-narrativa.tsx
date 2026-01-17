@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
-import { Clock, Sparkles, Loader2 } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
+import { Clock, Sparkles, Loader2 } from 'lucide-react';
 
 interface InterpretacionNarrativaProps {
-  interpretacion: string | null
-  loading: boolean
-  error: string | null
-  tiempoGeneracion?: number
-  desdeCache?: boolean
-  loadingMessage?: string
+  interpretacion: string | null;
+  loading: boolean;
+  error: string | null;
+  tiempoGeneracion?: number;
+  desdeCache?: boolean;
+  loadingMessage?: string;
 }
 
 export function InterpretacionNarrativa({
@@ -22,7 +22,7 @@ export function InterpretacionNarrativa({
   error,
   tiempoGeneracion,
   desdeCache,
-  loadingMessage
+  loadingMessage,
 }: InterpretacionNarrativaProps) {
   if (loading) {
     return (
@@ -57,7 +57,7 @@ export function InterpretacionNarrativa({
           )}
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (error) {
@@ -73,11 +73,11 @@ export function InterpretacionNarrativa({
           <p className="text-red-600">{error}</p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (!interpretacion) {
-    return null
+    return null;
   }
 
   return (
@@ -110,9 +110,7 @@ export function InterpretacionNarrativa({
         <div className="prose prose-stone prose-sm max-w-none text-gray-700">
           <ReactMarkdown
             components={{
-              p: ({ node, ...props }) => (
-                <p className="mb-4 last:mb-0 leading-relaxed" {...props} />
-              ),
+              p: ({ ...props }) => <p className="mb-4 last:mb-0 leading-relaxed" {...props} />,
             }}
           >
             {interpretacion}
@@ -120,5 +118,5 @@ export function InterpretacionNarrativa({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

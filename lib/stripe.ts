@@ -1,15 +1,24 @@
-import Stripe from 'stripe';
+/**
+ * Stripe Client Configuration
+ * 
+ * This module initializes the Stripe client with environment variables
+ * and exports Stripe-related constants from the centralized constants module.
+ * 
+ * @module lib/stripe
+ */
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-12-15.clover',
-    typescript: true,
+import Stripe from 'stripe';
+import { env } from './env';
+import { STRIPE_PRICES, STRIPE_API_CONFIG } from './constants/stripe.constants';
+
+/**
+ * Stripe client instance
+ * Initialized with validated environment variables
+ */
+export const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
+  apiVersion: STRIPE_API_CONFIG.VERSION,
+  typescript: STRIPE_API_CONFIG.TYPESCRIPT,
 });
 
-// Price IDs (from Environment or Constants)
-export const STRIPE_PRICES = {
-    BASE_BUNDLE: 'price_1ShGWULOQsTENXFlKx62Lxlx',
-    ADD_ON_LUNAR: 'price_1ShGX9LOQsTENXFlz3FXikyg',
-    ADD_ON_ASTROGEMATRIA: 'price_1ShGXVLOQsTENXFlygB8zOK0',
-    ADD_ON_ELECTIVE: 'price_1ShGY7LOQsTENXFlvmAt6Nk2',
-    ONE_TIME_DRACONIC: 'price_1ShGYSLOQsTENXFlGVyzY7t4',
-} as const;
+// Re-export Stripe price IDs from constants
+export { STRIPE_PRICES };

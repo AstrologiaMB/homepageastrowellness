@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DraconicEvent {
   id: string;
@@ -13,13 +13,12 @@ interface DraconicEvent {
 
 interface DraconicEventCardProps {
   event: DraconicEvent;
-  index: number;
 }
 
 /**
  * Componente para mostrar un evento dracónico individual como tarjeta
  */
-export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
+export function DraconicEventCard({ event }: DraconicEventCardProps) {
   // Determinar colores según tipo de evento usando variables del tema Midnight Bloom
   const getCardStyles = () => {
     switch (event.tipo) {
@@ -59,13 +58,13 @@ export function DraconicEventCard({ event, index }: DraconicEventCardProps) {
                 {event.titulo}
               </CardTitle>
               <div className="flex items-center space-x-2 mt-1">
-                <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getRelevanciaBadge()}`}>
+                <span
+                  className={`px-2 py-1 text-xs font-medium rounded-full border ${getRelevanciaBadge()}`}
+                >
                   {event.relevancia.toUpperCase()}
                 </span>
                 {event.orbe && (
-                  <span className="text-xs text-muted-foreground">
-                    Orbe: {event.orbe}
-                  </span>
+                  <span className="text-xs text-muted-foreground">Orbe: {event.orbe}</span>
                 )}
               </div>
             </div>

@@ -1,55 +1,108 @@
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import CredentialsProvider from "next-auth/providers/credentials"
-import prisma from "@/lib/prisma"
-import { NextAuthOptions } from "next-auth"
-import { User, Account, Profile } from "next-auth"
-import bcrypt from "bcryptjs"
-import { getAuthConfig } from "@/lib/auth-utils"
+/**
+ * NextAuth Configuration
+ *
+ * This module configures NextAuth.js for authentication with Google OAuth
+ * and email/password credentials. It uses centralized constants and
+ * environment variables for type-safe configuration.
+ *
+ * @module app/api/auth/[...nextauth]
+ */
 
-const authConfig = getAuthConfig()
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import prisma from '@/lib/prisma';
+import { NextAuthOptions } from 'next-auth';
+import type { DefaultSession as _DefaultSession, DefaultUser as _DefaultUser } from 'next-auth';
+import bcrypt from 'bcryptjs';
+import { getAuthConfig } from '@/lib/auth-utils';
+import { env } from '@/lib/env';
+import { ADMIN_EMAILS, AUTH_ROUTES } from '@/lib/constants';
+
+const authConfig = getAuthConfig();
+
+/**
+ * Extend the built-in NextAuth types to include custom properties
+ */
+declare module 'next-auth' {
+  interface Session extends _DefaultSession {
+    user: {
+      id: string;
+      hasCompletedData?: boolean;
+      entitlements?: {
+        hasBaseBundle: boolean;
+        hasLunarCalendar: boolean;
+        hasAstrogematria: boolean;
+        hasElectiveChart: boolean;
+        hasDraconicAccess: boolean;
+        status: string;
+      };
+      subscriptionStatus?: string;
+    } & _DefaultSession['user'];
+  }
+
+  interface User extends _DefaultUser {
+    id: string;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    userId: string;
+    hasCompletedData?: boolean;
+    entitlements?: {
+      hasBaseBundle: boolean;
+      hasLunarCalendar: boolean;
+      hasAstrogematria: boolean;
+      hasElectiveChart: boolean;
+      hasDraconicAccess: boolean;
+      status: string;
+    };
+    subscriptionStatus?: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null;
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email.toLowerCase() }
-        })
+          where: { email: credentials.email.toLowerCase() },
+        });
 
         if (!user || !user.password) {
-          return null
+          return null;
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
         if (!isPasswordValid) {
-          return null
+          return null;
         }
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-        }
-      }
-    })
+        };
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Si tenemos el objeto user, es un inicio de sesión nuevo
+      // If we have the user object, it's a new login
       if (user) {
         token.userId = user.id;
       }
@@ -59,13 +112,17 @@ export const authOptions: NextAuthOptions = {
         if (email) {
           const dbUser = await prisma.user.findUnique({
             where: { email: email as string },
-            include: { subscription: true }
+            include: { subscription: true },
           });
 
-          // Añadir información de datos completos al token
-          token.hasCompletedData = !!(dbUser?.birthDate && dbUser?.birthCity && dbUser?.residenceCity);
+          // Add completed data information to token
+          token.hasCompletedData = !!(
+            dbUser?.birthDate &&
+            dbUser?.birthCity &&
+            dbUser?.residenceCity
+          );
 
-          // Añadir flags de entitlements al token
+          // Add entitlement flags to token
           const hasBaseBundle = dbUser?.subscription?.hasBaseBundle || false;
           const status = dbUser?.subscription?.status || 'free';
 
@@ -75,29 +132,31 @@ export const authOptions: NextAuthOptions = {
             hasAstrogematria: dbUser?.subscription?.hasAstrogematria || false,
             hasElectiveChart: dbUser?.subscription?.hasElectiveChart || false,
             // Logic: Draconic requires Base Bundle AND Active Subscription
-            hasDraconicAccess: (dbUser?.hasDraconicAccess && hasBaseBundle && status === 'active') || false,
-            // Status para referencias visuales
-            status
+            hasDraconicAccess:
+              (dbUser?.hasDraconicAccess && hasBaseBundle && status === 'active') || false,
+            // Status for visual references
+            status,
           };
 
-          // Legacy support (opcional, por si acaso)
+          // Legacy support (optional, just in case)
           token.subscriptionStatus = dbUser?.subscription?.hasBaseBundle ? 'premium' : 'free';
 
           // OVERRIDE: Admin User Full Access
-          if (email === 'info@astrochat.online') {
+          const isAdmin = ADMIN_EMAILS.includes(email as (typeof ADMIN_EMAILS)[number]);
+          if (isAdmin) {
             token.entitlements = {
               hasBaseBundle: true,
               hasLunarCalendar: true,
               hasAstrogematria: true,
               hasElectiveChart: true,
               hasDraconicAccess: true,
-              status: 'active'
+              status: 'active',
             };
             token.subscriptionStatus = 'premium';
           }
         }
       } catch (error) {
-        console.error("Error al verificar datos del usuario:", error);
+        console.error('Error verifying user data:', error);
         token.hasCompletedData = false;
         token.entitlements = {
           hasBaseBundle: false,
@@ -105,7 +164,7 @@ export const authOptions: NextAuthOptions = {
           hasAstrogematria: false,
           hasElectiveChart: false,
           hasDraconicAccess: false,
-          status: 'error'
+          status: 'error',
         };
       }
 
@@ -113,16 +172,13 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        // @ts-ignore
         session.user.hasCompletedData = token.hasCompletedData;
-        // @ts-ignore
         session.user.entitlements = token.entitlements;
-        // @ts-ignore
         session.user.subscriptionStatus = token.subscriptionStatus; // Legacy
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       // Crear usuario en la base de datos si no existe
       if (user.email) {
         try {
@@ -133,20 +189,20 @@ export const authOptions: NextAuthOptions = {
               email: user.email,
               name: user.name || '',
               image: user.image || '',
-            }
+            },
           });
           console.log(`Usuario creado/actualizado: ${user.email}`);
           return true;
         } catch (error) {
-          console.error("Error al crear/actualizar usuario:", error);
+          console.error('Error al crear/actualizar usuario:', error);
           // Permitimos el inicio de sesión incluso si hay un error para no bloquear al usuario
           return true;
         }
       }
       return true;
-    }
+    },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: env.NEXTAUTH_SECRET,
   useSecureCookies: authConfig.useSecureCookies,
   cookies: {
     sessionToken: {
@@ -155,8 +211,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/auth/login',
-    error: '/auth/login',
+    signIn: AUTH_ROUTES.LOGIN,
+    error: AUTH_ROUTES.LOGIN,
   },
   events: {
     async createUser({ user }) {

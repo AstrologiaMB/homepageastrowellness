@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { getApiUrl } from '@/lib/api-config';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Verificar autenticación
     const session = await getServerSession(authOptions);
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     // Llamar al microservicio de remedios
     const remediosResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/remedios`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
 
     if (!remediosResponse.ok) {
@@ -31,16 +31,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       remedios: resultado.data.remedios,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('Error en API remedios:', error);
-    
+
     // Determinar el tipo de error y código de estado apropiado
     let statusCode = 500;
     let errorMessage = 'Error interno del servidor';
-    
+
     if (error instanceof Error) {
       if (error.message.includes('fetch')) {
         statusCode = 503;
@@ -50,9 +49,12 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ 
-      success: false,
-      error: errorMessage 
-    }, { status: statusCode });
+    return NextResponse.json(
+      {
+        success: false,
+        error: errorMessage,
+      },
+      { status: statusCode }
+    );
   }
 }

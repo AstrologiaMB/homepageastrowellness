@@ -1,7 +1,7 @@
 import React from 'react';
 import { DraconicEventCard } from './DraconicEventCard';
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2 } from "lucide-react";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2 } from 'lucide-react';
 
 interface DraconicEvent {
   id: string;
@@ -55,9 +55,9 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
   }
 
   // Separar eventos por tipo para mejor organización
-  const posicionesBasicas = eventos.filter(event => event.tipo === 'posicion_basica');
-  const cuspidesCruzadas = eventos.filter(event => event.tipo === 'cuspide_cruzada');
-  const aspectosCruzados = eventos.filter(event => event.tipo === 'aspecto_cruzado');
+  const posicionesBasicas = eventos.filter((event) => event.tipo === 'posicion_basica');
+  const cuspidesCruzadas = eventos.filter((event) => event.tipo === 'cuspide_cruzada');
+  const aspectosCruzados = eventos.filter((event) => event.tipo === 'aspecto_cruzado');
 
   return (
     <div className="space-y-8">
@@ -68,12 +68,8 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             ⭐ Posiciones Dracónicas Básicas ({posicionesBasicas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            {posicionesBasicas.map((event, index) => (
-              <DraconicEventCard
-                key={event.id}
-                event={event}
-                index={index}
-              />
+            {posicionesBasicas.map((event) => (
+              <DraconicEventCard key={event.id} event={event} />
             ))}
           </div>
         </div>
@@ -86,12 +82,8 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             🏠 Cúspides Cruzadas ({cuspidesCruzadas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            {cuspidesCruzadas.map((event, index) => (
-              <DraconicEventCard
-                key={event.id}
-                event={event}
-                index={index + posicionesBasicas.length}
-              />
+            {cuspidesCruzadas.map((event) => (
+              <DraconicEventCard key={event.id} event={event} />
             ))}
           </div>
         </div>
@@ -104,12 +96,8 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             ☌ Aspectos Cruzados ({aspectosCruzados.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            {aspectosCruzados.map((event, index) => (
-              <DraconicEventCard
-                key={event.id}
-                event={event}
-                index={index + posicionesBasicas.length + cuspidesCruzadas.length}
-              />
+            {aspectosCruzados.map((event) => (
+              <DraconicEventCard key={event.id} event={event} />
             ))}
           </div>
         </div>

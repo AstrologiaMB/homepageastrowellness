@@ -1,10 +1,10 @@
 'use client';
 
-import React, { createContext, useContext, useCallback, useMemo, ReactNode } from 'react';
-import { useSession, signOut as nextAuthSignOut } from 'next-auth/react';
+import { signOut as nextAuthSignOut, useSession } from 'next-auth/react';
+import React, { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
+import { LoginCredentials, loginUser } from './services/auth.service';
+import { AuthContextType, User } from './types/auth.types';
 import { createAuthHeaders } from './utils/token';
-import { loginUser, LoginCredentials } from './services/auth.service';
-import { User, AuthContextType } from './types/auth.types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const authSource = useMemo(() => {
     if (nextAuthSession?.user) {
       // Check if user logged in with Google or credentials
-      return (nextAuthSession.user as any).image ? 'google' : 'credentials';
+      return (nextAuthSession.user as any).image ? 'google' : 'custom';
     }
     return null;
   }, [nextAuthSession]);

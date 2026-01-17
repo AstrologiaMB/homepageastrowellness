@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🧪 Running pre-push checks..."
+
+# Run type checking
+echo "📝 Running TypeScript type check..."
+npx tsc --noEmit
+
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript type check failed. Please fix the type errors and try again."
+  exit 1
+fi
+
+# Run tests
+echo "🧪 Running tests..."
+npm run test -- --run
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Please fix the failing tests and try again."
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed!"

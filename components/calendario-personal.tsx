@@ -1,23 +1,41 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import {
+  format,
+  startOfWeek,
+  addWeeks,
+  subWeeks,
+  isSameDay,
+  isSameWeek,
+  addDays,
+  startOfMonth,
+  getYear,
+  addMonths,
+} from 'date-fns';
 import { es } from 'date-fns/locale';
 
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Card } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, RefreshCw, AlertCircle, CheckCircle, Search } from 'lucide-react';
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Card } from '@/components/ui/card';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { CalendarIcon, RefreshCw, AlertCircle, Search } from 'lucide-react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TransitSearchModal } from './transit-search-modal';
 
-import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
+import {
+  getWeeksOfMonth,
+  formatWeekRange,
+  formatMonthYear,
+  getMonthNumber,
+  getYearNumber,
+  createDateFromUtc,
+} from '@/lib/date-utils';
 import { degreesToGMS } from '@/lib/astrology-utils';
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoConInterpretacion } from './evento-con-interpretacion';
 import { useUserNatalData } from '@/hooks/use-user-natal-data';
@@ -55,14 +73,21 @@ export function CalendarioPersonal() {
     transits_count: number;
     from_cache?: boolean;
   } | null>(null);
-  const [microserviceStatus, setMicroserviceStatus] = useState<'checking' | 'available' | 'unavailable'>('checking');
+  const [microserviceStatus, setMicroserviceStatus] = useState<
+    'checking' | 'available' | 'unavailable'
+  >('checking');
 
   const today = new Date();
   const isMobile = useIsMobile();
   const { toast } = useToast();
 
   // Hook para obtener datos natales del usuario
-  const { natalData, isLoading: isLoadingNatalData, error: natalDataError, hasCompleteData } = useUserNatalData();
+  const {
+    natalData,
+    isLoading: isLoadingNatalData,
+    error: natalDataError,
+    hasCompleteData,
+  } = useUserNatalData();
 
   // Verificar estado del microservicio al montar el componente
   useEffect(() => {
@@ -78,7 +103,7 @@ export function CalendarioPersonal() {
         }
         // Esperar 1 segundo antes del siguiente intento
         attempts++;
-        if (attempts < maxAttempts) await new Promise(resolve => setTimeout(resolve, 1000));
+        if (attempts < maxAttempts) await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
       setMicroserviceStatus('unavailable');
@@ -100,13 +125,13 @@ export function CalendarioPersonal() {
 
       return {
         available: false,
-        message: `Los datos del ${targetYear} recién estarán disponibles a partir de mediados de diciembre de ${currentYear}.`
+        message: `Los datos del ${targetYear} recién estarán disponibles a partir de mediados de diciembre de ${currentYear}.`,
       };
     }
 
     return {
       available: false,
-      message: `Los datos del ${targetYear} aún no están disponibles.`
+      message: `Los datos del ${targetYear} aún no están disponibles.`,
     };
   };
 
@@ -132,7 +157,7 @@ export function CalendarioPersonal() {
       // Identificar años faltantes en loadedYears
       const yearsToFetch: number[] = [];
 
-      yearsNeeded.forEach(year => {
+      yearsNeeded.forEach((year) => {
         if (!loadedYears.has(year)) {
           yearsToFetch.push(year);
         }
@@ -153,9 +178,9 @@ export function CalendarioPersonal() {
           // Si no está disponible, mostrar aviso.
           // NO marcamos como cargado para permitir que el aviso salga de nuevo si el usuario insiste en navegar a estas fechas.
           toast({
-            title: "Año no disponible",
+            title: 'Año no disponible',
             description: availability.message || `No se pueden cargar datos del año ${year}`,
-            variant: "destructive"
+            variant: 'destructive',
           });
 
           continue;
@@ -165,13 +190,21 @@ export function CalendarioPersonal() {
           const response = await fetchPersonalCalendar(natalData, false, year);
 
           // Filter out Lunar Phases and Eclipses (Commercial Separation)
-          const filteredEvents = response.events.filter(e =>
-            !['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
+          const filteredEvents = response.events.filter(
+            (e) =>
+              ![
+                'Luna Nueva',
+                'Luna Llena',
+                'Cuarto Creciente',
+                'Cuarto Menguante',
+                'Eclipse Solar',
+                'Eclipse Lunar',
+              ].includes(e.tipo_evento)
           );
 
-          setEventos(prev => {
+          setEventos((prev) => {
             // Eliminar eventos existentes para este año antes de agregar los nuevos (evitar duplicados)
-            const otherYearsEvents = prev.filter(e => !e.fecha_utc.startsWith(String(year)));
+            const otherYearsEvents = prev.filter((e) => !e.fecha_utc.startsWith(String(year)));
 
             return [...otherYearsEvents, ...filteredEvents].sort((a, b) => {
               // Ordenar por fecha y hora
@@ -185,12 +218,11 @@ export function CalendarioPersonal() {
             total_events: response.total_events,
             calculation_time: response.calculation_time,
             transits_count: response.transits_count,
-            from_cache: response.from_cache
+            from_cache: response.from_cache,
           });
 
           // Marcar año como cargado
-          setLoadedYears(prev => new Set(prev).add(year));
-
+          setLoadedYears((prev) => new Set(prev).add(year));
         } catch (error) {
           console.error(`Error calculating personal events for year ${year}:`, error);
           setCalculationError(error instanceof Error ? error.message : 'Error desconocido');
@@ -201,7 +233,7 @@ export function CalendarioPersonal() {
     }
 
     calculatePersonalEvents();
-  }, [natalData, hasCompleteData, microserviceStatus, currentWeekStart]); // Dependencias: Si cambia la semana, reevaluamos si falta info
+  }, [natalData, hasCompleteData, microserviceStatus, currentWeekStart, loadedYears, toast]); // Dependencias: Si cambia la semana, reevaluamos si falta info
 
   const handlePreviousWeek = () => {
     setCurrentWeekStart(subWeeks(currentWeekStart, 1));
@@ -225,9 +257,9 @@ export function CalendarioPersonal() {
     const availability = isYearAvailable(yearToRefresh);
     if (!availability.available) {
       toast({
-        title: "No se puede actualizar",
+        title: 'No se puede actualizar',
         description: availability.message,
-        variant: "destructive"
+        variant: 'destructive',
       });
       return;
     }
@@ -240,13 +272,21 @@ export function CalendarioPersonal() {
       const response = await fetchPersonalCalendar(natalData, true, yearToRefresh);
 
       // Filter out Lunar Phases
-      const filteredEvents = response.events.filter(e =>
-        !['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
+      const filteredEvents = response.events.filter(
+        (e) =>
+          ![
+            'Luna Nueva',
+            'Luna Llena',
+            'Cuarto Creciente',
+            'Cuarto Menguante',
+            'Eclipse Solar',
+            'Eclipse Lunar',
+          ].includes(e.tipo_evento)
       );
 
-      setEventos(prev => {
+      setEventos((prev) => {
         // Remove old events for this year and add new ones
-        const otherYearsEvents = prev.filter(e => {
+        const otherYearsEvents = prev.filter((e) => {
           // Simple filtering by checking the year in the date string
           return !e.fecha_utc.startsWith(String(yearToRefresh));
         });
@@ -263,9 +303,8 @@ export function CalendarioPersonal() {
         total_events: response.total_events,
         calculation_time: response.calculation_time,
         transits_count: response.transits_count,
-        from_cache: response.from_cache
+        from_cache: response.from_cache,
       });
-
     } catch (error) {
       console.error('Error refreshing personal events:', error);
       setCalculationError(error instanceof Error ? error.message : 'Error desconocido');
@@ -294,7 +333,7 @@ export function CalendarioPersonal() {
 
   // Generate a list of months (e.g., current year +/- 1 year)
   // Expanded range to allow testing navigation to future years
-  const months = Array.from({ length: 36 }).map((_, i) => {
+  Array.from({ length: 36 }).map((_, i) => {
     const date = addMonths(startOfMonth(new Date(getYear(today) - 1, 0, 1)), i);
     return { value: date, label: formatMonthYear(date) };
   });
@@ -333,8 +372,10 @@ export function CalendarioPersonal() {
                 for (let y = 2025; y <= endYear; y++) {
                   years.push(y);
                 }
-                return years.map(year => (
-                  <TabsTrigger key={year} value={String(year)}>{year}</TabsTrigger>
+                return years.map((year) => (
+                  <TabsTrigger key={year} value={String(year)}>
+                    {year}
+                  </TabsTrigger>
                 ));
               })()}
             </TabsList>
@@ -347,7 +388,7 @@ export function CalendarioPersonal() {
                 years.push(y);
               }
 
-              return years.map(year => (
+              return years.map((year) => (
                 <TabsContent key={year} value={String(year)} className="flex-1 mt-0">
                   <ScrollArea className="h-[280px]">
                     <div className="grid grid-cols-3 gap-2 pb-4">
@@ -385,7 +426,9 @@ export function CalendarioPersonal() {
                   <div className="flex flex-col items-start gap-1">
                     <span className="font-medium">Semana {week.weekNumber}</span>
                     <span className="text-xs text-muted-foreground">
-                      {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1] ? formatWeekRange(week.start, week.end, week.weekNumber) : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
+                      {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1]
+                        ? formatWeekRange(week.start, week.end, week.weekNumber)
+                        : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
                     </span>
                   </div>
                 </Button>
@@ -416,7 +459,8 @@ export function CalendarioPersonal() {
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            {natalDataError || 'Faltan datos natales completos para calcular el calendario personal.'}
+            {natalDataError ||
+              'Faltan datos natales completos para calcular el calendario personal.'}
           </AlertDescription>
         </Alert>
       </div>
@@ -441,8 +485,8 @@ export function CalendarioPersonal() {
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            El microservicio de calendario personal no está disponible.
-            Verifica que esté ejecutándose en el puerto 8004.
+            El microservicio de calendario personal no está disponible. Verifica que esté
+            ejecutándose en el puerto 8004.
           </AlertDescription>
         </Alert>
       </div>
@@ -456,14 +500,19 @@ export function CalendarioPersonal() {
         <div>
           <h2 className="text-xl font-bold">Calendario Personal</h2>
           <p className="text-muted-foreground">
-            Eventos personales de la semana del mes de {format(currentWeekStart, 'MMMM yyyy', { locale: es })}
+            Eventos personales de la semana del mes de{' '}
+            {format(currentWeekStart, 'MMMM yyyy', { locale: es })}
           </p>
           {calculationStats && (
-            <div className="flex items-center gap-2 text-sm justify-between"> {/* Adjusted for consistency */}
+            <div className="flex items-center gap-2 text-sm justify-between">
+              {' '}
+              {/* Adjusted for consistency */}
               <div className="flex gap-4">
                 <span>{calculationStats.total_events} eventos</span>
                 <span className="text-muted-foreground">
-                  {calculationStats.from_cache ? '(Cache)' : `(${calculationStats.calculation_time.toFixed(2)}s)`}
+                  {calculationStats.from_cache
+                    ? '(Cache)'
+                    : `(${calculationStats.calculation_time.toFixed(2)}s)`}
                 </span>
               </div>
             </div>
@@ -511,9 +560,7 @@ export function CalendarioPersonal() {
                   Seleccionar fecha
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80 h-96 p-0">
-                {DateSelectContent}
-              </PopoverContent>
+              <PopoverContent className="w-80 h-96 p-0">{DateSelectContent}</PopoverContent>
             </Popover>
           )}
 
@@ -544,7 +591,8 @@ export function CalendarioPersonal() {
         <Alert>
           <RefreshCw className="h-4 w-4 animate-spin" />
           <AlertDescription>
-            Calculando eventos personales para el año seleccionado... Esto puede tomar hasta 30 segundos.
+            Calculando eventos personales para el año seleccionado... Esto puede tomar hasta 30
+            segundos.
           </AlertDescription>
         </Alert>
       )}
@@ -552,20 +600,16 @@ export function CalendarioPersonal() {
       {calculationError && (
         <Alert>
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            Error: {calculationError}
-          </AlertDescription>
+          <AlertDescription>Error: {calculationError}</AlertDescription>
         </Alert>
       )}
 
       {/* SECCIÓN: ESTADO ACTUAL (Horoscope / Weather) */}
-      {eventos.some(e => e.tipo_evento === 'Tránsito Casa Estado') && (
+      {eventos.some((e) => e.tipo_evento === 'Tránsito Casa Estado') && (
         <div className="mb-0 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="flex items-center gap-2 mb-3 px-1">
             <span className="text-xl">🪐</span>
-            <h3 className="text-lg font-serif font-bold text-slate-700">
-              Clima Astral de Fondo
-            </h3>
+            <h3 className="text-lg font-serif font-bold text-slate-700">Clima Astral de Fondo</h3>
           </div>
 
           <ScrollArea className="w-full whitespace-nowrap rounded-lg border bg-slate-50/50 p-4">
@@ -575,7 +619,7 @@ export function CalendarioPersonal() {
                 const uniqueHouseTransits = new Map();
 
                 // Filtrar eventos de estado para el mes actual que se está visualizando
-                const stateEvents = eventos.filter(e => e.tipo_evento === 'Tránsito Casa Estado');
+                const stateEvents = eventos.filter((e) => e.tipo_evento === 'Tránsito Casa Estado');
                 let targetEvent: EventoPersonal | null = null;
 
                 if (stateEvents.length > 0) {
@@ -586,7 +630,7 @@ export function CalendarioPersonal() {
                   let minDiff = Infinity;
                   const weekCenter = addDays(currentWeekStart, 3); // Comparamos con el centro de la semana
 
-                  stateEvents.forEach(e => {
+                  stateEvents.forEach((e) => {
                     const eDate = createDateFromUtc(e.fecha_utc, e.hora_utc);
                     const diff = Math.abs(eDate.getTime() - weekCenter.getTime());
 
@@ -611,7 +655,7 @@ export function CalendarioPersonal() {
                   }
                 } else {
                   // Fallback legacy (solo si no hay eventos de estado)
-                  stateEvents.forEach(event => {
+                  stateEvents.forEach((event) => {
                     const houseTransits = event.metadata?.house_transits || [];
                     if (Array.isArray(houseTransits)) {
                       houseTransits.forEach((item: any) => {
@@ -625,10 +669,19 @@ export function CalendarioPersonal() {
                 }
 
                 // Ordenar: Luna Progresada primero, luego por orden tradicional (Júpiter -> Plutón)
-                const planetOrder = ['Luna Progresada', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón'];
-                const sortedItems = Array.from(uniqueHouseTransits.values()).sort((a: any, b: any) => {
-                  return planetOrder.indexOf(a.planeta) - planetOrder.indexOf(b.planeta);
-                });
+                const planetOrder = [
+                  'Luna Progresada',
+                  'Júpiter',
+                  'Saturno',
+                  'Urano',
+                  'Neptuno',
+                  'Plutón',
+                ];
+                const sortedItems = Array.from(uniqueHouseTransits.values()).sort(
+                  (a: any, b: any) => {
+                    return planetOrder.indexOf(a.planeta) - planetOrder.indexOf(b.planeta);
+                  }
+                );
 
                 return sortedItems.map((item: any, idx) => (
                   <div
@@ -636,18 +689,23 @@ export function CalendarioPersonal() {
                     className="flex flex-col justify-between w-[200px] h-[110px] p-3 rounded-xl border bg-white shadow-sm hover:shadow-md transition-all cursor-default select-none relative overflow-hidden group"
                   >
                     {/* Background Decor */}
-                    <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br opacity-5 rounded-full -mr-4 -mt-4
+                    <div
+                      className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br opacity-5 rounded-full -mr-4 -mt-4
                       ${item.tipo === 'luna_progresada' ? 'from-purple-400 to-blue-400' : 'from-orange-400 to-amber-400'}
-                    `} />
+                    `}
+                    />
 
                     {/* Header: Icon + Planet */}
                     <div className="flex items-center gap-2 z-10 w-full mb-1">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-lg shadow-sm shrink-0
-                        ${item.tipo === 'luna_progresada'
-                          ? 'bg-purple-100 text-purple-700'
-                          : 'bg-orange-100 text-orange-700'
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-lg shadow-sm shrink-0
+                        ${
+                          item.tipo === 'luna_progresada'
+                            ? 'bg-purple-100 text-purple-700'
+                            : 'bg-orange-100 text-orange-700'
                         }
-                      `}>
+                      `}
+                      >
                         {item.simbolo || (item.tipo === 'luna_progresada' ? '🌙' : '🪐')}
                       </div>
                       <div className="flex flex-col min-w-0">
@@ -655,10 +713,13 @@ export function CalendarioPersonal() {
                           {item.planeta}
                         </span>
                         {item.signo && (
-                          <span className={`text-[10px] uppercase font-bold leading-none
+                          <span
+                            className={`text-[10px] uppercase font-bold leading-none
                             ${item.tipo === 'luna_progresada' ? 'text-purple-600' : 'text-orange-600'}
-                          `}>
-                            {item.signo} {(() => {
+                          `}
+                          >
+                            {item.signo}{' '}
+                            {(() => {
                               const { degrees, minutes } = degreesToGMS(item.grado);
                               return `${degrees}° ${minutes}'`;
                             })()}
@@ -672,7 +733,10 @@ export function CalendarioPersonal() {
                       <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
                         Casa {item.casa}
                       </span>
-                      <span className="text-xs text-slate-600 line-clamp-2 leading-tight h-8 mt-0.5 whitespace-normal" title={item.casa_significado}>
+                      <span
+                        className="text-xs text-slate-600 line-clamp-2 leading-tight h-8 mt-0.5 whitespace-normal"
+                        title={item.casa_significado}
+                      >
                         {item.casa_significado}
                       </span>
                     </div>
@@ -689,15 +753,18 @@ export function CalendarioPersonal() {
       <div className="flex flex-col gap-4">
         {weekDays.map((day) => {
           // Filtrar eventos para este día
-          const eventosDelDia = eventos.filter(evento => {
+          const eventosDelDia = eventos.filter((evento) => {
             // Excluir eventos especiales que van en la tarjeta superior
-            if (evento.tipo_evento === "Tránsito Casa Estado") {
+            if (evento.tipo_evento === 'Tránsito Casa Estado') {
               return false;
             }
 
             // Incluir eventos de Luna Progresada que son conjunciones específicas
-            if (evento.tipo_evento === "Luna Progresada" &&
-              evento.descripcion && evento.descripcion.includes("Conjunción")) {
+            if (
+              evento.tipo_evento === 'Luna Progresada' &&
+              evento.descripcion &&
+              evento.descripcion.includes('Conjunción')
+            ) {
               const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
               return isSameDay(fechaEvento, day);
             }
@@ -731,9 +798,7 @@ export function CalendarioPersonal() {
                   </div>
                 </ScrollArea>
               ) : (
-                <p className="text-muted-foreground">
-                  (No hay eventos personales)
-                </p>
+                <p className="text-muted-foreground">(No hay eventos personales)</p>
               )}
             </Card>
           );

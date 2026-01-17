@@ -1,28 +1,24 @@
 /**
  * Página para mostrar la carta natal trópica.
- * 
+ *
  * Esta página calcula y muestra una carta natal trópica dinámica basada en los datos del usuario.
  * Utiliza la API FastAPI para generar cálculos astrológicos precisos.
  * Incluye sistema de caché para optimizar el rendimiento.
- * 
+ *
  * @author Astrowellness Team
  * @version 2.0.0
  */
 
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
-import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
-import { CartaNatalTabla } from "@/components/carta-natal-tabla";
-import { CartaNatalInterpretacion } from "@/components/carta-natal-interpretacion";
-import { InterpretacionNarrativa } from "@/components/interpretacion-narrativa";
-import { InterpretacionesIndividuales } from "@/components/interpretaciones-individuales";
-import { useInterpretaciones } from "@/hooks/use-interpretaciones";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, RefreshCw } from "lucide-react";
-import { ProtectedPage } from "@/components/protected-page";
-import { RequireCompletedData } from "@/components/require-completed-data";
+import { CartaNatalWrapper } from '@/components/carta-natal-wrapper';
+import { CartaNatalTabla } from '@/components/carta-natal-tabla';
+import { InterpretacionNarrativa } from '@/components/interpretacion-narrativa';
+import { InterpretacionesIndividuales } from '@/components/interpretaciones-individuales';
+import { useInterpretaciones } from '@/hooks/use-interpretaciones';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ProtectedPage } from '@/components/protected-page';
 
 interface CartaNatalData {
   success: boolean;
@@ -35,27 +31,23 @@ interface CartaNatalData {
 
 /**
  * Componente de página para la carta natal trópica dinámica.
- * 
+ *
  * @returns {JSX.Element} - Elemento JSX que contiene la página de carta natal trópica.
  */
 export default function CartasTropicaPage() {
   const [cartaData, setCartaData] = useState<any>(null);
   const [cartaCompleta, setCartaCompleta] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cached, setCached] = useState(false);
-  const [calculationTime, setCalculationTime] = useState<string | null>(null);
+  const [, setCached] = useState(false);
+  const [, setCalculationTime] = useState<string | null>(null);
 
   // Hook para interpretaciones RAG
   const {
     interpretaciones,
     loading: interpretacionesLoading,
     error: interpretacionesError,
-    refetch: refetchInterpretaciones,
-    clearCache: clearInterpretacionesCache
   } = useInterpretaciones(cartaCompleta, 'tropical');
-
-
 
   const calcularCarta = async () => {
     setLoading(true);
@@ -65,7 +57,7 @@ export default function CartasTropicaPage() {
     try {
       const response = await fetch('/api/cartas/tropical', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
 
       const data: CartaNatalData = await response.json();
@@ -88,7 +80,9 @@ export default function CartasTropicaPage() {
         setError(data.error || 'Error calculando carta natal');
       }
     } catch (err) {
-      setError('Error de conexión. Asegúrate de que el servidor FastAPI esté ejecutándose en puerto 8001.');
+      setError(
+        'Error de conexión. Asegúrate de que el servidor FastAPI esté ejecutándose en puerto 8001.'
+      );
       console.error('Error:', err);
     } finally {
       setLoading(false);
@@ -100,13 +94,10 @@ export default function CartasTropicaPage() {
     calcularCarta();
   }, []);
 
-
-
   return (
     <ProtectedPage requiredEntitlement="hasBaseBundle" entitlementRedirect="/upgrade">
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
-
 
         {error && (
           <Alert variant="destructive" className="mb-4">
@@ -116,7 +107,8 @@ export default function CartasTropicaPage() {
                 <div className="mt-2 text-sm">
                   <strong>Solución:</strong> Ejecuta el servidor FastAPI:
                   <code className="block mt-1 p-2 bg-gray-100 rounded text-xs">
-                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
+                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python
+                    app.py
                   </code>
                 </div>
               )}
@@ -142,8 +134,7 @@ export default function CartasTropicaPage() {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
-                <div className="flex gap-2">
-                </div>
+                <div className="flex gap-2"></div>
               </div>
 
               {/* Interpretación Narrativa */}
@@ -169,8 +160,6 @@ export default function CartasTropicaPage() {
             </div>
           </>
         )}
-
-
       </div>
     </ProtectedPage>
   );

@@ -1,27 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import prisma from '@/lib/prisma'
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import prisma from '@/lib/prisma';
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id: userId } = await params;
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
-    if (!session || !["info@astrochat.online", "info@mariablaquier.com"].includes(session.user?.email || "")) {
+    if (
+      !session ||
+      !['info@astrochat.online', 'info@mariablaquier.com'].includes(session.user?.email || '')
+    ) {
       return NextResponse.json(
         { error: 'Acceso denegado. Se requieren permisos de administrador.' },
         { status: 403 }
-      )
+      );
     }
+    const data = await request.json();
 
-    const userId = params.id
-    const data = await request.json()
-
-    console.log(`Admin ${session.user?.email} updated user ${userId}`, data)
+    console.log(`Admin ${session.user?.email} updated user ${userId}`, data);
 
     // Preparar fecha si viene
     let birthDateFormatted = undefined;
@@ -42,62 +41,58 @@ export async function PUT(
         birthCountry: data.birthCountry,
         birthHour: data.birthHour !== undefined ? Number(data.birthHour) : undefined,
         birthMinute: data.birthMinute !== undefined ? Number(data.birthMinute) : undefined,
-        knowsBirthTime: data.knowsBirthTime !== undefined ? Boolean(data.knowsBirthTime) : undefined,
+        knowsBirthTime:
+          data.knowsBirthTime !== undefined ? Boolean(data.knowsBirthTime) : undefined,
         gender: data.gender,
         residenceCity: data.residenceCity,
         residenceCountry: data.residenceCountry,
         // Opcional: Permitir al admin resetear el contador
         birthDataChangeCount: data.resetCounter ? 0 : undefined,
-      }
-    })
+      },
+    });
 
     // IMPORTANTE: Invalidar cache de cartas natales
     await prisma.cartaNatal.deleteMany({
-      where: { userId: userId }
-    })
+      where: { userId: userId },
+    });
 
     return NextResponse.json({
       success: true,
-      user: updatedUser
-    })
-
+      user: updatedUser,
+    });
   } catch (error) {
-    console.error('Error updating user as admin:', error)
+    console.error('Error updating user as admin:', error);
     return NextResponse.json(
       { error: 'Error interno del servidor al actualizar el usuario.' },
       { status: 500 }
-    )
+    );
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: userId } = await params;
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(
         { error: 'Acceso denegado. Se requieren permisos de administrador.' },
         { status: 403 }
-      )
+      );
     }
-
-    const userId = params.id
 
     // Obtener el usuario que se va a eliminar
     const userToDelete = await prisma.user.findUnique({
       where: { id: userId },
-      select: { email: true }
-    })
+      select: { email: true },
+    });
 
     if (!userToDelete) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado.' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'Usuario no encontrado.' }, { status: 404 });
     }
 
     // Protección: Evitar que el admin se elimine a sí mismo
@@ -105,25 +100,24 @@ export async function DELETE(
       return NextResponse.json(
         { error: 'No puedes eliminar tu propia cuenta de administrador.' },
         { status: 400 }
-      )
+      );
     }
 
     // Eliminar usuario (cascade automático eliminará registros relacionados)
     await prisma.user.delete({
-      where: { id: userId }
-    })
+      where: { id: userId },
+    });
 
     return NextResponse.json({
       success: true,
       message: 'Usuario eliminado exitosamente.',
-      deletedEmail: userToDelete.email
-    })
-
+      deletedEmail: userToDelete.email,
+    });
   } catch (error) {
-    console.error('Error deleting user:', error)
+    console.error('Error deleting user:', error);
     return NextResponse.json(
       { error: 'Error interno del servidor al eliminar el usuario.' },
       { status: 500 }
-    )
+    );
   }
 }

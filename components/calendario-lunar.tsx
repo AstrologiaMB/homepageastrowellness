@@ -1,255 +1,263 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useUserNatalData } from '@/hooks/use-user-natal-data';
-import { fetchPersonalCalendar, checkMicroserviceHealth } from '@/lib/personal-calendar-api';
+import { fetchPersonalCalendar } from '@/lib/personal-calendar-api';
 import { fetchLunarJournal, JournalEntry } from '@/lib/lunar-journal-api';
 import { LunarEventCard } from './lunar-event-card';
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Moon, RefreshCw, Lock } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from '@/hooks/use-toast';
 
 interface AstroEvent {
-    fecha_utc: string;
-    hora_utc: string;
-    tipo_evento: string;
-    descripcion: string;
-    metadata?: any;
-    [key: string]: any;
+  fecha_utc: string;
+  hora_utc: string;
+  tipo_evento: string;
+  descripcion: string;
+  metadata?: any;
+  [key: string]: any;
 }
 
 interface LunarEventGroup {
-    mainEvent: AstroEvent;
-    aspects: AstroEvent[];
-    date: Date;
+  mainEvent: AstroEvent;
+  aspects: AstroEvent[];
+  date: Date;
 }
 
 export function CalendarioLunar() {
-    const { natalData, isLoading: isLoadingNatal, hasCompleteData } = useUserNatalData();
-    const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
-    const [groups, setGroups] = useState<LunarEventGroup[]>([]);
-    const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-    const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
-    const { toast } = useToast();
+  const { natalData, isLoading: isLoadingNatal, hasCompleteData } = useUserNatalData();
+  const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
+  const [groups, setGroups] = useState<LunarEventGroup[]>([]);
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
+  const { toast } = useToast();
 
-    // Check year availability (Mid-December Rule)
-    const isYearAvailable = (targetYear: number) => {
-        const currentYear = new Date().getFullYear();
-        if (targetYear <= currentYear) return { available: true };
+  // Check year availability (Mid-December Rule)
+  const isYearAvailable = (targetYear: number) => {
+    const currentYear = new Date().getFullYear();
+    if (targetYear <= currentYear) return { available: true };
 
-        // Next year available only after Dec 15th
-        if (targetYear === currentYear + 1) {
-            const today = new Date();
-            // Month is 0-indexed (11 = Dec)
-            const isMidDec = today.getMonth() === 11 && today.getDate() >= 15;
-            if (isMidDec) return { available: true };
-            return { available: false, message: `El año ${targetYear} estará disponible a mediados de diciembre.` };
-        }
-        return { available: false, message: "Año aún no disponible" };
-    };
-
-    async function loadData(force: boolean = false) {
-        if (!natalData || !hasCompleteData) {
-            if (!isLoadingNatal) setStatus('error');
-            return;
-        }
-
-        try {
-            if (!force) setStatus('loading');
-
-            // 1. Fetch Calendar Events for selected Year
-            const calendarRes = await fetchPersonalCalendar(natalData, force, selectedYear);
-            const allEvents = calendarRes.events;
-
-            // 2. Fetch Journal for selected Year
-            const journalRes = await fetchLunarJournal(selectedYear);
-            setJournalEntries(journalRes);
-
-            // 3. Process & Group Events
-            let phaseEvents = allEvents.filter(e =>
-                ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
-            );
-
-            // Deduplicate: If an Eclipse exists at the same time as a Phase, keep only the Eclipse.
-            const eclipseKeys = new Set(
-                phaseEvents
-                    .filter(e => e.tipo_evento.includes('Eclipse'))
-                    .map(e => `${e.fecha_utc}-${e.hora_utc}`)
-            );
-
-            phaseEvents = phaseEvents.filter(e => {
-                const isEclipse = e.tipo_evento.includes('Eclipse');
-                if (isEclipse) return true;
-
-                // If it's a normal phase, check if an eclipse exists at this time
-                const key = `${e.fecha_utc}-${e.hora_utc}`;
-                return !eclipseKeys.has(key);
-            });
-
-            const aspectEvents = allEvents.filter(e => e.metadata?.phase_type);
-
-            // Grouping
-            const grouped: LunarEventGroup[] = phaseEvents.map(main => {
-                // Construct proper UTC date object
-                // fecha_utc is "YYYY-MM-DD", hora_utc is "HH:MM"
-                const isoString = `${main.fecha_utc}T${main.hora_utc}:00Z`;
-                const fullDate = new Date(isoString);
-
-                const relatedAspects = aspectEvents.filter(asp => {
-                    // Aspect might not have same exact minute if calculated slightly differently?
-                    // Actually aspects generated by _add_moon_phase... copy the fecha_utc of the main event.
-                    // But let's check strict equality of the date string or close enough?
-                    // They should share the exact same 'fecha_utc' string from backend usually.
-                    return asp.fecha_utc === main.fecha_utc;
-                });
-
-                return {
-                    mainEvent: main,
-                    aspects: relatedAspects,
-                    date: fullDate
-                };
-            });
-
-            // Sort by date
-            grouped.sort((a, b) => a.date.getTime() - b.date.getTime());
-
-            // Filter: Show only if it has aspects (Strict Conjunctions)
-            const filteredGroups = grouped.filter(g => g.aspects.length > 0);
-
-            setGroups(filteredGroups);
-            setStatus('success');
-
-        } catch (e) {
-            console.error(e);
-            setStatus('error');
-        }
+    // Next year available only after Dec 15th
+    if (targetYear === currentYear + 1) {
+      const today = new Date();
+      // Month is 0-indexed (11 = Dec)
+      const isMidDec = today.getMonth() === 11 && today.getDate() >= 15;
+      if (isMidDec) return { available: true };
+      return {
+        available: false,
+        message: `El año ${targetYear} estará disponible a mediados de diciembre.`,
+      };
     }
+    return { available: false, message: 'Año aún no disponible' };
+  };
 
-    useEffect(() => {
-        if (hasCompleteData) {
-            loadData();
-        }
-    }, [natalData, hasCompleteData, isLoadingNatal, selectedYear]);
+  const loadData = useCallback(
+    async (force: boolean = false) => {
+      if (!natalData || !hasCompleteData) {
+        if (!isLoadingNatal) setStatus('error');
+        return;
+      }
 
-    const handleRefresh = () => {
-        loadData(true);
-    };
+      try {
+        if (!force) setStatus('loading');
 
-    if (isLoadingNatal || status === 'loading') {
-        return (
-            <div className="flex flex-col items-center justify-center p-12 text-slate-500">
-                <Loader2 className="h-8 w-8 animate-spin mb-4" />
-                <p>Calculando fases lunares y conjunciones natales...</p>
-            </div>
+        // 1. Fetch Calendar Events for selected Year
+        const calendarRes = await fetchPersonalCalendar(natalData, force, selectedYear);
+        const allEvents = calendarRes.events;
+
+        // 2. Fetch Journal for selected Year
+        const journalRes = await fetchLunarJournal(selectedYear);
+        setJournalEntries(journalRes);
+
+        // 3. Process & Group Events
+        let phaseEvents = allEvents.filter((e) =>
+          [
+            'Luna Nueva',
+            'Luna Llena',
+            'Cuarto Creciente',
+            'Cuarto Menguante',
+            'Eclipse Solar',
+            'Eclipse Lunar',
+          ].includes(e.tipo_evento)
         );
-    }
 
-    if (status === 'error' || !hasCompleteData) {
-        return (
-            <Alert variant="destructive">
-                <AlertDescription>
-                    No se pudieron cargar los datos lunares. Asegúrate de tener tus datos natales configurados.
-                </AlertDescription>
-            </Alert>
+        // Deduplicate: If an Eclipse exists at the same time as a Phase, keep only the Eclipse.
+        const eclipseKeys = new Set(
+          phaseEvents
+            .filter((e) => e.tipo_evento.includes('Eclipse'))
+            .map((e) => `${e.fecha_utc}-${e.hora_utc}`)
         );
-    }
 
+        phaseEvents = phaseEvents.filter((e) => {
+          const isEclipse = e.tipo_evento.includes('Eclipse');
+          if (isEclipse) return true;
+
+          // If it's a normal phase, check if an eclipse exists at this time
+          const key = `${e.fecha_utc}-${e.hora_utc}`;
+          return !eclipseKeys.has(key);
+        });
+
+        const aspectEvents = allEvents.filter((e) => e.metadata?.phase_type);
+
+        // Grouping
+        const grouped: LunarEventGroup[] = phaseEvents.map((main) => {
+          // Construct proper UTC date object
+          // fecha_utc is "YYYY-MM-DD", hora_utc is "HH:MM"
+          const isoString = `${main.fecha_utc}T${main.hora_utc}:00Z`;
+          const fullDate = new Date(isoString);
+
+          const relatedAspects = aspectEvents.filter((asp) => {
+            // Aspect might not have same exact minute if calculated slightly differently?
+            // Actually aspects generated by _add_moon_phase... copy the fecha_utc of the main event.
+            // But let's check strict equality of the date string or close enough?
+            // They should share the exact same 'fecha_utc' string from backend usually.
+            return asp.fecha_utc === main.fecha_utc;
+          });
+
+          return {
+            mainEvent: main,
+            aspects: relatedAspects,
+            date: fullDate,
+          };
+        });
+
+        // Sort by date
+        grouped.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+        // Filter: Show only if it has aspects (Strict Conjunctions)
+        const filteredGroups = grouped.filter((g) => g.aspects.length > 0);
+
+        setGroups(filteredGroups);
+        setStatus('success');
+      } catch (e) {
+        console.error(e);
+        setStatus('error');
+      }
+    },
+    [natalData, hasCompleteData, isLoadingNatal, selectedYear]
+  );
+
+  useEffect(() => {
+    if (hasCompleteData) {
+      loadData();
+    }
+  }, [natalData, hasCompleteData, isLoadingNatal, selectedYear, loadData]);
+
+  const handleRefresh = () => {
+    loadData(true);
+  };
+
+  if (isLoadingNatal || status === 'loading') {
     return (
-        <div className="space-y-8 max-w-4xl mx-auto p-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="p-3 bg-blue-100 rounded-full text-blue-600">
-                        <Moon size={32} />
-                    </div>
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-800">Fases Lunares {selectedYear}</h1>
-                        <p className="text-slate-600">
-                            Ciclos y eclipses conectados con tu carta natal.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <Tabs
-                        value={String(selectedYear)}
-                        onValueChange={(val) => {
-                            const year = parseInt(val);
-                            const availability = isYearAvailable(year);
-                            if (availability.available) {
-                                setSelectedYear(year);
-                            } else {
-                                toast({
-                                    title: `Año ${year} Bloqueado 🔒`,
-                                    description: availability.message,
-                                    variant: "destructive"
-                                });
-                            }
-                        }}
-                        className="w-auto"
-                    >
-                        <TabsList>
-                            {(() => {
-                                const currentYear = new Date().getFullYear();
-                                const startYear = 2025;
-                                const endYear = currentYear + 1;
-                                const years = [];
-                                for (let y = startYear; y <= endYear; y++) {
-                                    years.push(y);
-                                }
-                                return years.map(year => {
-                                    const { available } = isYearAvailable(year);
-                                    return (
-                                        <TabsTrigger
-                                            key={year}
-                                            value={String(year)}
-                                            disabled={!available} // Visual disable
-                                            className={!available ? "opacity-50 cursor-not-allowed" : ""}
-                                        >
-                                            {year}
-                                            {!available && <Lock className="ml-1.5 h-3 w-3" />}
-                                        </TabsTrigger>
-                                    );
-                                });
-                            })()}
-                        </TabsList>
-                    </Tabs>
-
-                    <Button variant="outline" onClick={handleRefresh} title="Recalcular eventos" size="icon">
-                        <RefreshCw className="h-4 w-4" />
-                    </Button>
-                </div>
-            </div>
-
-            <div className="space-y-6">
-                {groups.map((group, idx) => {
-                    // Find entry match
-                    // We match by Phase Name + Date (approx) or iterate entries
-                    // Since date string might vary slightly (timezone), we match by ISO or "same day" if unique?
-                    // Best is to match by closest date + Type?
-                    // Actually, date in JournalEntry is from `date.toISOString()`.
-                    // Group date is `date`.
-                    // So `entry.date === group.date.toISOString()` should work since we populated it that way.
-
-                    const entry = journalEntries.find(e => e.date === group.date.toISOString());
-
-                    return (
-                        <LunarEventCard
-                            key={idx}
-                            group={group}
-                            initialEntry={entry}
-                            natalData={natalData}
-                        />
-                    );
-                })}
-            </div>
-
-            {groups.length === 0 && (
-                <div className="text-center p-12 bg-slate-50 rounded-lg">
-                    <p className="text-slate-500">No se encontraron conjunciones lunares para el año en curso.</p>
-                </div>
-            )}
-        </div>
+      <div className="flex flex-col items-center justify-center p-12 text-slate-500">
+        <Loader2 className="h-8 w-8 animate-spin mb-4" />
+        <p>Calculando fases lunares y conjunciones natales...</p>
+      </div>
     );
+  }
+
+  if (status === 'error' || !hasCompleteData) {
+    return (
+      <Alert variant="destructive">
+        <AlertDescription>
+          No se pudieron cargar los datos lunares. Asegúrate de tener tus datos natales
+          configurados.
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  return (
+    <div className="space-y-8 max-w-4xl mx-auto p-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-blue-100 rounded-full text-blue-600">
+            <Moon size={32} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-slate-800">Fases Lunares {selectedYear}</h1>
+            <p className="text-slate-600">Ciclos y eclipses conectados con tu carta natal.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Tabs
+            value={String(selectedYear)}
+            onValueChange={(val) => {
+              const year = parseInt(val);
+              const availability = isYearAvailable(year);
+              if (availability.available) {
+                setSelectedYear(year);
+              } else {
+                toast({
+                  title: `Año ${year} Bloqueado 🔒`,
+                  description: availability.message,
+                  variant: 'destructive',
+                });
+              }
+            }}
+            className="w-auto"
+          >
+            <TabsList>
+              {(() => {
+                const currentYear = new Date().getFullYear();
+                const startYear = 2025;
+                const endYear = currentYear + 1;
+                const years = [];
+                for (let y = startYear; y <= endYear; y++) {
+                  years.push(y);
+                }
+                return years.map((year) => {
+                  const { available } = isYearAvailable(year);
+                  return (
+                    <TabsTrigger
+                      key={year}
+                      value={String(year)}
+                      disabled={!available} // Visual disable
+                      className={!available ? 'opacity-50 cursor-not-allowed' : ''}
+                    >
+                      {year}
+                      {!available && <Lock className="ml-1.5 h-3 w-3" />}
+                    </TabsTrigger>
+                  );
+                });
+              })()}
+            </TabsList>
+          </Tabs>
+
+          <Button variant="outline" onClick={handleRefresh} title="Recalcular eventos" size="icon">
+            <RefreshCw className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {groups.map((group, idx) => {
+          // Find entry match
+          // We match by Phase Name + Date (approx) or iterate entries
+          // Since date string might vary slightly (timezone), we match by ISO or "same day" if unique?
+          // Best is to match by closest date + Type?
+          // Actually, date in JournalEntry is from `date.toISOString()`.
+          // Group date is `date`.
+          // So `entry.date === group.date.toISOString()` should work since we populated it that way.
+
+          const entry = journalEntries.find((e) => e.date === group.date.toISOString());
+
+          return (
+            <LunarEventCard key={idx} group={group} initialEntry={entry} natalData={natalData} />
+          );
+        })}
+      </div>
+
+      {groups.length === 0 && (
+        <div className="text-center p-12 bg-slate-50 rounded-lg">
+          <p className="text-slate-500">
+            No se encontraron conjunciones lunares para el año en curso.
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }

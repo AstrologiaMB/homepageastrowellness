@@ -3,17 +3,10 @@ import {
   endOfWeek,
   isSameWeek,
   addWeeks,
-  subWeeks,
-  startOfMonth,
   endOfMonth,
-  addMonths,
-  getWeeksInMonth,
-  getDay,
-  getDate,
   getYear,
   getMonth,
   format,
-  parseISO,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -30,7 +23,10 @@ export function areDatesInSameWeek(date1: Date, date2: Date): boolean {
 }
 
 // Get a list of weeks for a given month with sequential week numbers
-export function getWeeksOfMonth(year: number, month: number): { start: Date; end: Date; weekNumber: number }[] {
+export function getWeeksOfMonth(
+  year: number,
+  month: number
+): { start: Date; end: Date; weekNumber: number }[] {
   const weeks: { start: Date; end: Date; weekNumber: number }[] = [];
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = endOfMonth(firstDayOfMonth);
@@ -80,13 +76,14 @@ export function getYearNumber(date: Date): number {
  */
 export function formatLocalDateTime(utcDateTimeString: string): string {
   const date = new Date(utcDateTimeString);
-  
+
   // Formato: "DD/MM/YYYY - HH:MM"
-  return `${date.getDate().toString().padStart(2, '0')}/${
-    (date.getMonth() + 1).toString().padStart(2, '0')}/${
-    date.getFullYear()} - ${
-    date.getHours().toString().padStart(2, '0')}:${
-    date.getMinutes().toString().padStart(2, '0')}`;
+  return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}/${date.getFullYear()} - ${date.getHours().toString().padStart(2, '0')}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
 }
 
 /**

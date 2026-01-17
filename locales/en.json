@@ -1,0 +1,203 @@
+{
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "forgotPassword": "Forgot Password?",
+      "noAccount": "Don't have an account?",
+      "register": "Register",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required",
+        "invalidEmail": "Invalid email format"
+      }
+    },
+    "register": {
+      "title": "Register",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "login": "Login",
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "emailExists": "Email already registered",
+        "weakPassword": "Password must be at least 8 characters"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "email": "Email",
+      "submit": "Send Reset Link",
+      "backToLogin": "Back to Login",
+      "success": "Reset link sent to your email",
+      "errors": {
+        "emailNotFound": "Email not found",
+        "invalidToken": "Invalid or expired token"
+      }
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "password": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Reset Password",
+      "success": "Password reset successfully",
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "weakPassword": "Password must be at least 8 characters"
+      }
+    }
+  },
+  "cartas": {
+    "natal": {
+      "title": "Natal Chart",
+      "description": "Your birth chart interpretation",
+      "calculate": "Calculate Chart",
+      "errors": {
+        "missingData": "Missing birth data",
+        "calculationError": "Error calculating chart"
+      }
+    },
+    "draconica": {
+      "title": "Draconic Chart",
+      "description": "Your draconic chart interpretation",
+      "calculate": "Calculate Chart",
+      "errors": {
+        "missingData": "Missing birth data",
+        "calculationError": "Error calculating chart"
+      }
+    },
+    "horaria": {
+      "title": "Horary Chart",
+      "description": "Answer specific questions with horary astrology",
+      "question": "Your Question",
+      "submit": "Ask Question",
+      "errors": {
+        "missingQuestion": "Please enter your question",
+        "calculationError": "Error calculating chart"
+      }
+    },
+    "cruzada": {
+      "title": "Synastry Chart",
+      "description": "Compare two charts for compatibility",
+      "errors": {
+        "missingData": "Missing birth data for one or both persons",
+        "calculationError": "Error calculating chart"
+      }
+    }
+  },
+  "astrogematria": {
+    "title": "Astro-Gematria",
+    "description": "Discover the numerological connections in your chart",
+    "calculate": "Calculate",
+    "remedios": "Remedies",
+    "interpretaciones": "Interpretations",
+    "errors": {
+      "missingData": "Missing birth data",
+      "calculationError": "Error calculating astrogematria"
+    }
+  },
+  "calendario": {
+    "personal": {
+      "title": "Personal Calendar",
+      "description": "Your personalized astrological calendar",
+      "errors": {
+        "missingData": "Missing birth data",
+        "loadError": "Error loading calendar"
+      }
+    },
+    "lunar": {
+      "title": "Lunar Calendar",
+      "description": "Track lunar phases and their influence",
+      "phases": {
+        "new": "New Moon",
+        "waxing": "Waxing Moon",
+        "full": "Full Moon",
+        "waning": "Waning Moon"
+      },
+      "errors": {
+        "loadError": "Error loading lunar calendar"
+      }
+    },
+    "general": {
+      "title": "General Astrological Calendar",
+      "description": "Important astrological events",
+      "errors": {
+        "loadError": "Error loading calendar"
+      }
+    }
+  },
+  "subscription": {
+    "title": "Subscription",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "$0/month",
+        "features": [
+          "Basic natal chart",
+          "Limited interpretations",
+          "General calendar access"
+        ]
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "$9.99/month",
+        "features": [
+          "All chart types",
+          "Full interpretations",
+          "Personal calendar",
+          "Priority support"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$19.99/month",
+        "features": [
+          "Everything in Premium",
+          "Astrogematria analysis",
+          "Synastry charts",
+          "Dedicated support"
+        ]
+      }
+    },
+    "upgrade": "Upgrade Now",
+    "manage": "Manage Subscription",
+    "cancel": "Cancel Subscription",
+    "errors": {
+      "paymentError": "Payment processing error",
+      "subscriptionError": "Error managing subscription"
+    }
+  },
+  "errors": {
+    "generic": "An error occurred",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "notFound": "Resource not found",
+    "serverError": "Server error",
+    "networkError": "Network error"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "download": "Download",
+    "upload": "Upload"
+  }
+}

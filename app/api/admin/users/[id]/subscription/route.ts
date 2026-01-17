@@ -1,45 +1,38 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import prisma from '@/lib/prisma'
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import prisma from '@/lib/prisma';
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id: userId } = await params;
     // Verificar autenticación y permisos de admin
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     if (!session || session.user?.email !== 'info@astrochat.online') {
       return NextResponse.json(
         { error: 'Acceso denegado. Se requieren permisos de administrador.' },
         { status: 403 }
-      )
+      );
     }
-
-    const userId = params.id
-    const { subscriptionStatus, subscriptionExpiresAt } = await request.json()
+    const { subscriptionStatus, subscriptionExpiresAt } = await request.json();
 
     // Validar datos de entrada
     if (!subscriptionStatus || !['free', 'premium'].includes(subscriptionStatus)) {
       return NextResponse.json(
         { error: 'Estado de suscripción inválido. Debe ser "free" o "premium".' },
         { status: 400 }
-      )
+      );
     }
 
     // Verificar que el usuario existe
     const existingUser = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true }
-    })
+      select: { id: true, email: true },
+    });
 
     if (!existingUser) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado.' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'Usuario no encontrado.' }, { status: 404 });
     }
 
     // Actualizar usuario (upsert en UserSubscription)
@@ -58,7 +51,7 @@ export async function PUT(
     }
 
     // Upsert UserSubscription
-    const subscription = await prisma.userSubscription.upsert({
+    await prisma.userSubscription.upsert({
       where: { userId: userId },
       create: {
         userId: userId,
@@ -66,11 +59,11 @@ export async function PUT(
         stripeCurrentPeriodEnd: currentPeriodEnd,
         status: status,
         hasBaseBundle: hasBaseBundle,
-        // Reset entitlements for manual overrides (or keep them?) 
+        // Reset entitlements for manual overrides (or keep them?)
         // For simplicity, manual premium = Base Bundle access.
         hasLunarCalendar: false,
         hasAstrogematria: false,
-        hasElectiveChart: false
+        hasElectiveChart: false,
       },
       update: {
         stripeCurrentPeriodEnd: currentPeriodEnd,
@@ -80,19 +73,15 @@ export async function PUT(
         hasLunarCalendar: status === 'active' ? undefined : false,
         hasAstrogematria: status === 'active' ? undefined : false,
         hasElectiveChart: status === 'active' ? undefined : false,
-      }
+      },
     });
 
     return NextResponse.json({
       success: true,
-      message: `Suscripción manual actualizada para ${existingUser.email}`
-    })
-
+      message: `Suscripción manual actualizada para ${existingUser.email}`,
+    });
   } catch (error) {
-    console.error('Error updating user subscription:', error)
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    )
+    console.error('Error updating user subscription:', error);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }

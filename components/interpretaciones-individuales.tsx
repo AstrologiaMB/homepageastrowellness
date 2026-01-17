@@ -1,76 +1,76 @@
-'use client'
+'use client';
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 
 interface InterpretacionItem {
-  titulo: string
-  tipo: string
-  interpretacion: string
-  planeta?: string
-  signo?: string
-  casa?: string
-  aspecto?: string
-  planeta1?: string
-  planeta2?: string
-  grados?: string
+  titulo: string;
+  tipo: string;
+  interpretacion: string;
+  planeta?: string;
+  signo?: string;
+  casa?: string;
+  aspecto?: string;
+  planeta1?: string;
+  planeta2?: string;
+  grados?: string;
 }
 
 interface InterpretacionesIndividualesProps {
-  interpretaciones: InterpretacionItem[] | null
-  loading: boolean
-  error: string | null
+  interpretaciones: InterpretacionItem[] | null;
+  loading: boolean;
+  error: string | null;
 }
 
 function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
   const getTypeColor = (tipo: string) => {
     switch (tipo) {
       case 'PlanetaEnSigno':
-        return 'bg-blue-50 border-blue-200 text-blue-700'
+        return 'bg-blue-50 border-blue-200 text-blue-700';
       case 'PlanetaEnCasa':
-        return 'bg-green-50 border-green-200 text-green-700'
+        return 'bg-green-50 border-green-200 text-green-700';
       case 'Aspecto':
-        return 'bg-purple-50 border-purple-200 text-purple-700'
+        return 'bg-purple-50 border-purple-200 text-purple-700';
       case 'CasaEnSigno':
-        return 'bg-orange-50 border-orange-200 text-orange-700'
+        return 'bg-orange-50 border-orange-200 text-orange-700';
       case 'PlanetaRetrogrado':
-        return 'bg-red-50 border-red-200 text-red-700'
+        return 'bg-red-50 border-red-200 text-red-700';
       case 'AspectoComplejo':
-        return 'bg-indigo-50 border-indigo-200 text-indigo-700'
+        return 'bg-indigo-50 border-indigo-200 text-indigo-700';
       default:
-        return 'bg-gray-50 border-gray-200 text-gray-700'
+        return 'bg-gray-50 border-gray-200 text-gray-700';
     }
-  }
+  };
 
   const getTypeLabel = (tipo: string) => {
     switch (tipo) {
       case 'PlanetaEnSigno':
-        return 'Planeta en Signo'
+        return 'Planeta en Signo';
       case 'PlanetaEnCasa':
-        return 'Planeta en Casa'
+        return 'Planeta en Casa';
       case 'Aspecto':
-        return 'Aspecto'
+        return 'Aspecto';
       case 'CasaEnSigno':
-        return 'Casa en Signo'
+        return 'Casa en Signo';
       case 'PlanetaRetrogrado':
-        return 'Retrógrado'
+        return 'Retrógrado';
       case 'AspectoComplejo':
-        return 'Aspecto Complejo'
+        return 'Aspecto Complejo';
       default:
-        return tipo
+        return tipo;
     }
-  }
+  };
 
   return (
-    <Card className={`w-full transition-all duration-200 hover:shadow-md ${getTypeColor(item.tipo)}`}>
+    <Card
+      className={`w-full transition-all duration-200 hover:shadow-md ${getTypeColor(item.tipo)}`}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-base leading-tight">
-            {item.titulo}
-          </CardTitle>
+          <CardTitle className="text-base leading-tight">{item.titulo}</CardTitle>
           <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
             {getTypeLabel(item.tipo)}
           </Badge>
@@ -88,9 +88,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
         <div className="prose prose-stone prose-sm max-w-none text-gray-700">
           <ReactMarkdown
             components={{
-              p: ({ node, ...props }) => (
-                <p className="mb-2 last:mb-0 leading-relaxed" {...props} />
-              ),
+              p: ({ ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
             }}
           >
             {item.interpretacion}
@@ -98,7 +96,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function InterpretacionItemSkeleton() {
@@ -122,13 +120,13 @@ function InterpretacionItemSkeleton() {
         <Skeleton className="h-4 w-3/4" />
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export function InterpretacionesIndividuales({
   interpretaciones,
   loading,
-  error
+  error,
 }: InterpretacionesIndividualesProps) {
   if (loading) {
     return (
@@ -142,24 +140,26 @@ export function InterpretacionesIndividuales({
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
       <Card className="w-full border-red-200 bg-red-50">
         <CardHeader>
-          <CardTitle className="text-red-700">Error al cargar interpretaciones individuales</CardTitle>
+          <CardTitle className="text-red-700">
+            Error al cargar interpretaciones individuales
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-red-600">{error}</p>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (!interpretaciones || interpretaciones.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -177,5 +177,5 @@ export function InterpretacionesIndividuales({
         ))}
       </div>
     </div>
-  )
+  );
 }

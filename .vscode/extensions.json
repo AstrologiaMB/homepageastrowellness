@@ -1,0 +1,71 @@
+{
+  "recommendations": [
+    // Core development
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+
+    // React/Next.js
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "bradlc.vscode-tailwindcss",
+    "csstools.postcss",
+
+    // Testing
+    "vitest.explorer",
+    "firsttris.vscode-jest-runner",
+
+    // Git
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+
+    // Utilities
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+
+    // Database
+    "Prisma.prisma",
+
+    // Debugging
+    "msjsdiag.debugger-for-chrome",
+    "wallabyjs.quokka-vscode",
+
+    // Code quality
+    "SonarSource.sonarlint-vscode",
+
+    // Icons & Theme
+    "PKief.material-icon-theme",
+    "zhuangtongfa.material-theme",
+
+    // Other
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "wix.vscode-import-cost",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "shd101wyy.markdown-preview-enhanced",
+
+    // Docker
+    "ms-azuretools.vscode-docker",
+
+    // Environment variables
+    "mikestead.dotenv",
+
+    // REST API
+    "humao.rest-client",
+
+    // GraphQL
+    "graphql.vscode-graphql"
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "ms-vscode.vscode-json",
+    "esbenp.prettier-vscode"
+  ]
+}

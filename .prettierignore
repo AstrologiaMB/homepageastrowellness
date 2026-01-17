@@ -1,0 +1,100 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+.vercel/
+
+# Testing
+*.test.js.snap
+*.test.tsx.snap
+coverage/
+
+# Misc
+.DS_Store
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Generated files
+*.generated.ts
+*.generated.js
+.next-env.d.ts
+
+# Public assets
+public/
+static/
+
+# Documentation
+CHANGELOG.md
+LICENSE
+README.md
+
+# Config files
+*.config.js
+*.config.ts
+.prettierrc
+.eslintrc.js
+.eslintrc.json
+.eslintrc.cjs
+
+# Third party
+.turbo/
+.vercel/
+.netlify/
+
+# Database
+prisma/migrations/
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Package manager
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Husky
+.husky/
+
+# Git
+.git/
+.gitignore
+.gitattributes

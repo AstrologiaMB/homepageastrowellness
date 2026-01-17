@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Orbit, Sparkles, ArrowRight, Moon, Star, CircleDot, Home } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Orbit, ArrowRight, Moon, Star, CircleDot, Home } from 'lucide-react';
 
 interface EventoAstrologicoProps {
   evento: {
@@ -37,7 +37,8 @@ const getEventStyle = (tipoEvento: string) => {
       border: 'border-blue-300 dark:border-blue-500/30',
       icon: Orbit,
       iconColor: 'text-blue-600 dark:text-blue-400',
-      badgeColor: 'bg-blue-200 text-blue-800 hover:bg-blue-300 dark:bg-blue-500/20 dark:text-blue-300 dark:hover:bg-blue-500/30',
+      badgeColor:
+        'bg-blue-200 text-blue-800 hover:bg-blue-300 dark:bg-blue-500/20 dark:text-blue-300 dark:hover:bg-blue-500/30',
     };
   }
 
@@ -47,7 +48,8 @@ const getEventStyle = (tipoEvento: string) => {
       border: 'border-purple-300 dark:border-purple-500/30',
       icon: ArrowRight,
       iconColor: 'text-purple-600 dark:text-purple-400',
-      badgeColor: 'bg-purple-200 text-purple-800 hover:bg-purple-300 dark:bg-purple-500/20 dark:text-purple-300 dark:hover:bg-purple-500/30',
+      badgeColor:
+        'bg-purple-200 text-purple-800 hover:bg-purple-300 dark:bg-purple-500/20 dark:text-purple-300 dark:hover:bg-purple-500/30',
     };
   }
 
@@ -57,7 +59,8 @@ const getEventStyle = (tipoEvento: string) => {
       border: 'border-indigo-300 dark:border-indigo-500/30',
       icon: Moon,
       iconColor: 'text-indigo-600 dark:text-indigo-400',
-      badgeColor: 'bg-indigo-200 text-indigo-800 hover:bg-indigo-300 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30',
+      badgeColor:
+        'bg-indigo-200 text-indigo-800 hover:bg-indigo-300 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30',
     };
   }
 
@@ -67,7 +70,8 @@ const getEventStyle = (tipoEvento: string) => {
       border: 'border-amber-300 dark:border-amber-500/30',
       icon: Home,
       iconColor: 'text-amber-600 dark:text-amber-400',
-      badgeColor: 'bg-amber-200 text-amber-800 hover:bg-amber-300 dark:bg-amber-500/20 dark:text-amber-300 dark:hover:bg-amber-500/30',
+      badgeColor:
+        'bg-amber-200 text-amber-800 hover:bg-amber-300 dark:bg-amber-500/20 dark:text-amber-300 dark:hover:bg-amber-500/30',
     };
   }
 
@@ -77,13 +81,14 @@ const getEventStyle = (tipoEvento: string) => {
     border: 'border-slate-300 dark:border-slate-500/30',
     icon: Star,
     iconColor: 'text-slate-600 dark:text-slate-400',
-    badgeColor: 'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-500/20 dark:text-slate-300 dark:hover:bg-slate-500/30',
+    badgeColor:
+      'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-500/20 dark:text-slate-300 dark:hover:bg-slate-500/30',
   };
 };
 
 export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
   // Handle special case for house transits
-  if (evento.tipo_evento === "Tránsito Casa Estado") {
+  if (evento.tipo_evento === 'Tránsito Casa Estado') {
     // Use structured data for house transits and progressed moon
     const houseTransits = evento.house_transits || [];
 
@@ -95,7 +100,9 @@ export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
               <div className="font-medium text-purple-700">
                 {transit.simbolo} {transit.planeta}
                 {transit.tipo === 'luna_progresada' && transit.signo && (
-                  <span className="ml-1">en {transit.signo} {transit.grado}°</span>
+                  <span className="ml-1">
+                    en {transit.signo} {transit.grado}°
+                  </span>
                 )}
               </div>
               <div className="text-xs text-purple-600">
@@ -117,7 +124,9 @@ export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
   const Icon = style.icon;
 
   return (
-    <Card className={`w-72 flex-shrink-0 h-auto bg-gradient-to-br ${style.gradient} border ${style.border} hover:shadow-md transition-all duration-200`}>
+    <Card
+      className={`w-72 flex-shrink-0 h-auto bg-gradient-to-br ${style.gradient} border ${style.border} hover:shadow-md transition-all duration-200`}
+    >
       <CardContent className="space-y-3 px-4 py-4">
         {/* Header with icon and badge */}
         <div className="flex items-start justify-between gap-2">
@@ -127,23 +136,29 @@ export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
               {evento.tipo_evento}
             </Badge>
           </div>
-          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">{horaFormateada}</span>
+          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+            {horaFormateada}
+          </span>
         </div>
 
         {/* Description */}
         <div className="text-sm font-medium leading-relaxed">{evento.descripcion}</div>
 
         {/* Información adicional para aspectos */}
-        {evento.tipo_evento === "Aspecto" && evento.planeta1 && evento.posicion1 && (
+        {evento.tipo_evento === 'Aspecto' && evento.planeta1 && evento.posicion1 && (
           <div className="space-y-1 pt-2 border-t border-border/40">
             <div className="text-xs text-muted-foreground flex items-center gap-1">
               <CircleDot className="h-3 w-3" />
-              <span>{evento.planeta1}: {evento.posicion1}</span>
+              <span>
+                {evento.planeta1}: {evento.posicion1}
+              </span>
             </div>
             {evento.planeta2 && evento.posicion2 && (
               <div className="text-xs text-muted-foreground flex items-center gap-1">
                 <CircleDot className="h-3 w-3" />
-                <span>{evento.planeta2}: {evento.posicion2}</span>
+                <span>
+                  {evento.planeta2}: {evento.posicion2}
+                </span>
               </div>
             )}
           </div>

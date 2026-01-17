@@ -1,21 +1,35 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, isSameDay, isSameWeek, addDays, startOfMonth, getMonth, getYear, addMonths, getISOWeek } from 'date-fns';
+import {
+  format,
+  startOfWeek,
+  addWeeks,
+  subWeeks,
+  isSameDay,
+  isSameWeek,
+  addDays,
+  getISOWeek,
+} from 'date-fns';
 import { es } from 'date-fns/locale';
 
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Card } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarIcon, ChevronRight, Sparkles } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Calendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { CalendarIcon, Sparkles } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Calendar } from '@/components/ui/calendar';
+import { Badge } from '@/components/ui/badge';
 
-import { getWeeksOfMonth, formatWeekRange, formatMonthYear, getMonthNumber, getYearNumber, createDateFromUtc } from '@/lib/date-utils';
+import { createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoAstrologico } from './evento-astrologico';
 
@@ -39,9 +53,9 @@ interface EventoAstrologicoData {
 const loadYearData = async (year: number): Promise<EventoAstrologicoData[]> => {
   try {
     console.log(`Cargando eventos para el año ${year}...`);
-    const module = await import(`@/data/eventos_astrologicos_UTC_${year}.json`);
-    console.log(`✅ Eventos cargados para ${year}:`, module.default?.length || 0, 'eventos');
-    return module.default as EventoAstrologicoData[];
+    const data = await import(`@/data/eventos_astrologicos_UTC_${year}.json`);
+    console.log(`✅ Eventos cargados para ${year}:`, data.default?.length || 0, 'eventos');
+    return data.default as EventoAstrologicoData[];
   } catch (error) {
     console.warn(`⚠️ Archivo no encontrado para ${year}, usando datos vacíos:`, error);
     return [];
@@ -50,7 +64,7 @@ const loadYearData = async (year: number): Promise<EventoAstrologicoData[]> => {
 
 export function CalendarioGeneral() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate] = useState<Date>(new Date());
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
   const [eventos, setEventos] = useState<EventoAstrologicoData[]>([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -64,17 +78,21 @@ export function CalendarioGeneral() {
     const loadData = async () => {
       const [currentYearData, nextYearData] = await Promise.all([
         loadYearData(selectedYear),
-        loadYearData(selectedYear + 1)
+        loadYearData(selectedYear + 1),
       ]);
 
       // Combinar eventos de ambos años sin duplicados
       const allEvents = [...currentYearData, ...nextYearData];
-      const uniqueEvents = allEvents.filter((event, index, self) =>
-        index === self.findIndex(e => e.fecha_utc === event.fecha_utc && e.hora_utc === event.hora_utc)
+      const uniqueEvents = allEvents.filter(
+        (event, index, self) =>
+          index ===
+          self.findIndex((e) => e.fecha_utc === event.fecha_utc && e.hora_utc === event.hora_utc)
       );
 
       setEventos(uniqueEvents);
-      console.log(`✅ Eventos cargados: ${selectedYear} (${currentYearData.length}) + ${selectedYear + 1} (${nextYearData.length}) = ${uniqueEvents.length} eventos totales`);
+      console.log(
+        `✅ Eventos cargados: ${selectedYear} (${currentYearData.length}) + ${selectedYear + 1} (${nextYearData.length}) = ${uniqueEvents.length} eventos totales`
+      );
     };
 
     loadData();
@@ -99,7 +117,7 @@ export function CalendarioGeneral() {
         setCurrentWeekStart(newWeekStart);
       }
     }
-  }, [selectedYear]); // Solo depende de selectedYear para evitar loops
+  }, [selectedYear, currentWeekStart]); // Solo depende de selectedYear para evitar loops
 
   const handlePreviousWeek = () => {
     setCurrentWeekStart(subWeeks(currentWeekStart, 1));
@@ -148,17 +166,21 @@ export function CalendarioGeneral() {
             </h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de {currentWeekStart.getFullYear()}
+            Eventos de la semana del mes de {format(currentWeekStart, 'MMMM', { locale: es })} de{' '}
+            {currentWeekStart.getFullYear()}
           </p>
         </div>
         <div className="flex items-center gap-2">
           {/* Year Selector */}
-          <Select value={selectedYear.toString()} onValueChange={(year) => setSelectedYear(parseInt(year))}>
+          <Select
+            value={selectedYear.toString()}
+            onValueChange={(year) => setSelectedYear(parseInt(year))}
+          >
             <SelectTrigger className="w-[100px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {AVAILABLE_YEARS.map(year => (
+              {AVAILABLE_YEARS.map((year) => (
                 <SelectItem key={year} value={year.toString()}>
                   {year}
                 </SelectItem>
@@ -181,7 +203,7 @@ export function CalendarioGeneral() {
                     defaultMonth={new Date()}
                     fromYear={2024}
                     toYear={2030}
-                    captionLayout="dropdown-buttons"
+                    captionLayout="dropdown"
                     locale={es}
                     selected={selectedDate}
                     onSelect={(date) => {
@@ -207,7 +229,7 @@ export function CalendarioGeneral() {
                   defaultMonth={new Date()}
                   fromYear={2024}
                   toYear={2030}
-                  captionLayout="dropdown-buttons"
+                  captionLayout="dropdown"
                   locale={es}
                   selected={selectedDate}
                   onSelect={(date) => {
@@ -220,26 +242,25 @@ export function CalendarioGeneral() {
             </Popover>
           )}
 
-
           {/* Navigation Arrows (Mobile) */}
           <div className="flex md:hidden items-center gap-1">
-             <Button variant="outline" size="icon" onClick={handlePreviousWeek}>
-                &larr;
-             </Button>
-             <Button variant="outline" size="icon" onClick={handleNextWeek}>
-                &rarr;
-             </Button>
+            <Button variant="outline" size="icon" onClick={handlePreviousWeek}>
+              &larr;
+            </Button>
+            <Button variant="outline" size="icon" onClick={handleNextWeek}>
+              &rarr;
+            </Button>
           </div>
 
-           {/* Navigation Arrows (Desktop) */}
-           <div className="hidden md:flex items-center gap-2">
-              <Button variant="outline" onClick={handlePreviousWeek}>
-                 &larr; Semana {previousWeekNumber}
-              </Button>
-              <Button variant="outline" onClick={handleNextWeek}>
-                 Semana {nextWeekNumber} &rarr;
-              </Button>
-           </div>
+          {/* Navigation Arrows (Desktop) */}
+          <div className="hidden md:flex items-center gap-2">
+            <Button variant="outline" onClick={handlePreviousWeek}>
+              &larr; Semana {previousWeekNumber}
+            </Button>
+            <Button variant="outline" onClick={handleNextWeek}>
+              Semana {nextWeekNumber} &rarr;
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -247,7 +268,7 @@ export function CalendarioGeneral() {
       <div className="flex flex-col gap-5">
         {weekDays.map((day) => {
           // Filtrar eventos para este día
-          const eventosDelDia = eventos.filter(evento => {
+          const eventosDelDia = eventos.filter((evento) => {
             const fechaEvento = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
             return isSameDay(fechaEvento, day);
           });
@@ -264,16 +285,21 @@ export function CalendarioGeneral() {
               }`}
             >
               {/* Day Header with gradient and badge */}
-              <div className={`p-4 rounded-t-lg ${
-                isToday
-                  ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
-                  : 'bg-muted/50 dark:bg-muted/30'
-              }`}>
+              <div
+                className={`p-4 rounded-t-lg ${
+                  isToday
+                    ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
+                    : 'bg-muted/50 dark:bg-muted/30'
+                }`}
+              >
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
                     {format(day, 'EEEE d', { locale: es })}
                     {isToday && (
-                      <Badge variant="default" className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs">
+                      <Badge
+                        variant="default"
+                        className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs"
+                      >
                         Hoy
                       </Badge>
                     )}
@@ -311,11 +337,11 @@ export function CalendarioGeneral() {
 
       {/* Back to Today Button */}
       {!isSameWeek(currentWeekStart, startOfWeek(today, { locale: es })) && (
-         <div className="flex justify-center">
-            <Button variant="outline" onClick={handleBackToToday}>
-               🏠 Volver a Hoy
-            </Button>
-         </div>
+        <div className="flex justify-center">
+          <Button variant="outline" onClick={handleBackToToday}>
+            🏠 Volver a Hoy
+          </Button>
+        </div>
       )}
     </div>
   );

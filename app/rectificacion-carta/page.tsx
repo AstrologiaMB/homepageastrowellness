@@ -1,62 +1,78 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 
 // Esquema de validación para el formulario inicial
 const uncertaintyFormSchema = z.object({
-  acceptUncertainty: z.enum(["yes", "no"], {
-    required_error: "Debes seleccionar una opción",
+  acceptUncertainty: z.enum(['yes', 'no'], {
+    required_error: 'Debes seleccionar una opción',
   }),
 });
 
 // Esquema de validación para el formulario de consideraciones
 const considerationsFormSchema = z.object({
-  acceptConsiderations: z.boolean().refine(val => val === true, {
-    message: "Debes aceptar las consideraciones para continuar",
+  acceptConsiderations: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar las consideraciones para continuar',
   }),
 });
 
 // Esquema de validación para el formulario de eventos
 const eventsFormSchema = z.object({
-  events: z.array(
-    z.object({
-      eventType: z.enum(["sad", "happy"], {
-        required_error: "Debes seleccionar el tipo de evento",
-      }),
-      description: z.string().min(5, {
-        message: "La descripción debe tener al menos 5 caracteres",
-      }),
-      eventDate: z.string().refine(val => {
-        const date = new Date(val);
-        return !isNaN(date.getTime());
-      }, {
-        message: "Fecha inválida",
-      }),
-      notes: z.string().optional(),
+  events: z
+    .array(
+      z.object({
+        eventType: z.enum(['sad', 'happy'], {
+          required_error: 'Debes seleccionar el tipo de evento',
+        }),
+        description: z.string().min(5, {
+          message: 'La descripción debe tener al menos 5 caracteres',
+        }),
+        eventDate: z.string().refine(
+          (val) => {
+            const date = new Date(val);
+            return !isNaN(date.getTime());
+          },
+          {
+            message: 'Fecha inválida',
+          }
+        ),
+        notes: z.string().optional(),
+      })
+    )
+    .length(4, {
+      message: 'Debes proporcionar exactamente 4 eventos',
     })
-  ).length(4, {
-    message: "Debes proporcionar exactamente 4 eventos",
-  }).refine(events => {
-    const sadEvents = events.filter(event => event.eventType === "sad");
-    const happyEvents = events.filter(event => event.eventType === "happy");
-    return sadEvents.length === 2 && happyEvents.length === 2;
-  }, {
-    message: "Debes proporcionar 2 eventos tristes y 2 eventos alegres",
-  }),
+    .refine(
+      (events) => {
+        const sadEvents = events.filter((event) => event.eventType === 'sad');
+        const happyEvents = events.filter((event) => event.eventType === 'happy');
+        return sadEvents.length === 2 && happyEvents.length === 2;
+      },
+      {
+        message: 'Debes proporcionar 2 eventos tristes y 2 eventos alegres',
+      }
+    ),
 });
 
 export default function RectificacionCartaPage() {
@@ -87,27 +103,27 @@ export default function RectificacionCartaPage() {
     resolver: zodResolver(eventsFormSchema),
     defaultValues: {
       events: [
-        { eventType: "sad", description: "", eventDate: "", notes: "" },
-        { eventType: "sad", description: "", eventDate: "", notes: "" },
-        { eventType: "happy", description: "", eventDate: "", notes: "" },
-        { eventType: "happy", description: "", eventDate: "", notes: "" },
+        { eventType: 'sad', description: '', eventDate: '', notes: '' },
+        { eventType: 'sad', description: '', eventDate: '', notes: '' },
+        { eventType: 'happy', description: '', eventDate: '', notes: '' },
+        { eventType: 'happy', description: '', eventDate: '', notes: '' },
       ],
     },
   });
 
   // Verificar autenticación
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push(`/auth/login?callbackUrl=${encodeURIComponent("/rectificacion-carta")}`);
+    if (status === 'unauthenticated') {
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent('/rectificacion-carta')}`);
     }
   }, [status, router]);
 
   // Cargar datos del usuario
   useEffect(() => {
     async function loadUserData() {
-      if (status === "authenticated" && session?.user?.email) {
+      if (status === 'authenticated' && session?.user?.email) {
         try {
-          const response = await fetch("/api/user/profile");
+          const response = await fetch('/api/user/profile');
           if (response.ok) {
             const data = await response.json();
             setUserData(data);
@@ -118,7 +134,7 @@ export default function RectificacionCartaPage() {
             // }
           }
         } catch (error) {
-          console.error("Error al cargar datos del usuario:", error);
+          console.error('Error al cargar datos del usuario:', error);
         } finally {
           setLoadingData(false);
         }
@@ -132,10 +148,10 @@ export default function RectificacionCartaPage() {
   const onUncertaintySubmit = async (data: z.infer<typeof uncertaintyFormSchema>) => {
     try {
       // Enviar la solicitud a la API
-      const response = await fetch("/api/rectification/request", {
-        method: "POST",
+      const response = await fetch('/api/rectification/request', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ acceptUncertainty: data.acceptUncertainty }),
       });
@@ -143,17 +159,17 @@ export default function RectificacionCartaPage() {
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || "Error al procesar la solicitud");
+        throw new Error(result.error || 'Error al procesar la solicitud');
       }
 
-      if (data.acceptUncertainty === "yes") {
+      if (data.acceptUncertainty === 'yes') {
         setStep(2);
       } else {
         setStep(4); // Mostrar mensaje de rechazo
       }
     } catch (error) {
-      console.error("Error al enviar solicitud de rectificación:", error);
-      alert("Error al procesar la solicitud. Por favor, intenta nuevamente.");
+      console.error('Error al enviar solicitud de rectificación:', error);
+      alert('Error al procesar la solicitud. Por favor, intenta nuevamente.');
     }
   };
 
@@ -168,10 +184,10 @@ export default function RectificacionCartaPage() {
   const onEventsSubmit = async (data: z.infer<typeof eventsFormSchema>) => {
     try {
       // Enviar la solicitud a la API
-      const response = await fetch("/api/rectification/events", {
-        method: "POST",
+      const response = await fetch('/api/rectification/events', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
@@ -179,19 +195,19 @@ export default function RectificacionCartaPage() {
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || "Error al procesar la solicitud");
+        throw new Error(result.error || 'Error al procesar la solicitud');
       }
 
-      alert("¡Solicitud de rectificación enviada con éxito! Te contactaremos pronto.");
-      router.push("/");
+      alert('¡Solicitud de rectificación enviada con éxito! Te contactaremos pronto.');
+      router.push('/');
     } catch (error) {
-      console.error("Error al enviar eventos de rectificación:", error);
-      alert("Error al procesar la solicitud. Por favor, intenta nuevamente.");
+      console.error('Error al enviar eventos de rectificación:', error);
+      alert('Error al procesar la solicitud. Por favor, intenta nuevamente.');
     }
   };
 
   // Mostrar pantalla de carga mientras se verifica la autenticación
-  if (status === "loading" || loadingData) {
+  if (status === 'loading' || loadingData) {
     return (
       <div className="max-w-4xl mx-auto mt-10 p-6 text-center">
         <p>Cargando...</p>
@@ -207,24 +223,30 @@ export default function RectificacionCartaPage() {
           <CardHeader>
             <CardTitle>Rectificación de Carta Natal</CardTitle>
             <CardDescription>
-              Este servicio está diseñado para casos en los que la hora de nacimiento tiene un margen de incertidumbre de hasta dos horas.
+              Este servicio está diseñado para casos en los que la hora de nacimiento tiene un
+              margen de incertidumbre de hasta dos horas.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="mb-6">
-              Por ejemplo, si dudas entre haber nacido a las 7 AM o a las 9 AM, el servicio es adecuado.
-              Sin embargo, si la duda abarca un rango mayor, como entre las 7 AM y la 1 PM, no aplica.
+              Por ejemplo, si dudas entre haber nacido a las 7 AM o a las 9 AM, el servicio es
+              adecuado. Sin embargo, si la duda abarca un rango mayor, como entre las 7 AM y la 1
+              PM, no aplica.
             </p>
 
             <Form {...uncertaintyForm}>
-              <form onSubmit={uncertaintyForm.handleSubmit(onUncertaintySubmit)} className="space-y-6">
+              <form
+                onSubmit={uncertaintyForm.handleSubmit(onUncertaintySubmit)}
+                className="space-y-6"
+              >
                 <FormField
                   control={uncertaintyForm.control}
                   name="acceptUncertainty"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
                       <FormLabel>
-                        ¿Aceptas que la hora de nacimiento que propones podría tener una incertidumbre máxima de 2 horas?
+                        ¿Aceptas que la hora de nacimiento que propones podría tener una
+                        incertidumbre máxima de 2 horas?
                       </FormLabel>
                       <FormControl>
                         <RadioGroup
@@ -265,9 +287,7 @@ export default function RectificacionCartaPage() {
         <Card>
           <CardHeader>
             <CardTitle>Datos para Rectificación</CardTitle>
-            <CardDescription>
-              Verifica que tus datos personales sean correctos
-            </CardDescription>
+            <CardDescription>Verifica que tus datos personales sean correctos</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -292,7 +312,7 @@ export default function RectificacionCartaPage() {
                   <p>
                     {userData.knowsBirthTime
                       ? `${String(userData.birthHour).padStart(2, '0')}:${String(userData.birthMinute).padStart(2, '0')}`
-                      : "No especificada"}
+                      : 'No especificada'}
                   </p>
                 </div>
               </div>
@@ -314,42 +334,47 @@ export default function RectificacionCartaPage() {
             <div>
               <h2 className="text-xl font-semibold mb-4">Consideraciones</h2>
               <p className="mb-4">
-                Para una correcta rectificación de la hora de nacimiento se precisan 4 eventos (2 tristes y 2 alegres, con día, mes y año del evento)
+                Para una correcta rectificación de la hora de nacimiento se precisan 4 eventos (2
+                tristes y 2 alegres, con día, mes y año del evento)
               </p>
 
               <p className="mb-4">
-                Como eventos tristes, los mejores para verificar una hora natal son las muertes: la de nuestros padres, abuelos (hay que especificar si es materno o paterno) o una muerte que te haya impactado.
+                Como eventos tristes, los mejores para verificar una hora natal son las muertes: la
+                de nuestros padres, abuelos (hay que especificar si es materno o paterno) o una
+                muerte que te haya impactado.
               </p>
 
               <p className="mb-4">
-                A veces un accidente califica como algo triste, o la pérdida de un empleo, mudanza de país, etc.
+                A veces un accidente califica como algo triste, o la pérdida de un empleo, mudanza
+                de país, etc.
               </p>
 
               <p className="mb-4">
-                Los eventos alegres más recomendados son la fecha de la boda y el nacimiento del PRIMER hijo, el resto de los nacimientos no cuentan.
+                Los eventos alegres más recomendados son la fecha de la boda y el nacimiento del
+                PRIMER hijo, el resto de los nacimientos no cuentan.
               </p>
 
               <p className="mb-4">
-                Otros eventos posibles: fecha de graduación de la universidad, el inicio de una relación, la firma de la escritura de una propiedad, etc. La adopción de una mascota también es posible.
+                Otros eventos posibles: fecha de graduación de la universidad, el inicio de una
+                relación, la firma de la escritura de una propiedad, etc. La adopción de una mascota
+                también es posible.
               </p>
 
               <Form {...considerationsForm}>
-                <form onSubmit={considerationsForm.handleSubmit(onConsiderationsSubmit)} className="space-y-6">
+                <form
+                  onSubmit={considerationsForm.handleSubmit(onConsiderationsSubmit)}
+                  className="space-y-6"
+                >
                   <FormField
                     control={considerationsForm.control}
                     name="acceptConsiderations"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-4">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
-                            He leído y entendido las consideraciones
-                          </FormLabel>
+                          <FormLabel>He leído y entendido las consideraciones</FormLabel>
                         </div>
                         <FormMessage />
                       </FormItem>
@@ -367,9 +392,7 @@ export default function RectificacionCartaPage() {
         <Card>
           <CardHeader>
             <CardTitle>Eventos para Rectificación</CardTitle>
-            <CardDescription>
-              Ingresa 4 eventos importantes (2 tristes y 2 alegres)
-            </CardDescription>
+            <CardDescription>Ingresa 4 eventos importantes (2 tristes y 2 alegres)</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...eventsForm}>
@@ -388,7 +411,10 @@ export default function RectificacionCartaPage() {
                           <FormItem>
                             <FormLabel>Descripción</FormLabel>
                             <FormControl>
-                              <Input placeholder="Ej: Fallecimiento de mi abuelo paterno" {...field} />
+                              <Input
+                                placeholder="Ej: Fallecimiento de mi abuelo paterno"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -416,14 +442,21 @@ export default function RectificacionCartaPage() {
                           <FormItem>
                             <FormLabel>Notas adicionales (opcional)</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Detalles adicionales sobre el evento" {...field} />
+                              <Textarea
+                                placeholder="Detalles adicionales sobre el evento"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
 
-                      <input type="hidden" {...eventsForm.register(`events.0.eventType`)} value="sad" />
+                      <input
+                        type="hidden"
+                        {...eventsForm.register(`events.0.eventType`)}
+                        value="sad"
+                      />
                     </div>
                   </div>
 
@@ -466,14 +499,21 @@ export default function RectificacionCartaPage() {
                           <FormItem>
                             <FormLabel>Notas adicionales (opcional)</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Detalles adicionales sobre el evento" {...field} />
+                              <Textarea
+                                placeholder="Detalles adicionales sobre el evento"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
 
-                      <input type="hidden" {...eventsForm.register(`events.1.eventType`)} value="sad" />
+                      <input
+                        type="hidden"
+                        {...eventsForm.register(`events.1.eventType`)}
+                        value="sad"
+                      />
                     </div>
                   </div>
                 </div>
@@ -520,14 +560,21 @@ export default function RectificacionCartaPage() {
                           <FormItem>
                             <FormLabel>Notas adicionales (opcional)</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Detalles adicionales sobre el evento" {...field} />
+                              <Textarea
+                                placeholder="Detalles adicionales sobre el evento"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
 
-                      <input type="hidden" {...eventsForm.register(`events.2.eventType`)} value="happy" />
+                      <input
+                        type="hidden"
+                        {...eventsForm.register(`events.2.eventType`)}
+                        value="happy"
+                      />
                     </div>
                   </div>
 
@@ -570,14 +617,21 @@ export default function RectificacionCartaPage() {
                           <FormItem>
                             <FormLabel>Notas adicionales (opcional)</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Detalles adicionales sobre el evento" {...field} />
+                              <Textarea
+                                placeholder="Detalles adicionales sobre el evento"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
 
-                      <input type="hidden" {...eventsForm.register(`events.3.eventType`)} value="happy" />
+                      <input
+                        type="hidden"
+                        {...eventsForm.register(`events.3.eventType`)}
+                        value="happy"
+                      />
                     </div>
                   </div>
                 </div>
@@ -604,7 +658,7 @@ export default function RectificacionCartaPage() {
               Estimado {session?.user?.name}, lamentablemente no podemos rectificar tu carta natal,
               dado que no cumples los requisitos previos necesarios.
             </p>
-            <Button onClick={() => router.push("/")}>Volver al inicio</Button>
+            <Button onClick={() => router.push('/')}>Volver al inicio</Button>
           </CardContent>
         </Card>
       )}

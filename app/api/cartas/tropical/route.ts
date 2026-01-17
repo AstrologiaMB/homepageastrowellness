@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Verificar autenticación
     const session = await getServerSession(authOptions);
@@ -29,21 +29,25 @@ export async function POST(request: NextRequest) {
         birthCountry: true,
         birthHour: true,
         birthMinute: true,
-        knowsBirthTime: true
-      }
+        knowsBirthTime: true,
+      },
     });
 
     if (!user || !user.birthDate || !user.birthCity) {
-      return NextResponse.json({
-        error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.'
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.',
+        },
+        { status: 400 }
+      );
     }
 
     // Preparar datos para FastAPI - usar métodos UTC para fecha correcta
     const fechaNacimiento = `${user.birthDate.getUTCFullYear()}-${(user.birthDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${user.birthDate.getUTCDate().toString().padStart(2, '0')}`;
-    const horaNacimiento = user.knowsBirthTime && user.birthHour !== null
-      ? `${user.birthHour.toString().padStart(2, '0')}:${user.birthMinute?.toString().padStart(2, '0') || '00'}`
-      : '12:00';
+    const horaNacimiento =
+      user.knowsBirthTime && user.birthHour !== null
+        ? `${user.birthHour.toString().padStart(2, '0')}:${user.birthMinute?.toString().padStart(2, '0') || '00'}`
+        : '12:00';
 
     const lugarNacimiento = `${user.birthCity}, ${user.birthCountry}`;
 
@@ -54,9 +58,9 @@ export async function POST(request: NextRequest) {
           userId: user.id,
           tipo: 'tropical',
           fechaNacimiento: user.birthDate,
-          lugarNacimiento
-        }
-      }
+          lugarNacimiento,
+        },
+      },
     });
 
     if (cartaExistente) {
@@ -65,7 +69,7 @@ export async function POST(request: NextRequest) {
         data: JSON.parse(cartaExistente.dataCompleta),
         data_reducido: JSON.parse(cartaExistente.dataReducida),
         cached: true,
-        timestamp: cartaExistente.createdAt
+        timestamp: cartaExistente.createdAt,
       });
     }
 
@@ -79,8 +83,8 @@ export async function POST(request: NextRequest) {
         fecha_nacimiento: fechaNacimiento,
         hora_nacimiento: horaNacimiento,
         ciudad_nacimiento: user.birthCity,
-        pais_nacimiento: user.birthCountry
-      })
+        pais_nacimiento: user.birthCountry,
+      }),
     });
 
     if (!fastApiResponse.ok) {
@@ -105,8 +109,8 @@ export async function POST(request: NextRequest) {
             userId: user.id,
             tipo: 'tropical',
             fechaNacimiento: user.birthDate,
-            lugarNacimiento
-          }
+            lugarNacimiento,
+          },
         },
         update: {
           dataCompleta: JSON.stringify(resultado.data),
@@ -119,8 +123,8 @@ export async function POST(request: NextRequest) {
           dataCompleta: JSON.stringify(resultado.data),
           dataReducida: JSON.stringify(resultado.data_reducido),
           fechaNacimiento: user.birthDate,
-          lugarNacimiento
-        }
+          lugarNacimiento,
+        },
       });
     } catch (e: any) {
       if (e.code !== 'P2002') {
@@ -137,13 +141,15 @@ export async function POST(request: NextRequest) {
       data: resultado.data,
       data_reducido: resultado.data_reducido,
       cached: false,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
-
   } catch (error) {
     console.error('Error en API Gateway:', error);
-    return NextResponse.json({
-      error: error instanceof Error ? error.message : 'Error interno del servidor'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'Error interno del servidor',
+      },
+      { status: 500 }
+    );
   }
 }

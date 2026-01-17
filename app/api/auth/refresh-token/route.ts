@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import prisma from "@/lib/prisma";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import prisma from '@/lib/prisma';
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     // Verificar autenticación
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
     // Verificar si el usuario tiene datos completos
     const dbUser = await prisma.user.findUnique({
       where: { email: session.user.email },
-      select: { birthDate: true, birthCity: true, residenceCity: true }
+      select: { birthDate: true, birthCity: true, residenceCity: true },
     });
 
     // Determinar si el usuario ha completado sus datos
@@ -25,10 +25,10 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       success: true,
-      hasCompletedData: hasCompletedData
+      hasCompletedData: hasCompletedData,
     });
   } catch (error) {
-    console.error("Error al verificar estado de datos:", error);
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+    console.error('Error al verificar estado de datos:', error);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }

@@ -1,29 +1,34 @@
 /**
  * Página para mostrar la carta dracónica.
- * 
+ *
  * Esta página calcula y muestra una carta dracónica dinámica basada en los datos del usuario.
  * Utiliza la API FastAPI para generar cálculos astrológicos precisos.
  * Incluye sistema de caché para optimizar el rendimiento.
- * 
+ *
  * @author Astrowellness Team
  * @version 3.1.0 - Implementación de Markdown rendering con componentes reutilizables
  */
 
-"use client";
+'use client';
 
-import { useState, useEffect } from 'react';
-import { CartaNatalWrapper } from "@/components/carta-natal-wrapper";
-import { CartaSuperpuestaWrapper } from "@/components/carta-superpuesta-wrapper";
-import { CartaNatalTabla } from "@/components/carta-natal-tabla";
-import { DraconicEventsList } from "@/components/DraconicEventsList";
-import { InterpretacionNarrativa } from "@/components/interpretacion-narrativa";
-import { InterpretacionesIndividuales } from "@/components/interpretaciones-individuales";
-import { useInterpretaciones } from "@/hooks/use-interpretaciones";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Calculator, Clock } from "lucide-react";
-import { formatAstrologicalDegrees, formatOrbe, getDraconicSuffix, translateSign, translatePlanet, translateAspect } from "@/lib/astrology-utils";
-import { ProtectedPage } from "@/components/protected-page";
+import { useState, useEffect, useCallback } from 'react';
+import { CartaNatalWrapper } from '@/components/carta-natal-wrapper';
+import { CartaSuperpuestaWrapper } from '@/components/carta-superpuesta-wrapper';
+import { CartaNatalTabla } from '@/components/carta-natal-tabla';
+import { DraconicEventsList } from '@/components/DraconicEventsList';
+import { InterpretacionNarrativa } from '@/components/interpretacion-narrativa';
+import { InterpretacionesIndividuales } from '@/components/interpretaciones-individuales';
+import { useInterpretaciones } from '@/hooks/use-interpretaciones';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2 } from 'lucide-react';
+import {
+  formatAstrologicalDegrees,
+  getDraconicSuffix,
+  translateSign,
+  translatePlanet,
+  translateAspect,
+} from '@/lib/astrology-utils';
+import { ProtectedPage } from '@/components/protected-page';
 
 interface CartaNatalData {
   success: boolean;
@@ -36,7 +41,7 @@ interface CartaNatalData {
 
 /**
  * Componente de página para la carta dracónica dinámica.
- * 
+ *
  * @returns {JSX.Element} - Elemento JSX que contiene la página de carta dracónica.
  */
 export default function CartasDraconicaPage() {
@@ -46,25 +51,23 @@ export default function CartasDraconicaPage() {
 
   // Estados para carta tropical (nuevos)
   const [cartaTropicalData, setCartaTropicalData] = useState<any>(null);
-  const [cartaTropicalCompleta, setCartaTropicalCompleta] = useState<any>(null);
+  const [, setCartaTropicalCompleta] = useState<any>(null);
 
   // Estados para eventos dracónicos
   const [eventosDraconicos, setEventosDraconicos] = useState<any>(null);
-  const [loadingEventos, setLoadingEventos] = useState(false);
-  const [errorEventos, setErrorEventos] = useState<string | null>(null);
+  const [loadingEventos, _setLoadingEventos] = useState(false);
+  const [errorEventos, _setErrorEventos] = useState<string | null>(null);
 
   // Hook para interpretaciones RAG (Reemplaza la lógica manual anterior)
   const {
     interpretaciones: interpretacionDraconica,
     loading: loadingInterpretacion,
-    error: errorInterpretacion
+    error: errorInterpretacion,
   } = useInterpretaciones(cartaCompleta, 'draco');
 
   // Estados compartidos
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cached, setCached] = useState(false);
-  const [calculationTime, setCalculationTime] = useState<string | null>(null);
 
   // Función helper para formatear grados decimales en textos a formato sexagesimal
   const formatearGradosEnTexto = (texto: string): string => {
@@ -87,22 +90,38 @@ export default function CartasDraconicaPage() {
 
     // Traducir planetas
     const planetas = {
-      'Sun': 'Sol', 'Moon': 'Luna', 'Mercury': 'Mercurio', 'Venus': 'Venus',
-      'Mars': 'Marte', 'Jupiter': 'Júpiter', 'Saturn': 'Saturno',
-      'Uranus': 'Urano', 'Neptune': 'Neptuno', 'Pluto': 'Plutón',
-      'True North Node': 'Nodo Norte Verdadero'
+      Sun: 'Sol',
+      Moon: 'Luna',
+      Mercury: 'Mercurio',
+      Venus: 'Venus',
+      Mars: 'Marte',
+      Jupiter: 'Júpiter',
+      Saturn: 'Saturno',
+      Uranus: 'Urano',
+      Neptune: 'Neptuno',
+      Pluto: 'Plutón',
+      'True North Node': 'Nodo Norte Verdadero',
     };
 
     // Traducir signos
     const signos = {
-      'Aries': 'Aries', 'Taurus': 'Tauro', 'Gemini': 'Géminis', 'Cancer': 'Cáncer',
-      'Leo': 'Leo', 'Virgo': 'Virgo', 'Libra': 'Libra', 'Scorpio': 'Escorpio',
-      'Sagittarius': 'Sagitario', 'Capricorn': 'Capricornio', 'Aquarius': 'Acuario', 'Pisces': 'Piscis'
+      Aries: 'Aries',
+      Taurus: 'Tauro',
+      Gemini: 'Géminis',
+      Cancer: 'Cáncer',
+      Leo: 'Leo',
+      Virgo: 'Virgo',
+      Libra: 'Libra',
+      Scorpio: 'Escorpio',
+      Sagittarius: 'Sagitario',
+      Capricorn: 'Capricornio',
+      Aquarius: 'Acuario',
+      Pisces: 'Piscis',
     };
 
     // Traducir términos astrológicos
     const terminosAstrologicos = {
-      'Tropical': 'Trópico'
+      Tropical: 'Trópico',
     };
 
     // Aplicar traducciones de planetas primero
@@ -124,13 +143,13 @@ export default function CartasDraconicaPage() {
   };
 
   // Función para procesar eventos dracónicos del análisis cruzado
-  const procesarEventosDraconicos = (datosCruzados: any, cartaDraconica: any) => {
+  const procesarEventosDraconicos = useCallback((datosCruzados: any, cartaDraconica: any) => {
     const eventos: any[] = [];
 
     // Agregar tarjetas básicas de posiciones dracónicas
     const puntosBasicos = [
       { key: 'Sun', nombre: 'Sol', icono: '☉', tipo: 'posicion_basica' },
-      { key: 'Moon', nombre: 'Luna', icono: '☽', tipo: 'posicion_basica' }
+      { key: 'Moon', nombre: 'Luna', icono: '☽', tipo: 'posicion_basica' },
     ];
 
     puntosBasicos.forEach((punto, index) => {
@@ -147,7 +166,7 @@ export default function CartasDraconicaPage() {
           descripcion: `${punto.nombre}${draconicSuffix} se encuentra en ${signSpanish} ${formattedDegrees}`,
           icono: punto.icono,
           orbe: undefined,
-          relevancia: 'alta'
+          relevancia: 'alta',
         });
       }
     });
@@ -165,7 +184,7 @@ export default function CartasDraconicaPage() {
         descripcion: `Ascendente Dracónico se encuentra en ${signSpanish} ${formattedAscDegrees}`,
         icono: 'AS',
         orbe: undefined,
-        relevancia: 'alta'
+        relevancia: 'alta',
       });
     }
 
@@ -182,9 +201,10 @@ export default function CartasDraconicaPage() {
           titulo: `Casa ${cuspide.casa_draconica} Dracónica en Casa ${cuspide.casa_tropical_ubicacion} Trópica`,
           descripcion: descripcionTraducida,
           icono: '🏠',
-          orbe: cuspide.distancia_desde_cuspide?.grados ?
-            `${cuspide.distancia_desde_cuspide.grados}°${cuspide.distancia_desde_cuspide.minutos}'` : undefined,
-          relevancia: cuspide.distancia_desde_cuspide?.grados < 5 ? 'alta' : 'media'
+          orbe: cuspide.distancia_desde_cuspide?.grados
+            ? `${cuspide.distancia_desde_cuspide.grados}°${cuspide.distancia_desde_cuspide.minutos}'`
+            : undefined,
+          relevancia: cuspide.distancia_desde_cuspide?.grados < 5 ? 'alta' : 'media',
         });
       });
     }
@@ -203,7 +223,7 @@ export default function CartasDraconicaPage() {
           descripcion: descripcionTraducida,
           icono: '☌',
           orbe: `${aspecto.orbe_grados}°${aspecto.orbe_minutos}'`,
-          relevancia: aspecto.exacto ? 'alta' : (aspecto.orbe_grados <= 3 ? 'media' : 'baja')
+          relevancia: aspecto.exacto ? 'alta' : aspecto.orbe_grados <= 3 ? 'media' : 'baja',
         });
       });
     }
@@ -221,7 +241,7 @@ export default function CartasDraconicaPage() {
       }
 
       // Para otros tipos, ordenar por relevancia
-      const relevanciaOrder = { 'alta': 3, 'media': 2, 'baja': 1 };
+      const relevanciaOrder = { alta: 3, media: 2, baja: 1 };
       const aRelevancia = a.relevancia as keyof typeof relevanciaOrder;
       const bRelevancia = b.relevancia as keyof typeof relevanciaOrder;
 
@@ -234,54 +254,27 @@ export default function CartasDraconicaPage() {
       if (a.tipo === 'aspecto_cruzado' && b.tipo === 'cuspide_cruzada') return 1;
       return 0;
     });
-  };
+  }, []);
 
-  const calcularEventosDraconicos = async (cartaDraconicaData: any) => {
-    setLoadingEventos(true);
-    setErrorEventos(null);
-
-    try {
-      const response = await fetch('/api/cartas/cruzada', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        const eventos = procesarEventosDraconicos(data.data, cartaDraconicaData);
-        setEventosDraconicos(eventos);
-      } else {
-        setErrorEventos(data.error || 'Error calculando eventos dracónicos');
-      }
-    } catch (err) {
-      setErrorEventos('Error de conexión al calcular eventos dracónicos');
-      console.error('Error:', err);
-    } finally {
-      setLoadingEventos(false);
-    }
-  };
-
-  const calcularCarta = async () => {
+  const calcularCarta = useCallback(async () => {
     setLoading(true);
     setError(null);
-    const startTime = Date.now();
 
     try {
       // Llamadas paralelas a ambas APIs para optimizar tiempo de carga
       const [draconicaResponse, tropicalResponse, cruzadaResponse] = await Promise.all([
         fetch('/api/cartas/draconica', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
         }),
         fetch('/api/cartas/tropical', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
         }),
         fetch('/api/cartas/cruzada', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        })
+          headers: { 'Content-Type': 'application/json' },
+        }),
       ]);
 
       const draconicaData: CartaNatalData = await draconicaResponse.json();
@@ -308,29 +301,29 @@ export default function CartasDraconicaPage() {
 
         // NOTA: La interpretación ahora se maneja automáticamente via useEffect/hook
         // cuando setCartaCompleta actualiza el estado.
-
-        setCached(draconicaData.cached || tropicalData.cached || cruzadaData.cached || false);
-
-        const endTime = Date.now();
-        const duration = ((endTime - startTime) / 1000).toFixed(2);
-        setCalculationTime(duration);
       } else {
-        const errorMsg = draconicaData.error || tropicalData.error || cruzadaData.error || 'Error calculando cartas';
+        const errorMsg =
+          draconicaData.error ||
+          tropicalData.error ||
+          cruzadaData.error ||
+          'Error calculando cartas';
         console.error('Error en las respuestas:', errorMsg);
         setError(errorMsg);
       }
     } catch (err) {
-      setError('Error de conexión. Asegúrate de que el servidor FastAPI esté ejecutándose en puerto 8001.');
+      setError(
+        'Error de conexión. Asegúrate de que el servidor FastAPI esté ejecutándose en puerto 8001.'
+      );
       console.error('Error:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [procesarEventosDraconicos]);
 
   // Efecto para calcular la carta automáticamente al cargar
   useEffect(() => {
     calcularCarta();
-  }, []);
+  }, [calcularCarta]);
 
   return (
     <ProtectedPage requiredEntitlement="hasDraconicAccess" entitlementRedirect="/upgrade">
@@ -353,7 +346,8 @@ export default function CartasDraconicaPage() {
                 <div className="mt-2 text-sm">
                   <strong>Solución:</strong> Ejecuta el servidor FastAPI:
                   <code className="block mt-1 p-2 bg-muted rounded text-xs">
-                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python app.py
+                    cd /Users/apple/calculo-carta-natal-api && source venv/bin/activate && python
+                    app.py
                   </code>
                 </div>
               )}
@@ -376,7 +370,9 @@ export default function CartasDraconicaPage() {
                 {/* Card derecha: Carta superpuesta (NUEVA) */}
                 {cartaTropicalData && (
                   <div>
-                    <h3 className="text-lg font-medium mb-3">Superposición: Tropical + Dracónica</h3>
+                    <h3 className="text-lg font-medium mb-3">
+                      Superposición: Tropical + Dracónica
+                    </h3>
                     <CartaSuperpuestaWrapper
                       tropicalData={cartaTropicalData}
                       draconicaData={cartaData}
@@ -419,9 +415,15 @@ export default function CartasDraconicaPage() {
               {/* Componente de Interpretación Narrativa con Markdown */}
               <div className="mb-6">
                 <InterpretacionNarrativa
-                  interpretacion={interpretacionDraconica?.interpretacion_narrativa}
+                  interpretacion={interpretacionDraconica?.interpretacion_narrativa ?? null}
                   loading={loadingInterpretacion}
-                  error={errorInterpretacion ? errorInterpretacion : (!interpretacionDraconica && !loadingInterpretacion ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación." : null)}
+                  error={
+                    errorInterpretacion
+                      ? errorInterpretacion
+                      : !interpretacionDraconica && !loadingInterpretacion
+                        ? "Haz clic en 'Calcular Carta Dracónica Dinámica' para generar la interpretación."
+                        : null
+                  }
                   tiempoGeneracion={interpretacionDraconica?.tiempo_generacion}
                   desdeCache={interpretacionDraconica?.desde_cache}
                   loadingMessage="Estamos analizando tu carta natal. Te pido unos minutos de paciencia. Puede navegar por otras secciones hasta tanto finalice"
@@ -430,15 +432,13 @@ export default function CartasDraconicaPage() {
 
               {/* Componente de Interpretaciones Individuales con Markdown */}
               <InterpretacionesIndividuales
-                interpretaciones={interpretacionDraconica?.interpretaciones_individuales}
+                interpretaciones={interpretacionDraconica?.interpretaciones_individuales ?? null}
                 loading={loadingInterpretacion}
                 error={errorInterpretacion}
               />
             </div>
           </>
         )}
-
-
       </div>
     </ProtectedPage>
   );

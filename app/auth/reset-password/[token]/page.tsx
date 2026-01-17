@@ -1,42 +1,37 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react';
 
 export default function ResetPasswordPage() {
-  const router = useRouter()
-  const params = useParams()
-  const token = params.token as string
+  const router = useRouter();
+  const params = useParams();
+  const token = params.token as string;
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [isValidating, setIsValidating] = useState(true)
-  const [isValidToken, setIsValidToken] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isValidating, setIsValidating] = useState(true);
+  const [isValidToken, setIsValidToken] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     password: '',
-    confirmPassword: ''
-  })
+    confirmPassword: '',
+  });
 
-  useEffect(() => {
-    // Validar token al cargar la página
-    validateToken()
-  }, [token])
-
-  const validateToken = async () => {
+  const validateToken = useCallback(async () => {
     if (!token) {
-      setIsValidToken(false)
-      setIsValidating(false)
-      return
+      setIsValidToken(false);
+      setIsValidating(false);
+      return;
     }
 
     try {
@@ -47,57 +42,62 @@ export default function ResetPasswordPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ token }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok && data.valid) {
-        setIsValidToken(true)
+        setIsValidToken(true);
       } else {
-        console.error('Token validation error:', data.error)
-        setIsValidToken(false)
+        console.error('Token validation error:', data.error);
+        setIsValidToken(false);
       }
     } catch (error) {
-      console.error('Error validating token:', error)
-      setIsValidToken(false)
+      console.error('Error validating token:', error);
+      setIsValidToken(false);
     } finally {
-      setIsValidating(false)
+      setIsValidating(false);
     }
-  }
+  }, [token]);
+
+  useEffect(() => {
+    // Validar token al cargar la página
+    validateToken();
+  }, [validateToken]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
     // Limpiar error cuando el usuario empiece a escribir
-    if (error) setError('')
-  }
+    if (error) setError('');
+  };
 
   const validateForm = () => {
     if (!formData.password) {
-      setError('La contraseña es requerida')
-      return false
+      setError('La contraseña es requerida');
+      return false;
     }
     if (formData.password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres')
-      return false
+      setError('La contraseña debe tener al menos 8 caracteres');
+      return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden')
-      return false
+      setError('Las contraseñas no coinciden');
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    setIsLoading(true)
-    setError('')
+    setIsLoading(true);
+    setError('');
 
     try {
       const response = await fetch('/api/auth/reset-password', {
@@ -107,28 +107,30 @@ export default function ResetPasswordPage() {
         },
         body: JSON.stringify({
           token,
-          password: formData.password
+          password: formData.password,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        setSuccess(true)
+        setSuccess(true);
         // Redirigir al login después de 3 segundos
         setTimeout(() => {
-          router.push('/auth/login?message=Contraseña restablecida exitosamente. Ahora puedes iniciar sesión.')
-        }, 3000)
+          router.push(
+            '/auth/login?message=Contraseña restablecida exitosamente. Ahora puedes iniciar sesión.'
+          );
+        }, 3000);
       } else {
-        setError(data.error || 'Error al restablecer la contraseña')
+        setError(data.error || 'Error al restablecer la contraseña');
       }
     } catch (error) {
-      console.error('Error:', error)
-      setError('Error de conexión. Inténtalo de nuevo.')
+      console.error('Error:', error);
+      setError('Error de conexión. Inténtalo de nuevo.');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   if (isValidating) {
     return (
@@ -142,7 +144,7 @@ export default function ResetPasswordPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   if (!isValidToken) {
@@ -155,9 +157,7 @@ export default function ResetPasswordPage() {
                 <XCircle className="h-6 w-6 text-red-600" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-center">
-              Enlace Inválido
-            </CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Enlace Inválido</CardTitle>
             <CardDescription className="text-center">
               Este enlace para restablecer contraseña no es válido o ha expirado
             </CardDescription>
@@ -165,13 +165,11 @@ export default function ResetPasswordPage() {
           <CardContent>
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground text-center">
-                Los enlaces de restablecimiento de contraseña expiran después de 1 hora por seguridad.
+                Los enlaces de restablecimiento de contraseña expiran después de 1 hora por
+                seguridad.
               </p>
 
-              <Button
-                onClick={() => router.push('/auth/forgot-password')}
-                className="w-full"
-              >
+              <Button onClick={() => router.push('/auth/forgot-password')} className="w-full">
                 Solicitar Nuevo Enlace
               </Button>
 
@@ -186,7 +184,7 @@ export default function ResetPasswordPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   if (success) {
@@ -214,29 +212,22 @@ export default function ResetPasswordPage() {
             </Alert>
 
             <div className="mt-6">
-              <Button
-                onClick={() => router.push('/auth/login')}
-                className="w-full"
-              >
+              <Button onClick={() => router.push('/auth/login')} className="w-full">
                 Ir al Login Ahora
               </Button>
             </div>
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
-            Nueva Contraseña
-          </CardTitle>
-          <CardDescription className="text-center">
-            Ingresa tu nueva contraseña
-          </CardDescription>
+          <CardTitle className="text-2xl font-bold text-center">Nueva Contraseña</CardTitle>
+          <CardDescription className="text-center">Ingresa tu nueva contraseña</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -252,7 +243,7 @@ export default function ResetPasswordPage() {
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Mínimo 8 caracteres"
                   value={formData.password}
                   onChange={handleInputChange}
@@ -267,11 +258,7 @@ export default function ResetPasswordPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={isLoading}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
               </div>
             </div>
@@ -282,7 +269,7 @@ export default function ResetPasswordPage() {
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Repite tu nueva contraseña"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
@@ -306,11 +293,7 @@ export default function ResetPasswordPage() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -323,15 +306,12 @@ export default function ResetPasswordPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <Link
-              href="/auth/login"
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
+            <Link href="/auth/login" className="text-sm text-muted-foreground hover:text-primary">
               ← Volver al login
             </Link>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

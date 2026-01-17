@@ -1,17 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Heart, Star, Clock, User, ExternalLink, MapPin, Search } from "lucide-react";
-import { CartaNatalAstrogematriaWrapper } from "@/components/carta-natal-astrogematria-wrapper";
-import { CartaNatalRemediosWrapper } from "@/components/carta-natal-remedios-wrapper";
-import Link from "next/link";
+import { useState, useEffect, useCallback } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Loader2, Heart, Star, User, ExternalLink, MapPin, Search } from 'lucide-react';
+import { CartaNatalRemediosWrapper } from '@/components/carta-natal-remedios-wrapper';
+import Link from 'next/link';
 
 interface RemedioData {
   grado: number;
@@ -26,12 +30,11 @@ interface RemedioLocation {
 }
 
 export default function AstrogematriaInterpretacionesPage() {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cartaNatal, setCartaNatal] = useState<any>(null);
   const [cartaNatalLoading, setCartaNatalLoading] = useState(false);
   const [cartaNatalError, setCartaNatalError] = useState<string | null>(null);
-  
+
   // Estados para remedios
   const [remediosData, setRemediosData] = useState<RemedioData[]>([]);
   const [remediosLoading, setRemediosLoading] = useState(false);
@@ -41,58 +44,61 @@ export default function AstrogematriaInterpretacionesPage() {
   const [gradosDisponibles, setGradosDisponibles] = useState<number[]>([]);
   const [remedioSeleccionado, setRemedioSeleccionado] = useState<string>('');
   const [remediosDisponibles, setRemediosDisponibles] = useState<RemedioData[]>([]);
-  
+
   // BABY STEP 2: Estados para selector directo de remedios
   const [remedioDirectoSeleccionado, setRemedioDirectoSeleccionado] = useState<string>('');
   const [remediosAlfabeticos, setRemediosAlfabeticos] = useState<string[]>([]);
-  
+
   // BABY STEP 5: Estado para tabs de métodos de selección
   const [metodoActivo, setMetodoActivo] = useState<'ubicacion' | 'directo'>('ubicacion');
 
   /**
    * FUNCIONALIDAD DUAL DE REMEDIOS HOMEOPÁTICOS
-   * 
+   *
    * Sistema completo que permite dos métodos de selección:
    * 1. Búsqueda por Ubicación: Signo → Grado → Remedio (cascading)
    * 2. Búsqueda Directa: Remedio → Auto-ubicación (reverse lookup)
-   * 
+   *
    * Total: 354 remedios homeopáticos únicos disponibles
    */
 
   // Función de búsqueda inversa - remedio → signo + grado
-  const buscarUbicacionRemedio = (nombreRemedio: string): RemedioLocation | null => {
-    if (!nombreRemedio || remediosData.length === 0) {
+  const buscarUbicacionRemedio = useCallback(
+    (nombreRemedio: string): RemedioLocation | null => {
+      if (!nombreRemedio || remediosData.length === 0) {
+        return null;
+      }
+
+      // Buscar el remedio en los datos (puede haber múltiples ubicaciones, toma la primera)
+      const remedioEncontrado = remediosData.find(
+        (r) => r.remedio.toLowerCase() === nombreRemedio.toLowerCase()
+      );
+
+      if (remedioEncontrado) {
+        return {
+          signo: remedioEncontrado.signo,
+          grado: remedioEncontrado.grado,
+          posicion_completa: `${remedioEncontrado.grado}° de ${remedioEncontrado.signo}`,
+        };
+      }
+
       return null;
-    }
-
-    // Buscar el remedio en los datos (puede haber múltiples ubicaciones, toma la primera)
-    const remedioEncontrado = remediosData.find(r => 
-      r.remedio.toLowerCase() === nombreRemedio.toLowerCase()
-    );
-
-    if (remedioEncontrado) {
-      return {
-        signo: remedioEncontrado.signo,
-        grado: remedioEncontrado.grado,
-        posicion_completa: `${remedioEncontrado.grado}° de ${remedioEncontrado.signo}`
-      };
-    }
-
-    return null;
-  };
+    },
+    [remediosData]
+  );
 
   const obtenerCartaNatal = async () => {
     setCartaNatalLoading(true);
     setCartaNatalError(null);
-    
+
     try {
       const response = await fetch('/api/cartas/tropical', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.data_reducido) {
         setCartaNatal(data.data_reducido);
       } else {
@@ -109,22 +115,24 @@ export default function AstrogematriaInterpretacionesPage() {
   const cargarRemedios = async () => {
     setRemediosLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch('/api/astrogematria/remedios', {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.remedios) {
         setRemediosData(data.remedios);
-        
+
         // Extraer signos únicos
-        const signosUnicos = [...new Set(data.remedios.map((r: RemedioData) => r.signo))] as string[];
+        const signosUnicos = [
+          ...new Set(data.remedios.map((r: RemedioData) => r.signo)),
+        ] as string[];
         setSignosDisponibles(signosUnicos);
-        
+
         console.log('Remedios cargados:', data.remedios.length);
         console.log('Signos disponibles:', signosUnicos);
       } else {
@@ -148,7 +156,7 @@ export default function AstrogematriaInterpretacionesPage() {
   useEffect(() => {
     if (remediosData.length > 0) {
       // Extraer nombres únicos de remedios y ordenar alfabéticamente
-      const remediosUnicos = [...new Set(remediosData.map(r => r.remedio))];
+      const remediosUnicos = [...new Set(remediosData.map((r) => r.remedio))];
       const remediosOrdenados = remediosUnicos.sort((a, b) => a.localeCompare(b));
       setRemediosAlfabeticos(remediosOrdenados);
     }
@@ -158,30 +166,30 @@ export default function AstrogematriaInterpretacionesPage() {
   useEffect(() => {
     if (remedioDirectoSeleccionado && remediosData.length > 0) {
       const ubicacion = buscarUbicacionRemedio(remedioDirectoSeleccionado);
-      
+
       if (ubicacion) {
         // Auto-completar signo y grado basado en la búsqueda inversa
         setSigNoSeleccionado(ubicacion.signo);
         setGradoSeleccionado(ubicacion.grado.toString());
-        
+
         // Limpiar selección de remedio cascading para evitar conflictos
         setRemedioSeleccionado('');
       }
     }
-  }, [remedioDirectoSeleccionado, remediosData]);
+  }, [remedioDirectoSeleccionado, remediosData, buscarUbicacionRemedio]);
 
   // Efecto para actualizar grados disponibles cuando cambia el signo
   useEffect(() => {
     if (signoSeleccionado && remediosData.length > 0) {
-      const remediosDelSigno = remediosData.filter(r => r.signo === signoSeleccionado);
-      const gradosUnicos = [...new Set(remediosDelSigno.map(r => r.grado))].sort((a, b) => a - b);
+      const remediosDelSigno = remediosData.filter((r) => r.signo === signoSeleccionado);
+      const gradosUnicos = [...new Set(remediosDelSigno.map((r) => r.grado))].sort((a, b) => a - b);
       setGradosDisponibles(gradosUnicos);
-      
+
       // Limpiar selecciones posteriores
       setGradoSeleccionado('');
       setRemedioSeleccionado('');
       setRemediosDisponibles([]);
-      
+
       console.log('Grados disponibles para', signoSeleccionado, ':', gradosUnicos);
     } else {
       setGradosDisponibles([]);
@@ -195,14 +203,21 @@ export default function AstrogematriaInterpretacionesPage() {
   useEffect(() => {
     if (signoSeleccionado && gradoSeleccionado && remediosData.length > 0) {
       const remediosDisponiblesParaGrado = remediosData.filter(
-        r => r.signo === signoSeleccionado && r.grado === parseInt(gradoSeleccionado)
+        (r) => r.signo === signoSeleccionado && r.grado === parseInt(gradoSeleccionado)
       );
       setRemediosDisponibles(remediosDisponiblesParaGrado);
-      
+
       // Limpiar selección de remedio
       setRemedioSeleccionado('');
-      
-      console.log('Remedios disponibles para', signoSeleccionado, 'grado', gradoSeleccionado, ':', remediosDisponiblesParaGrado);
+
+      console.log(
+        'Remedios disponibles para',
+        signoSeleccionado,
+        'grado',
+        gradoSeleccionado,
+        ':',
+        remediosDisponiblesParaGrado
+      );
     } else {
       setRemediosDisponibles([]);
       setRemedioSeleccionado('');
@@ -228,9 +243,9 @@ export default function AstrogematriaInterpretacionesPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            Los remedios homeopáticos zodiacales son sustancias naturales que resuenan con 
-            grados específicos de los signos del zodíaco. Cada grado tiene un remedio asociado 
-            que puede ayudar a equilibrar las energías de esa posición en tu carta natal.
+            Los remedios homeopáticos zodiacales son sustancias naturales que resuenan con grados
+            específicos de los signos del zodíaco. Cada grado tiene un remedio asociado que puede
+            ayudar a equilibrar las energías de esa posición en tu carta natal.
           </p>
         </CardContent>
       </Card>
@@ -249,9 +264,7 @@ export default function AstrogematriaInterpretacionesPage() {
         <CardContent>
           {error && (
             <Alert className="mb-4 border-red-200 bg-red-50">
-              <AlertDescription className="text-red-800">
-                {error}
-              </AlertDescription>
+              <AlertDescription className="text-red-800">{error}</AlertDescription>
             </Alert>
           )}
 
@@ -289,10 +302,10 @@ export default function AstrogematriaInterpretacionesPage() {
               <div className="space-y-4">
                 <div className="text-center p-3 bg-green-50 rounded-lg border border-green-200">
                   <MapPin className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                  <p className="text-sm font-medium text-green-800">Búsqueda por Ubicación Zodiacal</p>
-                  <p className="text-xs text-green-600 mt-1">
-                    Navega: Signo → Grado → Remedio
+                  <p className="text-sm font-medium text-green-800">
+                    Búsqueda por Ubicación Zodiacal
                   </p>
+                  <p className="text-xs text-green-600 mt-1">Navega: Signo → Grado → Remedio</p>
                 </div>
 
                 {/* Selector de Signo */}
@@ -377,7 +390,10 @@ export default function AstrogematriaInterpretacionesPage() {
                       <span className="text-sm text-muted-foreground">Cargando remedios...</span>
                     </div>
                   ) : (
-                    <Select value={remedioDirectoSeleccionado} onValueChange={setRemedioDirectoSeleccionado}>
+                    <Select
+                      value={remedioDirectoSeleccionado}
+                      onValueChange={setRemedioDirectoSeleccionado}
+                    >
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Busca y selecciona un remedio..." />
                       </SelectTrigger>
@@ -410,9 +426,7 @@ export default function AstrogematriaInterpretacionesPage() {
                       {gradoSeleccionado}°
                     </Badge>
                   </div>
-                  <p className="text-lg font-bold text-green-800">
-                    {remedioSeleccionado}
-                  </p>
+                  <p className="text-lg font-bold text-green-800">{remedioSeleccionado}</p>
                   <p className="text-xs text-green-600 mt-2">
                     El remedio se mostrará en tu carta natal a continuación
                   </p>
@@ -428,11 +442,11 @@ export default function AstrogematriaInterpretacionesPage() {
                   <p className="text-sm font-semibold text-blue-800">
                     ✅ Remedio Seleccionado (Búsqueda Directa)
                   </p>
-                  <p className="text-lg font-bold text-blue-800">
-                    {remedioDirectoSeleccionado}
-                  </p>
+                  <p className="text-lg font-bold text-blue-800">{remedioDirectoSeleccionado}</p>
                   <p className="text-xs text-blue-600 mt-2">
-                    📍 Ubicación: {buscarUbicacionRemedio(remedioDirectoSeleccionado)?.posicion_completa || 'Calculando...'}
+                    📍 Ubicación:{' '}
+                    {buscarUbicacionRemedio(remedioDirectoSeleccionado)?.posicion_completa ||
+                      'Calculando...'}
                   </p>
                   <p className="text-xs text-blue-600">
                     El remedio se mostrará en tu carta natal a continuación
@@ -471,11 +485,14 @@ export default function AstrogematriaInterpretacionesPage() {
                 <AlertDescription className="text-blue-800">
                   <div className="space-y-2">
                     <p>
-                      <strong>Para ver tu carta natal con remedios homeopáticos, necesitas completar tus datos natales.</strong>
+                      <strong>
+                        Para ver tu carta natal con remedios homeopáticos, necesitas completar tus
+                        datos natales.
+                      </strong>
                     </p>
                     <p className="text-sm">
-                      Una vez que tengas tu carta natal, podrás visualizar exactamente dónde se ubican 
-                      los remedios seleccionados dentro de tu mapa astrológico personal.
+                      Una vez que tengas tu carta natal, podrás visualizar exactamente dónde se
+                      ubican los remedios seleccionados dentro de tu mapa astrológico personal.
                     </p>
                     <div className="mt-4">
                       <Link href="/completar-datos">
@@ -499,14 +516,14 @@ export default function AstrogematriaInterpretacionesPage() {
               // Determinar qué remedio mostrar: cascading o directo
               let remedioParaMostrar = null;
               let metodoSeleccion = '';
-              
+
               if (signoSeleccionado && gradoSeleccionado && remedioSeleccionado) {
                 // Método cascading (Signo → Grado → Remedio)
                 remedioParaMostrar = {
                   remedio: remedioSeleccionado,
                   grado: parseInt(gradoSeleccionado),
                   signo: signoSeleccionado,
-                  posicion_completa: `${gradoSeleccionado}° de ${signoSeleccionado}`
+                  posicion_completa: `${gradoSeleccionado}° de ${signoSeleccionado}`,
                 };
                 metodoSeleccion = 'cascading';
               } else if (remedioDirectoSeleccionado) {
@@ -517,16 +534,18 @@ export default function AstrogematriaInterpretacionesPage() {
                     remedio: remedioDirectoSeleccionado,
                     grado: ubicacion.grado,
                     signo: ubicacion.signo,
-                    posicion_completa: ubicacion.posicion_completa
+                    posicion_completa: ubicacion.posicion_completa,
                   };
                   metodoSeleccion = 'directo';
                 }
               }
-              
+
               if (remedioParaMostrar) {
                 return (
-                  <div key={`remedio-chart-${metodoSeleccion}-${remedioParaMostrar.remedio}-${Date.now()}`}>
-                    <CartaNatalRemediosWrapper 
+                  <div
+                    key={`remedio-chart-${metodoSeleccion}-${remedioParaMostrar.remedio}-${Date.now()}`}
+                  >
+                    <CartaNatalRemediosWrapper
                       chartData={cartaNatal}
                       remedioData={remedioParaMostrar}
                     />
@@ -550,7 +569,8 @@ export default function AstrogematriaInterpretacionesPage() {
                           Selecciona un remedio homeopático arriba para verlo marcado en tu carta.
                         </p>
                         <p className="text-xs mt-1 text-blue-600">
-                          💡 Puedes usar búsqueda por ubicación (Signo → Grado → Remedio) o búsqueda directa por nombre
+                          💡 Puedes usar búsqueda por ubicación (Signo → Grado → Remedio) o búsqueda
+                          directa por nombre
                         </p>
                       </div>
                     </CardContent>
@@ -561,7 +581,6 @@ export default function AstrogematriaInterpretacionesPage() {
           </>
         )}
       </div>
-
     </div>
   );
 }

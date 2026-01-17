@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
-import { StoryModal } from "./lunar-cycles/StoryModal";
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
+import { StoryModal } from './lunar-cycles/StoryModal';
 import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
 import { BookOpen, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface EventoConInterpretacionProps {
   evento: {
@@ -43,12 +43,14 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
 
   // Cycle Logic
   const [cycleData, setCycleData] = useState<ActiveCyclesResponse | null>(null);
-  const [isCycleLoading, setIsCycleLoading] = useState(false);
+  const [, setIsCycleLoading] = useState(false);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   // Removed internal hook usage: const { natalData } = useUserNatalData();
 
   // Determine if it's a phase event
-  const isPhase = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante'].includes(evento.tipo_evento);
+  const isPhase = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante'].includes(
+    evento.tipo_evento
+  );
   const isEclipse = evento.tipo_evento.includes('Eclipse');
 
   // Fetch Cycle Data on Mount if Phase
@@ -65,18 +67,18 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               natalData,
-              targetDate: datePart
-            })
+              targetDate: datePart,
+            }),
           });
 
           if (res.ok) {
             const data = await res.json();
             setCycleData(data);
           } else {
-            const errText = await res.text();
+            await res.text();
           }
         } catch (e) {
-          console.error("Cycle fetch error", e);
+          console.error('Cycle fetch error', e);
         } finally {
           setIsCycleLoading(false);
         }
@@ -99,7 +101,7 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          eventos: [evento]
+          eventos: [evento],
         }),
       });
 
@@ -127,7 +129,7 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
   const horaFormateada = `${horaLocal.getHours().toString().padStart(2, '0')}:${horaLocal.getMinutes().toString().padStart(2, '0')}`;
 
   // Handle special case for house transits
-  if (evento.tipo_evento === "Tránsito Casa Estado") {
+  if (evento.tipo_evento === 'Tránsito Casa Estado') {
     const houseTransits = evento.house_transits || [];
 
     return (
@@ -138,7 +140,9 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
               <div className="font-medium text-purple-700">
                 {transit.simbolo} {transit.planeta}
                 {transit.tipo === 'luna_progresada' && transit.signo && (
-                  <span className="ml-1">en {transit.signo} {transit.grado}°</span>
+                  <span className="ml-1">
+                    en {transit.signo} {transit.grado}°
+                  </span>
                 )}
               </div>
               <div className="text-xs text-purple-600">
@@ -154,17 +158,26 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
   return (
     <Card className="w-72 flex-shrink-0 h-auto">
       <CardContent className="space-y-2 px-3 py-3">
-        <div className="font-semibold">{evento.tipo_evento} a las {horaFormateada}</div>
+        <div className="font-semibold">
+          {evento.tipo_evento} a las {horaFormateada}
+        </div>
 
         {/* Cycle Badges */}
         {cycleData && cycleData.active_cycles.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-1 mb-2">
-            <Badge variant="outline" className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50">
+            <Badge
+              variant="outline"
+              className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50"
+            >
               {cycleData.active_cycles[0].metonic_index === 1
                 ? 'Ciclo Inicial'
                 : `${cycleData.active_cycles[0].metonic_index - 1}º Retorno`}
             </Badge>
-            {isEclipse && <Badge variant="destructive" className="text-[10px] py-0 h-5">Eclipse</Badge>}
+            {isEclipse && (
+              <Badge variant="destructive" className="text-[10px] py-0 h-5">
+                Eclipse
+              </Badge>
+            )}
           </div>
         )}
 
@@ -184,11 +197,15 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
         )}
 
         {/* Información adicional para aspectos */}
-        {evento.tipo_evento === "Aspecto" && evento.planeta1 && evento.posicion1 && (
+        {evento.tipo_evento === 'Aspecto' && evento.planeta1 && evento.posicion1 && (
           <>
-            <div className="text-sm">{evento.planeta1}: {evento.posicion1}</div>
+            <div className="text-sm">
+              {evento.planeta1}: {evento.posicion1}
+            </div>
             {evento.planeta2 && evento.posicion2 && (
-              <div className="text-sm">{evento.planeta2}: {evento.posicion2}</div>
+              <div className="text-sm">
+                {evento.planeta2}: {evento.posicion2}
+              </div>
             )}
           </>
         )}

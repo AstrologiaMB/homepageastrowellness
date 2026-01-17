@@ -1,24 +1,23 @@
-"use client";
+'use client';
 
-import type * as React from "react";
-import Link from "next/link"; // Assuming next/link is used for navigation
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import type * as React from 'react';
+import Link from 'next/link'; // Assuming next/link is used for navigation
+import { ChevronRight, type LucideIcon } from 'lucide-react';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button"; // Using Button for the trigger in collapsed state
+} from '@/components/ui/dropdown-menu';
 
 interface NavItem {
   title: string;
@@ -48,16 +47,18 @@ export function NavCollapsibleItem({ item, isSidebarCollapsed }: NavCollapsibleI
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <SidebarMenuButton tooltip={item.title}> {/* Use SidebarMenuButton for styling */}
+          <SidebarMenuButton tooltip={item.title}>
+            {' '}
+            {/* Use SidebarMenuButton for styling */}
             {item.icon && <item.icon />}
           </SidebarMenuButton>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" align="start" className="min-w-40"> {/* Adjust width as needed */}
+        <DropdownMenuContent side="right" align="start" className="min-w-40">
+          {' '}
+          {/* Adjust width as needed */}
           {item.items.map((subItem) => (
             <DropdownMenuItem key={subItem.title} asChild>
-              <Link href={subItem.url}>
-                {subItem.title}
-              </Link>
+              <Link href={subItem.url}>{subItem.title}</Link>
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

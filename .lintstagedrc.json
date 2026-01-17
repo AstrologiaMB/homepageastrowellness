@@ -1,0 +1,21 @@
+{
+  "*.{js,jsx,ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "*.{json,md,mdx,yml,yaml}": [
+    "prettier --write"
+  ],
+  "*.{css,scss,sass,less}": [
+    "prettier --write"
+  ],
+  "*.{html}": [
+    "prettier --write"
+  ],
+  "package.json": [
+    "prettier --write"
+  ],
+  "*.prisma": [
+    "prettier --write"
+  ]
+}

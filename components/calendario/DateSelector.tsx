@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CalendarIcon } from 'lucide-react';
-import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { es } from 'date-fns/locale';
 
@@ -22,7 +22,7 @@ export function DateSelector({
   availableYears,
   isOpen,
   onOpenChange,
-  onSelectDate
+  onSelectDate,
 }: DateSelectorProps) {
   const isMobile = useIsMobile();
 
@@ -51,7 +51,7 @@ export function DateSelector({
                 defaultMonth={currentWeekStart}
                 fromYear={Math.min(...availableYears)}
                 toYear={Math.max(...availableYears)}
-                captionLayout="dropdown-buttons"
+                captionLayout="dropdown"
                 locale={es}
                 selected={selectedDate}
                 onSelect={(date) => {
@@ -79,7 +79,7 @@ export function DateSelector({
               defaultMonth={currentWeekStart}
               fromYear={Math.min(...availableYears)}
               toYear={Math.max(...availableYears)}
-              captionLayout="dropdown-buttons"
+              captionLayout="dropdown"
               locale={es}
               selected={selectedDate}
               onSelect={(date) => {
