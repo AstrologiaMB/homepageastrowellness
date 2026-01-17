@@ -49,11 +49,11 @@ export function AstroBreadcrumb({
               href={item.href}
               className="text-muted-foreground hover:text-primary transition-colors truncate max-w-[150px] md:max-w-[200px]"
             >
-              {item.label}
+              {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
             </Link>
           ) : (
             <span className="text-foreground font-medium truncate max-w-[150px] md:max-w-[200px]">
-              {item.label}
+              {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
             </span>
           )}
         </li>

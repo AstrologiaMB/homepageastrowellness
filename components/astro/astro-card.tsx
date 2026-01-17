@@ -46,32 +46,32 @@ export function AstroCard({
       )}
     >
       {badge && (
-        <span className="absolute -top-1 -right-1 xs:top-2 xs:right-2 z-10">
+        <span className="absolute top-2 right-2 z-10">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-purple-600 text-white shadow-elegant">
             {badge}
           </span>
         </span>
       )}
 
-      <div className="p-6 md:p-8 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
+      <div className="p-4 sm:p-6 md:p-7 lg:p-8 flex items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 flex-1 min-w-0">
           {/* Icon container with purple background */}
           <div
             className={cn(
-              "flex-shrink-0 p-3 md:p-4 rounded-xl transition-all duration-300",
+              "flex-shrink-0 p-2.5 sm:p-3 md:p-4 rounded-xl transition-all duration-300",
               "bg-primary/10 dark:bg-primary/20",
               "group-hover:bg-primary/20 dark:group-hover:bg-primary/30"
             )}
           >
             <Icon
-              className="w-6 h-6 md:w-8 md:h-8 text-primary transition-colors"
+              className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-primary transition-colors"
               strokeWidth={1.5}
             />
           </div>
 
           {/* Text content */}
           <div className="flex-1 min-w-0 space-y-1">
-            <h3 className="text-lg md:text-xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
+            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
               {title}
             </h3>
             <p className="text-sm text-muted-foreground line-clamp-2">

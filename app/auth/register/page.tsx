@@ -105,7 +105,7 @@ export default function RegisterPage() {
         <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
       </div>
 
-      <div className="w-full max-w-md space-y-8 relative z-10">
+      <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center space-y-2">
           <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
@@ -127,8 +127,8 @@ export default function RegisterPage() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <div className="space-y-3 sm:space-y-4">
             <div>
               <label htmlFor="name" className="sr-only">
                 Nombre completo
@@ -141,7 +141,7 @@ export default function RegisterPage() {
                 value={formData.name}
                 onChange={handleInputChange}
                 disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm"
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
                 required
               />
             </div>
@@ -158,7 +158,7 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm"
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
                 required
               />
             </div>
@@ -253,7 +253,7 @@ export default function RegisterPage() {
         </form>
 
         {/* Links */}
-        <div className="space-y-4 text-center">
+        <div className="space-y-3 sm:space-y-4 text-center px-2">
           <div className="text-sm">
             <span className="text-black/60 dark:text-white/60">¿Ya tienes cuenta? </span>
             <Link
@@ -266,7 +266,7 @@ export default function RegisterPage() {
 
           <Link
             href="/"
-            className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+            className="block py-1 sm:py-0 text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
           >
             ← Volver al inicio
           </Link>

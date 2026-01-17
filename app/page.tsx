@@ -26,13 +26,13 @@ export default function Page() {
   // LOGGED IN STATE: Dashboard
   if (session) {
     return (
-      <div className="min-h-screen p-6 md:p-12 space-y-8 bg-gradient-to-br from-background via-background to-accent/5">
+      <div className="min-h-screen p-4 sm:p-6 md:p-8 lg:p-12 space-y-6 md:space-y-8 bg-gradient-to-br from-background via-background to-accent/5">
         {/* Header de Bienvenida */}
         <div className="max-w-4xl mx-auto space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Hola, {session.user?.name || 'Viajero Astral'}
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Bienvenido a Astrowellness. Tu guía astrológica para el 2026 está lista.
           </p>
         </div>
@@ -47,8 +47,8 @@ export default function Page() {
                   Acceso Gratuito
                 </span>
               </div>
-              <CardTitle className="text-2xl">Calendario General 2026</CardTitle>
-              <CardDescription className="text-base text-muted-foreground mt-2">
+              <CardTitle className="text-xl sm:text-2xl">Calendario General 2026</CardTitle>
+              <CardDescription className="text-sm sm:text-base text-muted-foreground mt-2">
                 Explora los tránsitos planetarios que definirán este año. Además, la posibilidad de
                 solicitar tu Carta Horaria o Rectificación de Carta (estos servicios son pagos).
               </CardDescription>
@@ -72,7 +72,7 @@ export default function Page() {
                   Servicios Premium
                 </span>
               </div>
-              <CardTitle className="text-xl">Tu Universo Completo</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">Tu Universo Completo</CardTitle>
               <CardDescription className="space-y-2 pt-2">
                 <p>Accede a herramientas profesionales diseñadas para tu evolución:</p>
                 <ul className="grid sm:grid-cols-2 gap-2 text-sm list-disc pl-4 pt-1">

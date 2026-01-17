@@ -41,24 +41,24 @@ const charts = [
 export default function ChartsHub() {
   return (
     <ProtectedPage>
-      <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-background to-blue-50/30 dark:from-purple-950/30 dark:via-background dark:to-blue-950/20 p-6 md:p-12">
-        <div className="max-w-4xl mx-auto space-y-12">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-background to-blue-50/30 dark:from-purple-950/30 dark:via-background dark:to-blue-950/20 p-4 sm:p-6 md:p-8 lg:p-12">
+        <div className="max-w-4xl mx-auto space-y-8 md:space-y-12">
           {/* Hero Section */}
           <div className="relative">
             {/* Decorative elements */}
-            <div className="absolute -top-4 -left-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl" />
-            <div className="absolute -top-8 right-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
+            <div className="absolute -top-4 -left-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl hidden sm:block" />
+            <div className="absolute -top-8 right-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl hidden sm:block" />
+            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl hidden sm:block" />
 
             {/* Header content */}
-            <div className="relative glass-card-strong rounded-2xl p-8 md:p-12 text-center space-y-6">
+            <div className="relative glass-card-strong rounded-2xl p-6 sm:p-8 md:p-12 text-center space-y-4 md:space-y-6">
               {/* Icon */}
               <div className="inline-flex p-4 rounded-2xl bg-primary/10 dark:bg-primary/20 mb-4">
                 <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-primary" strokeWidth={1.5} />
               </div>
 
               {/* Title with gradient */}
-              <h1 className="text-3xl md:text-5xl font-light tracking-tight gradient-primary">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight gradient-primary">
                 Cartas Astrales
               </h1>
 
@@ -97,7 +97,7 @@ export default function ChartsHub() {
           </div>
 
           {/* Bottom info card */}
-          <div className="glass-card rounded-xl p-6 text-center">
+          <div className="glass-card rounded-xl p-4 sm:p-6 text-center">
             <p className="text-sm text-muted-foreground">
               <span className="text-primary font-medium">¿Primera vez?</span>{" "}
               Comienza con tu Carta Natal Trópica para conocer los fundamentos de

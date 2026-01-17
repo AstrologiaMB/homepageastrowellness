@@ -27,7 +27,7 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider defaultOpen={!isHomepage}>
       <AppSidebar isHomepage={isHomepage} />
       <SidebarInset>
-        <header className="flex h-16 items-center gap-2 px-4 border-b">
+        <header className="flex h-14 sm:h-16 items-center gap-2 px-3 sm:px-4 border-b">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-6 mx-2" />
           <DynamicBreadcrumb />

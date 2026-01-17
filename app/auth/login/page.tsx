@@ -85,7 +85,7 @@ function LoginForm() {
         <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
       </div>
 
-      <div className="w-full max-w-md space-y-8 relative z-10">
+      <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center space-y-2">
           <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
@@ -116,8 +116,8 @@ function LoginForm() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleEmailLogin} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleEmailLogin} className="space-y-4 sm:space-y-6">
+          <div className="space-y-3 sm:space-y-4">
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -130,7 +130,7 @@ function LoginForm() {
                 value={formData.email}
                 onChange={handleInputChange}
                 disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm"
+                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
                 required
               />
             </div>
@@ -196,10 +196,10 @@ function LoginForm() {
         </Button>
 
         {/* Links */}
-        <div className="space-y-4 text-center">
+        <div className="space-y-3 sm:space-y-4 text-center px-2">
           <Link
             href="/auth/forgot-password"
-            className="block text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
+            className="block py-1 sm:py-0 text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
           >
             ¿Olvidaste tu contraseña?
           </Link>

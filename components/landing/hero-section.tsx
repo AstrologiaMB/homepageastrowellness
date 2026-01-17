@@ -6,7 +6,7 @@ import { ArrowRight, Star } from "lucide-react";
 
 export function HeroSection() {
     return (
-        <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
+        <section className="relative w-full min-h-screen min-h-[600px] min-h-screen-dvh flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
             {/* 
         VIDEO BACKGROUND PLACEHOLDER 
         TODO: Replace with <video> tag when asset is provided.
@@ -31,27 +31,27 @@ export function HeroSection() {
             <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-8 mx-auto">
 
                 {/* Badge / Pill */}
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-1.5 text-sm font-medium text-[#D4AF37] backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 sm:px-4 py-1.5 text-sm font-medium text-[#D4AF37] backdrop-blur-md mx-4 sm:mx-0">
                     <Star className="h-3.5 w-3.5 fill-current" />
                     <span className="tracking-wide uppercase text-xs">Algoritmos Suizos de Precisión</span>
                 </div>
 
                 {/* H1 Headline */}
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight font-serif max-w-4xl leading-tight">
-                    Sincroniza tu vida con <br className="hidden md:block" />
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight font-serif max-w-4xl leading-tight px-4 sm:px-0">
+                    Sincroniza tu vida con <br className="hidden sm:block" />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">
                         precisión de grado.
                     </span>
                 </h1>
 
                 {/* Subheader */}
-                <p className="max-w-2xl text-lg md:text-xl text-gray-300 md:leading-relaxed font-light">
+                <p className="max-w-2xl text-base sm:text-lg md:text-xl text-gray-300 md:leading-relaxed font-light px-4 sm:px-0">
                     Herramientas astrológicas de nivel profesional: Calendarios personalizados,
                     Cartas Dracónicas y Análisis Vibracional para tu evolución consciente.
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-4">
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-4 px-4 sm:px-0">
                     <Button
                         asChild
                         size="lg"
