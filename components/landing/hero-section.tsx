@@ -6,7 +6,7 @@ import { ArrowRight, Star } from "lucide-react";
 
 export function HeroSection() {
     return (
-        <section className="relative w-full min-h-screen min-h-[600px] min-h-screen-dvh flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
+        <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
             {/* 
         VIDEO BACKGROUND PLACEHOLDER 
         TODO: Replace with <video> tag when asset is provided.
@@ -28,7 +28,7 @@ export function HeroSection() {
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F19]/80 via-[#1a1f3c]/50 to-[#0B0F19] z-10" />
 
-            <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-8 mx-auto">
+            <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-5 mx-auto">
 
                 {/* Badge / Pill */}
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 sm:px-4 py-1.5 text-sm font-medium text-[#D4AF37] backdrop-blur-md mx-4 sm:mx-0">
@@ -51,7 +51,7 @@ export function HeroSection() {
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-4 px-4 sm:px-0">
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
                     <Button
                         asChild
                         size="lg"

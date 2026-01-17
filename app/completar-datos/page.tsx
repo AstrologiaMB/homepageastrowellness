@@ -1,22 +1,72 @@
-"use client";
+"use client"
 
-import { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, AlertCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { getApiUrl } from "@/lib/api-config";
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Calendar, MapPin, Home, User, Loader2 } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { FormStatus, FormWarning } from "@/components/ui/form-status"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { getApiUrl } from "@/lib/api-config"
+
+// Schema for the user data form (extended with conditional fields)
+const completarDatosSchema = z.object({
+  birthDate: z.string().min(1, 'La fecha de nacimiento es requerida'),
+  birthCity: z.string().min(1, 'La ciudad de nacimiento es requerida'),
+  birthCountry: z.string().min(1, 'El país de nacimiento es requerido'),
+  knowsBirthTime: z.boolean().default(false),
+  birthHour: z.coerce.number().int().min(0).max(23).optional(),
+  birthMinute: z.coerce.number().int().min(0).max(59).optional(),
+  gender: z.enum(['masculino', 'femenino'], {
+    required_error: 'Selecciona una opción',
+  }),
+  residenceCity: z.string().min(1, 'La ciudad de residencia es requerida'),
+  residenceCountry: z.string().min(1, 'El país de residencia es requerido'),
+}).refine((data) => {
+  // If knowsBirthTime is true, hour and minute are required
+  if (data.knowsBirthTime) {
+    return data.birthHour !== undefined && data.birthMinute !== undefined
+  }
+  return true
+}, {
+  message: 'La hora y minuto son requeridos cuando conoces tu hora de nacimiento',
+  path: ['birthHour'],
+})
+
+type CompletarDatosFormData = z.infer<typeof completarDatosSchema>
 
 function CompletarDatosForm() {
-  const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(true);
-  const [knowsBirthTime, setKnowsBirthTime] = useState(false);
-  const [checkingLocation, setCheckingLocation] = useState(false);
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const [locationOptions, setLocationOptions] = useState<any[]>([]);
-  const [pendingFormData, setPendingFormData] = useState<FormData | null>(null);
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { update } = useSession()
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadingData, setLoadingData] = useState(true)
+  const [checkingLocation, setCheckingLocation] = useState(false)
+  const [showLocationModal, setShowLocationModal] = useState(false)
+  const [locationOptions, setLocationOptions] = useState<any[]>([])
+  const [pendingFormData, setPendingFormData] = useState<CompletarDatosFormData | null>(null)
   const [userData, setUserData] = useState({
     birthDate: "",
     birthCity: "",
@@ -28,105 +78,122 @@ function CompletarDatosForm() {
     residenceCity: "",
     residenceCountry: "",
     birthDataChangeCount: 0,
-  });
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { update } = useSession();
+  })
 
   // Capturar la URL de redirección si existe
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || "/"
+
+  const form = useForm<CompletarDatosFormData>({
+    resolver: zodResolver(completarDatosSchema),
+    defaultValues: {
+      birthDate: "",
+      birthCity: "",
+      birthCountry: "",
+      knowsBirthTime: false,
+      birthHour: 0,
+      birthMinute: 0,
+      gender: undefined,
+      residenceCity: "",
+      residenceCountry: "",
+    },
+  })
+
+  const knowsBirthTime = form.watch('knowsBirthTime')
 
   // Cargar datos del usuario al montar el componente
   useEffect(() => {
     async function loadUserData() {
       try {
-        const response = await fetch("/api/user/profile");
+        const response = await fetch("/api/user/profile")
         if (response.ok) {
-          const data = await response.json();
-          setUserData(data);
-          setKnowsBirthTime(data.knowsBirthTime || false);
+          const data = await response.json()
+          setUserData(data)
+
+          // Pre-llenar campos con datos del usuario
+          form.setValue('birthDate', data.birthDate || '')
+          form.setValue('birthCity', data.birthCity || '')
+          form.setValue('birthCountry', data.birthCountry || '')
+          form.setValue('knowsBirthTime', data.knowsBirthTime || false)
+          form.setValue('birthHour', data.birthHour || 0)
+          form.setValue('birthMinute', data.birthMinute || 0)
+          form.setValue('gender', data.gender || undefined)
+          form.setValue('residenceCity', data.residenceCity || '')
+          form.setValue('residenceCountry', data.residenceCountry || '')
         }
       } catch (error) {
-        console.error("Error al cargar datos del usuario:", error);
+        console.error("Error al cargar datos del usuario:", error)
       } finally {
-        setLoadingData(false);
+        setLoadingData(false)
       }
     }
 
-    loadUserData();
-  }, []);
+    loadUserData()
+  }, [form])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setCheckingLocation(true);
-
-    const formData = new FormData(e.currentTarget);
-    const birthCity = formData.get("birthCity") as string;
-    const birthCountry = formData.get("birthCountry") as string;
+  const handleSubmit = async (data: CompletarDatosFormData) => {
+    setCheckingLocation(true)
 
     try {
       // Verificar ubicación con el nuevo endpoint
-      const apiUrl = getApiUrl('CALCULOS');
+      const apiUrl = getApiUrl('CALCULOS')
       const geoResponse = await fetch(`${apiUrl}/geocode/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          city: birthCity,
-          country: birthCountry
+          city: data.birthCity,
+          country: data.birthCountry
         })
-      });
+      })
 
       if (!geoResponse.ok) {
-        throw new Error("Error verificando ubicación");
+        throw new Error("Error verificando ubicación")
       }
 
-      const geoResult = await geoResponse.json();
+      const geoResult = await geoResponse.json()
 
       if (!geoResult.success || !geoResult.data) {
-        throw new Error("Ubicación no encontrada");
+        throw new Error("Ubicación no encontrada")
       }
 
       // Caso 1: Solo una opción - proceder directamente
       if (geoResult.data.single) {
-        await saveUserData(formData, geoResult.data);
+        await saveUserData(data, geoResult.data)
       }
       // Caso 2: Múltiples opciones - mostrar modal
       else if (geoResult.data.multiple) {
-        setPendingFormData(formData);
-        setLocationOptions(geoResult.data.options);
-        setShowLocationModal(true);
-        setCheckingLocation(false);
+        setPendingFormData(data)
+        setLocationOptions(geoResult.data.options)
+        setShowLocationModal(true)
+        setCheckingLocation(false)
       }
 
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error al verificar la ubicación. Por favor, intenta nuevamente.");
-      setCheckingLocation(false);
+      console.error("Error:", error)
+      form.setError('birthCity', { type: 'manual', message: 'Error al verificar la ubicación. Intenta nuevamente.' })
+      setCheckingLocation(false)
     }
-  };
+  }
 
-  const saveUserData = async (formData: FormData, locationData: any) => {
-    setLoading(true);
-    setCheckingLocation(false);
+  const saveUserData = async (formData: CompletarDatosFormData, locationData: any) => {
+    setIsLoading(true)
+    setCheckingLocation(false)
 
     const data = {
-      birthDate: formData.get("birthDate"),
-      birthCity: formData.get("birthCity"),
-      birthCountry: formData.get("birthCountry"),
-      birthHour: knowsBirthTime ? Number(formData.get("birthHour")) : null,
-      birthMinute: knowsBirthTime ? Number(formData.get("birthMinute")) : null,
-      knowsBirthTime: knowsBirthTime,
-      gender: formData.get("gender"),
-      residenceCity: formData.get("residenceCity"),
-      residenceCountry: formData.get("residenceCountry"),
-      // Agregar coordenadas y timezone
+      birthDate: formData.birthDate,
+      birthCity: formData.birthCity,
+      birthCountry: formData.birthCountry,
+      birthHour: formData.knowsBirthTime ? formData.birthHour : null,
+      birthMinute: formData.knowsBirthTime ? formData.birthMinute : null,
+      knowsBirthTime: formData.knowsBirthTime,
+      gender: formData.gender,
+      residenceCity: formData.residenceCity,
+      residenceCountry: formData.residenceCountry,
       birthLat: locationData.lat,
       birthLon: locationData.lon,
       birthTimezone: locationData.timezone
-    };
+    }
 
     try {
       const response = await fetch("/api/user/update", {
@@ -135,227 +202,318 @@ function CompletarDatosForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (!result.success) {
-        throw new Error(result.error || "Error al guardar datos");
+        throw new Error(result.error || "Error al guardar datos")
       }
 
       // Verificar el estado de los datos
-      const refreshResponse = await fetch("/api/auth/refresh-token");
-      const refreshResult = await refreshResponse.json();
+      const refreshResponse = await fetch("/api/auth/refresh-token")
+      const refreshResult = await refreshResponse.json()
 
       if (!refreshResult.success) {
-        console.warn("No se pudo verificar el estado de los datos");
+        console.warn("No se pudo verificar el estado de los datos")
       }
 
       // Actualizar la sesión
-      await update();
+      await update()
 
-      // Redirigir directamente al Dashboard (evitando página intermedia)
-      router.push(callbackUrl);
+      // Redirigir directamente al Dashboard
+      router.push(callbackUrl)
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error al guardar datos. Por favor, intenta nuevamente.");
+      console.error("Error:", error)
+      form.setError('root', { type: 'manual', message: 'Error al guardar datos. Intenta nuevamente.' })
     } finally {
-      setLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleLocationSelect = (location: any) => {
     if (pendingFormData) {
-      saveUserData(pendingFormData, location);
-      setShowLocationModal(false);
+      saveUserData(pendingFormData, location)
+      setShowLocationModal(false)
     }
-  };
+  }
 
   if (loadingData) {
-    return <div className="max-w-xl mx-auto mt-10 p-6 text-center">Cargando datos...</div>;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-muted-foreground">Cargando datos...</p>
+        </div>
+      </div>
+    )
   }
+
+  const isLocked = userData.birthDataChangeCount >= 3
 
   return (
     <>
-      <div className="max-w-xl mx-auto mt-10 p-6 border rounded-md shadow-md bg-white">
-        <h1 className="text-2xl font-bold mb-6">Completar Datos Personales</h1>
+      <div className="min-h-screen bg-background py-8 px-4">
+        <div className="max-w-xl mx-auto">
+          <div className="mb-6 text-center">
+            <h1 className="text-2xl font-bold text-foreground">Completar Datos Personales</h1>
+            <p className="text-muted-foreground mt-2">Completa tu información para los cálculos astrológicos</p>
+          </div>
 
-        <Alert className="mb-6 bg-blue-50 border-blue-200">
-          <AlertCircle className="h-4 w-4 text-blue-600" />
-          <AlertTitle className="text-blue-800">Importante: Precisión requerida</AlertTitle>
-          <AlertDescription className="text-blue-700 mt-2">
-            Por favor completa tus datos personales para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos, sobre todo hora y lugar de nacimiento.
-            <br />
-            <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente, de lo contrario tendrás que contactar al administrador.
-          </AlertDescription>
-        </Alert>
+          {/* Important notice */}
+          <FormWarning className="mb-6">
+            <strong>Precisión requerida:</strong> Por favor completa tus datos personales
+            para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos,
+            sobre todo hora y lugar de nacimiento. <br />
+            <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente.
+          </FormWarning>
 
-        {userData.birthDataChangeCount > 0 && (
-          <Alert variant={userData.birthDataChangeCount >= 3 ? "destructive" : "default"} className={`mb-6 ${userData.birthDataChangeCount < 3 ? "border-yellow-500 bg-yellow-50" : ""}`}>
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>
+          {/* Warning about remaining changes */}
+          {userData.birthDataChangeCount > 0 && (
+            <FormStatus
+              variant={userData.birthDataChangeCount >= 3 ? "error" : "warning"}
+              className="mb-6"
+            >
+              <strong>
+                {userData.birthDataChangeCount >= 3
+                  ? "Límite de cambios alcanzado"
+                  : `Aviso: Te quedan ${3 - userData.birthDataChangeCount} cambios disponibles`}
+              </strong>
               {userData.birthDataChangeCount >= 3
-                ? "Límite de cambios alcanzado"
-                : "Aviso importante sobre cambios de datos"}
-            </AlertTitle>
-            <AlertDescription>
-              {userData.birthDataChangeCount >= 3
-                ? "Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones. Contacta a soporte si necesitas ayuda."
-                : `Te quedan ${3 - userData.birthDataChangeCount} cambios disponibles en tus datos de nacimiento. Asegúrate de que la información sea correcta.`}
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <fieldset disabled={userData.birthDataChangeCount >= 3} className="space-y-4">
-            <div>
-              <label className="block mb-2">Fecha de nacimiento</label>
-              <input
-                type="date"
-                name="birthDate"
-                className="w-full p-2 border rounded"
-                required
-                defaultValue={userData.birthDate}
-              />
-            </div>
-
-            <div className="mt-4">
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="knowsBirthTime"
-                  name="knowsBirthTime"
-                  className="mr-2"
-                  onChange={(e) => setKnowsBirthTime(e.target.checked)}
-                  checked={knowsBirthTime}
-                />
-                <label htmlFor="knowsBirthTime">Conozco mi hora exacta de nacimiento</label>
-              </div>
-
-              {knowsBirthTime && (
-                <div className="flex gap-4">
-                  <div className="w-1/2">
-                    <label className="block mb-2">Hora</label>
-                    <select
-                      name="birthHour"
-                      className="w-full p-2 border rounded"
-                      required={knowsBirthTime}
-                      defaultValue={userData.birthHour || 0}
-                    >
-                      {Array.from({ length: 24 }, (_, i) => (
-                        <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="w-1/2">
-                    <label className="block mb-2">Minuto</label>
-                    <select
-                      name="birthMinute"
-                      className="w-full p-2 border rounded"
-                      required={knowsBirthTime}
-                      defaultValue={userData.birthMinute || 0}
-                    >
-                      {Array.from({ length: 60 }, (_, i) => (
-                        <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block mb-2">Ciudad de nacimiento</label>
-              <input
-                type="text"
-                name="birthCity"
-                className="w-full p-2 border rounded"
-                required
-                defaultValue={userData.birthCity || ""}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2">País de nacimiento</label>
-              <input
-                type="text"
-                name="birthCountry"
-                className="w-full p-2 border rounded"
-                required
-                defaultValue={userData.birthCountry || ""}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2">Género</label>
-              <div className="flex gap-4">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="masculino"
-                    className="mr-2"
-                    required
-                    defaultChecked={userData.gender === "masculino"}
-                  />
-                  Masculino
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="femenino"
-                    className="mr-2"
-                    required
-                    defaultChecked={userData.gender === "femenino"}
-                  />
-                  Femenino
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label className="block mb-2">Ciudad de residencia</label>
-              <input
-                type="text"
-                name="residenceCity"
-                className="w-full p-2 border rounded"
-                required
-                defaultValue={userData.residenceCity || ""}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2">País de residencia</label>
-              <input
-                type="text"
-                name="residenceCountry"
-                className="w-full p-2 border rounded"
-                required
-                defaultValue={userData.residenceCountry || ""}
-              />
-            </div>
-
-          </fieldset>
-
-          <Button type="submit" disabled={loading || checkingLocation} className="w-full mt-4">
-            {checkingLocation ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Verificando ubicación...
-              </>
-            ) : loading ? (
-              "Guardando..."
-            ) : (
-              "Guardar y continuar"
-            )}
-          </Button>
-          {userData.birthDataChangeCount >= 3 && (
-            <p className="text-sm text-red-500 mt-2 text-center">
-              No puedes guardar más cambios en tus datos de nacimiento.
-            </p>
+                ? ". Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones."
+                : ". Asegúrate de que la información sea correcta antes de guardar."}
+            </FormStatus>
           )}
-        </form>
+
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+              <fieldset disabled={isLocked} className="space-y-6">
+                {/* Birth Date */}
+                <FormField
+                  control={form.control}
+                  name="birthDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Fecha de nacimiento
+                      </FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Knows Birth Time */}
+                <FormField
+                  control={form.control}
+                  name="knowsBirthTime"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="cursor-pointer">
+                          Conozco mi hora exacta de nacimiento
+                        </FormLabel>
+                        <FormDescription>
+                          Marca esta casilla si conoces la hora exacta de tu nacimiento
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                {/* Birth Hour and Minute (conditional) */}
+                {knowsBirthTime && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="birthHour"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Hora</FormLabel>
+                          <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Hora" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Array.from({ length: 24 }, (_, i) => (
+                                <SelectItem key={i} value={i.toString()}>
+                                  {i.toString().padStart(2, '0')}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="birthMinute"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Minuto</FormLabel>
+                          <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Minuto" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Array.from({ length: 60 }, (_, i) => (
+                                <SelectItem key={i} value={i.toString()}>
+                                  {i.toString().padStart(2, '0')}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+
+                {/* Birth City */}
+                <FormField
+                  control={form.control}
+                  name="birthCity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        Ciudad de nacimiento
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: Buenos Aires" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Birth Country */}
+                <FormField
+                  control={form.control}
+                  name="birthCountry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>País de nacimiento</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: Argentina" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Gender */}
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-2">
+                        <User className="h-4 w-4" />
+                        Género
+                      </FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona una opción" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="masculino">Masculino</SelectItem>
+                            <SelectItem value="femenino">Femenino</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Residence City */}
+                <FormField
+                  control={form.control}
+                  name="residenceCity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-2">
+                        <Home className="h-4 w-4" />
+                        Ciudad de residencia
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: Buenos Aires" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Residence Country */}
+                <FormField
+                  control={form.control}
+                  name="residenceCountry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>País de residencia</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: Argentina" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </fieldset>
+
+              {/* Root form error */}
+              {form.formState.errors.root && (
+                <FormStatus variant="error">
+                  {form.formState.errors.root.message}
+                </FormStatus>
+              )}
+
+              <Button
+                type="submit"
+                disabled={isLoading || checkingLocation || isLocked}
+                className="w-full"
+              >
+                {checkingLocation ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Verificando ubicación...
+                  </>
+                ) : isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Guardando...
+                  </>
+                ) : (
+                  "Guardar y continuar"
+                )}
+              </Button>
+
+              {isLocked && (
+                <p className="text-sm text-destructive text-center">
+                  No puedes guardar más cambios en tus datos de nacimiento.
+                </p>
+              )}
+            </form>
+          </Form>
+        </div>
       </div>
 
       {/* Modal de selección de ubicación */}
@@ -372,6 +530,7 @@ function CompletarDatosForm() {
               <button
                 key={index}
                 onClick={() => handleLocationSelect(option)}
+                type="button"
                 className="w-full p-4 text-left border rounded-lg hover:bg-accent hover:border-primary transition-colors"
               >
                 <div className="font-medium">{option.address}</div>
@@ -387,13 +546,17 @@ function CompletarDatosForm() {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }
 
 export default function CompletarDatosPage() {
   return (
-    <Suspense fallback={<div className="max-w-xl mx-auto mt-10 p-6 text-center">Cargando...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <p className="text-muted-foreground">Cargando...</p>
+      </div>
+    }>
       <CompletarDatosForm />
     </Suspense>
-  );
+  )
 }

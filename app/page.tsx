@@ -1,14 +1,14 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowRight, Calendar, Star } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Calendar, ArrowRight, Star } from 'lucide-react';
 // import { TermsCheckbox } from "@/components/auth/terms-checkbox"; // Unused in new design
-import { HeroSection } from '@/components/landing/hero-section';
 import { BentoFeatures } from '@/components/landing/bento-features';
 import { ComparisonTable } from '@/components/landing/comparison-table';
+import { HeroSection } from '@/components/landing/hero-section';
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -26,7 +26,7 @@ export default function Page() {
   // LOGGED IN STATE: Dashboard
   if (session) {
     return (
-      <div className="min-h-screen p-4 sm:p-6 md:p-8 lg:p-12 space-y-6 md:space-y-8 bg-gradient-to-br from-background via-background to-accent/5">
+      <div className="min-h-screen p-4 sm:p-6 md:p-7 lg:p-8 space-y-5 md:space-y-6 bg-gradient-to-br from-background via-background to-accent/5">
         {/* Header de Bienvenida */}
         <div className="max-w-4xl mx-auto space-y-2">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">

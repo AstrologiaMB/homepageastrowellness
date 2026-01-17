@@ -3,69 +3,45 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { User, Mail } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Eye, EyeOff, Sparkles } from 'lucide-react'
+import { PasswordInput } from '@/components/ui/password-input'
 import { Checkbox } from '@/components/ui/checkbox'
+import { FormStatus } from '@/components/ui/form-status'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Sparkles } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { registerSchema, type RegisterFormData } from '@/lib/form-schemas'
 
 export default function RegisterPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    termsAccepted: false
+  const [serverError, setServerError] = useState('')
+
+  const form = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      termsAccepted: false,
+    },
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-    if (error) setError('')
-  }
-
-  const validateForm = () => {
-    if (!formData.name.trim()) {
-      setError('El nombre es requerido')
-      return false
-    }
-    if (!formData.email.trim()) {
-      setError('El email es requerido')
-      return false
-    }
-    if (!formData.password) {
-      setError('La contraseña es requerida')
-      return false
-    }
-    if (formData.password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres')
-      return false
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden')
-      return false
-    }
-    if (!formData.termsAccepted) {
-      setError('Debes aceptar los términos y condiciones')
-      return false
-    }
-    return true
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validateForm()) return
-
+  const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true)
-    setError('')
+    setServerError('')
 
     try {
       const response = await fetch('/api/auth/register', {
@@ -74,186 +50,179 @@ export default function RegisterPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim().toLowerCase(),
-          password: formData.password,
-          termsAccepted: formData.termsAccepted
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          termsAccepted: data.termsAccepted
         }),
       })
 
-      const data = await response.json()
+      const result = await response.json()
 
       if (response.ok) {
         router.push('/auth/login?message=Cuenta creada exitosamente. Ahora puedes iniciar sesión.')
       } else {
-        setError(data.error || 'Error al crear la cuenta')
+        setServerError(result.error || 'Error al crear la cuenta')
       }
     } catch (error) {
       console.error('Error:', error)
-      setError('Error de conexión. Inténtalo de nuevo.')
+      setServerError('Error de conexión. Inténtalo de nuevo.')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
+    <div className="h-dvh bg-white dark:bg-black flex flex-col relative overflow-hidden transition-colors duration-300">
       {/* Subtle animated background stars */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
         <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
         <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
       </div>
 
-      <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8 relative z-10">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
-          <h1 className="text-2xl font-light tracking-wide text-black dark:text-white">
-            Astrochat
-          </h1>
-          <p className="text-sm text-black/60 dark:text-white/60">
-            Únete a tu camino astrológico
-          </p>
-        </div>
+      {/* Fixed Header */}
+      <div className="flex-shrink-0 text-center space-y-0.5 pt-6 pb-3 px-4 relative z-10">
+        <Sparkles className="w-7 h-7 mx-auto text-primary" strokeWidth={1.5} />
+        <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
+          Astrochat
+        </h1>
+        <p className="text-xs text-black/60 dark:text-white/60 uppercase tracking-wide">
+          Únete a tu camino astrológico
+        </p>
+      </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="border border-red-500/20 bg-red-500/5 backdrop-blur-sm p-4 rounded-sm">
-            <p className="text-sm text-red-600 dark:text-red-400 text-center">
-              {error}
-            </p>
-          </div>
-        )}
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 relative z-10">
+        <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-2 sm:space-y-2.5 py-2 pb-6">
+          {/* Error Message */}
+          {serverError && (
+            <FormStatus variant="error" dismissible onDismiss={() => setServerError('')}>
+              {serverError}
+            </FormStatus>
+          )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-          <div className="space-y-3 sm:space-y-4">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Nombre completo
-              </label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Nombre completo"
-                value={formData.name}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="password" className="sr-only">
-                Contraseña
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Contraseña (mínimo 8 caracteres)"
-                value={formData.password}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm pr-10"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-
-            <div className="relative">
-              <label htmlFor="confirmPassword" className="sr-only">
-                Confirmar contraseña
-              </label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirmar contraseña"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm pr-10"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                disabled={isLoading}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Terms and Conditions */}
-          <div className="flex items-start space-x-3">
-            <Checkbox
-              id="terms"
-              checked={formData.termsAccepted}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, termsAccepted: checked as boolean }))}
-              disabled={isLoading}
-              className="mt-0.5 border-black/20 dark:border-white/20 data-[state=checked]:bg-black dark:data-[state=checked]:bg-white data-[state=checked]:text-white dark:data-[state=checked]:text-black"
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Nombre completo</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Nombre completo"
+                      leftIcon={<User className="h-4 w-4" />}
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <label htmlFor="terms" className="text-sm text-black/60 dark:text-white/60 leading-relaxed">
-              Acepto los{' '}
-              <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
-                Términos y Condiciones
-              </Link>
-              {' '}y la{' '}
-              <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
-                Política de Privacidad
-              </Link>
-            </label>
-          </div>
 
-          <Button
-            type="submit"
-            disabled={isLoading || !formData.termsAccepted}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide disabled:opacity-50"
-          >
-            {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
-          </Button>
-        </form>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      type="email"
+                      leftIcon={<Mail className="h-4 w-4" />}
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Contraseña</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder="Contraseña"
+                      inputSize="lg"
+                      showStrength
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Confirmar contraseña</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder="Confirmar contraseña"
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Terms and Conditions */}
+            <FormField
+              control={form.control}
+              name="termsAccepted"
+              render={({ field }) => (
+                <FormItem className="flex items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={isLoading}
+                      className="mt-0.5 border-black/20 dark:border-white/20 data-[state=checked]:bg-black dark:data-[state=checked]:bg-white data-[state=checked]:text-white dark:data-[state=checked]:text-black"
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm text-black/60 dark:text-white/60 leading-relaxed cursor-pointer">
+                      Acepto los{' '}
+                      <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
+                        Términos y Condiciones
+                      </Link>
+                      {' '}y la{' '}
+                      <Link href="/legal" className="text-black dark:text-white underline decoration-black/20 dark:decoration-white/20 underline-offset-4 hover:text-black/80 dark:hover:text-white/80 transition-colors">
+                        Política de Privacidad
+                      </Link>
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-11 rounded-sm font-light tracking-wide"
+            >
+              {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
+            </Button>
+          </form>
+        </Form>
 
         {/* Links */}
-        <div className="space-y-3 sm:space-y-4 text-center px-2">
+        <div className="space-y-1.5 text-center">
           <div className="text-sm">
             <span className="text-black/60 dark:text-white/60">¿Ya tienes cuenta? </span>
             <Link
@@ -266,10 +235,11 @@ export default function RegisterPage() {
 
           <Link
             href="/"
-            className="block py-1 sm:py-0 text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+            className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
           >
             ← Volver al inicio
           </Link>
+        </div>
         </div>
       </div>
     </div>

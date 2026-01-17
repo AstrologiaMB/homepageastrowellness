@@ -6,12 +6,15 @@
  * algoritmo de carta electiva optimizada.
  *
  * @author Astrowellness Team
- * @version 1.0.0
+ * @version 2.0.0 - Refactored with React Hook Form + Zod
  */
 
 'use client';
 
 import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -22,10 +25,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { FormStatus } from '@/components/ui/form-status';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Progress } from '@/components/ui/progress';
-import { Loader2, Search, Calendar, Target, Clock, Star } from 'lucide-react';
+import { cartaElectivaSchema, type CartaElectivaFormData } from '@/lib/form-schemas';
+import { Loader2, Search, Calendar, Target, Clock, Star, Calendar as CalendarIcon } from 'lucide-react';
 
 interface ResultadoBusqueda {
   success: boolean;
@@ -76,15 +87,25 @@ const IS_ENABLED = false;
  * Componente principal de la página de carta electiva
  */
 export default function CartaElectivaPage() {
-  const [tema, setTema] = useState<string>('');
-  const [fechaInicio, setFechaInicio] = useState<string>('');
-  const [dias, setDias] = useState<string>('30');
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressMessage, setProgressMessage] = useState('');
   const [resultado, setResultado] = useState<ResultadoBusqueda | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | null>(null);
+
+  const form = useForm<CartaElectivaFormData>({
+    resolver: zodResolver(cartaElectivaSchema),
+    defaultValues: {
+      tema: '',
+      fechaInicio: '',
+      dias: 30,
+    },
+  });
+
+  const tema = form.watch('tema');
+  const fechaInicio = form.watch('fechaInicio');
+  const dias = form.watch('dias');
 
   // GATING LOGIC
   if (!IS_ENABLED) {
@@ -167,12 +188,7 @@ export default function CartaElectivaPage() {
   /**
    * Maneja la búsqueda de momentos electivos
    */
-  const handleBuscar = async () => {
-    if (!tema || !fechaInicio || !dias) {
-      setError('Por favor completa todos los campos');
-      return;
-    }
-
+  const handleBuscar = async (data: CartaElectivaFormData) => {
     setLoading(true);
     setError(null);
     setResultado(null);
@@ -182,7 +198,7 @@ export default function CartaElectivaPage() {
     try {
       // Obtener datos del usuario (simplificado para este ejemplo)
       const userData = {
-        fecha_nacimiento: '1990-01-01', // Esto debería venir de la sesión del usuario
+        fecha_nacimiento: '1990-01-01',
         hora_nacimiento: '12:00',
         ciudad: 'Buenos Aires',
         pais: 'Argentina',
@@ -195,27 +211,26 @@ export default function CartaElectivaPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_id: 'test-user', // Esto debería venir de la sesión
-          tema,
-          fecha_inicio: fechaInicio,
-          dias: parseInt(dias),
+          user_id: 'test-user',
+          tema: data.tema,
+          fecha_inicio: data.fechaInicio,
+          dias: data.dias,
           ubicacion: { ciudad: userData.ciudad, pais: userData.pais },
           carta_natal: userData,
         }),
       });
 
-      const data = await response.json();
+      const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || `Error ${response.status}`);
+        throw new Error(responseData.error || `Error ${response.status}`);
       }
 
-      if (data.success && data.task_id) {
+      if (responseData.success && responseData.task_id) {
         // Iniciar polling con el task_id
-        // taskId from response used for polling if needed
-        startProgressPolling(data.task_id);
+        startProgressPolling(responseData.task_id);
       } else {
-        throw new Error(data.error || 'Error desconocido');
+        throw new Error(responseData.error || 'Error desconocido');
       }
     } catch (err) {
       console.error('Error en búsqueda:', err);
@@ -267,77 +282,104 @@ export default function CartaElectivaPage() {
             Selecciona el propósito y período para encontrar los mejores momentos astrológicos
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Selector de tema */}
-          <div className="space-y-2">
-            <Label htmlFor="tema">Propósito Astrológico</Label>
-            <Select value={tema} onValueChange={setTema}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona un propósito" />
-              </SelectTrigger>
-              <SelectContent>
-                {TEMAS_DISPONIBLES.map((temaOption) => (
-                  <SelectItem key={temaOption.value} value={temaOption.value}>
-                    <div>
-                      <div className="font-medium">{temaOption.label}</div>
-                      <div className="text-sm text-gray-500">{temaOption.description}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleBuscar)} className="space-y-6">
+              {/* Selector de tema */}
+              <FormField
+                control={form.control}
+                name="tema"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Propósito Astrológico</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona un propósito" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {TEMAS_DISPONIBLES.map((temaOption) => (
+                          <SelectItem key={temaOption.value} value={temaOption.value}>
+                            <div>
+                              <div className="font-medium">{temaOption.label}</div>
+                              <div className="text-sm text-gray-500">{temaOption.description}</div>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          {/* Fecha de inicio */}
-          <div className="space-y-2">
-            <Label htmlFor="fecha-inicio">Fecha de Inicio</Label>
-            <Input
-              id="fecha-inicio"
-              type="date"
-              value={fechaInicio}
-              onChange={(e) => setFechaInicio(e.target.value)}
-              min={getFechaMinima()}
-              max={getFechaMaxima()}
-            />
-            <p className="text-sm text-gray-500">Desde hoy hasta 6 meses adelante</p>
-          </div>
+              {/* Fecha de inicio */}
+              <FormField
+                control={form.control}
+                name="fechaInicio"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                      <CalendarIcon className="h-4 w-4" />
+                      Fecha de Inicio
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} min={getFechaMinima()} max={getFechaMaxima()} />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">Desde hoy hasta 6 meses adelante</p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          {/* Número de días */}
-          <div className="space-y-2">
-            <Label htmlFor="dias">Período de Análisis (días)</Label>
-            <Select value={dias} onValueChange={setDias}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7">7 días</SelectItem>
-                <SelectItem value="15">15 días</SelectItem>
-                <SelectItem value="30">30 días</SelectItem>
-                <SelectItem value="60">60 días</SelectItem>
-                <SelectItem value="90">90 días</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+              {/* Número de días */}
+              <FormField
+                control={form.control}
+                name="dias"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Período de Análisis (días)</FormLabel>
+                    <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="7">7 días</SelectItem>
+                        <SelectItem value="15">15 días</SelectItem>
+                        <SelectItem value="30">30 días</SelectItem>
+                        <SelectItem value="60">60 días</SelectItem>
+                        <SelectItem value="90">90 días</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          {/* Botón de búsqueda */}
-          <Button
-            onClick={handleBuscar}
-            disabled={loading || !tema || !fechaInicio || !dias}
-            className="w-full"
-            size="lg"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Buscando momentos óptimos...
-              </>
-            ) : (
-              <>
-                <Target className="mr-2 h-4 w-4" />
-                Buscar Momentos Óptimos
-              </>
-            )}
-          </Button>
+              {/* Botón de búsqueda */}
+              <Button
+                type="submit"
+                disabled={loading || !tema || !fechaInicio || !dias}
+                className="w-full"
+                size="lg"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Buscando momentos óptimos...
+                  </>
+                ) : (
+                  <>
+                    <Target className="mr-2 h-4 w-4" />
+                    Buscar Momentos Óptimos
+                  </>
+                )}
+              </Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
 
@@ -359,11 +401,9 @@ export default function CartaElectivaPage() {
 
       {/* Mensaje de error */}
       {error && (
-        <Alert variant="destructive" className="mb-6">
-          <AlertDescription>
-            <strong>Error:</strong> {error}
-          </AlertDescription>
-        </Alert>
+        <FormStatus variant="error" className="mb-6">
+          <strong>Error:</strong> {error}
+        </FormStatus>
       )}
 
       {/* Resultados */}

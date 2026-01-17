@@ -3,37 +3,40 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Mail, ArrowLeft, Sparkles, CheckCircle2 } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Mail, ArrowLeft } from 'lucide-react'
+import { FormStatus, FormSuccess } from '@/components/ui/form-status'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/form-schemas'
+import { Loader2 } from 'lucide-react'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const [serverError, setServerError] = useState('')
+  const [successEmail, setSuccessEmail] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const form = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
+  })
 
-    if (!email.trim()) {
-      setError('El email es requerido')
-      return
-    }
-
-    // Validación básica de formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email.trim())) {
-      setError('Formato de email inválido')
-      return
-    }
-
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     setIsLoading(true)
-    setError('')
+    setServerError('')
 
     try {
       const response = await fetch('/api/auth/forgot-password', {
@@ -42,55 +45,62 @@ export default function ForgotPasswordPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email.trim().toLowerCase()
+          email: data.email,
         }),
       })
 
-      const data = await response.json()
+      const result = await response.json()
 
       if (response.ok) {
-        setSuccess(true)
+        setSuccessEmail(data.email)
       } else {
-        setError(data.error || 'Error al procesar la solicitud')
+        setServerError(result.error || 'Error al procesar la solicitud')
       }
     } catch (error) {
       console.error('Error:', error)
-      setError('Error de conexión. Inténtalo de nuevo.')
+      setServerError('Error de conexión. Inténtalo de nuevo.')
     } finally {
       setIsLoading(false)
     }
   }
 
-  if (success) {
+  // Success state
+  if (successEmail) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-center mb-4">
-              <div className="bg-green-100 p-3 rounded-full">
-                <Mail className="h-6 w-6 text-green-600" />
-              </div>
-            </div>
-            <CardTitle className="text-2xl font-bold text-center">
-              Email Enviado
-            </CardTitle>
-            <CardDescription className="text-center">
-              Revisa tu bandeja de entrada
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Alert className="border-green-200 bg-green-50">
-              <AlertDescription className="text-green-800">
-                Si el email <strong>{email}</strong> existe en nuestro sistema,
-                recibirás instrucciones para restablecer tu contraseña en los próximos minutos.
-              </AlertDescription>
-            </Alert>
+      <div className="h-dvh bg-white dark:bg-black flex flex-col relative overflow-hidden transition-colors duration-300">
+        {/* Subtle animated background stars */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
+          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
+          <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
+        </div>
 
-            <div className="mt-6 space-y-4">
-              <p className="text-sm text-muted-foreground text-center">
-                ¿No recibiste el email? Revisa tu carpeta de spam o
+        {/* Fixed Header */}
+        <div className="flex-shrink-0 text-center space-y-0.5 pt-6 pb-3 px-4 relative z-10">
+          <div className="mx-auto w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+            <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
+          </div>
+          <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
+            Email Enviado
+          </h1>
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 relative z-10">
+          <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-3 py-2 pb-6">
+            <FormSuccess>
+              Si el email <strong>{successEmail}</strong> existe en nuestro sistema,
+              recibirás instrucciones para restablecer tu contraseña en los próximos minutos.
+            </FormSuccess>
+
+            <div className="space-y-3">
+              <p className="text-sm text-center text-black/60 dark:text-white/60">
+                ¿No recibiste el email? Revisa tu carpeta de spam o{' '}
                 <button
-                  onClick={() => setSuccess(false)}
+                  onClick={() => {
+                    setSuccessEmail('')
+                    form.reset()
+                  }}
                   className="text-primary hover:underline ml-1"
                 >
                   intenta de nuevo
@@ -106,48 +116,77 @@ export default function ForgotPasswordPage() {
                 Volver al Login
               </Button>
             </div>
-          </CardContent>
-        </Card>
+
+            <div className="text-center">
+              <Link
+                href="/"
+                className="text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+              >
+                ← Volver al inicio
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
-            Restablecer Contraseña
-          </CardTitle>
-          <CardDescription className="text-center">
-            Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+    <div className="h-dvh bg-white dark:bg-black flex flex-col relative overflow-hidden transition-colors duration-300">
+      {/* Subtle animated background stars */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
+        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="tu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-                required
-              />
-            </div>
+      {/* Fixed Header */}
+      <div className="flex-shrink-0 text-center space-y-0.5 pt-6 pb-3 px-4 relative z-10">
+        <Sparkles className="w-7 h-7 mx-auto text-primary" strokeWidth={1.5} />
+        <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
+          Astrochat
+        </h1>
+        <p className="text-xs text-black/60 dark:text-white/60 uppercase tracking-wide">
+          Restablecer Contraseña
+        </p>
+      </div>
+
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 relative z-10">
+        <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-2 sm:space-y-2.5 py-2 pb-6">
+          {/* Error Message */}
+          {serverError && (
+            <FormStatus variant="error" dismissible onDismiss={() => setServerError('')}>
+              {serverError}
+            </FormStatus>
+          )}
+
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="tu@email.com"
+                      type="email"
+                      leftIcon={<Mail className="h-4 w-4" />}
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -163,37 +202,39 @@ export default function ForgotPasswordPage() {
               )}
             </Button>
           </form>
+        </Form>
 
-          <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">¿Recordaste tu contraseña? </span>
+        {/* Links */}
+        <div className="space-y-1.5 text-center">
+          <div className="text-sm">
+            <span className="text-black/60 dark:text-white/60">¿Recordaste tu contraseña? </span>
             <Link
               href="/auth/login"
-              className="text-primary hover:underline font-medium"
+              className="text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors underline decoration-black/20 dark:decoration-white/20 underline-offset-4"
             >
               Inicia sesión
             </Link>
           </div>
 
-          <div className="mt-4 text-center text-sm">
-            <span className="text-muted-foreground">¿No tienes cuenta? </span>
+          <div className="text-sm">
+            <span className="text-black/60 dark:text-white/60">¿No tienes cuenta? </span>
             <Link
               href="/auth/register"
-              className="text-primary hover:underline font-medium"
+              className="text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors underline decoration-black/20 dark:decoration-white/20 underline-offset-4"
             >
               Regístrate
             </Link>
           </div>
 
-          <div className="mt-4 text-center">
-            <Link
-              href="/"
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
-              ← Volver al inicio
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+          <Link
+            href="/"
+            className="block text-sm text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
+          >
+            ← Volver al inicio
+          </Link>
+        </div>
+        </div>
+      </div>
     </div>
   )
 }

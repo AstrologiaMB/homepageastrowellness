@@ -128,6 +128,45 @@
 
 @layer base {
   :root {
+    /* Form Design Tokens - 4px base unit system */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-2xl: 2.5rem;   /* 40px */
+    --spacing-3xl: 3rem;     /* 48px */
+
+    /* Form-specific spacing */
+    --form-field-gap: 1rem;
+    --form-section-gap: 1.5rem;
+    --form-label-gap: 0.5rem;
+    --form-input-padding: 0.75rem;
+    --form-description-gap: 0.25rem;
+
+    /* Form state colors */
+    --border-input-default: hsl(var(--input));
+    --border-input-hover: hsl(var(--primary) / 0.5);
+    --border-input-focus: hsl(var(--ring));
+    --border-input-error: hsl(var(--destructive));
+    --border-input-success: hsl(142 76% 36%);
+    --border-input-warning: hsl(38 92% 50%);
+
+    /* Form state backgrounds */
+    --bg-input-error: hsl(var(--destructive) / 0.05);
+    --bg-input-success: hsl(142 76% 36% / 0.05);
+    --bg-input-warning: hsl(38 92% 50% / 0.05);
+
+    /* Form shadow depths */
+    --shadow-input-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-input-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-input-focus: 0 0 0 3px hsl(var(--ring) / 0.15), 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+    /* Form radius sizes */
+    --radius-input-sm: 0.25rem;
+    --radius-input-md: 0.5rem;
+    --radius-input-lg: 0.75rem;
+
     /* Variables CORE - Tema "Midnight Bloom" Light Mode - EXACTO del original */
     --background: 0 0% 97.6471%;           /* blanco casi puro (original) */
     --foreground: 0 0% 20%;                /* gris oscuro (original) */

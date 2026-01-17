@@ -813,6 +813,8 @@ export default function CartasHorariaPage() {
                             <Textarea
                               placeholder="¿Qué deseas preguntarle a la carta horaria?"
                               className="min-h-[120px] border-border/50 resize-none"
+                              showCount
+                              maxLength={500}
                               {...field}
                             />
                           </FormControl>
@@ -833,6 +835,8 @@ export default function CartasHorariaPage() {
                             <Textarea
                               placeholder="Brinda el contexto, cuanto más detallado mejor será la respuesta."
                               className="min-h-[120px] border-border/50 resize-none"
+                              showCount
+                              maxLength={1000}
                               {...field}
                             />
                           </FormControl>

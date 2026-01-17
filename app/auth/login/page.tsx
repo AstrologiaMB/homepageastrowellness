@@ -5,21 +5,39 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useAuth } from '@/auth/auth-provider'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { Mail } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Eye, EyeOff, Sparkles } from 'lucide-react'
+import { PasswordInput } from '@/components/ui/password-input'
+import { FormStatus, FormSuccess } from '@/components/ui/form-status'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { loginSchema, type LoginFormData } from '@/lib/form-schemas'
+import { Sparkles } from 'lucide-react'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
+  const [serverError, setServerError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   useEffect(() => {
@@ -29,37 +47,21 @@ function LoginForm() {
     }
   }, [searchParams])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-    if (error) setError('')
-  }
-
-  const handleEmailLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!formData.email || !formData.password) {
-      setError('Email y contraseña son requeridos')
-      return
-    }
-
+  const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
-    setError('')
+    setServerError('')
 
     try {
       await login({
-        email: formData.email.trim().toLowerCase(),
-        password: formData.password,
+        email: data.email,
+        password: data.password,
       })
 
       router.refresh()
       router.push('/')
     } catch (error) {
       console.error('Error:', error)
-      setError('Email o contraseña incorrectos')
+      setServerError('Email o contraseña incorrectos')
     } finally {
       setIsLoading(false)
     }
@@ -71,108 +73,100 @@ function LoginForm() {
       await signIn('google', { callbackUrl: '/' })
     } catch (error) {
       console.error('Error:', error)
-      setError('Error al iniciar sesión con Google')
+      setServerError('Error al iniciar sesión con Google')
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
+    <div className="h-dvh bg-white dark:bg-black flex flex-col relative overflow-hidden transition-colors duration-300">
       {/* Subtle animated background stars */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse" />
         <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-75" />
         <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black dark:bg-white rounded-full animate-pulse delay-150" />
       </div>
 
-      <div className="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8 relative z-10">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <Sparkles className="w-8 h-8 mx-auto text-primary" strokeWidth={1.5} />
-          <h1 className="text-2xl font-light tracking-wide text-black dark:text-white">
-            Astrochat
-          </h1>
-          <p className="text-sm text-black/60 dark:text-white/60">
-            Accede a tu cuenta
-          </p>
-        </div>
+      {/* Fixed Header */}
+      <div className="flex-shrink-0 text-center space-y-0.5 pt-6 pb-3 px-4 relative z-10">
+        <Sparkles className="w-7 h-7 mx-auto text-primary" strokeWidth={1.5} />
+        <h1 className="text-xl font-light tracking-wide text-black dark:text-white uppercase">
+          Astrochat
+        </h1>
+        <p className="text-xs text-black/60 dark:text-white/60 uppercase tracking-wide">
+          Accede a tu cuenta
+        </p>
+      </div>
 
-        {/* Success Message */}
-        {successMessage && (
-          <div className="border border-green-500/20 bg-green-500/5 backdrop-blur-sm p-4 rounded-sm">
-            <p className="text-sm text-green-600 dark:text-white/80 text-center">
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 relative z-10">
+        <div className="w-full max-w-sm sm:max-w-md mx-auto space-y-2 sm:space-y-2.5 py-2 pb-6">
+          {/* Success Message */}
+          {successMessage && (
+            <FormSuccess
+              dismissible
+              onDismiss={() => setSuccessMessage('')}
+            >
               {successMessage}
-            </p>
-          </div>
-        )}
+            </FormSuccess>
+          )}
 
-        {/* Error Message */}
-        {error && (
-          <div className="border border-red-500/20 bg-red-500/5 backdrop-blur-sm p-4 rounded-sm">
-            <p className="text-sm text-red-600 dark:text-red-400 text-center">
-              {error}
-            </p>
-          </div>
-        )}
+          {/* Error Message */}
+          {serverError && (
+            <FormStatus variant="error" dismissible onDismiss={() => setServerError('')}>
+              {serverError}
+            </FormStatus>
+          )}
 
-        {/* Form */}
-        <form onSubmit={handleEmailLogin} className="space-y-4 sm:space-y-6">
-          <div className="space-y-3 sm:space-y-4">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-10 sm:h-12 rounded-sm"
-                required
-              />
-            </div>
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      leftIcon={<Mail className="h-4 w-4" />}
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <div className="relative">
-              <label htmlFor="password" className="sr-only">
-                Contraseña
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Contraseña"
-                value={formData.password}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="w-full bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:border-black/30 dark:focus:border-white/30 focus:bg-black/10 dark:focus:bg-white/10 transition-all h-12 rounded-sm pr-10"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 transition-colors"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="sr-only">Contraseña</FormLabel>
+                  <FormControl>
+                    <PasswordInput
+                      placeholder="Contraseña"
+                      inputSize="lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
-          >
-            {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 rounded-sm font-light tracking-wide"
+            >
+              {isLoading ? 'Ingresando...' : 'Iniciar Sesión'}
+            </Button>
+          </form>
+        </Form>
 
         {/* Divider */}
         <div className="relative">
@@ -190,16 +184,17 @@ function LoginForm() {
         <Button
           onClick={handleGoogleLogin}
           disabled={isLoading}
+          type="button"
           className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all h-12 rounded-sm font-light tracking-wide"
         >
           Continuar con Google
         </Button>
 
         {/* Links */}
-        <div className="space-y-3 sm:space-y-4 text-center px-2">
+        <div className="space-y-1.5 text-center">
           <Link
             href="/auth/forgot-password"
-            className="block py-1 sm:py-0 text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
+            className="block text-sm text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 transition-colors"
           >
             ¿Olvidaste tu contraseña?
           </Link>
@@ -221,6 +216,7 @@ function LoginForm() {
             ← Volver al inicio
           </Link>
         </div>
+        </div>
       </div>
     </div>
   )
@@ -229,7 +225,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+      <div className="min-h-screen-dvh bg-white dark:bg-black flex items-center justify-center">
         <p className="text-black/60 dark:text-white/60">Cargando...</p>
       </div>
     }>
