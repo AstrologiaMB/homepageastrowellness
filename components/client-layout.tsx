@@ -1,14 +1,13 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/app-sidebar';
-import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Separator } from '@/components/ui/separator';
-import { DynamicBreadcrumb } from '@/components/breadcrumb-dynamic';
-import { SessionProvider, useSession } from 'next-auth/react';
-import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/auth/auth-provider';
+import { AppSidebar } from '@/components/app-sidebar';
+import { DynamicBreadcrumb } from '@/components/breadcrumb-dynamic';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Separator } from '@/components/ui/separator';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 function InnerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,7 +33,7 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
           <DynamicBreadcrumb />
         </header>
 
-        <main className="flex-1 p-4 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -29,6 +29,8 @@ import {
   translateAspect,
 } from '@/lib/astrology-utils';
 import { ProtectedPage } from '@/components/protected-page';
+import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
+import { Star } from 'lucide-react';
 
 interface CartaNatalData {
   success: boolean;
@@ -327,12 +329,34 @@ export default function CartasDraconicaPage() {
 
   return (
     <ProtectedPage requiredEntitlement="hasDraconicAccess" entitlementRedirect="/upgrade">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">Carta Dracónica</h1>
+      <div className="p-4 md:p-6 max-w-7xl mx-auto">
+        {/* Navigation */}
+        <div className="mb-6">
+          <AstroBackButtonInline href="/cartas" />
+        </div>
+
+        {/* Page Header */}
+        <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-l-primary">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                  <Star className="w-5 h-5 text-primary" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl md:text-3xl font-light tracking-tight gradient-primary">
+                  Carta Dracónica
+                </h1>
+              </div>
+              <p className="text-muted-foreground ml-11">
+                Tu carta del alma - revelando el propósito de tu vida espiritual
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Loader visual cuando se está calculando la carta inicialmente */}
         {!cartaData && loading && (
-          <div className="flex flex-col items-center justify-center p-8 border rounded-lg bg-muted/20 mb-6">
+          <div className="glass-card rounded-xl p-8 mb-6 flex flex-col items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
             <p className="text-muted-foreground">Calculando carta dracónica...</p>
           </div>
@@ -359,18 +383,25 @@ export default function CartasDraconicaPage() {
           <>
             {/* Layout de dos cards: Dracónica individual + Superposición */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Visualización Gráfica</h2>
+                <p className="text-sm text-muted-foreground mt-1">Tu carta dracónica y la superposición con tu carta tropical</p>
+              </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Card izquierda: Carta dracónica individual (PRESERVADA) */}
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Carta Dracónica</h3>
+                <div className="glass-card-strong rounded-xl p-6">
+                  <h3 className="text-lg font-medium mb-3 text-foreground flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary"></span>
+                    Carta Dracónica
+                  </h3>
                   <CartaNatalWrapper chartData={cartaData} chartId="draconica-individual" />
                 </div>
 
                 {/* Card derecha: Carta superpuesta (NUEVA) */}
                 {cartaTropicalData && (
-                  <div>
-                    <h3 className="text-lg font-medium mb-3">
+                  <div className="glass-card-strong rounded-xl p-6">
+                    <h3 className="text-lg font-medium mb-3 text-foreground flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-purple-500"></span>
                       Superposición: Tropical + Dracónica
                     </h3>
                     <CartaSuperpuestaWrapper
@@ -383,7 +414,7 @@ export default function CartasDraconicaPage() {
 
                 {/* Mensaje si no hay datos tropicales */}
                 {!cartaTropicalData && (
-                  <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg">
+                  <div className="flex items-center justify-center p-8 border-2 border-dashed border-border rounded-lg glass-card">
                     <p className="text-muted-foreground text-center">
                       Cargando carta tropical para superposición...
                     </p>
@@ -394,13 +425,21 @@ export default function CartasDraconicaPage() {
 
             {/* Tabla de datos de la carta dracónica */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
-              <CartaNatalTabla chartData={cartaCompleta} />
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Datos Detallados</h2>
+                <p className="text-sm text-muted-foreground mt-1">Posiciones planetarias y aspectos completos</p>
+              </div>
+              <div className="glass-card-strong rounded-xl p-6">
+                <CartaNatalTabla chartData={cartaCompleta} />
+              </div>
             </div>
 
             {/* Sección de Eventos Dracónicos */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">🔮 Eventos Dracónicos</h2>
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Eventos Dracónicos</h2>
+                <p className="text-sm text-muted-foreground mt-1">Cúspides cruzadas y aspectos significativos</p>
+              </div>
               <DraconicEventsList
                 eventos={eventosDraconicos}
                 loading={loadingEventos}
@@ -410,7 +449,10 @@ export default function CartasDraconicaPage() {
 
             {/* Sección de Interpretación Dracónica */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">🔮 Interpretación Dracónica</h2>
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Interpretación Dracónica</h2>
+                <p className="text-sm text-muted-foreground mt-1">Análisis profundo del propósito de tu alma</p>
+              </div>
 
               {/* Componente de Interpretación Narrativa con Markdown */}
               <div className="mb-6">

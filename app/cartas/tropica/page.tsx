@@ -19,6 +19,8 @@ import { InterpretacionesIndividuales } from '@/components/interpretaciones-indi
 import { useInterpretaciones } from '@/hooks/use-interpretaciones';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ProtectedPage } from '@/components/protected-page';
+import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
+import { Compass } from 'lucide-react';
 
 interface CartaNatalData {
   success: boolean;
@@ -96,8 +98,30 @@ export default function CartasTropicaPage() {
 
   return (
     <ProtectedPage requiredEntitlement="hasBaseBundle" entitlementRedirect="/upgrade">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">Carta Natal Trópica</h1>
+      <div className="p-4 md:p-6 max-w-7xl mx-auto">
+        {/* Navigation */}
+        <div className="mb-6">
+          <AstroBackButtonInline href="/cartas" />
+        </div>
+
+        {/* Page Header */}
+        <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-l-primary">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                  <Compass className="w-5 h-5 text-primary" strokeWidth={1.5} />
+                </div>
+                <h1 className="text-2xl md:text-3xl font-light tracking-tight gradient-primary">
+                  Carta Natal Trópica
+                </h1>
+              </div>
+              <p className="text-muted-foreground ml-11">
+                Tu carta natal clásica - el mapa del cielo en tu momento de nacimiento
+              </p>
+            </div>
+          </div>
+        </div>
 
         {error && (
           <Alert variant="destructive" className="mb-4">
@@ -120,21 +144,31 @@ export default function CartasTropicaPage() {
           <>
             {/* Visualización gráfica de la carta natal */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Visualización Gráfica</h2>
-              <CartaNatalWrapper chartData={cartaData} />
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Visualización Gráfica</h2>
+                <p className="text-sm text-muted-foreground mt-1">Tu carta natal representada visualmente</p>
+              </div>
+              <div className="glass-card-strong rounded-xl p-6">
+                <CartaNatalWrapper chartData={cartaData} />
+              </div>
             </div>
 
             {/* Tabla de datos de la carta natal */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Datos Detallados</h2>
-              <CartaNatalTabla chartData={cartaCompleta} />
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Datos Detallados</h2>
+                <p className="text-sm text-muted-foreground mt-1">Posiciones planetarias y aspectos completos</p>
+              </div>
+              <div className="glass-card-strong rounded-xl p-6">
+                <CartaNatalTabla chartData={cartaCompleta} />
+              </div>
             </div>
 
             {/* Sección de Interpretaciones */}
             <div className="mb-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Interpretación Astrológica</h2>
-                <div className="flex gap-2"></div>
+              <div className="glass-card rounded-xl p-6 mb-6 border-l-4 border-l-primary">
+                <h2 className="text-xl font-semibold text-foreground">Interpretación Astrológica</h2>
+                <p className="text-sm text-muted-foreground mt-1">Análisis personalizado de tu carta natal</p>
               </div>
 
               {/* Interpretación Narrativa */}
