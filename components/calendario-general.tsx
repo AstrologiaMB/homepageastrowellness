@@ -155,9 +155,9 @@ export function CalendarioGeneral() {
   };
 
   return (
-    <div className="flex flex-col gap-6 p-4 pt-0">
+    <div className="flex flex-col gap-5 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
@@ -278,15 +278,15 @@ export function CalendarioGeneral() {
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-64 md:w-auto transition-all duration-200 hover:shadow-lg ${
+              className={`flex-none w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
                 isToday
-                  ? 'border-2 border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
-                  : 'border-border/40'
+                  ? 'border-[2px] border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
+                  : 'border border-border/40'
               }`}
             >
               {/* Day Header with gradient and badge */}
               <div
-                className={`p-4 rounded-t-lg ${
+                className={`px-3 py-3 md:p-4 rounded-t-lg ${
                   isToday
                     ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
                     : 'bg-muted/50 dark:bg-muted/30'
@@ -312,10 +312,10 @@ export function CalendarioGeneral() {
                 </div>
               </div>
 
-              <div className="p-4">
+              <div className="px-2 py-3 md:p-4">
                 {eventosDelDia.length > 0 ? (
                   <ScrollArea className="w-full">
-                    <div className="flex space-x-4 pb-2 overflow-x-auto">
+                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-2 sm:overflow-x-auto">
                       {eventosDelDia.map((evento, index) => (
                         <EventoAstrologico
                           key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}

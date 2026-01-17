@@ -125,9 +125,9 @@ export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
 
   return (
     <Card
-      className={`w-72 flex-shrink-0 h-auto bg-gradient-to-br ${style.gradient} border ${style.border} hover:shadow-md transition-all duration-200`}
+      className={`w-full sm:w-72 flex-shrink-0 h-auto bg-gradient-to-br ${style.gradient} border ${style.border} hover:shadow-md transition-all duration-200`}
     >
-      <CardContent className="space-y-3 px-4 py-4">
+      <CardContent className="space-y-3 px-3 py-3 sm:px-4 sm:py-4">
         {/* Header with icon and badge */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
