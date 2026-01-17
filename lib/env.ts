@@ -85,25 +85,45 @@ function validateEnv(): Env {
 }
 
 /**
+ * Cached validated environment variables
+ * Validation is lazy - only runs when first accessed at runtime
+ */
+let cachedEnv: Env | null = null;
+
+/**
  * Exported validated environment variables
  * Access these instead of process.env directly for type safety
+ * Validation is lazy and only runs at runtime, not during build
  */
-export const env = validateEnv();
+export const env = new Proxy({} as Env, {
+  get(_target, prop: keyof Env) {
+    if (!cachedEnv) {
+      cachedEnv = validateEnv();
+    }
+    return cachedEnv[prop];
+  },
+  has(_target, prop: keyof Env) {
+    if (!cachedEnv) {
+      cachedEnv = validateEnv();
+    }
+    return prop in cachedEnv;
+  },
+});
 
 /**
  * Check if running in production environment
  */
-export const isProduction = env.NODE_ENV === 'production';
+export const isProduction = () => env.NODE_ENV === 'production';
 
 /**
  * Check if running in development environment
  */
-export const isDevelopment = env.NODE_ENV === 'development';
+export const isDevelopment = () => env.NODE_ENV === 'development';
 
 /**
  * Check if running in test environment
  */
-export const isTest = env.NODE_ENV === 'test';
+export const isTest = () => env.NODE_ENV === 'test';
 
 /**
  * Get API URL for a specific service (for production)
@@ -121,7 +141,7 @@ export const getApiServiceUrl = (service: 'CALCULOS' | 'INTERPRETACIONES' | 'CAL
   const envVar = envVarMap[service];
   const url = env[envVar as keyof Env] as string | undefined;
 
-  if (isDevelopment) {
+  if (isDevelopment()) {
     // Use localhost URLs in development
     const devUrls = {
       CALCULOS: 'http://127.0.0.1:8001',
@@ -133,7 +153,7 @@ export const getApiServiceUrl = (service: 'CALCULOS' | 'INTERPRETACIONES' | 'CAL
     return devUrls[service];
   }
 
-  if (!url && isProduction) {
+  if (!url && isProduction()) {
     throw new Error(`API URL for ${service} is not configured. Please set ${envVar} environment variable.`);
   }
 
