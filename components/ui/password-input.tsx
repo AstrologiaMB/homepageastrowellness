@@ -16,6 +16,7 @@ export interface PasswordInputProps
   inputSize?: 'sm' | 'md' | 'lg'
   showStrength?: boolean
   onStrengthChange?: (strength: PasswordStrengthMeter) => void
+  leftIcon?: React.ReactNode
 }
 
 const calculatePasswordStrength = (password: string): PasswordStrengthMeter => {
@@ -72,7 +73,7 @@ const strengthLabels = {
 }
 
 const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ className, inputSize, showStrength = false, onStrengthChange, value = '', onChange, ...props }, ref) => {
+  ({ className, inputSize, showStrength = false, onStrengthChange, leftIcon, value = '', onChange, ...props }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [strength, setStrength] = React.useState<PasswordStrengthMeter>({ strength: 'weak', score: 0, feedback: [] })
 
@@ -94,6 +95,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
           ref={ref}
           type={showPassword ? "text" : "password"}
           inputSize={inputSize}
+          leftIcon={leftIcon}
           value={value}
           onChange={onChange}
           rightAction={showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
