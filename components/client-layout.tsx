@@ -13,11 +13,10 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { status } = useSession();
   const isHomepage = pathname === '/';
-  const isUnauthenticated = status === 'unauthenticated';
+  const isUnauthenticated = status === 'unauthenticated' || status === 'loading';
 
-  // Prevent flash of content during loading if possible, or just render default structure
-  // For homepage:
-  // If we are definitely unauthenticated and on homepage -> Render Landing Layout (No Sidebar)
+  // For homepage: render Landing Layout (no sidebar) if unauthenticated OR loading
+  // This prevents flash of authenticated content during session check
   if (isHomepage && isUnauthenticated) {
     return <>{children}</>;
   }
