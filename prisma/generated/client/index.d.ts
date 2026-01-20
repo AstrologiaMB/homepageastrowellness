@@ -1788,12 +1788,20 @@ export namespace Prisma {
     birthHour: number | null
     birthMinute: number | null
     birthDataChangeCount: number | null
+    birthLat: number | null
+    birthLon: number | null
+    residenceLat: number | null
+    residenceLon: number | null
   }
 
   export type UserSumAggregateOutputType = {
     birthHour: number | null
     birthMinute: number | null
     birthDataChangeCount: number | null
+    birthLat: number | null
+    birthLon: number | null
+    residenceLat: number | null
+    residenceLon: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1817,6 +1825,10 @@ export namespace Prisma {
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
+    birthLat: number | null
+    birthLon: number | null
+    residenceLat: number | null
+    residenceLon: number | null
     timezone: string | null
     rectificationRequested: boolean | null
     rectificationAcceptedUncertainty: boolean | null
@@ -1849,6 +1861,10 @@ export namespace Prisma {
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
+    birthLat: number | null
+    birthLon: number | null
+    residenceLat: number | null
+    residenceLon: number | null
     timezone: string | null
     rectificationRequested: boolean | null
     rectificationAcceptedUncertainty: boolean | null
@@ -1881,6 +1897,10 @@ export namespace Prisma {
     gender: number
     residenceCity: number
     residenceCountry: number
+    birthLat: number
+    birthLon: number
+    residenceLat: number
+    residenceLon: number
     timezone: number
     rectificationRequested: number
     rectificationAcceptedUncertainty: number
@@ -1898,12 +1918,20 @@ export namespace Prisma {
     birthHour?: true
     birthMinute?: true
     birthDataChangeCount?: true
+    birthLat?: true
+    birthLon?: true
+    residenceLat?: true
+    residenceLon?: true
   }
 
   export type UserSumAggregateInputType = {
     birthHour?: true
     birthMinute?: true
     birthDataChangeCount?: true
+    birthLat?: true
+    birthLon?: true
+    residenceLat?: true
+    residenceLon?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1927,6 +1955,10 @@ export namespace Prisma {
     gender?: true
     residenceCity?: true
     residenceCountry?: true
+    birthLat?: true
+    birthLon?: true
+    residenceLat?: true
+    residenceLon?: true
     timezone?: true
     rectificationRequested?: true
     rectificationAcceptedUncertainty?: true
@@ -1959,6 +1991,10 @@ export namespace Prisma {
     gender?: true
     residenceCity?: true
     residenceCountry?: true
+    birthLat?: true
+    birthLon?: true
+    residenceLat?: true
+    residenceLon?: true
     timezone?: true
     rectificationRequested?: true
     rectificationAcceptedUncertainty?: true
@@ -1991,6 +2027,10 @@ export namespace Prisma {
     gender?: true
     residenceCity?: true
     residenceCountry?: true
+    birthLat?: true
+    birthLon?: true
+    residenceLat?: true
+    residenceLon?: true
     timezone?: true
     rectificationRequested?: true
     rectificationAcceptedUncertainty?: true
@@ -2110,6 +2150,10 @@ export namespace Prisma {
     gender: string | null
     residenceCity: string | null
     residenceCountry: string | null
+    birthLat: number | null
+    birthLon: number | null
+    residenceLat: number | null
+    residenceLon: number | null
     timezone: string | null
     rectificationRequested: boolean
     rectificationAcceptedUncertainty: boolean
@@ -2161,6 +2205,10 @@ export namespace Prisma {
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
+    birthLat?: boolean
+    birthLon?: boolean
+    residenceLat?: boolean
+    residenceLon?: boolean
     timezone?: boolean
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -2202,6 +2250,10 @@ export namespace Prisma {
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
+    birthLat?: boolean
+    birthLon?: boolean
+    residenceLat?: boolean
+    residenceLon?: boolean
     timezone?: boolean
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -2234,6 +2286,10 @@ export namespace Prisma {
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
+    birthLat?: boolean
+    birthLon?: boolean
+    residenceLat?: boolean
+    residenceLon?: boolean
     timezone?: boolean
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -2266,6 +2322,10 @@ export namespace Prisma {
     gender?: boolean
     residenceCity?: boolean
     residenceCountry?: boolean
+    birthLat?: boolean
+    birthLon?: boolean
+    residenceLat?: boolean
+    residenceLon?: boolean
     timezone?: boolean
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -2277,7 +2337,7 @@ export namespace Prisma {
     termsAcceptedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "stripeCustomerId" | "hasDraconicAccess" | "termsAccepted" | "termsAcceptedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "birthLat" | "birthLon" | "residenceLat" | "residenceLon" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "stripeCustomerId" | "hasDraconicAccess" | "termsAccepted" | "termsAcceptedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -2325,6 +2385,10 @@ export namespace Prisma {
       gender: string | null
       residenceCity: string | null
       residenceCountry: string | null
+      birthLat: number | null
+      birthLon: number | null
+      residenceLat: number | null
+      residenceLon: number | null
       timezone: string | null
       rectificationRequested: boolean
       rectificationAcceptedUncertainty: boolean
@@ -2785,6 +2849,10 @@ export namespace Prisma {
     readonly gender: FieldRef<"User", 'String'>
     readonly residenceCity: FieldRef<"User", 'String'>
     readonly residenceCountry: FieldRef<"User", 'String'>
+    readonly birthLat: FieldRef<"User", 'Float'>
+    readonly birthLon: FieldRef<"User", 'Float'>
+    readonly residenceLat: FieldRef<"User", 'Float'>
+    readonly residenceLon: FieldRef<"User", 'Float'>
     readonly timezone: FieldRef<"User", 'String'>
     readonly rectificationRequested: FieldRef<"User", 'Boolean'>
     readonly rectificationAcceptedUncertainty: FieldRef<"User", 'Boolean'>
@@ -13584,6 +13652,10 @@ export namespace Prisma {
     gender: 'gender',
     residenceCity: 'residenceCity',
     residenceCountry: 'residenceCountry',
+    birthLat: 'birthLat',
+    birthLon: 'birthLon',
+    residenceLat: 'residenceLat',
+    residenceLon: 'residenceLon',
     timezone: 'timezone',
     rectificationRequested: 'rectificationRequested',
     rectificationAcceptedUncertainty: 'rectificationAcceptedUncertainty',
@@ -13859,6 +13931,10 @@ export namespace Prisma {
     gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
+    birthLat?: FloatNullableFilter<"User"> | number | null
+    birthLon?: FloatNullableFilter<"User"> | number | null
+    residenceLat?: FloatNullableFilter<"User"> | number | null
+    residenceLon?: FloatNullableFilter<"User"> | number | null
     timezone?: StringNullableFilter<"User"> | string | null
     rectificationRequested?: BoolFilter<"User"> | boolean
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
@@ -13899,6 +13975,10 @@ export namespace Prisma {
     gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
+    birthLat?: SortOrderInput | SortOrder
+    birthLon?: SortOrderInput | SortOrder
+    residenceLat?: SortOrderInput | SortOrder
+    residenceLon?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     rectificationRequested?: SortOrder
     rectificationAcceptedUncertainty?: SortOrder
@@ -13943,6 +14023,10 @@ export namespace Prisma {
     gender?: StringNullableFilter<"User"> | string | null
     residenceCity?: StringNullableFilter<"User"> | string | null
     residenceCountry?: StringNullableFilter<"User"> | string | null
+    birthLat?: FloatNullableFilter<"User"> | number | null
+    birthLon?: FloatNullableFilter<"User"> | number | null
+    residenceLat?: FloatNullableFilter<"User"> | number | null
+    residenceLon?: FloatNullableFilter<"User"> | number | null
     timezone?: StringNullableFilter<"User"> | string | null
     rectificationRequested?: BoolFilter<"User"> | boolean
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
@@ -13982,6 +14066,10 @@ export namespace Prisma {
     gender?: SortOrderInput | SortOrder
     residenceCity?: SortOrderInput | SortOrder
     residenceCountry?: SortOrderInput | SortOrder
+    birthLat?: SortOrderInput | SortOrder
+    birthLon?: SortOrderInput | SortOrder
+    residenceLat?: SortOrderInput | SortOrder
+    residenceLon?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     rectificationRequested?: SortOrder
     rectificationAcceptedUncertainty?: SortOrder
@@ -14022,6 +14110,10 @@ export namespace Prisma {
     gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCity?: StringNullableWithAggregatesFilter<"User"> | string | null
     residenceCountry?: StringNullableWithAggregatesFilter<"User"> | string | null
+    birthLat?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    birthLon?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    residenceLat?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    residenceLon?: FloatNullableWithAggregatesFilter<"User"> | number | null
     timezone?: StringNullableWithAggregatesFilter<"User"> | string | null
     rectificationRequested?: BoolWithAggregatesFilter<"User"> | boolean
     rectificationAcceptedUncertainty?: BoolWithAggregatesFilter<"User"> | boolean
@@ -14773,6 +14865,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -14813,6 +14909,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -14853,6 +14953,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -14893,6 +14997,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -14933,6 +15041,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -14965,6 +15077,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -14997,6 +15113,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -15884,6 +16004,17 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type RectificationEventListRelationFilter = {
     every?: RectificationEventWhereInput
     some?: RectificationEventWhereInput
@@ -15985,6 +16116,10 @@ export namespace Prisma {
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
+    birthLat?: SortOrder
+    birthLon?: SortOrder
+    residenceLat?: SortOrder
+    residenceLon?: SortOrder
     timezone?: SortOrder
     rectificationRequested?: SortOrder
     rectificationAcceptedUncertainty?: SortOrder
@@ -16000,6 +16135,10 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     birthDataChangeCount?: SortOrder
+    birthLat?: SortOrder
+    birthLon?: SortOrder
+    residenceLat?: SortOrder
+    residenceLon?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -16023,6 +16162,10 @@ export namespace Prisma {
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
+    birthLat?: SortOrder
+    birthLon?: SortOrder
+    residenceLat?: SortOrder
+    residenceLon?: SortOrder
     timezone?: SortOrder
     rectificationRequested?: SortOrder
     rectificationAcceptedUncertainty?: SortOrder
@@ -16055,6 +16198,10 @@ export namespace Prisma {
     gender?: SortOrder
     residenceCity?: SortOrder
     residenceCountry?: SortOrder
+    birthLat?: SortOrder
+    birthLon?: SortOrder
+    residenceLat?: SortOrder
+    residenceLon?: SortOrder
     timezone?: SortOrder
     rectificationRequested?: SortOrder
     rectificationAcceptedUncertainty?: SortOrder
@@ -16070,6 +16217,10 @@ export namespace Prisma {
     birthHour?: SortOrder
     birthMinute?: SortOrder
     birthDataChangeCount?: SortOrder
+    birthLat?: SortOrder
+    birthLon?: SortOrder
+    residenceLat?: SortOrder
+    residenceLon?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -16174,6 +16325,22 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -16302,17 +16469,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type InterpretacionCacheUserIdFechaNacimientoLugarNacimientoGenderTipoCompoundUniqueInput = {
     userId: string
     fechaNacimiento: Date | string
@@ -16372,22 +16528,6 @@ export namespace Prisma {
 
   export type InterpretacionCacheSumOrderByAggregateInput = {
     tiempoGeneracion?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type AstrogematriaCacheCountOrderByAggregateInput = {
@@ -16760,6 +16900,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type RectificationEventUpdateManyWithoutUserNestedInput = {
     create?: XOR<RectificationEventCreateWithoutUserInput, RectificationEventUncheckedCreateWithoutUserInput> | RectificationEventCreateWithoutUserInput[] | RectificationEventUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RectificationEventCreateOrConnectWithoutUserInput | RectificationEventCreateOrConnectWithoutUserInput[]
@@ -17024,14 +17172,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdateOneRequiredWithoutInterpretacionesNestedInput = {
     create?: XOR<UserCreateWithoutInterpretacionesInput, UserUncheckedCreateWithoutInterpretacionesInput>
     connectOrCreate?: UserCreateOrConnectWithoutInterpretacionesInput
@@ -17173,6 +17313,17 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17249,17 +17400,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -17856,6 +17996,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -17895,6 +18039,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -17950,6 +18098,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -17989,6 +18141,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18028,6 +18184,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18067,6 +18227,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18122,6 +18286,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18161,6 +18329,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18200,6 +18372,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18239,6 +18415,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18294,6 +18474,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18333,6 +18517,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18372,6 +18560,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18411,6 +18603,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18466,6 +18662,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18505,6 +18705,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18544,6 +18748,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18583,6 +18791,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18638,6 +18850,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18677,6 +18893,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18716,6 +18936,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18755,6 +18979,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18810,6 +19038,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18849,6 +19081,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -18888,6 +19124,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18927,6 +19167,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -18982,6 +19226,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -19021,6 +19269,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -19060,6 +19312,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -19099,6 +19355,10 @@ export namespace Prisma {
     gender?: string | null
     residenceCity?: string | null
     residenceCountry?: string | null
+    birthLat?: number | null
+    birthLon?: number | null
+    residenceLat?: number | null
+    residenceLon?: number | null
     timezone?: string | null
     rectificationRequested?: boolean
     rectificationAcceptedUncertainty?: boolean
@@ -19154,6 +19414,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
@@ -19193,6 +19457,10 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCity?: NullableStringFieldUpdateOperationsInput | string | null
     residenceCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    birthLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    birthLon?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    residenceLon?: NullableFloatFieldUpdateOperationsInput | number | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequested?: BoolFieldUpdateOperationsInput | boolean
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean

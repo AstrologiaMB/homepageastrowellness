@@ -30,6 +30,10 @@ model User {
   gender                           String?              // "masculino" o "femenino"
   residenceCity                    String?
   residenceCountry                 String?
+  birthLat                         Float?
+  birthLon                         Float?
+  residenceLat                     Float?
+  residenceLon                     Float?
   timezone                         String?
   rectificationRequested           Boolean              @default(false)
   rectificationAcceptedUncertainty Boolean              @default(false)

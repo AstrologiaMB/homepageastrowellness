@@ -94,6 +94,15 @@ export async function POST(req: Request) {
         gender: data.gender as string,
         residenceCity: data.residenceCity as string,
         residenceCountry: data.residenceCountry as string,
+        // Location coordinates and timezone for birth place
+        birthLat: data.birthLat ? Number(data.birthLat) : null,
+        birthLon: data.birthLon ? Number(data.birthLon) : null,
+        // Store birth timezone in the 'timezone' field (legacy field name)
+        timezone: data.birthTimezone || null,
+        // Location coordinates and timezone for residence place
+        residenceLat: data.residenceLat ? Number(data.residenceLat) : null,
+        residenceLon: data.residenceLon ? Number(data.residenceLon) : null,
+        // Note: residence timezone is not stored separately as schema doesn't have that field
         // Incrementamos contador atomicamente si corresponde
         birthDataChangeCount: shouldIncrementCounter ? { increment: 1 } : undefined
       }

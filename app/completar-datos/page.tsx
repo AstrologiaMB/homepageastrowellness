@@ -28,23 +28,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { getApiUrl } from "@/lib/api-config"
 import { toast } from "sonner"
+import {
+  MapLocationPicker,
+  type LocationData,
+} from "@/components/location-picker"
 
 // Schema for the user data form (extended with conditional fields)
 const completarDatosSchema = z.object({
   birthDate: z.string().min(1, 'La fecha de nacimiento es requerida'),
-  birthCity: z.string().min(1, 'La ciudad de nacimiento es requerida'),
-  birthCountry: z.string().min(1, 'El país de nacimiento es requerido'),
+  birthCity: z.string().optional(),
+  birthCountry: z.string().optional(),
   knowsBirthTime: z.boolean().default(false),
   birthHour: z.coerce.number().int().min(0).max(23).optional(),
   birthMinute: z.coerce.number().int().min(0).max(59).optional(),
   gender: z.enum(['masculino', 'femenino'], {
     required_error: 'Selecciona una opción',
   }),
-  residenceCity: z.string().min(1, 'La ciudad de residencia es requerida'),
-  residenceCountry: z.string().min(1, 'El país de residencia es requerido'),
+  residenceCity: z.string().optional(),
+  residenceCountry: z.string().optional(),
 }).refine((data) => {
   // If knowsBirthTime is true, hour and minute are required
   if (data.knowsBirthTime) {
@@ -64,10 +66,18 @@ function CompletarDatosForm() {
   const { update } = useSession()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingData, setLoadingData] = useState(true)
-  const [checkingLocation, setCheckingLocation] = useState(false)
-  const [showLocationModal, setShowLocationModal] = useState(false)
-  const [locationOptions, setLocationOptions] = useState<any[]>([])
-  const [pendingFormData, setPendingFormData] = useState<CompletarDatosFormData | null>(null)
+  const [showMapPicker, setShowMapPicker] = useState(false)
+  const [locationType, setLocationType] = useState<'birth' | 'residence'>('birth')
+  const [birthLocation, setBirthLocation] = useState<{
+    lat: number
+    lng: number
+    timezone: string
+  } | null>(null)
+  const [residenceLocation, setResidenceLocation] = useState<{
+    lat: number
+    lng: number
+    timezone: string
+  } | null>(null)
   const [userData, setUserData] = useState({
     birthDate: "",
     birthCity: "",
@@ -79,6 +89,11 @@ function CompletarDatosForm() {
     residenceCity: "",
     residenceCountry: "",
     birthDataChangeCount: 0,
+    birthLat: null as number | null,
+    birthLon: null as number | null,
+    timezone: null as string | null,
+    residenceLat: null as number | null,
+    residenceLon: null as number | null,
   })
 
   // Capturar la URL de redirección si existe
@@ -120,6 +135,22 @@ function CompletarDatosForm() {
           form.setValue('gender', data.gender || undefined)
           form.setValue('residenceCity', data.residenceCity || '')
           form.setValue('residenceCountry', data.residenceCountry || '')
+
+          // Load existing location data into state
+          if (data.birthLat && data.birthLon) {
+            setBirthLocation({
+              lat: data.birthLat,
+              lng: data.birthLon,
+              timezone: data.timezone || 'UTC',
+            })
+          }
+          if (data.residenceLat && data.residenceLon) {
+            setResidenceLocation({
+              lat: data.residenceLat,
+              lng: data.residenceLon,
+              timezone: 'UTC', // Residence timezone not stored separately
+            })
+          }
         }
       } catch (error) {
         console.error("Error al cargar datos del usuario:", error)
@@ -132,68 +163,30 @@ function CompletarDatosForm() {
   }, [form])
 
   const handleSubmit = async (data: CompletarDatosFormData) => {
-    setCheckingLocation(true)
-
-    try {
-      // Verificar ubicación con el nuevo endpoint
-      const apiUrl = getApiUrl('CALCULOS')
-      const geoResponse = await fetch(`${apiUrl}/geocode/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          city: data.birthCity,
-          country: data.birthCountry
-        })
-      })
-
-      if (!geoResponse.ok) {
-        throw new Error("Error verificando ubicación")
-      }
-
-      const geoResult = await geoResponse.json()
-
-      if (!geoResult.success || !geoResult.data) {
-        throw new Error("Ubicación no encontrada")
-      }
-
-      // Caso 1: Solo una opción - proceder directamente
-      if (geoResult.data.single) {
-        await saveUserData(data, geoResult.data)
-      }
-      // Caso 2: Múltiples opciones - mostrar modal
-      else if (geoResult.data.multiple) {
-        setPendingFormData(data)
-        setLocationOptions(geoResult.data.options)
-        setShowLocationModal(true)
-        setCheckingLocation(false)
-      }
-
-    } catch (error) {
-      console.error("Error:", error)
-      form.setError('birthCity', { type: 'manual', message: 'Error al verificar la ubicación. Intenta nuevamente.' })
-      setCheckingLocation(false)
+    // Validate that birth location has been selected via map
+    if (!birthLocation) {
+      toast.error("Por favor selecciona tu ubicación de nacimiento usando el botón 'Mapa'")
+      form.setError('birthCity', { type: 'manual', message: 'Usa el botón "Mapa" para seleccionar tu ubicación' })
+      return
     }
-  }
 
-  const saveUserData = async (formData: CompletarDatosFormData, locationData: any) => {
     setIsLoading(true)
-    setCheckingLocation(false)
 
-    const data = {
-      birthDate: formData.birthDate,
-      birthCity: formData.birthCity,
-      birthCountry: formData.birthCountry,
-      birthHour: formData.knowsBirthTime ? formData.birthHour : null,
-      birthMinute: formData.knowsBirthTime ? formData.birthMinute : null,
-      knowsBirthTime: formData.knowsBirthTime,
-      gender: formData.gender,
-      residenceCity: formData.residenceCity,
-      residenceCountry: formData.residenceCountry,
-      birthLat: locationData.lat,
-      birthLon: locationData.lon,
-      birthTimezone: locationData.timezone
+    const requestData = {
+      birthDate: data.birthDate,
+      birthCity: data.birthCity,
+      birthCountry: data.birthCountry,
+      birthHour: data.knowsBirthTime ? data.birthHour : null,
+      birthMinute: data.knowsBirthTime ? data.birthMinute : null,
+      knowsBirthTime: data.knowsBirthTime,
+      gender: data.gender,
+      residenceCity: data.residenceCity,
+      residenceCountry: data.residenceCountry,
+      birthLat: birthLocation.lat,
+      birthLon: birthLocation.lng,
+      birthTimezone: birthLocation.timezone,
+      residenceLat: residenceLocation?.lat || null,
+      residenceLon: residenceLocation?.lng || null,
     }
 
     try {
@@ -202,7 +195,7 @@ function CompletarDatosForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(requestData),
       })
 
       const result = await response.json()
@@ -236,11 +229,40 @@ function CompletarDatosForm() {
     }
   }
 
-  const handleLocationSelect = (location: any) => {
-    if (pendingFormData) {
-      saveUserData(pendingFormData, location)
-      setShowLocationModal(false)
+  const handleMapLocationSelect = (location: LocationData) => {
+    if (locationType === 'birth') {
+      setBirthLocation({
+        lat: location.lat,
+        lng: location.lng,
+        timezone: location.timezone,
+      })
+    } else {
+      setResidenceLocation({
+        lat: location.lat,
+        lng: location.lng,
+        timezone: location.timezone,
+      })
     }
+    setShowMapPicker(false)
+
+    // Extract city and country from address
+    const addressParts = location.address.split(',').map((p) => p.trim())
+    const city = addressParts[0] || location.address
+    const country = addressParts[addressParts.length - 1] || ""
+
+    form.setValue(locationType === 'birth' ? 'birthCity' : 'residenceCity', city)
+    form.setValue(locationType === 'birth' ? 'birthCountry' : 'residenceCountry', country)
+
+    toast.success(
+      locationType === 'birth'
+        ? `Ubicación de nacimiento: ${city}`
+        : `Ubicación de residencia: ${city}`
+    )
+  }
+
+  const handleOpenMapPicker = (type: 'birth' | 'residence') => {
+    setLocationType(type)
+    setShowMapPicker(true)
   }
 
   if (loadingData) {
@@ -391,38 +413,42 @@ function CompletarDatosForm() {
                   </div>
                 )}
 
-                {/* Birth City */}
-                <FormField
-                  control={form.control}
-                  name="birthCity"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        Ciudad de nacimiento
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ej: Buenos Aires" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                {/* Birth Location - Map Button Only */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Ubicación de nacimiento
+                    </FormLabel>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleOpenMapPicker('birth')}
+                      className="shrink-0"
+                    >
+                      <MapPin className="h-4 w-4 mr-2" />
+                      {birthLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                    </Button>
+                  </div>
+                  {birthLocation ? (
+                    <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
+                      <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
+                        <span className="text-green-500">✓</span>
+                        <span className="font-medium">Ubicación seleccionada</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Coordenadas: {birthLocation.lat.toFixed(4)}, {birthLocation.lng.toFixed(4)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Zona horaria: {birthLocation.timezone}
+                      </p>
+                    </div>
+                  ) : (
+                    <FormDescription className="text-xs">
+                      Haz clic en "Seleccionar en mapa" para elegir tu ubicación de nacimiento
+                    </FormDescription>
                   )}
-                />
-
-                {/* Birth Country */}
-                <FormField
-                  control={form.control}
-                  name="birthCountry"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>País de nacimiento</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ej: Argentina" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                </div>
 
                 {/* Gender */}
                 <FormField
@@ -450,38 +476,39 @@ function CompletarDatosForm() {
                   )}
                 />
 
-                {/* Residence City */}
-                <FormField
-                  control={form.control}
-                  name="residenceCity"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Home className="h-4 w-4" />
-                        Ciudad de residencia
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ej: Buenos Aires" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                {/* Residence Location - Map Button Only */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel className="flex items-center gap-2">
+                      <Home className="h-4 w-4" />
+                      Ubicación de residencia
+                    </FormLabel>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleOpenMapPicker('residence')}
+                      className="shrink-0"
+                    >
+                      <MapPin className="h-4 w-4 mr-2" />
+                      {residenceLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                    </Button>
+                  </div>
+                  {residenceLocation ? (
+                    <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
+                      <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
+                        <span className="text-green-500">✓</span>
+                        <span className="font-medium">Ubicación seleccionada</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Coordenadas: {residenceLocation.lat.toFixed(4)}, {residenceLocation.lng.toFixed(4)}
+                      </p>
+                    </div>
+                  ) : (
+                    <FormDescription className="text-xs">
+                      Haz clic en "Seleccionar en mapa" para elegir tu ubicación de residencia (opcional)
+                    </FormDescription>
                   )}
-                />
-
-                {/* Residence Country */}
-                <FormField
-                  control={form.control}
-                  name="residenceCountry"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>País de residencia</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ej: Argentina" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                </div>
               </fieldset>
 
               {/* Root form error */}
@@ -493,15 +520,10 @@ function CompletarDatosForm() {
 
               <Button
                 type="submit"
-                disabled={isLoading || checkingLocation || isLocked}
+                disabled={isLoading || isLocked}
                 className="w-full"
               >
-                {checkingLocation ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Verificando ubicación...
-                  </>
-                ) : isLoading ? (
+                {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Guardando...
@@ -521,35 +543,15 @@ function CompletarDatosForm() {
         </div>
       </div>
 
-      {/* Modal de selección de ubicación */}
-      <Dialog open={showLocationModal} onOpenChange={setShowLocationModal}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Selecciona tu ubicación exacta</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-3 mt-4">
-            <p className="text-sm text-muted-foreground">
-              Encontramos múltiples ubicaciones. Por favor selecciona la correcta:
-            </p>
-            {locationOptions.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleLocationSelect(option)}
-                type="button"
-                className="w-full p-4 text-left border rounded-lg hover:bg-accent hover:border-primary transition-colors"
-              >
-                <div className="font-medium">{option.address}</div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  Coordenadas: {option.lat.toFixed(4)}, {option.lon.toFixed(4)}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Zona horaria: {option.timezone}
-                </div>
-              </button>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Map Location Picker Dialog */}
+      <MapLocationPicker
+        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
+        initialQuery={locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')}
+        locationType={locationType}
+        onLocationSelect={handleMapLocationSelect}
+        onCancel={() => setShowMapPicker(false)}
+        isOpen={showMapPicker}
+      />
     </>
   )
 }
