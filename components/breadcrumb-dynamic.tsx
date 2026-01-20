@@ -15,12 +15,18 @@ import { usePathname } from 'next/navigation';
 /**
  * Format a URL segment for display in breadcrumbs
  * - Decodes URI components (e.g., "carta%20natal" → "carta natal")
- * - Capitalizes the first letter
- * - Handles special cases like "cartas" → "Cartas"
+ * - Replaces hyphens with spaces (e.g., "completar-datos" → "completar datos")
+ * - Capitalizes each word (title case)
  */
 function formatSegment(segment: string): string {
   const decoded = decodeURIComponent(segment);
-  return decoded.charAt(0).toUpperCase() + decoded.slice(1);
+  // Replace hyphens with spaces for multi-word page names
+  const withSpaces = decoded.replace(/-/g, ' ');
+  // Capitalize each word
+  return withSpaces
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 /**
