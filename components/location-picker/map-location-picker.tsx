@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useCallback, useRef, useEffect } from "react"
-import { APIProvider, Map, AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps"
+import { useState, useCallback, useRef } from "react"
+import { APIProvider, Map, AdvancedMarker, Pin, type MapEvent } from "@vis.gl/react-google-maps"
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Loader2, MapPin, Search, Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -30,93 +30,6 @@ export interface MapLocationPickerProps {
 
 const libraries: ("places" | "geometry")[] = ["places"]
 
-// Inner component with map click handling
-function MapContent({
-  center,
-  zoom,
-  onMapClick,
-  selectedLocation,
-}: {
-  center: { lat: number; lng: number }
-  zoom: number
-  onMapClick: (lat: number, lng: number) => void
-  selectedLocation: { lat: number; lng: number } | null
-}) {
-  const map = useMap()
-  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const lastClickLatRef = useRef<number | null>(null)
-  const lastClickLngRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    if (!map) return
-
-    // Store click position when a click happens
-    const clickListener = map.addListener("click", (e: google.maps.MapMouseEvent) => {
-      if (e.latLng) {
-        lastClickLatRef.current = e.latLng.lat()
-        lastClickLngRef.current = e.latLng.lng()
-
-        // Use a timeout to check if this was a real click (not followed by drag)
-        if (clickTimeoutRef.current) {
-          clearTimeout(clickTimeoutRef.current)
-        }
-
-        clickTimeoutRef.current = setTimeout(() => {
-          if (lastClickLatRef.current !== null && lastClickLngRef.current !== null) {
-            onMapClick(lastClickLatRef.current, lastClickLngRef.current)
-            lastClickLatRef.current = null
-            lastClickLngRef.current = null
-          }
-        }, 150)
-      }
-    })
-
-    // Cancel the click timeout if dragging starts
-    const dragStartListener = map.addListener("dragstart", () => {
-      if (clickTimeoutRef.current) {
-        clearTimeout(clickTimeoutRef.current)
-        clickTimeoutRef.current = null
-      }
-      lastClickLatRef.current = null
-      lastClickLngRef.current = null
-    })
-
-    return () => {
-      clickListener.remove()
-      dragStartListener.remove()
-      if (clickTimeoutRef.current) {
-        clearTimeout(clickTimeoutRef.current)
-      }
-    }
-  }, [map, onMapClick])
-
-  return (
-    <div className="relative w-full h-[400px] md:h-[500px] bg-muted rounded-lg overflow-hidden">
-      <Map
-        defaultZoom={zoom}
-        defaultCenter={center}
-        center={center}
-        zoomControl
-        mapId="astro-location-picker"
-        gestureHandling="greedy"
-        disableDefaultUI={false}
-        className="w-full h-full"
-      >
-        {selectedLocation && (
-          <AdvancedMarker position={selectedLocation}>
-            <Pin
-              background="#f59e0b"
-              borderColor="#b45309"
-              glyphColor="#ffffff"
-              scale={1.5}
-            />
-          </AdvancedMarker>
-        )}
-      </Map>
-    </div>
-  )
-}
-
 export function MapLocationPicker({
   apiKey,
   initialQuery = "",
@@ -127,13 +40,12 @@ export function MapLocationPicker({
 }: MapLocationPickerProps) {
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([])
-  const [center, setCenter] = useState(DEFAULT_CENTER)
-  const [zoom, setZoom] = useState(DEFAULT_ZOOM)
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [selectedAddress, setSelectedAddress] = useState<string>("")
   const [timezone, setTimezone] = useState<string | null>(null)
   const [isFetchingTimezone, setIsFetchingTimezone] = useState(false)
   const [isLoadingPlace, setIsLoadingPlace] = useState(false)
+  const mapRef = useRef<google.maps.Map | null>(null)
 
   const { isLoaded: isMapsLoaded, loadError } = useJsApiLoader({
     id: "google-maps-location-picker",
@@ -168,30 +80,55 @@ export function MapLocationPicker({
     []
   )
 
-  // Handle map click
-  const handleMapClick = useCallback(
-    async (lat: number, lng: number) => {
-      setSelectedLocation({ lat, lng })
-      setCenter({ lat, lng })
-      setZoom(12)
+  // Handle map ready - capture map instance when map is idle
+  const handleMapIdle = useCallback((event: MapEvent) => {
+    const map = event.map as google.maps.Map
+    mapRef.current = map
 
-      // Reverse geocode to get address
-      const geocoder = new google.maps.Geocoder()
-      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-        if (status === "OK" && results?.[0]) {
-          const address = results[0].formatted_address
-          setSelectedAddress(address)
-          setSearchQuery(address)
+    // Attach native click listener only once
+    if (!map) return
 
-          // Fetch timezone
-          fetchTimezone(lat, lng).then((tz) => {
-            setTimezone(tz)
-          })
-        }
-      })
-    },
-    [fetchTimezone]
-  )
+    // Remove any existing listener to avoid duplicates
+    if ((map as any)._clickListener) {
+      google.maps.event.removeListener((map as any)._clickListener)
+    }
+
+    const clickListener = map.addListener(
+      "click",
+      (e: google.maps.MapMouseEvent) => {
+        if (!e.latLng) return
+
+        const lat = e.latLng.lat()
+        const lng = e.latLng.lng()
+
+        setSelectedLocation({ lat, lng })
+        // Use map instance methods instead of React state to avoid drag conflicts
+        map.setCenter({ lat, lng })
+        map.setZoom(12)
+
+        // Reverse geocode to get address
+        const geocoder = new google.maps.Geocoder()
+        geocoder.geocode(
+          { location: { lat, lng } },
+          (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
+            if (status === "OK" && results?.[0]) {
+              const address = results[0].formatted_address
+              setSelectedAddress(address)
+              setSearchQuery(address)
+
+              // Fetch timezone
+              fetchTimezone(lat, lng).then((tz) => {
+                setTimezone(tz)
+              })
+            }
+          }
+        )
+      }
+    )
+
+    // Store listener reference for cleanup
+    ;(map as any)._clickListener = clickListener
+  }, [fetchTimezone])
 
   // Handle place prediction
   const handleSearchChange = useCallback(
@@ -248,8 +185,13 @@ export function MapLocationPicker({
 
               setSelectedLocation({ lat, lng })
               setSelectedAddress(address)
-              setCenter({ lat, lng })
-              setZoom(12)
+
+              // Use map instance methods instead of React state to avoid drag conflicts
+              const map = mapRef.current
+              if (map) {
+                map.setCenter({ lat, lng })
+                map.setZoom(12)
+              }
 
               // Fetch timezone
               fetchTimezone(lat, lng).then((tz) => {
@@ -277,7 +219,7 @@ export function MapLocationPicker({
       lat: selectedLocation.lat,
       lng: selectedLocation.lng,
       address: selectedAddress,
-      timezone: timezone || "UTC", // Fallback to UTC if timezone fetch fails
+      timezone: timezone || "UTC",
     })
   }, [selectedLocation, selectedAddress, timezone, onLocationSelect])
 
@@ -345,7 +287,7 @@ export function MapLocationPicker({
           </DialogHeader>
 
           <div className="space-y-4 mt-4">
-            {/* Search input with autocomplete - moved to top */}
+            {/* Search input with autocomplete */}
             <div className="relative">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -398,13 +340,30 @@ export function MapLocationPicker({
               </div>
             )}
 
-            {/* Map */}
-            <MapContent
-              center={center}
-              zoom={zoom}
-              onMapClick={handleMapClick}
-              selectedLocation={selectedLocation}
-            />
+            {/* Map - using uncontrolled props to enable smooth drag gestures */}
+            <div className="relative w-full h-[400px] md:h-[500px] bg-muted rounded-lg overflow-hidden">
+              <Map
+                defaultZoom={DEFAULT_ZOOM}
+                defaultCenter={DEFAULT_CENTER}
+                zoomControl
+                mapId="astro-location-picker-v2"
+                gestureHandling="greedy"
+                disableDefaultUI={false}
+                onIdle={handleMapIdle}
+                className="w-full h-full"
+              >
+                {selectedLocation && (
+                  <AdvancedMarker position={selectedLocation}>
+                    <Pin
+                      background="#f59e0b"
+                      borderColor="#b45309"
+                      glyphColor="#ffffff"
+                      scale={1.5}
+                    />
+                  </AdvancedMarker>
+                )}
+              </Map>
+            </div>
 
             {/* Instructions */}
             <div className="bg-muted/50 border border-border rounded-lg p-4">
