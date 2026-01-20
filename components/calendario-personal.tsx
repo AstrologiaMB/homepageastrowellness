@@ -843,17 +843,15 @@ export function CalendarioPersonal() {
 
               <div className="px-2 py-3 md:p-4">
                 {eventosDelDia.length > 0 ? (
-                  <ScrollArea className="w-full">
-                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-2 sm:overflow-x-auto">
-                      {eventosDelDia.map((evento, index) => (
-                        <EventoConInterpretacion
-                          key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
-                          evento={evento}
-                          natalData={natalData}
-                        />
-                      ))}
-                    </div>
-                  </ScrollArea>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:overflow-x-auto sm:pb-2">
+                    {eventosDelDia.map((evento, index) => (
+                      <EventoConInterpretacion
+                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
+                        evento={evento}
+                        natalData={natalData}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-muted-foreground text-sm text-center py-4">
                     No hay eventos personales programados
