@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { BentoFeatures } from '@/components/landing/bento-features';
 import { ComparisonTable } from '@/components/landing/comparison-table';
 import { HeroSection } from '@/components/landing/hero-section';
+import { LoginButton } from '@/components/landing/login-button';
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -110,6 +111,7 @@ export default function Page() {
   // LOGGED OUT STATE: Landing (High Impact)
   return (
     <main className="min-h-screen bg-[#0B0F19] text-white selection:bg-[#D4AF37] selection:text-[#0B0F19]">
+      <LoginButton />
       <HeroSection />
       <BentoFeatures />
       <ComparisonTable />
