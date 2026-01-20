@@ -203,7 +203,7 @@ export function CalendarioGeneral() {
                     defaultMonth={new Date()}
                     fromYear={2024}
                     toYear={2030}
-                    captionLayout="dropdown-buttons"
+                    captionLayout="dropdown-months"
                     locale={es}
                     selected={selectedDate}
                     onSelect={(date) => {
@@ -229,7 +229,7 @@ export function CalendarioGeneral() {
                   defaultMonth={new Date()}
                   fromYear={2024}
                   toYear={2030}
-                  captionLayout="dropdown-buttons"
+                  captionLayout="dropdown-months"
                   locale={es}
                   selected={selectedDate}
                   onSelect={(date) => {
