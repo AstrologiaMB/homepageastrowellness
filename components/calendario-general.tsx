@@ -1,22 +1,24 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import {
-  format,
-  startOfWeek,
+  addDays,
   addWeeks,
-  subWeeks,
+  format,
+  getISOWeek,
   isSameDay,
   isSameWeek,
-  addDays,
-  getISOWeek,
+  startOfWeek,
+  subWeeks,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -24,13 +26,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CalendarIcon, Sparkles } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Calendar } from '@/components/ui/calendar';
-import { Badge } from '@/components/ui/badge';
 
-import { createDateFromUtc } from '@/lib/date-utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { createDateFromUtc } from '@/lib/date-utils';
 import { EventoAstrologico } from './evento-astrologico';
 
 // Años disponibles (futuro-proof hasta 2030) - EDITAR AQUÍ CUANDO LLEGUE 2031
@@ -170,7 +170,7 @@ export function CalendarioGeneral() {
             {currentWeekStart.getFullYear()}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
           {/* Year Selector */}
           <Select
             value={selectedYear.toString()}
@@ -191,8 +191,8 @@ export function CalendarioGeneral() {
           {isMobile ? (
             <Sheet open={isDateSelectOpen} onOpenChange={setIsDateSelectOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
+                <Button variant="outline" className="min-w-fit whitespace-nowrap">
+                  <CalendarIcon className="h-4 w-4 mr-2" />
                   Seleccionar fecha
                 </Button>
               </SheetTrigger>
@@ -203,7 +203,7 @@ export function CalendarioGeneral() {
                     defaultMonth={new Date()}
                     fromYear={2024}
                     toYear={2030}
-                    captionLayout="dropdown"
+                    captionLayout="dropdown-buttons"
                     locale={es}
                     selected={selectedDate}
                     onSelect={(date) => {
@@ -218,8 +218,8 @@ export function CalendarioGeneral() {
           ) : (
             <Popover open={isDateSelectOpen} onOpenChange={setIsDateSelectOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
+                <Button variant="outline" className="min-w-fit whitespace-nowrap">
+                  <CalendarIcon className="h-4 w-4 mr-2" />
                   Seleccionar fecha
                 </Button>
               </PopoverTrigger>
@@ -229,7 +229,7 @@ export function CalendarioGeneral() {
                   defaultMonth={new Date()}
                   fromYear={2024}
                   toYear={2030}
-                  captionLayout="dropdown"
+                  captionLayout="dropdown-buttons"
                   locale={es}
                   selected={selectedDate}
                   onSelect={(date) => {
@@ -254,10 +254,18 @@ export function CalendarioGeneral() {
 
           {/* Navigation Arrows (Desktop) */}
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="outline" onClick={handlePreviousWeek}>
+            <Button
+              variant="outline"
+              className="min-w-fit whitespace-nowrap"
+              onClick={handlePreviousWeek}
+            >
               &larr; Semana {previousWeekNumber}
             </Button>
-            <Button variant="outline" onClick={handleNextWeek}>
+            <Button
+              variant="outline"
+              className="min-w-fit whitespace-nowrap"
+              onClick={handleNextWeek}
+            >
               Semana {nextWeekNumber} &rarr;
             </Button>
           </div>
@@ -278,28 +286,23 @@ export function CalendarioGeneral() {
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
+              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-300 hover:shadow-lg ${
                 isToday
-                  ? 'border-[2px] border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
-                  : 'border border-border/40'
+                  ? 'border-[2px] border-primary bg-primary/5 dark:bg-primary/10'
+                  : 'glass-card'
               }`}
             >
-              {/* Day Header with gradient and badge */}
+              {/* Day Header */}
               <div
                 className={`px-3 py-3 md:p-4 rounded-t-lg ${
-                  isToday
-                    ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
-                    : 'bg-muted/50 dark:bg-muted/30'
+                  isToday ? 'bg-primary/10 dark:bg-primary/20' : 'bg-muted/50 dark:bg-muted/30'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
                     {format(day, 'EEEE d', { locale: es })}
                     {isToday && (
-                      <Badge
-                        variant="default"
-                        className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs"
-                      >
+                      <Badge variant="default" className="bg-primary hover:bg-primary/90 text-xs">
                         Hoy
                       </Badge>
                     )}
@@ -315,7 +318,7 @@ export function CalendarioGeneral() {
               <div className="px-2 py-3 md:p-4">
                 {eventosDelDia.length > 0 ? (
                   <ScrollArea className="w-full">
-                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pb-2 sm:overflow-x-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-2">
                       {eventosDelDia.map((evento, index) => (
                         <EventoAstrologico
                           key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}

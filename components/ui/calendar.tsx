@@ -13,37 +13,70 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      weekStartsOn={1} // Monday for Spanish locale
       className={cn('p-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        // Root container
+        root: 'p-3',
+        // Months container
+        months: 'flex flex-col gap-4',
+        // Month wrapper
         month: 'space-y-4',
-        caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium',
-        nav: 'space-x-1 flex items-center',
-        nav_button: cn(
-          buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
+        // Month grid (was "table")
+        month_grid: 'w-full border-separate border-spacing-y-1',
+        // Weeks container
+        weeks: 'mt-2',
+        // Week row
+        week: 'grid grid-cols-7 gap-1',
+        // Weekdays row
+        weekdays: 'grid grid-cols-7 gap-1',
+        // Weekday header cell
+        weekday:
+          'text-xs font-medium text-muted-foreground uppercase tracking-wider text-center py-2',
+        // Month caption container
+        month_caption: 'flex justify-center pt-1 relative items-center w-full',
+        // Caption label
+        caption_label: 'text-base font-semibold text-foreground',
+        // Navigation
+        nav: 'flex gap-1',
+        // Previous month button
+        button_previous: cn(
+          buttonVariants({ variant: 'ghost' }),
+          'h-8 w-8 rounded-lg hover:bg-accent transition-all duration-200 flex items-center justify-center text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95 p-0'
         ),
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
-        table: 'w-full border-collapse space-y-1',
-        head_row: 'flex',
-        head_cell: 'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
-        row: 'flex w-full mt-2',
-        cell: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+        // Next month button
+        button_next: cn(
+          buttonVariants({ variant: 'ghost' }),
+          'h-8 w-8 rounded-lg hover:bg-accent transition-all duration-200 flex items-center justify-center text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95 p-0'
+        ),
+        // Dropdowns
+        dropdowns:
+          'flex gap-1 [&:has(>_[hidden])]:hidden [&_button]:bg-accent/50 [&_button]:hover:bg-accent [&_button]:text-foreground',
+        dropdown:
+          'bg-background border border-input rounded-md px-3 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring',
+        dropdown_icon: 'h-4 w-4 mr-1 opacity-50',
+        // Day cell
         day: cn(
           buttonVariants({ variant: 'ghost' }),
-          'h-9 w-9 p-0 font-normal aria-selected:opacity-100'
+          // Responsive sizing: mobile -> tablet -> desktop
+          'h-10 w-10 p-0 sm:h-11 sm:w-11 lg:h-12 lg:w-12',
+          // Base day styles
+          'font-normal rounded-lg transition-all duration-200 ease-out',
+          // Hover scale effect
+          'hover:scale-105 active:scale-95',
+          // Selected state
+          'aria-selected:bg-primary aria-selected:text-primary-foreground',
+          'aria-selected:shadow-md',
+          // Today indicator
+          'data-today:font-semibold',
+          // Focus ring
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          // Outside month styling
+          'data-outside:text-muted-foreground/50 data-outside:hover:text-muted-foreground',
+          // Disabled styling
+          'data-disabled:opacity-40 data-disabled:pointer-events-none'
         ),
-        day_range_end: 'day-range-end',
-        day_selected:
-          'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-        day_today: 'bg-accent text-accent-foreground',
-        day_outside:
-          'day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground',
-        day_disabled: 'text-muted-foreground opacity-50',
-        day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
-        day_hidden: 'invisible',
+        // Allow custom class overrides
         ...classNames,
       }}
       components={{
