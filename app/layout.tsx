@@ -1,7 +1,7 @@
 // app/layout.tsx
 import "@/styles/globals.css"
 import { ClientLayout } from "@/components/client-layout"
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import { Inter } from "next/font/google"
 
 const inter = Inter({
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientLayout>
           {children}
         </ClientLayout>
-        <Toaster />
+        <SonnerToaster />
       </body>
     </html>
   )

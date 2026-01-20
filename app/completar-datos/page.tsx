@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getApiUrl } from "@/lib/api-config"
+import { toast } from "sonner"
 
 // Schema for the user data form (extended with conditional fields)
 const completarDatosSchema = z.object({
@@ -221,10 +222,14 @@ function CompletarDatosForm() {
       // Actualizar la sesión
       await update()
 
+      // Mostrar toast de éxito
+      toast.success("¡Datos guardados correctamente!")
+
       // Redirigir directamente al Dashboard
       router.push(callbackUrl)
     } catch (error) {
       console.error("Error:", error)
+      toast.error("Error al guardar datos. Intenta nuevamente.")
       form.setError('root', { type: 'manual', message: 'Error al guardar datos. Intenta nuevamente.' })
     } finally {
       setIsLoading(false)
