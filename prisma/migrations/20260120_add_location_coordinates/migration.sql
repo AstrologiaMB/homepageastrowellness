@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "birthLat" DOUBLE PRECISION,
-ADD COLUMN     "birthLon" DOUBLE PRECISION,
-ADD COLUMN     "residenceLat" DOUBLE PRECISION,
-ADD COLUMN     "residenceLon" DOUBLE PRECISION;

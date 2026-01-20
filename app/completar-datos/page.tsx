@@ -78,6 +78,7 @@ function CompletarDatosForm() {
     lng: number
     timezone: string
   } | null>(null)
+  const [googleMapsApiKey, setGoogleMapsApiKey] = useState<string | null>(null)
   const [userData, setUserData] = useState({
     birthDate: "",
     birthCity: "",
@@ -98,6 +99,24 @@ function CompletarDatosForm() {
 
   // Capturar la URL de redirección si existe
   const callbackUrl = searchParams.get("callbackUrl") || "/"
+
+  // Fetch Google Maps API key from server
+  useEffect(() => {
+    async function fetchApiKey() {
+      try {
+        const response = await fetch("/api/google-maps/config")
+        if (response.ok) {
+          const data = await response.json()
+          setGoogleMapsApiKey(data.apiKey)
+        } else {
+          console.error("Failed to fetch Google Maps API key")
+        }
+      } catch (error) {
+        console.error("Error fetching Google Maps API key:", error)
+      }
+    }
+    fetchApiKey()
+  }, [])
 
   const form = useForm<CompletarDatosFormData>({
     resolver: zodResolver(completarDatosSchema),
@@ -540,14 +559,16 @@ function CompletarDatosForm() {
       </div>
 
       {/* Map Location Picker Dialog */}
-      <MapLocationPicker
-        apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
-        initialQuery={locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')}
+      {googleMapsApiKey && (
+        <MapLocationPicker
+          apiKey={googleMapsApiKey}
+          initialQuery={locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')}
         locationType={locationType}
         onLocationSelect={handleMapLocationSelect}
-        onCancel={() => setShowMapPicker(false)}
-        isOpen={showMapPicker}
-      />
+          onCancel={() => setShowMapPicker(false)}
+          isOpen={showMapPicker}
+        />
+      )}
     </>
   )
 }

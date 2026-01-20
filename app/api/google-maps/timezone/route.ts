@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing lat or lng parameter" }, { status: 400 })
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY
 
     if (!apiKey) {
       console.error("NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not configured")
