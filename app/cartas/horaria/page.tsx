@@ -29,7 +29,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { HelpCircle, CheckCircle2, Circle } from 'lucide-react';
+import { HelpCircle, CheckCircle2, Circle, UserCircle } from 'lucide-react';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
 
 // Lista de países para el selector
@@ -423,6 +423,22 @@ export default function CartasHorariaPage() {
         {/* Navigation */}
         <div className="flex items-center gap-4">
           <AstroBackButtonInline href="/cartas" />
+        </div>
+
+        {/* Human Review Notice Card */}
+        <div className="glass-card-strong rounded-2xl p-6 border-l-4 border-l-amber-500">
+          <div className="flex items-start gap-4">
+            <div className="p-3 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 flex-shrink-0">
+              <UserCircle className="w-6 h-6 text-amber-600 dark:text-amber-500" strokeWidth={1.5} />
+            </div>
+            <div className="space-y-2 flex-1">
+              <h3 className="text-lg font-semibold text-foreground">Servicio Personalizado</h3>
+              <p className="text-muted-foreground text-sm">
+                Esta carta será revisada personalmente por un astrólogo. Recibirás una respuesta detallada
+                por correo electrónico una vez que tu solicitud haya sido analizada.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Page Header */}

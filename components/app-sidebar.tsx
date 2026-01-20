@@ -1,7 +1,7 @@
 'use client';
 
 import type * as React from 'react';
-import { Bot, Calendar, ClipboardEdit, Star, Target, Sparkles } from 'lucide-react';
+import { Bot, Calendar, Handshake, Star, Target, Sparkles } from 'lucide-react';
 
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
@@ -53,13 +53,8 @@ const getNavigationData = () => ({
       title: 'Cartas',
       url: '/cartas',
       icon: Star,
-      tooltip: 'Cartas astrológicas: natal, horaria, trópica, dracónica',
+      tooltip: 'Cartas astrológicas: natal, trópica, dracónica',
       items: [
-        {
-          title: 'Carta Horaria',
-          url: '/cartas/horaria',
-          isPremium: false,
-        },
         {
           title: 'Carta Trópica',
           url: '/cartas/tropica',
@@ -84,12 +79,22 @@ const getNavigationData = () => ({
       items: [],
     },
     {
-      title: 'Rectificacion Carta',
-      url: '/rectificacion-carta',
-      icon: ClipboardEdit,
-      tooltip: 'Herramientas para rectificar y ajustar cartas astrológicas',
-      isPremium: false,
-      items: [],
+      title: 'Servicios',
+      url: '#',
+      icon: Handshake,
+      tooltip: 'Servicios con revisión personalizada por astrólogos',
+      items: [
+        {
+          title: 'Carta Horaria',
+          url: '/cartas/horaria',
+          isPremium: false,
+        },
+        {
+          title: 'Rectificación de Carta',
+          url: '/rectificacion-carta',
+          isPremium: false,
+        },
+      ],
     },
     {
       title: 'Astrogematria',

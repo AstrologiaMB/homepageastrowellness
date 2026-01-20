@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { UserCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -218,6 +219,24 @@ export default function RectificacionCartaPage() {
   // Mostrar el formulario correspondiente según el paso actual
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
+      {/* Human Review Notice Card */}
+      <Card className="mb-6 border-l-4 border-l-amber-500">
+        <CardHeader>
+          <div className="flex items-start gap-4">
+            <div className="p-2 rounded-lg bg-amber-500/10">
+              <UserCircle className="w-5 h-5 text-amber-600 dark:text-amber-500" strokeWidth={1.5} />
+            </div>
+            <div className="space-y-1 flex-1">
+              <CardTitle className="text-lg">Servicio Personalizado</CardTitle>
+              <CardDescription className="text-sm">
+                Este servicio será revisado personalmente por un astrólogo. Te contactaremos por correo
+                electrónico una vez que hayamos analizado tu solicitud de rectificación.
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+
       {step === 1 && (
         <Card>
           <CardHeader>
