@@ -843,7 +843,7 @@ export function CalendarioPersonal() {
 
               <div className="px-2 py-3 md:p-4">
                 {eventosDelDia.length > 0 ? (
-                  <div className="flex flex-col sm:flex-row gap-4 sm:overflow-x-auto sm:pb-2">
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
                     {eventosDelDia.map((evento, index) => (
                       <EventoConInterpretacion
                         key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
