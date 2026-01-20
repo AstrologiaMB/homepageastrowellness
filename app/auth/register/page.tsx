@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 import { User, Mail, Sparkles, Lock } from 'lucide-react'
 
 import { StarField } from '@/components/auth/star-field'
@@ -60,7 +61,20 @@ export default function RegisterPage() {
       const result = await response.json()
 
       if (response.ok) {
-        router.push('/auth/login?message=Cuenta creada exitosamente. Ahora puedes iniciar sesión.')
+        // Automatically sign in with the same credentials
+        const signInResult = await signIn('credentials', {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        })
+
+        if (signInResult?.ok) {
+          // Redirect to home page after successful login
+          router.push('/')
+        } else {
+          // Fallback: redirect to login with helpful message
+          router.push('/auth/login?message=Cuenta+creada+exitosamente.+Por+favor+inicia+sesión.')
+        }
       } else {
         setServerError(result.error || 'Error al crear la cuenta')
       }
