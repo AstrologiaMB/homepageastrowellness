@@ -496,11 +496,11 @@ export function CalendarioPersonal() {
   return (
     <div className="flex flex-col gap-5 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-primary/5 dark:bg-primary/10 border border-border">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
-            <h2 className="text-2xl font-bold text-violet-700 dark:text-transparent dark:bg-gradient-to-r dark:from-violet-400 dark:to-fuchsia-400 dark:bg-clip-text">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <h2 className="text-2xl font-bold text-primary">
               Calendario Personal
             </h2>
           </div>
@@ -612,10 +612,10 @@ export function CalendarioPersonal() {
         <div className="mb-0 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="flex items-center gap-2 mb-3 px-1">
             <span className="text-xl">🪐</span>
-            <h3 className="text-lg font-serif font-bold text-slate-700">Clima Astral de Fondo</h3>
+            <h3 className="text-lg font-serif font-bold text-foreground">Clima Astral de Fondo</h3>
           </div>
 
-          <ScrollArea className="w-full whitespace-nowrap rounded-lg border bg-slate-50/50 p-4">
+          <ScrollArea className="w-full whitespace-nowrap rounded-lg border bg-muted/50 p-4">
             <div className="flex w-max space-x-4">
               {(() => {
                 // Lógica de deduplicación para visualización
@@ -704,21 +704,21 @@ export function CalendarioPersonal() {
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-lg shadow-sm shrink-0
                         ${
                           item.tipo === 'luna_progresada'
-                            ? 'bg-purple-100 text-purple-700'
-                            : 'bg-orange-100 text-orange-700'
+                            ? 'bg-primary/10 text-primary'
+                            : 'bg-accent/10 text-accent'
                         }
                       `}
                       >
                         {item.simbolo || (item.tipo === 'luna_progresada' ? '🌙' : '🪐')}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-sm text-slate-700 line-clamp-1">
+                        <span className="font-bold text-sm text-foreground line-clamp-1">
                           {item.planeta}
                         </span>
                         {item.signo && (
                           <span
                             className={`text-[10px] uppercase font-bold leading-none
-                            ${item.tipo === 'luna_progresada' ? 'text-purple-600' : 'text-orange-600'}
+                            ${item.tipo === 'luna_progresada' ? 'text-primary' : 'text-accent'}
                           `}
                           >
                             {item.signo}{' '}
@@ -737,7 +737,7 @@ export function CalendarioPersonal() {
                         Casa {item.casa}
                       </span>
                       <span
-                        className="text-xs text-slate-600 line-clamp-2 leading-tight h-8 mt-0.5 whitespace-normal"
+                        className="text-xs text-muted-foreground line-clamp-2 leading-tight h-8 mt-0.5 whitespace-normal"
                         title={item.casa_significado}
                       >
                         {item.casa_significado}
@@ -784,15 +784,15 @@ export function CalendarioPersonal() {
               key={day.toISOString()}
               className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
                 isToday
-                  ? 'border-[2px] border-violet-400 dark:border-violet-500 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-500/5 dark:to-fuchsia-500/5'
+                  ? 'border-[2px] border-primary bg-primary/5 dark:bg-primary/10'
                   : 'border border-border/40'
               }`}
             >
-              {/* Day Header with gradient */}
+              {/* Day Header */}
               <div
                 className={`px-3 py-3 md:p-4 rounded-t-lg ${
                   isToday
-                    ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-500/20 dark:to-fuchsia-500/20'
+                    ? 'bg-primary/10 dark:bg-primary/20'
                     : 'bg-muted/50 dark:bg-muted/30'
                 }`}
               >
@@ -802,7 +802,7 @@ export function CalendarioPersonal() {
                     {isToday && (
                       <Badge
                         variant="default"
-                        className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-xs"
+                        className="bg-primary hover:bg-primary/90 text-xs"
                       >
                         Hoy
                       </Badge>

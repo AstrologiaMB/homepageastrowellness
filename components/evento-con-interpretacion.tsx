@@ -136,8 +136,8 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
       <div className="w-full">
         <div className="grid grid-cols-1 gap-2">
           {houseTransits.map((transit, index) => (
-            <div key={index} className="text-sm bg-white/50 rounded p-2 border border-purple-200">
-              <div className="font-medium text-purple-700">
+            <div key={index} className="text-sm bg-card/50 rounded p-2 border border-border">
+              <div className="font-medium text-primary">
                 {transit.simbolo} {transit.planeta}
                 {transit.tipo === 'luna_progresada' && transit.signo && (
                   <span className="ml-1">
@@ -145,7 +145,7 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
                   </span>
                 )}
               </div>
-              <div className="text-xs text-purple-600">
+              <div className="text-xs text-primary">
                 Casa {transit.casa} - {transit.casa_significado}
               </div>
             </div>
@@ -167,7 +167,7 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
           <div className="flex flex-wrap gap-1 mt-1 mb-2">
             <Badge
               variant="outline"
-              className="text-[10px] py-0 h-5 border-purple-400 text-purple-600 bg-purple-50"
+              className="text-[10px] py-0 h-5 border-primary/50 text-primary bg-primary/5"
             >
               {cycleData.active_cycles[0].metonic_index === 1
                 ? 'Ciclo Inicial'
@@ -188,7 +188,7 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
           <Button
             variant="secondary"
             size="sm"
-            className="w-full mt-2 bg-purple-100 text-purple-800 hover:bg-purple-200"
+            className="w-full mt-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
             onClick={() => setIsStoryOpen(true)}
           >
             <BookOpen className="w-4 h-4 mr-2" />
