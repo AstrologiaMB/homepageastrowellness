@@ -521,11 +521,11 @@ export function CalendarioPersonal() {
   return (
     <div className="flex flex-col gap-5 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-primary/5 dark:bg-primary/10 border border-border">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-3 py-4 md:p-6 rounded-lg bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10 border border-violet-200 dark:border-violet-500/20">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            <h2 className="text-2xl font-bold text-primary">
+            <Sparkles className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+            <h2 className="text-2xl font-bold text-violet-700 dark:text-transparent dark:bg-gradient-to-r dark:from-violet-400 dark:to-fuchsia-400 dark:bg-clip-text">
               Calendario Personal
             </h2>
           </div>
@@ -810,7 +810,7 @@ export function CalendarioPersonal() {
               className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
                 isToday
                   ? 'border-[2px] border-primary bg-primary/5 dark:bg-primary/10'
-                  : 'border border-border/40'
+                  : 'glass-card'
               }`}
             >
               {/* Day Header */}
