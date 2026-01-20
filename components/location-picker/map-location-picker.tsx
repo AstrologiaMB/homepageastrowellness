@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
-import { APIProvider, Map, AdvancedMarker, Pin, type MapEvent } from "@vis.gl/react-google-maps"
-import { useJsApiLoader } from "@react-google-maps/api"
-import { Loader2, MapPin, Search, Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
+import { useJsApiLoader } from "@react-google-maps/api"
+import { AdvancedMarker, APIProvider, Map, Pin, type MapEvent } from "@vis.gl/react-google-maps"
+import { Check, Loader2, MapPin, Search, X } from "lucide-react"
+import { useCallback, useRef, useState } from "react"
 
 // Position for default map view (centered on South America)
 const DEFAULT_CENTER = { lat: -15, lng: -60 }
@@ -38,6 +39,7 @@ export function MapLocationPicker({
   onCancel,
   isOpen,
 }: MapLocationPickerProps) {
+  const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([])
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null)
@@ -212,6 +214,14 @@ export function MapLocationPicker({
   // Handle confirm
   const handleConfirm = useCallback(() => {
     if (!selectedLocation || !selectedAddress) {
+      const locationLabel =
+        locationType === "birth" ? "ubicación de nacimiento" : "ubicación de residencia"
+
+      toast({
+        title: "Ubicación no seleccionada",
+        description: `Por favor, haz clic en "Seleccionar en mapa" para elegir tu ${locationLabel}, o busca una ciudad en el buscador.`,
+        variant: "destructive",
+      })
       return
     }
 
@@ -221,7 +231,7 @@ export function MapLocationPicker({
       address: selectedAddress,
       timezone: timezone || "UTC",
     })
-  }, [selectedLocation, selectedAddress, timezone, onLocationSelect])
+  }, [selectedLocation, selectedAddress, timezone, onLocationSelect, locationType, toast])
 
   // Get dialog title based on location type
   const getDialogTitle = () => {
@@ -365,28 +375,24 @@ export function MapLocationPicker({
               </Map>
             </div>
 
-            {/* Instructions */}
-            <div className="bg-muted/50 border border-border rounded-lg p-4">
-              <p className="text-sm text-muted-foreground">
-                <strong className="text-foreground">Instrucciones:</strong> Busca una ciudad en el
-                buscador o haz clic en cualquier lugar del mapa para seleccionar tu ubicación exacta.
-                La zona horaria se detectará automáticamente.
-              </p>
-            </div>
-
             {/* Action buttons */}
             <div className="flex justify-end gap-3 pt-4 border-t">
               <Button type="button" variant="outline" onClick={onCancel}>
                 <X className="h-4 w-4 mr-2" />
                 Cancelar
               </Button>
-              <Button
-                type="button"
-                onClick={handleConfirm}
-                disabled={!selectedLocation || !selectedAddress || isFetchingTimezone}
-              >
-                <Check className="h-4 w-4 mr-2" />
-                Confirmar ubicación
+              <Button type="button" onClick={handleConfirm} disabled={isFetchingTimezone}>
+                {isFetchingTimezone ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Detectando zona horaria...
+                  </>
+                ) : (
+                  <>
+                    <Check className="h-4 w-4 mr-2" />
+                    Confirmar ubicación
+                  </>
+                )}
               </Button>
             </div>
           </div>

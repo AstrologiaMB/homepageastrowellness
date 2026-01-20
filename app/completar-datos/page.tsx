@@ -414,22 +414,20 @@ function CompletarDatosForm() {
                 )}
 
                 {/* Birth Location - Map Button Only */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <FormLabel className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      Ubicación de nacimiento
-                    </FormLabel>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleOpenMapPicker('birth')}
-                      className="shrink-0"
-                    >
-                      <MapPin className="h-4 w-4 mr-2" />
-                      {birthLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
-                    </Button>
-                  </div>
+                <div className="space-y-3">
+                  <FormLabel className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    Ubicación de nacimiento
+                  </FormLabel>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => handleOpenMapPicker('birth')}
+                    className="w-full"
+                  >
+                    <MapPin className="h-4 w-4 mr-2" />
+                    {birthLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                  </Button>
                   {birthLocation ? (
                     <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
                       <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
@@ -477,22 +475,20 @@ function CompletarDatosForm() {
                 />
 
                 {/* Residence Location - Map Button Only */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <FormLabel className="flex items-center gap-2">
-                      <Home className="h-4 w-4" />
-                      Ubicación de residencia
-                    </FormLabel>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleOpenMapPicker('residence')}
-                      className="shrink-0"
-                    >
-                      <MapPin className="h-4 w-4 mr-2" />
-                      {residenceLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
-                    </Button>
-                  </div>
+                <div className="space-y-3">
+                  <FormLabel className="flex items-center gap-2">
+                    <Home className="h-4 w-4" />
+                    Ubicación de residencia
+                  </FormLabel>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => handleOpenMapPicker('residence')}
+                    className="w-full"
+                  >
+                    <MapPin className="h-4 w-4 mr-2" />
+                    {residenceLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                  </Button>
                   {residenceLocation ? (
                     <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
                       <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
