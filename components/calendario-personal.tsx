@@ -344,21 +344,22 @@ export function CalendarioPersonal() {
     : [];
 
   const DateSelectContent = (
-    <div className="flex flex-col h-full bg-white">
-      <div className="flex items-center justify-between p-4 border-b">
+    <div className="flex flex-col h-full bg-background">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         {selectedMonth && (
           <Button variant="ghost" size="icon" onClick={handleBackToMonths}>
             &larr;
           </Button>
         )}
-        <h3 className="text-lg font-semibold">
+        <h3 className="text-lg font-semibold text-foreground">
           {selectedMonth ? formatMonthYear(selectedMonth) : 'Seleccionar Fecha'}
         </h3>
+        {!selectedMonth && <div className="w-9" />} {/* Spacer for centering when no back button */}
       </div>
 
       <div className="flex-1 p-4 overflow-hidden">
         {!selectedMonth ? (
-          <Tabs defaultValue="2025" className="w-full h-full flex flex-col">
+          <Tabs defaultValue={String(new Date().getFullYear())} className="w-full h-full flex flex-col">
             <TabsList className="grid w-full grid-cols-3 mb-4">
               {/* 
                  Dynamic Year Logic: 
@@ -394,16 +395,25 @@ export function CalendarioPersonal() {
                     <div className="grid grid-cols-3 gap-2 pb-4">
                       {Array.from({ length: 12 }).map((_, monthIndex) => {
                         const date = new Date(year, monthIndex, 1);
+                        const isCurrentMonth =
+                          year === today.getFullYear() && monthIndex === today.getMonth();
                         return (
                           <Button
                             key={monthIndex}
-                            variant="outline"
-                            className="h-14 flex flex-col items-center justify-center gap-1 hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                            variant={isCurrentMonth ? 'default' : 'outline'}
+                            className={`h-14 flex flex-col items-center justify-center gap-1 transition-all duration-200 ${
+                              isCurrentMonth
+                                ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
+                                : 'hover:border-primary/50 hover:bg-primary/5'
+                            }`}
                             onClick={() => handleMonthSelect(date)}
                           >
                             <span className="text-sm font-semibold capitalize">
                               {format(date, 'MMM', { locale: es })}
                             </span>
+                            {isCurrentMonth && (
+                              <span className="text-[10px] opacity-80">Actual</span>
+                            )}
                           </Button>
                         );
                       })}
@@ -416,23 +426,38 @@ export function CalendarioPersonal() {
         ) : (
           <ScrollArea className="h-full pr-4">
             <div className="flex flex-col gap-2">
-              {weeksInSelectedMonth.map((week, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="justify-start h-auto py-3 px-4"
-                  onClick={() => handleDateSelect(week.start)}
-                >
-                  <div className="flex flex-col items-start gap-1">
-                    <span className="font-medium">Semana {week.weekNumber}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1]
-                        ? formatWeekRange(week.start, week.end, week.weekNumber)
-                        : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
-                    </span>
-                  </div>
-                </Button>
-              ))}
+              {weeksInSelectedMonth.map((week, index) => {
+                const isCurrentWeek = isSameWeek(week.start, currentWeekStart, { locale: es });
+                const weekHasToday = isSameWeek(today, week.start, { locale: es });
+                return (
+                  <Button
+                    key={index}
+                    variant={isCurrentWeek ? 'default' : 'outline'}
+                    className={`justify-start h-auto py-3 px-4 transition-all duration-200 ${
+                      isCurrentWeek
+                        ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90 border-primary'
+                        : 'hover:border-primary/50 hover:bg-primary/5'
+                    }`}
+                    onClick={() => handleDateSelect(week.start)}
+                  >
+                    <div className="flex flex-col items-start gap-1 w-full">
+                      <div className="flex items-center justify-between w-full">
+                        <span className="font-medium">Semana {week.weekNumber}</span>
+                        {weekHasToday && !isCurrentWeek && (
+                          <Badge variant="secondary" className="text-[10px] h-5">
+                            Hoy
+                          </Badge>
+                        )}
+                      </div>
+                      <span className={`text-xs ${isCurrentWeek ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                        {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1]
+                          ? formatWeekRange(week.start, week.end, week.weekNumber)
+                          : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
+                      </span>
+                    </div>
+                  </Button>
+                );
+              })}
             </div>
           </ScrollArea>
         )}
