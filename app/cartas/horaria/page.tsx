@@ -28,7 +28,6 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { HelpCircle, CheckCircle2, Circle } from 'lucide-react';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
@@ -398,29 +397,10 @@ export default function CartasHorariaPage() {
     }
   };
 
-  // Calculate form progress
-  const calculateProgress = () => {
-    const formValues = form.getValues();
-    let completed = 0;
-    let total = FORM_SECTIONS.length;
-
-    FORM_SECTIONS.forEach((section) => {
-      const sectionComplete = section.fields.every((field) => {
-        const value = formValues[field as keyof HorariaFormData];
-        if (typeof value === 'boolean') return value === true;
-        if (typeof value === 'string') return value.trim().length > 0;
-        return false;
-      });
-      if (sectionComplete) completed++;
-    });
-
-    return (completed / total) * 100;
-  };
-
-  // Watch form changes to update progress
+  // Watch form changes to update section pills reactively
   useEffect(() => {
     const subscription = form.watch(() => {
-      // Trigger re-render to update progress display
+      // Trigger re-render to update section completion pills
     });
     return () => subscription.unsubscribe();
   }, [form]);
@@ -461,38 +441,31 @@ export default function CartasHorariaPage() {
             </div>
           </div>
 
-          {/* Progress Bar */}
-          <div className="mt-6 space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Progreso del formulario</span>
-              <span className="font-medium text-primary">{Math.round(calculateProgress())}%</span>
-            </div>
-            <Progress value={calculateProgress()} className="h-2" />
-            <div className="flex flex-wrap gap-2 mt-3">
-              {FORM_SECTIONS.map((section) => {
-                const sectionForm = form.getValues();
-                const isComplete = section.fields.every((field) => {
-                  const value = sectionForm[field as keyof HorariaFormData];
-                  if (typeof value === 'boolean') return value === true;
-                  if (typeof value === 'string') return value.trim().length > 0;
-                  return false;
-                });
-                return (
-                  <Badge
-                    key={section.key}
-                    variant={isComplete ? 'default' : 'outline'}
-                    className={isComplete ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}
-                  >
-                    {isComplete ? (
-                      <CheckCircle2 className="w-3 h-3 mr-1" />
-                    ) : (
-                      <Circle className="w-3 h-3 mr-1" />
-                    )}
-                    {section.title}
-                  </Badge>
-                );
-              })}
-            </div>
+          {/* Section Completion Pills */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {FORM_SECTIONS.map((section) => {
+              const sectionForm = form.getValues();
+              const isComplete = section.fields.every((field) => {
+                const value = sectionForm[field as keyof HorariaFormData];
+                if (typeof value === 'boolean') return value === true;
+                if (typeof value === 'string') return value.trim().length > 0;
+                return false;
+              });
+              return (
+                <Badge
+                  key={section.key}
+                  variant={isComplete ? 'default' : 'outline'}
+                  className={isComplete ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}
+                >
+                  {isComplete ? (
+                    <CheckCircle2 className="w-3 h-3 mr-1" />
+                  ) : (
+                    <Circle className="w-3 h-3 mr-1" />
+                  )}
+                  {section.title}
+                </Badge>
+              );
+            })}
           </div>
         </div>
 
