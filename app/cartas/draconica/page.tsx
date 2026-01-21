@@ -207,6 +207,7 @@ export default function CartasDraconicaPage() {
             ? `${cuspide.distancia_desde_cuspide.grados}°${cuspide.distancia_desde_cuspide.minutos}'`
             : undefined,
           relevancia: cuspide.distancia_desde_cuspide?.grados < 5 ? 'alta' : 'media',
+          _houseNum: cuspide.casa_draconica, // Guardar número puro para sort
         });
       });
     }
@@ -230,9 +231,9 @@ export default function CartasDraconicaPage() {
       });
     }
 
-    // Ordenar: posiciones básicas primero, luego por relevancia
+    // Ordenar
     return eventos.sort((a, b) => {
-      // Posiciones básicas siempre primero
+      // 1. Posiciones básicas siempre primero
       if (a.tipo === 'posicion_basica' && b.tipo !== 'posicion_basica') return -1;
       if (a.tipo !== 'posicion_basica' && b.tipo === 'posicion_basica') return 1;
 
@@ -242,7 +243,14 @@ export default function CartasDraconicaPage() {
         return ordenPosiciones.indexOf(a.id) - ordenPosiciones.indexOf(b.id);
       }
 
-      // Para otros tipos, ordenar por relevancia
+      // 2. Lógica especial para Cúspides Cruzadas: Orden Numérico Estricto usando propiedad directa
+      if (a.tipo === 'cuspide_cruzada' && b.tipo === 'cuspide_cruzada') {
+        const numA = a._houseNum ? Number(a._houseNum) : 999;
+        const numB = b._houseNum ? Number(b._houseNum) : 999;
+        return numA - numB;
+      }
+
+      // 3. Para otros tipos (Aspectos), mantener orden por relevancia
       const relevanciaOrder = { alta: 3, media: 2, baja: 1 };
       const aRelevancia = a.relevancia as keyof typeof relevanciaOrder;
       const bRelevancia = b.relevancia as keyof typeof relevanciaOrder;
@@ -251,9 +259,10 @@ export default function CartasDraconicaPage() {
         return relevanciaOrder[bRelevancia] - relevanciaOrder[aRelevancia];
       }
 
-      // Si misma relevancia, cúspides primero que aspectos
+      // 4. Si misma relevancia y distinto tipo, Cúspides antes que Aspectos
       if (a.tipo === 'cuspide_cruzada' && b.tipo === 'aspecto_cruzado') return -1;
       if (a.tipo === 'aspecto_cruzado' && b.tipo === 'cuspide_cruzada') return 1;
+
       return 0;
     });
   }, []);
@@ -336,10 +345,12 @@ export default function CartasDraconicaPage() {
         </div>
 
         {/* Page Header */}
-        <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-l-primary
+        <div
+          className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-l-primary
           bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100
           dark:from-violet-500/10 dark:via-purple-500/10 dark:to-fuchsia-500/10
-          border border-violet-200 dark:border-violet-500/20">
+          border border-violet-200 dark:border-violet-500/20"
+        >
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
@@ -386,18 +397,24 @@ export default function CartasDraconicaPage() {
           <>
             {/* Layout de dos cards: Dracónica individual + Superposición */}
             <div className="mb-8">
-              <div className="rounded-xl p-6 mb-6 border-l-4 border-l-blue-400
+              <div
+                className="rounded-xl p-6 mb-6 border-l-4 border-l-blue-400
                 bg-gradient-to-r from-blue-100 to-cyan-100
                 dark:from-blue-500/10 dark:to-cyan-500/10
                 border border-blue-200 dark:border-blue-500/30
-                hover:shadow-md transition-all duration-200">
+                hover:shadow-md transition-all duration-200"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-blue-500/10">
                     <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-blue-700 dark:text-blue-300">Visualización Gráfica</h2>
-                    <p className="text-sm text-blue-600/70 dark:text-blue-400/70 mt-0.5">Tu carta dracónica y la superposición con tu carta tropical</p>
+                    <h2 className="text-xl font-semibold text-blue-700 dark:text-blue-300">
+                      Visualización Gráfica
+                    </h2>
+                    <p className="text-sm text-blue-600/70 dark:text-blue-400/70 mt-0.5">
+                      Tu carta dracónica y la superposición con tu carta tropical
+                    </p>
                   </div>
                 </div>
               </div>
@@ -439,18 +456,27 @@ export default function CartasDraconicaPage() {
 
             {/* Tabla de datos de la carta dracónica */}
             <div className="mb-8">
-              <div className="rounded-xl p-6 mb-6 border-l-4 border-l-purple-400
+              <div
+                className="rounded-xl p-6 mb-6 border-l-4 border-l-purple-400
                 bg-gradient-to-r from-purple-100 to-pink-100
                 dark:from-purple-500/10 dark:to-pink-500/10
                 border border-purple-200 dark:border-purple-500/30
-                hover:shadow-md transition-all duration-200">
+                hover:shadow-md transition-all duration-200"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-purple-500/10">
-                    <TableIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" strokeWidth={1.5} />
+                    <TableIcon
+                      className="w-5 h-5 text-purple-600 dark:text-purple-400"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-purple-700 dark:text-purple-300">Datos Detallados</h2>
-                    <p className="text-sm text-purple-600/70 dark:text-purple-400/70 mt-0.5">Posiciones planetarias y aspectos completos</p>
+                    <h2 className="text-xl font-semibold text-purple-700 dark:text-purple-300">
+                      Datos Detallados
+                    </h2>
+                    <p className="text-sm text-purple-600/70 dark:text-purple-400/70 mt-0.5">
+                      Posiciones planetarias y aspectos completos
+                    </p>
                   </div>
                 </div>
               </div>
@@ -461,18 +487,24 @@ export default function CartasDraconicaPage() {
 
             {/* Sección de Eventos Dracónicos */}
             <div className="mb-8">
-              <div className="rounded-xl p-6 mb-6 border-l-4 border-l-amber-400
+              <div
+                className="rounded-xl p-6 mb-6 border-l-4 border-l-amber-400
                 bg-gradient-to-r from-amber-100 to-orange-100
                 dark:from-amber-500/10 dark:to-orange-500/10
                 border border-amber-200 dark:border-amber-500/30
-                hover:shadow-md transition-all duration-200">
+                hover:shadow-md transition-all duration-200"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-amber-500/10">
                     <Zap className="w-5 h-5 text-amber-600 dark:text-amber-400" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-amber-700 dark:text-amber-300">Eventos Dracónicos</h2>
-                    <p className="text-sm text-amber-600/70 dark:text-amber-400/70 mt-0.5">Cúspides cruzadas y aspectos significativos</p>
+                    <h2 className="text-xl font-semibold text-amber-700 dark:text-amber-300">
+                      Eventos Dracónicos
+                    </h2>
+                    <p className="text-sm text-amber-600/70 dark:text-amber-400/70 mt-0.5">
+                      Cúspides cruzadas y aspectos significativos
+                    </p>
                   </div>
                 </div>
               </div>
@@ -485,18 +517,27 @@ export default function CartasDraconicaPage() {
 
             {/* Sección de Interpretación Dracónica */}
             <div className="mb-8">
-              <div className="rounded-xl p-6 mb-6 border-l-4 border-l-indigo-400
+              <div
+                className="rounded-xl p-6 mb-6 border-l-4 border-l-indigo-400
                 bg-gradient-to-r from-indigo-100 to-violet-100
                 dark:from-indigo-500/10 dark:to-violet-500/10
                 border border-indigo-200 dark:border-indigo-500/30
-                hover:shadow-md transition-all duration-200">
+                hover:shadow-md transition-all duration-200"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-indigo-500/10">
-                    <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400" strokeWidth={1.5} />
+                    <Sparkles
+                      className="w-5 h-5 text-indigo-600 dark:text-indigo-400"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-indigo-700 dark:text-indigo-300">Interpretación Dracónica</h2>
-                    <p className="text-sm text-indigo-600/70 dark:text-indigo-400/70 mt-0.5">Análisis profundo del propósito de tu alma</p>
+                    <h2 className="text-xl font-semibold text-indigo-700 dark:text-indigo-300">
+                      Interpretación Dracónica
+                    </h2>
+                    <p className="text-sm text-indigo-600/70 dark:text-indigo-400/70 mt-0.5">
+                      Análisis profundo del propósito de tu alma
+                    </p>
                   </div>
                 </div>
               </div>
