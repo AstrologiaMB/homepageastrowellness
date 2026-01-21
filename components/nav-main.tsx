@@ -2,6 +2,7 @@
 
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
@@ -25,18 +26,27 @@ export function NavMain({
     icon?: LucideIcon;
     isActive?: boolean;
     tooltip?: string;
-    isPremium?: boolean;
-    premiumIcon?: React.ReactNode;
     items?: {
       title: string;
       url: string;
-      isPremium?: boolean;
-      premiumIcon?: React.ReactNode;
     }[];
   }[];
 }) {
-  const { state } = useSidebar();
+  const { state, openMobile, setOpenMobile, isMobile } = useSidebar();
+  const router = useRouter();
   const isSidebarCollapsed = state === 'collapsed';
+
+  // Close sidebar on mobile after navigation
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    if (isMobile && openMobile) {
+      e.preventDefault();
+      setOpenMobile(false);
+      // Navigate after a short delay to allow the sidebar animation
+      setTimeout(() => {
+        router.push(url);
+      }, 150);
+    }
+  };
 
   return (
     <SidebarGroup>
@@ -94,7 +104,7 @@ export function NavMain({
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={item.tooltip || item.title}
-                      className="group/menu-item hover:bg-sidebar-accent/50 transition-colors"
+                      className="group/menu-item hover:bg-sidebar-accent/50 transition-colors data-[active=true]:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                     >
                       {item.icon && (
                         <item.icon
@@ -103,8 +113,7 @@ export function NavMain({
                         />
                       )}
                       <span className="font-light">{item.title}</span>
-                      {item.premiumIcon && <span className="ml-1">{item.premiumIcon}</span>}
-                      <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                      <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" strokeWidth={1.5} />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="transition-all data-[state=closed]:animate-out data-[state=open]:animate-in">
@@ -117,9 +126,12 @@ export function NavMain({
                                 asChild
                                 className="group/sub-item hover:bg-sidebar-accent/30 transition-colors"
                               >
-                                <Link href={subItem.url} className="font-light">
+                                <Link
+                                  href={subItem.url}
+                                  className="font-light"
+                                  onClick={(e) => handleNavigation(e, subItem.url)}
+                                >
                                   <span>{subItem.title}</span>
-                                  {subItem.premiumIcon && subItem.premiumIcon}
                                 </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
@@ -139,9 +151,13 @@ export function NavMain({
                 <SidebarMenuButton
                   tooltip={item.tooltip || item.title}
                   asChild
-                  className="group/menu-item hover:bg-sidebar-accent/50 transition-colors"
+                  className="group/menu-item hover:bg-sidebar-accent/50 transition-colors data-[active=true]:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                 >
-                  <Link href={item.url} className="flex items-center gap-2">
+                  <Link
+                    href={item.url}
+                    className="flex items-center gap-2"
+                    onClick={(e) => handleNavigation(e, item.url)}
+                  >
                     {item.icon && (
                       <item.icon
                         className="transition-opacity group-hover/menu-item:opacity-70"
@@ -149,7 +165,7 @@ export function NavMain({
                       />
                     )}
                     <span className="font-light">{item.title}</span>
-                    {item.premiumIcon && <span className="ml-auto">{item.premiumIcon}</span>}
+                    <ChevronRight className="ml-auto" strokeWidth={1.5} />
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

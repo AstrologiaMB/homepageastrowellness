@@ -14,6 +14,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { HelpSheet } from '@/components/help/help-sheet';
+import { cn } from '@/lib/utils';
 
 // Navigation data with premium indicators
 const getNavigationData = () => ({
@@ -33,19 +34,14 @@ const getNavigationData = () => ({
         {
           title: 'General',
           url: '/calendario/general',
-          isPremium: false,
         },
         {
           title: 'Personal',
           url: '/calendario/personal',
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
         {
           title: 'Planificador Lunar',
           url: '/calendario/lunar',
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
       ],
     },
@@ -58,14 +54,10 @@ const getNavigationData = () => ({
         {
           title: 'Carta Trópica',
           url: '/cartas/tropica',
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
         {
           title: 'Carta Dracónica',
           url: '/cartas/draconica',
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
       ],
     },
@@ -74,9 +66,6 @@ const getNavigationData = () => ({
       url: '/carta-electiva',
       icon: Target,
       tooltip: 'Búsqueda de momentos astrológicos óptimos',
-      isPremium: true,
-      premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
-      items: [],
     },
     {
       title: 'Servicios',
@@ -87,12 +76,10 @@ const getNavigationData = () => ({
         {
           title: 'Carta Horaria',
           url: '/cartas/horaria',
-          isPremium: false,
         },
         {
           title: 'Rectificación de Carta',
           url: '/rectificacion-carta',
-          isPremium: false,
         },
       ],
     },
@@ -105,13 +92,10 @@ const getNavigationData = () => ({
         {
           title: 'Cálculos',
           url: '/astrogematria/calculos',
-          isPremium: false,
         },
         {
           title: 'Interpretaciones',
           url: '/astrogematria/interpretaciones',
-          isPremium: true,
-          premiumIcon: <Star className="h-3 w-3 text-muted-foreground/40 ml-1" />,
         },
       ],
     },
@@ -129,7 +113,11 @@ export function AppSidebar(props: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...restProps}>
       <SidebarHeader>
-        <div className="flex items-center gap-3 px-3 py-4 group-data-[collapsible=icon]:px-2">
+        <div className={cn(
+          "flex items-center gap-3 px-3 py-4 group-data-[collapsible=icon]:px-2",
+          // Add safe area top padding for notched devices
+          "pt-[calc(theme(spacing.4)+env(safe-area-inset-top))]"
+        )}>
           <div className="flex h-10 w-10 items-center justify-center group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8">
             <Sparkles
               className="h-5 w-5 text-sidebar-primary group-data-[collapsible=icon]:h-4 group-data-[collapsible=icon]:w-4"
@@ -150,7 +138,11 @@ export function AppSidebar(props: AppSidebarProps) {
         <NavMain items={navigationData.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex flex-col items-center gap-3 p-2">
+        <div className={cn(
+          "flex flex-col items-center gap-3 p-2",
+          // Add safe area bottom padding for notched devices
+          "pb-[calc(theme(spacing.2)+env(safe-area-inset-bottom))]"
+        )}>
           <div className="flex items-center gap-2 w-full justify-center group-data-[collapsible=icon]:flex-col">
             <ThemeToggle />
             <HelpSheet />

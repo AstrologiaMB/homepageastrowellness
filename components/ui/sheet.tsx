@@ -4,6 +4,8 @@ import * as React from "react"
 import { Dialog as SheetPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useHaptic } from "@/hooks/use-haptic"
 
 import { cn } from "@/lib/utils"
 
@@ -55,23 +57,129 @@ interface SheetContentProps
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
-  SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
-  <SheetPortal>
-    <SheetOverlay />
-    <SheetPrimitive.Content
-      ref={ref}
-      className={cn(sheetVariants({ side }), className)}
-      {...props}
-    >
-      {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </SheetPrimitive.Close>
-    </SheetPrimitive.Content>
-  </SheetPortal>
-))
+  SheetContentProps & { onOpenChange?: (open: boolean) => void }
+>(({ side = "right", className, children, onOpenChange, ...props }, ref) => {
+  const isMobile = useIsMobile()
+  const { trigger: haptic } = useHaptic()
+
+  // Swipe gesture state
+  const [touchStart, setTouchStart] = React.useState(0)
+  const [isDragging, setIsDragging] = React.useState(false)
+  const [dragOffset, setDragOffset] = React.useState(0)
+  const contentRef = React.useRef<HTMLDivElement>(null)
+
+  // Handle touch start - only track if touch starts within the content area
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile) return
+
+    const touch = e.touches[0]
+    setTouchStart(touch.clientX)
+    setIsDragging(false)
+    setDragOffset(0)
+  }
+
+  // Handle touch move - track swipe direction
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile) return
+
+    const touch = e.touches[0]
+    const delta = touch.clientX - touchStart
+
+    // Only allow swiping in the close direction
+    const isValidSwipe =
+      (side === "left" && delta > 0) || // Swiping right on left sheet
+      (side === "right" && delta < 0) || // Swiping left on right sheet
+      (side === "top" && touch.clientY - e.touches[0].clientY < 0) || // Swiping down on top sheet
+      (side === "bottom" && touch.clientY - e.touches[0].clientY > 0) // Swiping up on bottom sheet
+
+    if (isValidSwipe && Math.abs(delta) > 10) {
+      setIsDragging(true)
+      setDragOffset(Math.abs(delta))
+    }
+  }
+
+  // Handle touch end - determine if we should close
+  const handleTouchEnd = () => {
+    if (!isMobile) return
+
+    const threshold = 100 // px to trigger close
+    const velocityThreshold = 0.5 // px/ms
+
+    // Calculate velocity
+    const velocity = dragOffset / (Date.now() - (touchStart ? Date.now() : 1))
+
+    const shouldClose = dragOffset > threshold || velocity > velocityThreshold
+
+    if (shouldClose && isDragging) {
+      haptic('light')
+      onOpenChange?.(false)
+    }
+
+    // Reset state
+    setIsDragging(false)
+    setDragOffset(0)
+  }
+
+  // Merge refs
+  const setRefs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (typeof ref === 'function') {
+        ref(node)
+      } else if (ref) {
+        ref.current = node
+      }
+      contentRef.current = node
+    },
+    [ref]
+  )
+
+  // Calculate transform based on drag offset
+  const getTransform = () => {
+    if (!isDragging || dragOffset === 0) return undefined
+
+    if (side === "left") {
+      return `translateX(${Math.min(dragOffset, window.innerWidth)}px)`
+    } else if (side === "right") {
+      return `translateX(${-Math.min(dragOffset, window.innerWidth)}px)`
+    } else if (side === "top") {
+      return `translateY(${Math.min(dragOffset, window.innerHeight)}px)`
+    } else if (side === "bottom") {
+      return `translateY(${-Math.min(dragOffset, window.innerHeight)}px)`
+    }
+    return undefined
+  }
+
+  return (
+    <SheetPortal>
+      <SheetOverlay />
+      <SheetPrimitive.Content
+        ref={setRefs}
+        className={cn(
+          sheetVariants({ side }),
+          // Enhanced mobile touch behavior
+          isMobile && "touch-pan-y", // Allow vertical panning inside
+          isMobile && isDragging && "transition-none", // Disable transition during drag
+          className
+        )}
+        style={{
+          transform: getTransform(),
+          transition: isDragging ? 'none' : undefined,
+        } as React.CSSProperties}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+        {...props}
+      >
+        {children}
+        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary z-10">
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </SheetPrimitive.Close>
+      </SheetPrimitive.Content>
+    </SheetPortal>
+  )
+})
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
 const SheetHeader = ({
