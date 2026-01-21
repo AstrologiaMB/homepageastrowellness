@@ -47,6 +47,18 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
 
+      - name: Set lowercase app name
+        id: app-name
+        run: |
+          # Convert username to lowercase for Fly.io compatibility
+          ACTOR_LOWER=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')
+          APP_NAME="pr-${{ github.event.number }}-${ACTOR_LOWER}-${REPO_NAME}"
+          echo "app_name=${APP_NAME}" >> $GITHUB_OUTPUT
+          echo "Generated app name: ${APP_NAME}"
+
       - name: Deploy PR app to Fly.io
         id: deploy
         uses: superfly/fly-pr-review-apps@1.2.1
+        with:
+          name: ${{ steps.app-name.outputs.app_name }}
