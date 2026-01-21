@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Calendar, MapPin, Home, User, Loader2 } from "lucide-react"
+import { Calendar, MapPin, Home, User, Loader2, Sparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,6 +33,11 @@ import {
   MapLocationPicker,
   type LocationData,
 } from "@/components/location-picker"
+
+/**
+ * Celestial-themed background with subtle animated gradient
+ * Creates depth and serenity appropriate for an astrology app
+ */
 
 // Schema for the user data form (extended with conditional fields)
 const completarDatosSchema = z.object({
@@ -286,10 +291,25 @@ function CompletarDatosForm() {
 
   if (loadingData) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-muted-foreground">Cargando datos...</p>
+      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+        {/* Subtle animated background gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/5 via-background to-background opacity-40" />
+
+        {/* Animated subtle starry effect */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-0.5 h-0.5 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+        </div>
+
+        <div className="relative text-center">
+          <div className="relative inline-flex items-center justify-center mb-4 sm:mb-6">
+            <Sparkles className="h-10 w-10 sm:h-12 sm:w-12 text-primary animate-pulse" />
+            <Loader2 className="h-8 w-8 sm:h-10 sm:w-10 animate-spin absolute text-primary" />
+          </div>
+          <p className="text-sm sm:text-base text-muted-foreground">Cargando tus datos cósmicos...</p>
         </div>
       </div>
     )
@@ -299,262 +319,303 @@ function CompletarDatosForm() {
 
   return (
     <>
-      <div className="min-h-screen bg-background py-8 px-4">
-        <div className="max-w-xl mx-auto">
-          <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-foreground">Completar Datos Personales</h1>
-            <p className="text-muted-foreground mt-2">Completa tu información para los cálculos astrológicos</p>
-          </div>
+      {/* Main container with celestial gradient background */}
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+        {/* Subtle animated background gradients */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/5 via-background to-background opacity-40" />
 
-          {/* Important notice */}
-          <FormWarning className="mb-6">
-            <strong>Precisión requerida:</strong> Por favor completa tus datos personales
-            para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos,
-            sobre todo hora y lugar de nacimiento. <br />
-            <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente.
-          </FormWarning>
+        {/* Animated subtle starry effect */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-[15%] left-[20%] w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s', animationDuration: '3s' }} />
+          <div className="absolute top-[25%] right-[15%] w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
+          <div className="absolute top-[45%] left-[10%] w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s', animationDuration: '2.5s' }} />
+          <div className="absolute bottom-[30%] right-[20%] w-0.5 h-0.5 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }} />
+          <div className="absolute top-[60%] left-[60%] w-[2px] h-[2px] bg-primary/60 rounded-full animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '5s' }} />
+          <div className="absolute bottom-[20%] left-[30%] w-1 h-1 bg-primary/50 rounded-full animate-pulse" style={{ animationDelay: '2.5s', animationDuration: '4s' }} />
+        </div>
 
-          {/* Warning about remaining changes */}
-          {userData.birthDataChangeCount > 0 && (
-            <FormStatus
-              variant={userData.birthDataChangeCount >= 3 ? "error" : "warning"}
-              className="mb-6"
-            >
-              <strong>
-                {userData.birthDataChangeCount >= 3
-                  ? "Límite de cambios alcanzado"
-                  : `Aviso: Te quedan ${3 - userData.birthDataChangeCount} cambios disponibles`}
-              </strong>
-              {userData.birthDataChangeCount >= 3
-                ? ". Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones."
-                : ". Asegúrate de que la información sea correcta antes de guardar."}
-            </FormStatus>
-          )}
-
-          {/* Form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-              <fieldset disabled={isLocked} className="space-y-6">
-                {/* Birth Date */}
-                <FormField
-                  control={form.control}
-                  name="birthDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        Fecha de nacimiento
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="date" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Knows Birth Time */}
-                <FormField
-                  control={form.control}
-                  name="knowsBirthTime"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="cursor-pointer">
-                          Conozco mi hora exacta de nacimiento
-                        </FormLabel>
-                        <FormDescription>
-                          Marca esta casilla si conoces la hora exacta de tu nacimiento
-                        </FormDescription>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-
-                {/* Birth Hour and Minute (conditional) */}
-                {knowsBirthTime && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="birthHour"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Hora</FormLabel>
-                          <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Hora" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {Array.from({ length: 24 }, (_, i) => (
-                                <SelectItem key={i} value={i.toString()}>
-                                  {i.toString().padStart(2, '0')}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="birthMinute"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Minuto</FormLabel>
-                          <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Minuto" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {Array.from({ length: 60 }, (_, i) => (
-                                <SelectItem key={i} value={i.toString()}>
-                                  {i.toString().padStart(2, '0')}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
-
-                {/* Birth Location - Map Button Only */}
-                <div className="space-y-3">
-                  <FormLabel className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    Ubicación de nacimiento
-                  </FormLabel>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => handleOpenMapPicker('birth')}
-                    className="w-full"
-                  >
-                    <MapPin className="h-4 w-4 mr-2" />
-                    {birthLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
-                  </Button>
-                  {birthLocation ? (
-                    <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
-                      <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
-                        <span className="text-green-500">✓</span>
-                        <span className="font-medium">Ubicación seleccionada</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Coordenadas: {birthLocation.lat.toFixed(4)}, {birthLocation.lng.toFixed(4)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Zona horaria: {birthLocation.timezone}
-                      </p>
-                    </div>
-                  ) : (
-                    <FormDescription className="text-xs">
-                      Haz clic en "Seleccionar en mapa" para elegir tu ubicación de nacimiento
-                    </FormDescription>
-                  )}
+        {/* Responsive content container */}
+        <div className="relative z-10 py-4 sm:py-6 md:py-8 lg:py-12 px-3 sm:px-4">
+          <div className="max-w-2xl sm:max-w-2xl md:max-w-3xl mx-auto">
+            {/* Elevated card with shadow and border */}
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl sm:rounded-2xl shadow-lg shadow-primary/5 p-4 sm:p-6 md:p-8">
+              {/* Header */}
+              <div className="mb-5 sm:mb-6 md:mb-8 text-center">
+                <div className="flex items-center justify-center gap-2 mb-2 sm:mb-3">
+                  <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+                    Completar Datos Personales
+                  </h1>
+                  <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
+                <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
+                  Completa tu información para los cálculos astrológicos precisos
+                </p>
+              </div>
 
-                {/* Gender */}
-                <FormField
-                  control={form.control}
-                  name="gender"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <User className="h-4 w-4" />
-                        Género
-                      </FormLabel>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecciona una opción" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="masculino">Masculino</SelectItem>
-                            <SelectItem value="femenino">Femenino</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              {/* Important notice with forced word wrap */}
+              <FormWarning className="mb-4 sm:mb-5 md:mb-6 break-words">
+                <span className="break-words">
+                  <strong>Precisión requerida:</strong> Por favor completa tus datos personales
+                  para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos,
+                  sobre todo hora y lugar de nacimiento. <br />
+                  <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente.
+                </span>
+              </FormWarning>
 
-                {/* Residence Location - Map Button Only */}
-                <div className="space-y-3">
-                  <FormLabel className="flex items-center gap-2">
-                    <Home className="h-4 w-4" />
-                    Ubicación de residencia
-                  </FormLabel>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => handleOpenMapPicker('residence')}
-                    className="w-full"
-                  >
-                    <MapPin className="h-4 w-4 mr-2" />
-                    {residenceLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
-                  </Button>
-                  {residenceLocation ? (
-                    <div className="bg-muted/50 border border-border rounded-lg p-3 text-sm">
-                      <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1">
-                        <span className="text-green-500">✓</span>
-                        <span className="font-medium">Ubicación seleccionada</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Coordenadas: {residenceLocation.lat.toFixed(4)}, {residenceLocation.lng.toFixed(4)}
-                      </p>
-                    </div>
-                  ) : (
-                    <FormDescription className="text-xs">
-                      Haz clic en "Seleccionar en mapa" para elegir tu ubicación de residencia (opcional)
-                    </FormDescription>
-                  )}
-                </div>
-              </fieldset>
-
-              {/* Root form error */}
-              {form.formState.errors.root && (
-                <FormStatus variant="error">
-                  {form.formState.errors.root.message}
+              {/* Warning about remaining changes with word wrap */}
+              {userData.birthDataChangeCount > 0 && (
+                <FormStatus
+                  variant={userData.birthDataChangeCount >= 3 ? "error" : "warning"}
+                  className="mb-4 sm:mb-5 md:mb-6 break-words"
+                >
+                  <span className="break-words">
+                    <strong className="whitespace-normal">
+                      {userData.birthDataChangeCount >= 3
+                        ? "Límite de cambios alcanzado"
+                        : `Aviso: Te quedan ${3 - userData.birthDataChangeCount} cambios disponibles`}
+                    </strong>
+                    <span className="whitespace-normal">
+                      {userData.birthDataChangeCount >= 3
+                        ? " Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones."
+                        : " Asegúrate de que la información sea correcta antes de guardar."}
+                    </span>
+                  </span>
                 </FormStatus>
               )}
 
-              <Button
-                type="submit"
-                disabled={isLoading || isLocked}
-                className="w-full"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Guardando...
-                  </>
-                ) : (
-                  "Guardar y continuar"
-                )}
-              </Button>
+              {/* Form */}
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-5 md:space-y-6">
+                  <fieldset disabled={isLocked} className="space-y-4 sm:space-y-5 md:space-y-6">
+                    {/* Birth Date */}
+                    <FormField
+                      control={form.control}
+                      name="birthDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2 text-sm sm:text-base">
+                            <Calendar className="h-4 w-4 text-primary" />
+                            Fecha de nacimiento
+                          </FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} className="h-11 sm:h-12 min-h-[44px]" />
+                          </FormControl>
+                          <FormMessage className="text-xs sm:text-sm" />
+                        </FormItem>
+                      )}
+                    />
 
-              {isLocked && (
-                <p className="text-sm text-destructive text-center">
-                  No puedes guardar más cambios en tus datos de nacimiento.
-                </p>
-              )}
-            </form>
-          </Form>
+                    {/* Knows Birth Time */}
+                    <FormField
+                      control={form.control}
+                      name="knowsBirthTime"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-1">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              className="mt-0.5 h-5 w-5 min-h-[20px] min-w-[20px]"
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel className="cursor-pointer text-sm sm:text-base font-normal">
+                              Conozco mi hora exacta de nacimiento
+                            </FormLabel>
+                            <FormDescription className="text-xs sm:text-sm">
+                              Marca esta casilla si conoces la hora exacta de tu nacimiento
+                            </FormDescription>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Birth Hour and Minute (conditional) with responsive grid */}
+                    {knowsBirthTime && (
+                      <div className="grid grid-cols-[minmax(0,140px)] min-[380px]:grid-cols-2 gap-3 sm:gap-4">
+                        <FormField
+                          control={form.control}
+                          name="birthHour"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-sm sm:text-base">Hora</FormLabel>
+                              <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                                <FormControl>
+                                  <SelectTrigger className="h-11 sm:h-12 min-h-[44px]">
+                                    <SelectValue placeholder="Hora" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {Array.from({ length: 24 }, (_, i) => (
+                                    <SelectItem key={i} value={i.toString()} className="text-sm sm:text-base">
+                                      {i.toString().padStart(2, '0')}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className="text-xs sm:text-sm" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="birthMinute"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-sm sm:text-base">Minuto</FormLabel>
+                              <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                                <FormControl>
+                                  <SelectTrigger className="h-11 sm:h-12 min-h-[44px]">
+                                    <SelectValue placeholder="Minuto" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {Array.from({ length: 60 }, (_, i) => (
+                                    <SelectItem key={i} value={i.toString()} className="text-sm sm:text-base">
+                                      {i.toString().padStart(2, '0')}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className="text-xs sm:text-sm" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+
+                    {/* Birth Location - Map Button Only */}
+                    <div className="space-y-2.5 sm:space-y-3">
+                      <FormLabel className="flex items-center gap-2 text-sm sm:text-base">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        Ubicación de nacimiento
+                      </FormLabel>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleOpenMapPicker('birth')}
+                        className="w-full h-11 sm:h-12 min-h-[44px] justify-start text-left"
+                      >
+                        <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                        <span className="truncate">
+                          {birthLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                        </span>
+                      </Button>
+                      {birthLocation ? (
+                        <div className="bg-muted/50 border border-border/50 rounded-lg p-3 sm:p-4 text-sm">
+                          <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1.5">
+                            <span className="text-green-500 shrink-0">✓</span>
+                            <span className="font-medium text-xs sm:text-sm">Ubicación seleccionada</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground break-all">
+                            Coordenadas: {birthLocation.lat.toFixed(4)}, {birthLocation.lng.toFixed(4)}
+                          </p>
+                          <p className="text-xs text-muted-foreground break-all">
+                            Zona horaria: {birthLocation.timezone}
+                          </p>
+                        </div>
+                      ) : (
+                        <FormDescription className="text-xs sm:text-sm break-words">
+                          Haz clic en "Seleccionar en mapa" para elegir tu ubicación de nacimiento
+                        </FormDescription>
+                      )}
+                    </div>
+
+                    {/* Gender */}
+                    <FormField
+                      control={form.control}
+                      name="gender"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2 text-sm sm:text-base">
+                            <User className="h-4 w-4 text-primary" />
+                            Género
+                          </FormLabel>
+                          <FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <SelectTrigger className="h-11 sm:h-12 min-h-[44px]">
+                                <SelectValue placeholder="Selecciona una opción" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="masculino" className="text-sm sm:text-base">Masculino</SelectItem>
+                                <SelectItem value="femenino" className="text-sm sm:text-base">Femenino</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage className="text-xs sm:text-sm" />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Residence Location - Map Button Only */}
+                    <div className="space-y-2.5 sm:space-y-3">
+                      <FormLabel className="flex items-center gap-2 text-sm sm:text-base">
+                        <Home className="h-4 w-4 text-primary" />
+                        Ubicación de residencia
+                      </FormLabel>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleOpenMapPicker('residence')}
+                        className="w-full h-11 sm:h-12 min-h-[44px] justify-start text-left"
+                      >
+                        <MapPin className="h-4 w-4 mr-2 shrink-0" />
+                        <span className="truncate">
+                          {residenceLocation ? 'Cambiar ubicación' : 'Seleccionar en mapa'}
+                        </span>
+                      </Button>
+                      {residenceLocation ? (
+                        <div className="bg-muted/50 border border-border/50 rounded-lg p-3 sm:p-4 text-sm">
+                          <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1.5">
+                            <span className="text-green-500 shrink-0">✓</span>
+                            <span className="font-medium text-xs sm:text-sm">Ubicación seleccionada</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground break-all">
+                            Coordenadas: {residenceLocation.lat.toFixed(4)}, {residenceLocation.lng.toFixed(4)}
+                          </p>
+                        </div>
+                      ) : (
+                        <FormDescription className="text-xs sm:text-sm break-words">
+                          Haz clic en "Seleccionar en mapa" para elegir tu ubicación de residencia (opcional)
+                        </FormDescription>
+                      )}
+                    </div>
+                  </fieldset>
+
+                  {/* Root form error with word wrap */}
+                  {form.formState.errors.root && (
+                    <FormStatus variant="error" className="break-words">
+                      <span className="break-words">{form.formState.errors.root.message}</span>
+                    </FormStatus>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={isLoading || isLocked}
+                    className="w-full h-12 sm:h-13 min-h-[48px] text-base sm:text-lg shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        <span className="text-sm sm:text-base">Guardando...</span>
+                      </>
+                    ) : (
+                      <span className="text-sm sm:text-base">Guardar y continuar</span>
+                    )}
+                  </Button>
+
+                  {isLocked && (
+                    <p className="text-xs sm:text-sm text-destructive text-center break-words px-2">
+                      No puedes guardar más cambios en tus datos de nacimiento.
+                    </p>
+                  )}
+                </form>
+              </Form>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -576,8 +637,19 @@ function CompletarDatosForm() {
 export default function CompletarDatosPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <p className="text-muted-foreground">Cargando...</p>
+      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+        {/* Subtle animated background gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/5 via-background to-background opacity-40" />
+
+        {/* Animated subtle starry effect */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+
+        <p className="relative text-sm sm:text-base text-muted-foreground">Cargando...</p>
       </div>
     }>
       <CompletarDatosForm />

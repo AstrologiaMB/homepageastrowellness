@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { useToast } from "@/hooks/use-toast"
 import { useJsApiLoader } from "@react-google-maps/api"
 import { AdvancedMarker, APIProvider, Map, Pin, type MapEvent } from "@vis.gl/react-google-maps"
@@ -39,6 +41,7 @@ export function MapLocationPicker({
   onCancel,
   isOpen,
 }: MapLocationPickerProps) {
+  const isMobile = useIsMobile()
   const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([])
@@ -252,152 +255,202 @@ export function MapLocationPicker({
 
   // Show loading state if maps is loading
   if (!isMapsLoaded) {
+    const content = (
+      <div className="flex flex-col items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+        <p className="text-muted-foreground">Cargando mapa...</p>
+      </div>
+    )
+
     return (
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-3xl">
-          <div className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-            <p className="text-muted-foreground">Cargando mapa...</p>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <APIProvider apiKey={apiKey}>
+        {isMobile ? (
+          <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+            <SheetContent side="bottom" className="max-w-3xl">
+              {content}
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+            <DialogContent className="max-w-3xl">{content}</DialogContent>
+          </Dialog>
+        )}
+      </APIProvider>
     )
   }
 
   // Show error if maps failed to load
   if (loadError) {
+    const errorContent = (
+      <>
+        <DialogHeader>
+          <DialogTitle>Error</DialogTitle>
+        </DialogHeader>
+        <div className="py-8 text-center">
+          <p className="text-destructive mb-4">No se pudo cargar el mapa</p>
+          <p className="text-sm text-muted-foreground">
+            Verifica tu conexión a internet o intenta más tarde.
+          </p>
+        </div>
+        <div className="flex justify-end">
+          <Button variant="outline" onClick={onCancel}>
+            Cerrar
+          </Button>
+        </div>
+      </>
+    )
+
     return (
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Error</DialogTitle>
-          </DialogHeader>
-          <div className="py-8 text-center">
-            <p className="text-destructive mb-4">No se pudo cargar el mapa</p>
-            <p className="text-sm text-muted-foreground">
-              Verifica tu conexión a internet o intenta más tarde.
-            </p>
-          </div>
-          <div className="flex justify-end">
-            <Button variant="outline" onClick={onCancel}>
-              Cerrar
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <APIProvider apiKey={apiKey}>
+        {isMobile ? (
+          <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+            <SheetContent side="bottom" className="max-w-3xl">
+              {errorContent}
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+            <DialogContent className="max-w-3xl">{errorContent}</DialogContent>
+          </Dialog>
+        )}
+      </APIProvider>
     )
   }
 
-  return (
-    <APIProvider apiKey={apiKey}>
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{getDialogTitle()}</DialogTitle>
-          </DialogHeader>
+  // Shared content component for both Dialog and Sheet
+  const mapPickerContent = (
+    <>
+      {isMobile ? (
+        <SheetHeader>
+          <SheetTitle>{getDialogTitle()}</SheetTitle>
+        </SheetHeader>
+      ) : (
+        <DialogHeader>
+          <DialogTitle>{getDialogTitle()}</DialogTitle>
+        </DialogHeader>
+      )}
 
-          <div className="space-y-4 mt-4">
-            {/* Search input with autocomplete */}
-            <div className="relative">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Busca una ciudad..."
-                  value={searchQuery}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-10"
-                  autoComplete="off"
-                />
-                {isLoadingPlace && (
-                  <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
-                )}
-              </div>
+      <div className="space-y-4 mt-4">
+        {/* Search input with autocomplete */}
+        <div className="relative">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Busca una ciudad..."
+              value={searchQuery}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="pl-10"
+              autoComplete="off"
+            />
+            {isLoadingPlace && (
+              <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
+            )}
+          </div>
 
-              {/* Predictions dropdown */}
-              {predictions.length > 0 && (
-                <div className="absolute z-10 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {predictions.map((prediction) => (
-                    <button
-                      key={prediction.place_id}
-                      type="button"
-                      onClick={() => handlePlaceSelect(prediction.place_id, prediction.description)}
-                      className="w-full px-4 py-3 text-left hover:bg-accent transition-colors flex items-start gap-3"
-                    >
-                      <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{prediction.description}</span>
-                    </button>
-                  ))}
-                </div>
+          {/* Predictions dropdown */}
+          {predictions.length > 0 && (
+            <div className="absolute z-10 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+              {predictions.map((prediction) => (
+                <button
+                  key={prediction.place_id}
+                  type="button"
+                  onClick={() => handlePlaceSelect(prediction.place_id, prediction.description)}
+                  className="w-full px-4 py-3 text-left hover:bg-accent transition-colors flex items-start gap-3"
+                >
+                  <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                  <span className="text-sm">{prediction.description}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Selected location info */}
+        {selectedAddress && (
+          <div className="bg-muted/50 border border-border rounded-lg p-3">
+            <p className="text-sm">
+              <strong className="text-foreground">Ubicación seleccionada:</strong>{" "}
+              {selectedAddress}
+            </p>
+            <div className="flex gap-4 text-xs text-muted-foreground mt-1">
+              {selectedLocation && (
+                <span>Coordenadas: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lng.toFixed(4)}</span>
+              )}
+              {timezone && (
+                <span>Zona horaria: {timezone}</span>
               )}
             </div>
-
-            {/* Selected location info */}
-            {selectedAddress && (
-              <div className="bg-muted/50 border border-border rounded-lg p-3">
-                <p className="text-sm">
-                  <strong className="text-foreground">Ubicación seleccionada:</strong>{" "}
-                  {selectedAddress}
-                </p>
-                <div className="flex gap-4 text-xs text-muted-foreground mt-1">
-                  {selectedLocation && (
-                    <span>Coordenadas: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lng.toFixed(4)}</span>
-                  )}
-                  {timezone && (
-                    <span>Zona horaria: {timezone}</span>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Map - using uncontrolled props to enable smooth drag gestures */}
-            <div className="relative w-full h-[400px] md:h-[500px] bg-muted rounded-lg overflow-hidden">
-              <Map
-                defaultZoom={DEFAULT_ZOOM}
-                defaultCenter={DEFAULT_CENTER}
-                zoomControl
-                mapId="astro-location-picker-v2"
-                gestureHandling="greedy"
-                disableDefaultUI={false}
-                onIdle={handleMapIdle}
-                className="w-full h-full"
-              >
-                {selectedLocation && (
-                  <AdvancedMarker position={selectedLocation}>
-                    <Pin
-                      background="#f59e0b"
-                      borderColor="#b45309"
-                      glyphColor="#ffffff"
-                      scale={1.5}
-                    />
-                  </AdvancedMarker>
-                )}
-              </Map>
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button type="button" variant="outline" onClick={onCancel}>
-                <X className="h-4 w-4 mr-2" />
-                Cancelar
-              </Button>
-              <Button type="button" onClick={handleConfirm} disabled={isFetchingTimezone}>
-                {isFetchingTimezone ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Detectando zona horaria...
-                  </>
-                ) : (
-                  <>
-                    <Check className="h-4 w-4 mr-2" />
-                    Confirmar ubicación
-                  </>
-                )}
-              </Button>
-            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        )}
+
+        {/* Map - responsive height for mobile */}
+        <div className="relative w-full h-[300px] md:h-[400px] bg-muted rounded-lg overflow-hidden">
+          <Map
+            defaultZoom={DEFAULT_ZOOM}
+            defaultCenter={DEFAULT_CENTER}
+            zoomControl
+            mapId="astro-location-picker-v2"
+            gestureHandling="greedy"
+            disableDefaultUI={false}
+            onIdle={handleMapIdle}
+            className="w-full h-full"
+          >
+            {selectedLocation && (
+              <AdvancedMarker position={selectedLocation}>
+                <Pin
+                  background="#f59e0b"
+                  borderColor="#b45309"
+                  glyphColor="#ffffff"
+                  scale={1.5}
+                />
+              </AdvancedMarker>
+            )}
+          </Map>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex justify-end gap-3 pt-4 border-t">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            <X className="h-4 w-4 mr-2" />
+            Cancelar
+          </Button>
+          <Button type="button" onClick={handleConfirm} disabled={isFetchingTimezone}>
+            {isFetchingTimezone ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Detectando zona horaria...
+              </>
+            ) : (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Confirmar ubicación
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+    </>
+  )
+
+  return (
+    <APIProvider apiKey={apiKey}>
+      {isMobile ? (
+        <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+          <SheetContent
+            side="bottom"
+            className="max-h-[90vh] overflow-y-auto"
+          >
+            {mapPickerContent}
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            {mapPickerContent}
+          </DialogContent>
+        </Dialog>
+      )}
     </APIProvider>
   )
 }
