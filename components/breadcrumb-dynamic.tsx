@@ -71,7 +71,7 @@ export function DynamicBreadcrumb() {
                   <span className="block sm:hidden" aria-hidden="true">
                     {truncateText(formattedSegment, 15)}
                   </span>
-                  <span className="hidden sm:block">{formattedSegment}</span>
+                  <span className="hidden sm:block">SEGMENTOOOO {formattedSegment}</span>
                 </BreadcrumbPage>
               </BreadcrumbItem>
             </div>
