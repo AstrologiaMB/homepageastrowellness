@@ -58,7 +58,7 @@ export function DynamicBreadcrumb() {
             <BreadcrumbLink asChild className="flex items-center gap-1.5">
               <Link href="/" aria-label="Inicio">
                 <Sparkles className="w-4 h-4 text-primary" />
-                <span className="hidden sm:inline">Inicio</span>
+                <span className="hidden sm:inline">Inicio loco</span>
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
