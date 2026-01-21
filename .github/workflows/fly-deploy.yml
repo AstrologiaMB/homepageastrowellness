@@ -5,7 +5,13 @@ on:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, reopened, synchronize, closed]
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  # Set these to your Fly.io organization and preferred region
+  FLY_REGION: iad
+  FLY_ORG: personal
 
 jobs:
   deploy-production:
@@ -22,82 +28,25 @@ jobs:
         run: |
           flyctl scale count 0 --yes || true
           flyctl deploy --remote-only --ha=false
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-  deploy-preview:
-    name: Deploy preview app
+  review_app:
+    name: Deploy review app
     runs-on: ubuntu-latest
+    # Only run for PRs, not main branch pushes
     if: github.event_name == 'pull_request'
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    # Only run one deployment at a time per PR
+    concurrency:
+      group: pr-${{ github.event.number }}
+    # The "review" environment allows the URL to be displayed in the PR UI
+    environment:
+      name: review
+      url: ${{ steps.deploy.outputs.url }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Get code
+        uses: actions/checkout@v4
 
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy to Fly.io preview
+      - name: Deploy PR app to Fly.io
         id: deploy
-        run: |
-          APP_NAME="homepageastrowellness-pr-${{ github.event.pull_request.number }}"
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_OUTPUT
-          echo "Deploying to app: $APP_NAME"
-
-          # Create the app if it doesn't exist, then deploy
-          flyctl deploy --remote-only --ha=false --app $APP_NAME || \
-            (flyctl apps create $APP_NAME --org personal && flyctl deploy --remote-only --ha=false --app $APP_NAME)
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-      - name: Comment PR with preview URL
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const appName = `homepageastrowellness-pr-${{ github.event.pull_request.number }}`;
-            const url = `https://${appName}.fly.dev`;
-            const body = `✅ Preview environment deployed!\n\n🔗 **Preview URL:** ${url}\n\nThis environment will be automatically updated when new commits are pushed to this PR.`;
-
-            // Try to find an existing comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const botComment = comments.find(comment =>
-              comment.user.type === 'Bot' &&
-              comment.body.includes('Preview environment deployed')
-            );
-
-            if (botComment) {
-              // Update existing comment
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: body
-              });
-            } else {
-              // Create new comment
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: body
-              });
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  cleanup-preview:
-    name: Cleanup preview app
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    steps:
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Delete preview app
-        run: |
-          APP_NAME="homepageastrowellness-pr-${{ github.event.pull_request.number }}"
-          echo "Deleting app: $APP_NAME"
-          flyctl apps delete $APP_NAME --yes || true
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        uses: superfly/fly-pr-review-apps@1.2.1
