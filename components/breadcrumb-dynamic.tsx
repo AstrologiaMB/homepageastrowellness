@@ -63,7 +63,7 @@ export function DynamicBreadcrumb() {
             </BreadcrumbLink>
           </BreadcrumbItem>
 
-          <div className="flex items-center">
+          <div className="flex items-center mt-4">
             <BreadcrumbSeparator />
             <div className="ml-2">
               <BreadcrumbItem>
