@@ -16,9 +16,14 @@ import {
 import { es } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon, RefreshCw, AlertCircle, Search, Sparkles } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -53,6 +58,8 @@ interface EventoPersonal {
   orbe?: string;
   es_aplicativo?: string;
   harmony?: string;
+  relevance?: 'high' | 'medium' | 'low';
+  interpretacion?: string;
   [key: string]: any;
 }
 
@@ -359,7 +366,10 @@ export function CalendarioPersonal() {
 
       <div className="flex-1 p-4 overflow-hidden">
         {!selectedMonth ? (
-          <Tabs defaultValue={String(new Date().getFullYear())} className="w-full h-full flex flex-col">
+          <Tabs
+            defaultValue={String(new Date().getFullYear())}
+            className="w-full h-full flex flex-col"
+          >
             <TabsList className="grid w-full grid-cols-3 mb-4">
               {/* 
                  Dynamic Year Logic: 
@@ -449,7 +459,9 @@ export function CalendarioPersonal() {
                           </Badge>
                         )}
                       </div>
-                      <span className={`text-xs ${isCurrentWeek ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                      <span
+                        className={`text-xs ${isCurrentWeek ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}
+                      >
                         {formatWeekRange(week.start, week.end, week.weekNumber).split(' - ')[1]
                           ? formatWeekRange(week.start, week.end, week.weekNumber)
                           : `del ${format(week.start, "d 'de' MMMM", { locale: es })}`}
@@ -804,61 +816,123 @@ export function CalendarioPersonal() {
 
           const isToday = isSameDay(day, today);
 
+          // Group by relevance
+          const highRelevanceEvents = eventosDelDia.filter((e) => e.relevance === 'high');
+          const mediumRelevanceEvents = eventosDelDia.filter(
+            (e) => !e.relevance || e.relevance === 'medium'
+          );
+          const lowRelevanceEvents = eventosDelDia.filter((e) => e.relevance === 'low');
+
           return (
-            <Card
+            <div
               key={day.toISOString()}
-              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-200 hover:shadow-lg ${
+              className={`flex flex-col gap-3 p-4 rounded-xl border transition-colors ${
                 isToday
-                  ? 'border-[2px] border-primary bg-primary/5 dark:bg-primary/10'
-                  : 'glass-card'
+                  ? 'bg-primary/5 border-primary/40 dark:bg-primary/10'
+                  : 'bg-card/50 border-border/50 hover:bg-card/80'
               }`}
             >
               {/* Day Header */}
-              <div
-                className={`px-3 py-3 md:p-4 rounded-t-lg ${
-                  isToday
-                    ? 'bg-primary/10 dark:bg-primary/20'
-                    : 'bg-muted/50 dark:bg-muted/30'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
-                    {format(day, 'EEEE d', { locale: es })}
-                    {isToday && (
-                      <Badge
-                        variant="default"
-                        className="bg-primary hover:bg-primary/90 text-xs"
-                      >
-                        Hoy
-                      </Badge>
-                    )}
-                  </h3>
-                  {eventosDelDia.length > 0 && (
-                    <Badge variant="secondary" className="text-xs">
-                      {eventosDelDia.length} {eventosDelDia.length === 1 ? 'evento' : 'eventos'}
-                    </Badge>
-                  )}
-                </div>
-              </div>
-
-              <div className="px-2 py-3 md:p-4">
-                {eventosDelDia.length > 0 ? (
-                  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
-                    {eventosDelDia.map((evento, index) => (
-                      <EventoConInterpretacion
-                        key={`${evento.fecha_utc}-${evento.hora_utc}-${index}`}
-                        evento={evento}
-                        natalData={natalData}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-sm text-center py-4">
-                    No hay eventos personales programados
-                  </p>
+              <div className="flex items-baseline gap-2 pb-2 border-b border-border/50">
+                <span className="text-lg font-bold capitalize text-primary font-serif">
+                  {format(day, 'EEEE', { locale: es })}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {format(day, "d 'de' MMMM", { locale: es })}
+                </span>
+                {isToday && (
+                  <Badge variant="default" className="ml-auto text-xs h-5">
+                    Hoy
+                  </Badge>
                 )}
               </div>
-            </Card>
+
+              {/* No events placeholder */}
+              {eventosDelDia.length === 0 && (
+                <div className="text-sm text-muted-foreground py-6 text-center italic bg-muted/20 rounded-lg">
+                  No hay eventos significativos
+                </div>
+              )}
+
+              {/* Level 1: High Relevance (Hero Cards) */}
+              {highRelevanceEvents.length > 0 && (
+                <div className="flex flex-col gap-4 mt-1">
+                  {highRelevanceEvents.map((evento, idx) => (
+                    <EventoConInterpretacion
+                      key={`high-${evento.fecha_utc}-${idx}`}
+                      evento={evento}
+                      natalData={natalData}
+                      className="w-full sm:w-full max-w-none" // Force full width override
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Level 2: Medium Relevance (Standard Cards) */}
+              {mediumRelevanceEvents.length > 0 && (
+                <div
+                  className={`flex flex-col sm:flex-row sm:flex-wrap gap-3 ${highRelevanceEvents.length > 0 ? 'mt-4 pt-4 border-t border-dashed border-border/60' : 'mt-1'}`}
+                >
+                  {mediumRelevanceEvents.map((evento, idx) => (
+                    <EventoConInterpretacion
+                      key={`med-${evento.fecha_utc}-${idx}`}
+                      evento={evento}
+                      natalData={natalData}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Level 3: Low Relevance (Badges) */}
+              {lowRelevanceEvents.length > 0 && (
+                <div className={`mt-2 ${mediumRelevanceEvents.length > 0 ? 'pt-3' : ''}`}>
+                  <div className="text-[10px] uppercase text-muted-foreground font-semibold mb-2 tracking-wider flex items-center gap-2">
+                    <span className="h-px bg-border flex-1"></span>
+                    <span>Tránsitos Menores & Eventos Lunares</span>
+                    <span className="h-px bg-border flex-1"></span>
+                  </div>
+                  <div className="w-full max-w-2xl mx-auto">
+                    <Accordion type="single" collapsible className="w-full space-y-2">
+                      {lowRelevanceEvents.map((evento, idx) => (
+                        <AccordionItem
+                          key={`low-${evento.fecha_utc}-${idx}`}
+                          value={`item-${idx}`}
+                          className="border rounded-lg px-4 bg-card/30"
+                        >
+                          <AccordionTrigger className="hover:no-underline py-3 text-sm">
+                            <div className="flex items-center gap-3 w-full text-left">
+                              <Badge
+                                variant="outline"
+                                className="font-mono text-[10px] h-5 opacity-70"
+                              >
+                                {format(
+                                  createDateFromUtc(evento.fecha_utc, evento.hora_utc),
+                                  'HH:mm'
+                                )}
+                              </Badge>
+                              <span className="font-medium text-muted-foreground">
+                                {evento.tipo_evento}{' '}
+                                {evento.planeta1 &&
+                                  `(${evento.planeta1}${evento.planeta2 ? `-${evento.planeta2}` : ''})`}
+                              </span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-4 pt-1">
+                            <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground bg-muted/30 p-4 rounded-md">
+                              <EventoConInterpretacion
+                                evento={{ ...evento, relevance: 'medium' }}
+                                natalData={natalData}
+                                variant="minimal"
+                              />
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </div>
+                </div>
+              )}
+            </div>
           );
         })}
       </div>

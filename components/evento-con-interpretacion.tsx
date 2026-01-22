@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +21,7 @@ interface EventoConInterpretacionProps {
     planeta2?: string;
     posicion1?: string;
     posicion2?: string;
+    tipo_aspecto?: string;
     house_transits?: Array<{
       tipo: string;
       planeta: string;
@@ -31,15 +33,33 @@ interface EventoConInterpretacionProps {
     }>;
     // Otros campos opcionales
     // Otros campos opcionales
+    relevance?: 'high' | 'medium' | 'low';
+    interpretacion?: string;
   };
-  natalData?: any; // To avoid import cycles or complex types, using any or specifically NatalData if available
+  natalData?: any;
+  variant?: 'default' | 'minimal';
+  className?: string;
 }
 
-export function EventoConInterpretacion({ evento, natalData }: EventoConInterpretacionProps) {
-  const [interpretacion, setInterpretacion] = useState<string | null>(null);
+export function EventoConInterpretacion({
+  evento,
+  natalData,
+  variant = 'default',
+  className = '',
+}: EventoConInterpretacionProps) {
+  const [interpretacion, setInterpretacion] = useState<string | null>(
+    evento.interpretacion || null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Update effect if prop changes
+  useEffect(() => {
+    if (evento.interpretacion) {
+      setInterpretacion(evento.interpretacion);
+    }
+  }, [evento.interpretacion]);
 
   // Cycle Logic
   const [cycleData, setCycleData] = useState<ActiveCyclesResponse | null>(null);
@@ -155,109 +175,173 @@ export function EventoConInterpretacion({ evento, natalData }: EventoConInterpre
     );
   }
 
-  return (
-    <Card className="w-full sm:w-72 flex-shrink-0 h-auto">
-      <CardContent className="space-y-2 px-3 py-3 sm:px-4 sm:py-4">
-        <div className="font-semibold">
-          {evento.tipo_evento} a las {horaFormateada}
+  const isHighRelevance = evento.relevance === 'high';
+
+  const content = (
+    <div
+      className={`space-y-2 px-3 py-3 sm:px-4 sm:py-4 ${variant === 'minimal' ? 'p-0 sm:p-0' : ''}`}
+    >
+      {isHighRelevance && variant !== 'minimal' && (
+        <div className="text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider mb-1">
+          Evento Destacado
         </div>
-
-        {/* Cycle Badges */}
-        {cycleData && cycleData.active_cycles.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-1 mb-2">
-            <Badge
-              variant="outline"
-              className="text-[10px] py-0 h-5 border-primary/50 text-primary bg-primary/5"
-            >
-              {cycleData.active_cycles[0].metonic_index === 1
-                ? 'Ciclo Inicial'
-                : `${cycleData.active_cycles[0].metonic_index - 1}º Retorno`}
-            </Badge>
-            {isEclipse && (
-              <Badge variant="destructive" className="text-[10px] py-0 h-5">
-                Eclipse
-              </Badge>
-            )}
-          </div>
+      )}
+      <div
+        className={`font-semibold ${isHighRelevance && variant !== 'minimal' ? 'text-xl font-serif tracking-tight text-amber-900 dark:text-amber-100 leading-tight' : ''}`}
+      >
+        {isHighRelevance &&
+        variant !== 'minimal' &&
+        evento.tipo_evento === 'Aspecto' &&
+        evento.planeta1 &&
+        evento.tipo_aspecto ? (
+          <span>
+            {evento.planeta1} {evento.tipo_aspecto} {evento.planeta2}
+          </span>
+        ) : (
+          <span>
+            {evento.tipo_evento} a las {horaFormateada}
+          </span>
         )}
+      </div>
 
-        <div>{evento.descripcion}</div>
+      {isHighRelevance && variant !== 'minimal' && (
+        <div className="text-sm text-amber-900/60 dark:text-amber-100/60 mb-2 font-medium">
+          A las {horaFormateada}
+        </div>
+      )}
 
-        {/* Story Button */}
-        {cycleData && cycleData.active_cycles.length > 0 && (
-          <Button
-            variant="secondary"
-            size="sm"
-            className="w-full mt-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
-            onClick={() => setIsStoryOpen(true)}
+      {/* Cycle Badges */}
+      {cycleData && cycleData.active_cycles.length > 0 && (
+        <div className="flex flex-wrap gap-1 mt-1 mb-2">
+          <Badge
+            variant="outline"
+            className="text-[10px] py-0 h-5 border-primary/50 text-primary bg-primary/5"
           >
-            <BookOpen className="w-4 h-4 mr-2" />
-            Ver Historia del Ciclo
-          </Button>
-        )}
+            {cycleData.active_cycles[0].metonic_index === 1
+              ? 'Ciclo Inicial'
+              : `${cycleData.active_cycles[0].metonic_index - 1}º Retorno`}
+          </Badge>
+          {isEclipse && (
+            <Badge variant="destructive" className="text-[10px] py-0 h-5">
+              Eclipse
+            </Badge>
+          )}
+        </div>
+      )}
 
-        {/* Información adicional para aspectos */}
-        {evento.tipo_evento === 'Aspecto' && evento.planeta1 && evento.posicion1 && (
-          <>
+      {/* High Relevance Preview */}
+      {isHighRelevance && interpretacion && !isExpanded && variant !== 'minimal' && (
+        <div className="text-sm text-foreground/80 italic border-l-2 border-amber-300 pl-2 my-2 line-clamp-3">
+          "{interpretacion.substring(0, 150)}..."
+        </div>
+      )}
+
+      <div>{evento.descripcion}</div>
+
+      {/* Story Button */}
+      {cycleData && cycleData.active_cycles.length > 0 && (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="w-full mt-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
+          onClick={() => setIsStoryOpen(true)}
+        >
+          <BookOpen className="w-4 h-4 mr-2" />
+          Ver Historia del Ciclo
+        </Button>
+      )}
+
+      {/* Información adicional para aspectos */}
+      {evento.tipo_evento === 'Aspecto' && evento.planeta1 && evento.posicion1 && (
+        <>
+          <div className="text-sm">
+            {evento.planeta1}: {evento.posicion1}
+          </div>
+          {evento.planeta2 && evento.posicion2 && (
             <div className="text-sm">
-              {evento.planeta1}: {evento.posicion1}
+              {evento.planeta2}: {evento.posicion2}
             </div>
-            {evento.planeta2 && evento.posicion2 && (
-              <div className="text-sm">
-                {evento.planeta2}: {evento.posicion2}
-              </div>
-            )}
+          )}
+        </>
+      )}
+
+      <Button
+        variant={isHighRelevance && variant !== 'minimal' ? 'default' : 'outline'}
+        size="sm"
+        className={`w-full mt-2 ${isHighRelevance && variant !== 'minimal' ? 'bg-amber-100 text-amber-900 hover:bg-amber-200 border-amber-200' : ''}`}
+        onClick={() => {
+          if (!isExpanded && !interpretacion) {
+            obtenerInterpretacion();
+          }
+          setIsExpanded(!isExpanded);
+        }}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            Cargando...
+          </>
+        ) : isExpanded ? (
+          <>
+            <ChevronUp className="h-4 w-4 mr-2" />
+            Ocultar interpretación
+          </>
+        ) : (
+          <>
+            <ChevronDown className="h-4 w-4 mr-2" />
+            {isHighRelevance && variant !== 'minimal'
+              ? 'Leer interpretación completa'
+              : 'Ver interpretación'}
           </>
         )}
+      </Button>
 
-        {/* Botón para mostrar/ocultar interpretación */}
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full mt-2"
-          onClick={() => {
-            if (!isExpanded) {
-              obtenerInterpretacion();
-            }
-            setIsExpanded(!isExpanded);
-          }}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              Cargando...
-            </>
-          ) : isExpanded ? (
-            <>
-              <ChevronUp className="h-4 w-4 mr-2" />
-              Ocultar interpretación
-            </>
+      {/* Interpretación expandida */}
+      {isExpanded && (
+        <div className="mt-3 pt-3 border-t">
+          {error ? (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          ) : interpretacion ? (
+            <ScrollArea className="h-32 w-full rounded-md border p-2">
+              <p className="text-sm text-muted-foreground">{interpretacion}</p>
+            </ScrollArea>
           ) : (
-            <>
-              <ChevronDown className="h-4 w-4 mr-2" />
-              Ver interpretación
-            </>
+            <p className="text-sm text-muted-foreground">Cargando interpretación...</p>
           )}
-        </Button>
+        </div>
+      )}
+    </div>
+  );
 
-        {/* Interpretación expandida */}
-        {isExpanded && (
-          <div className="mt-3 pt-3 border-t">
-            {error ? (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            ) : interpretacion ? (
-              <ScrollArea className="h-32 w-full rounded-md border p-2">
-                <p className="text-sm text-muted-foreground">{interpretacion}</p>
-              </ScrollArea>
-            ) : (
-              <p className="text-sm text-muted-foreground">Cargando interpretación...</p>
-            )}
-          </div>
+  if (variant === 'minimal') {
+    return (
+      <div className={`w-full ${className}`}>
+        {content}
+        {cycleData && cycleData.active_cycles.length > 0 && (
+          <StoryModal
+            isOpen={isStoryOpen}
+            onClose={() => setIsStoryOpen(false)}
+            family={cycleData.active_cycles[0]}
+          />
         )}
-      </CardContent>
+      </div>
+    );
+  }
+
+  return (
+    <Card
+      className={cn(
+        'w-full sm:w-72 flex-shrink-0 h-auto transition-all duration-300',
+        isHighRelevance
+          ? 'border-amber-400/50 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/10 shadow-md transform hover:scale-[1.01]'
+          : 'bg-card',
+        className
+      )}
+    >
+      {content}
 
       {cycleData && cycleData.active_cycles.length > 0 && (
         <StoryModal
