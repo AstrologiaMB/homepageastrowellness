@@ -29,6 +29,18 @@ jobs:
           flyctl scale count 0 --yes || true
           flyctl deploy --remote-only --ha=false
 
+      - name: Health check
+        run: |
+          echo "Waiting for app to be ready..."
+          sleep 30
+          APP_URL=$(flyctl info --json | jq -r '.Hostname')
+          echo "Checking health at: https://${APP_URL}"
+          curl -f -s -o /dev/null -w "%{http_code}" "https://${APP_URL}" | grep -q "200\|302\|301" || {
+            echo "Health check failed"
+            exit 1
+          }
+          echo "Health check passed"
+
   review_app:
     name: Deploy review app
     runs-on: ubuntu-latest
@@ -62,3 +74,66 @@ jobs:
         uses: superfly/fly-pr-review-apps@1.2.1
         with:
           name: ${{ steps.app-name.outputs.app_name }}
+          env: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            OPENCAGE_API_KEY=${{ secrets.OPENCAGE_API_KEY }}
+            NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
+            AWS_REGION=${{ secrets.AWS_REGION }}
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            FROM_EMAIL=${{ secrets.FROM_EMAIL }}
+            NEXT_PUBLIC_CALCULOS_API_URL=${{ secrets.NEXT_PUBLIC_CALCULOS_API_URL }}
+            NEXT_PUBLIC_INTERPRETACIONES_API_URL=${{ secrets.NEXT_PUBLIC_INTERPRETACIONES_API_URL }}
+            NEXT_PUBLIC_CALENDARIO_API_URL=${{ secrets.NEXT_PUBLIC_CALENDARIO_API_URL }}
+            NEXT_PUBLIC_ASTROGEMATRIA_API_URL=${{ secrets.NEXT_PUBLIC_ASTROGEMATRIA_API_URL }}
+            NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=${{ secrets.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL }}
+
+      - name: Health check review app
+        run: |
+          echo "Waiting for review app to be ready..."
+          sleep 30
+          APP_NAME="${{ steps.app-name.outputs.app_name }}.fly.dev"
+          echo "Checking health at: https://${APP_NAME}"
+          for i in {1..6}; do
+            if curl -f -s -o /dev/null -w "%{http_code}" "https://${APP_NAME}" | grep -q "200\|302\|301"; then
+              echo "Health check passed"
+              exit 0
+            fi
+            echo "Attempt ${i}/6 failed, retrying in 10 seconds..."
+            sleep 10
+          done
+          echo "Health check failed after 6 attempts"
+          exit 1
+
+  cleanup_review_app:
+    name: Cleanup review app
+    runs-on: ubuntu-latest
+    # Only run when PR is closed (merged or closed without merge)
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set app name for cleanup
+        id: app-name
+        run: |
+          ACTOR_LOWER=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')
+          APP_NAME="pr-${{ github.event.number }}-${ACTOR_LOWER}-${REPO_NAME}"
+          echo "app_name=${APP_NAME}" >> $GITHUB_OUTPUT
+          echo "Cleaning up app: ${APP_NAME}"
+
+      - name: Delete review app
+        run: |
+          APP_NAME="${{ steps.app-name.outputs.app_name }}"
+          if flyctl apps list | grep -q "^${APP_NAME}"; then
+            echo "Deleting app: ${APP_NAME}"
+            flyctl apps delete -y "${APP_NAME}"
+          else
+            echo "App ${APP_NAME} not found, skipping deletion"
+          fi
