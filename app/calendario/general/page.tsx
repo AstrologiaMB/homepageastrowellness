@@ -21,7 +21,7 @@ export default function CalendarioGeneralPage() {
               <Globe className="w-6 h-6 text-primary" strokeWidth={1.5} />
             </div>
             <div className="space-y-1">
-              <h1 className="text-2xl md:text-3xl font-light tracking-tight gradient-primary">
+              <h1 className="text-2xl md:text-3xl font-light tracking-tight gradient-primary mt-20">
                 Calendario General
               </h1>
               <p className="text-muted-foreground">
