@@ -8,7 +8,7 @@ import { Globe } from "lucide-react";
 export default function CalendarioGeneralPage() {
   return (
     <ProtectedPage>
-      <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
+      <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden mt-4">
         {/* Navigation */}
         <div className="mb-6">
           <AstroBackButtonInline href="/calendario" />
