@@ -9,6 +9,7 @@ interface DraconicEvent {
   icono: string;
   orbe?: string;
   relevancia: 'alta' | 'media' | 'baja';
+  _houseNum?: number;
 }
 
 interface DraconicEventCardProps {

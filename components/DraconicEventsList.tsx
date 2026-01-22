@@ -82,9 +82,18 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             🏠 Cúspides Cruzadas ({cuspidesCruzadas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            {cuspidesCruzadas.map((event) => (
-              <DraconicEventCard key={event.id} event={event} />
-            ))}
+            {cuspidesCruzadas
+              .sort((a, b) => {
+                // Extraer número de casa del título "Casa X Dracónica..."
+                const getHouse = (t: string) => {
+                  const m = t.match(/Casa\s+(\d+)/i);
+                  return m ? parseInt(m[1]) : 999;
+                };
+                return getHouse(a.titulo) - getHouse(b.titulo);
+              })
+              .map((event) => (
+                <DraconicEventCard key={event.id} event={event} />
+              ))}
           </div>
         </div>
       )}
