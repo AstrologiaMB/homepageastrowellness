@@ -33,13 +33,23 @@ jobs:
         run: |
           echo "Waiting for app to be ready..."
           sleep 30
-          APP_URL=$(flyctl info --json | jq -r '.Hostname')
-          echo "Checking health at: https://${APP_URL}"
-          curl -f -s -o /dev/null -w "%{http_code}" "https://${APP_URL}" | grep -q "200\|302\|301" || {
-            echo "Health check failed"
+          APP_URL=$(flyctl info | grep "Hostname" | awk '{print $2}')
+          if [ -z "$APP_URL" ]; then
+            echo "Could not get app URL"
             exit 1
-          }
-          echo "Health check passed"
+          fi
+          echo "Checking health at: https://${APP_URL}"
+          for i in {1..6}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://${APP_URL}")
+            if echo "$STATUS" | grep -q "200\|302\|301"; then
+              echo "Health check passed (HTTP $STATUS)"
+              exit 0
+            fi
+            echo "Attempt ${i}/6: HTTP $STATUS, retrying in 10s..."
+            sleep 10
+          done
+          echo "Health check failed after 6 attempts"
+          exit 1
 
   review_app:
     name: Deploy review app
@@ -74,7 +84,7 @@ jobs:
         uses: superfly/fly-pr-review-apps@1.2.1
         with:
           name: ${{ steps.app-name.outputs.app_name }}
-          env: |
+          secrets: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
@@ -101,11 +111,12 @@ jobs:
           APP_NAME="${{ steps.app-name.outputs.app_name }}.fly.dev"
           echo "Checking health at: https://${APP_NAME}"
           for i in {1..6}; do
-            if curl -f -s -o /dev/null -w "%{http_code}" "https://${APP_NAME}" | grep -q "200\|302\|301"; then
-              echo "Health check passed"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://${APP_NAME}")
+            if echo "$STATUS" | grep -q "200\|302\|301"; then
+              echo "Health check passed (HTTP $STATUS)"
               exit 0
             fi
-            echo "Attempt ${i}/6 failed, retrying in 10 seconds..."
+            echo "Attempt ${i}/6: HTTP $STATUS, retrying in 10s..."
             sleep 10
           done
           echo "Health check failed after 6 attempts"
