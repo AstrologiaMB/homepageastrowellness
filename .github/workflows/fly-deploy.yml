@@ -57,6 +57,9 @@ jobs:
           echo "app_name=${APP_NAME}" >> $GITHUB_OUTPUT
           echo "Generated app name: ${APP_NAME}"
 
+      - name: Use review app config
+        run: cp fly.review.toml fly.toml
+
       - name: Deploy PR app to Fly.io
         id: deploy
         uses: superfly/fly-pr-review-apps@1.2.1
