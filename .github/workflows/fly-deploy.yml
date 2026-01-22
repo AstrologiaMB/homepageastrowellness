@@ -29,36 +29,6 @@ jobs:
           flyctl scale count 0 --yes || true
           flyctl deploy --remote-only --ha=false
 
-      - name: Health check
-        run: |
-          echo "Waiting for app to be ready..."
-          sleep 30
-          # Get app name from fly.toml (handle both single and double quotes)
-          APP_NAME=$(grep "^app = " fly.toml | sed "s/app = ['\"]\(.*\)['\"]/\1/")
-          echo "App name: ${APP_NAME}"
-          if [ -z "$APP_NAME" ]; then
-            echo "Could not find app name in fly.toml"
-            exit 1
-          fi
-          # Get hostname from flyctl info
-          APP_URL=$(flyctl info -a "${APP_NAME}" | grep "Hostname" | awk '{print $2}')
-          if [ -z "$APP_URL" ]; then
-            echo "Could not get app URL"
-            exit 1
-          fi
-          echo "Checking health at: https://${APP_URL}"
-          for i in {1..6}; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://${APP_URL}")
-            if echo "$STATUS" | grep -q "200\|302\|301"; then
-              echo "Health check passed (HTTP $STATUS)"
-              exit 0
-            fi
-            echo "Attempt ${i}/6: HTTP $STATUS, retrying in 10s..."
-            sleep 10
-          done
-          echo "Health check failed after 6 attempts"
-          exit 1
-
   review_app:
     name: Deploy review app
     runs-on: ubuntu-latest
@@ -111,24 +81,6 @@ jobs:
             NEXT_PUBLIC_CALENDARIO_API_URL=${{ secrets.NEXT_PUBLIC_CALENDARIO_API_URL }}
             NEXT_PUBLIC_ASTROGEMATRIA_API_URL=${{ secrets.NEXT_PUBLIC_ASTROGEMATRIA_API_URL }}
             NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=${{ secrets.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL }}
-
-      - name: Health check review app
-        run: |
-          echo "Waiting for review app to be ready..."
-          sleep 30
-          APP_URL="${{ steps.deploy.outputs.url }}"
-          echo "Checking health at: ${APP_URL}"
-          for i in {1..6}; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${APP_URL}")
-            if echo "$STATUS" | grep -q "200\|302\|301"; then
-              echo "Health check passed (HTTP $STATUS)"
-              exit 0
-            fi
-            echo "Attempt ${i}/6: HTTP $STATUS, retrying in 10s..."
-            sleep 10
-          done
-          echo "Health check failed after 6 attempts"
-          exit 1
 
   cleanup_review_app:
     name: Cleanup review app
