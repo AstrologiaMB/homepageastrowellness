@@ -10,9 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { Label } from '@/components/ui/label'
-import { Search, User as UserIcon, Star, Calendar, Mail, Shield, Trash2, Download } from 'lucide-react'
+import { Search, User as UserIcon, Star, Calendar, Mail, Shield, Trash2, Download, Filter, Eraser } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useToast } from "@/hooks/use-toast"
 
 interface User {
   id: string
@@ -36,6 +37,7 @@ interface User {
 export default function AdminUsersPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { toast } = useToast()
   const [users, setUsers] = useState<User[]>([])
 
   // Growth / Marketing CSV Export
@@ -82,6 +84,7 @@ export default function AdminUsersPage() {
   };
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [updating, setUpdating] = useState(false)
@@ -93,6 +96,7 @@ export default function AdminUsersPage() {
 
   // Maintenance actions state
   const [clearingCache, setClearingCache] = useState(false)
+  const [clearingCalendarCache, setClearingCalendarCache] = useState(false)
   const [resettingPassword, setResettingPassword] = useState(false)
   const [tempPassword, setTempPassword] = useState<string | null>(null)
   const [verifyingEmail, setVerifyingEmail] = useState(false)
@@ -168,14 +172,26 @@ export default function AdminUsersPage() {
         await fetchUsers() // Recargar la lista
         setIsDialogOpen(false)
         setSelectedUser(null)
-        alert("Contador reiniciado exitosamente.")
+        toast({
+          title: "Contador reiniciado",
+          description: "El contador de cambios de nacimiento ha sido reiniciado a 0.",
+          variant: "default",
+        })
       } else {
         const data = await response.json()
-        alert(data.error || "Error al reiniciar contador.")
+        toast({
+          title: "Error",
+          description: data.error || "Error al reiniciar contador.",
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error resetting counter:', error)
-      alert("Error al reiniciar contador.")
+      toast({
+        title: "Error",
+        description: "Error de conexión al reiniciar contador.",
+        variant: "destructive",
+      })
     } finally {
       setUpdating(false)
     }
@@ -198,13 +214,26 @@ export default function AdminUsersPage() {
         setUserToDelete(null)
         setIsDialogOpen(false)
         setSelectedUser(null)
+        toast({
+          title: "Usuario eliminado",
+          description: "El usuario y todos sus datos han sido eliminados permanentemente.",
+          variant: "default",
+        })
       } else {
         const data = await response.json()
-        alert(data.error || 'Error al eliminar usuario')
+        toast({
+          title: "Error",
+          description: data.error || 'Error al eliminar usuario',
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error deleting user:', error)
-      alert('Error al eliminar usuario')
+      toast({
+        title: "Error",
+        description: 'Error de conexión al eliminar usuario',
+        variant: "destructive",
+      })
     } finally {
       setDeleting(false)
     }
@@ -221,18 +250,68 @@ export default function AdminUsersPage() {
 
       if (response.ok) {
         const data = await response.json()
-        alert(`✅ Éxito: ${data.message} (${data.deletedCount || 0} registros)`)
+        toast({
+          title: "Caché de interpretaciones limpiada",
+          description: `${data.message} (${data.deletedCount || 0} registros)`,
+          variant: "default",
+        })
         setIsDialogOpen(false)
         setSelectedUser(null)
       } else {
         const data = await response.json()
-        alert(`❌ Error: ${data.error || 'Error al limpiar caché'}`)
+        toast({
+          title: "Error",
+          description: data.error || 'Error al limpiar caché',
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error clearing cache:', error)
-      alert('❌ Error de conexión al intentar limpiar la caché.')
+      toast({
+        title: "Error",
+        description: 'Error de conexión al intentar limpiar la caché.',
+        variant: "destructive",
+      })
     } finally {
       setClearingCache(false)
+    }
+  }
+
+  const clearUserCalendarCache = async (userId: string) => {
+    if (!confirm("⚠️ ATENCIÓN: Esto eliminará el calendario personal calculado. Se volverá a calcular la próxima vez que el usuario entre. ¿Estás seguro?")) return;
+
+    setClearingCalendarCache(true)
+    try {
+      const response = await fetch(`/api/admin/users/${userId}/calendar-cache`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        toast({
+          title: "Caché de calendario eliminada",
+          description: `${data.message} (${data.deletedCount || 0} registros)`,
+          variant: "default",
+        })
+        setIsDialogOpen(false)
+        setSelectedUser(null)
+      } else {
+        const data = await response.json()
+        toast({
+          title: "Error",
+          description: data.error || 'Error al limpiar caché de calendario',
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error('Error clearing calendar cache:', error)
+      toast({
+        title: "Error",
+        description: 'Error de conexión al intentar limpiar la caché de calendario.',
+        variant: "destructive",
+      })
+    } finally {
+      setClearingCalendarCache(false)
     }
   }
 
@@ -249,14 +328,27 @@ export default function AdminUsersPage() {
       if (response.ok) {
         const data = await response.json()
         setTempPassword(data.tempPassword)
+        toast({
+          title: "Contraseña generada",
+          description: "Copia la nueva contraseña temporal.",
+          variant: "default",
+        })
         // No cerramos el dialog para que pueda ver la password
       } else {
         const data = await response.json()
-        alert(`❌ Error: ${data.error || 'Error al restablecer contraseña'}`)
+        toast({
+          title: "Error",
+          description: data.error || 'Error al restablecer contraseña',
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error resetting password:', error)
-      alert('❌ Error de conexión.')
+      toast({
+        title: "Error",
+        description: 'Error de conexión.',
+        variant: "destructive",
+      })
     } finally {
       setResettingPassword(false)
     }
@@ -273,7 +365,11 @@ export default function AdminUsersPage() {
 
       if (response.ok) {
         await fetchUsers() // Recargar para ver el cambio en la lista si lo hubiera
-        alert("✅ Usuario marcado como verificado.")
+        toast({
+          title: "Email verificado",
+          description: "El usuario ha sido marcado como verificado.",
+          variant: "default",
+        })
         // Actualizamos el usuario seleccionado localmente para que se refleje en el dialog
         if (selectedUser) {
           // Create a new object to avoid type errors
@@ -285,20 +381,37 @@ export default function AdminUsersPage() {
         }
       } else {
         const data = await response.json()
-        alert(`❌ Error: ${data.error || 'Error al verificar email'}`)
+        toast({
+          title: "Error",
+          description: data.error || 'Error al verificar email',
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error verifying email:', error)
-      alert('❌ Error de conexión.')
+      toast({
+        title: "Error",
+        description: 'Error de conexión.',
+        variant: "destructive",
+      })
     } finally {
       setVerifyingEmail(false)
     }
   }
 
-  const filteredUsers = users.filter(user =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  )
+  const filteredUsers = users.filter(user => {
+    // 1. Filter by term
+    const matchesTerm = user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // 2. Filter by status
+    let matchesStatus = true;
+    if (statusFilter !== 'all') {
+      matchesStatus = user.subscriptionStatus === statusFilter;
+    }
+
+    return matchesTerm && matchesStatus;
+  })
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -402,9 +515,9 @@ export default function AdminUsersPage() {
         </Card>
       </div>
 
-      {/* Búsqueda */}
-      <div className="mb-6">
-        <div className="relative">
+      {/* Búsqueda y Filtros */}
+      <div className="mb-6 flex flex-col md:flex-row gap-4">
+        <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Buscar por email o nombre..."
@@ -412,6 +525,21 @@ export default function AdminUsersPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
           />
+        </div>
+        <div className="w-full md:w-[200px]">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger>
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <SelectValue placeholder="Estado" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="premium">Premium</SelectItem>
+              <SelectItem value="free">Gratuito</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -612,6 +740,25 @@ export default function AdminUsersPage() {
                       {clearingCache ? 'Limpiando...' : '🧹 Limpiar Caché'}
                     </Button>
                   </div>
+
+                  {/* Clear Calendar Cache (NEW) */}
+                  <div className="flex items-center justify-between p-3 border border-amber-200 rounded-md bg-amber-50">
+                    <div className="space-y-1">
+                      <span className="font-medium text-sm text-amber-900 block">Limpiar Caché de Calendario</span>
+                      <span className="text-xs text-amber-700 block max-w-[200px]">
+                        Elimina el calendario personal generado. Obliga a recalcular.
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-amber-500 text-amber-700 hover:bg-amber-100"
+                      onClick={() => clearUserCalendarCache(selectedUser.id)}
+                      disabled={clearingCalendarCache || updating}
+                    >
+                      {clearingCalendarCache ? 'Limpiando...' : '🗓️ Limpiar Calendario'}
+                    </Button>
+                  </div>
                 </div>
               </div>
 
@@ -634,7 +781,10 @@ export default function AdminUsersPage() {
                       className="bg-green-600 hover:bg-green-700"
                       onClick={() => {
                         navigator.clipboard.writeText(tempPassword);
-                        alert("Contraseña copiada al portapapeles");
+                        toast({
+                          title: "Copiado",
+                          description: "Contraseña copiada al portapapeles",
+                        })
                       }}
                     >
                       Copiar
