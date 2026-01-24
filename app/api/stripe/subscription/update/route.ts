@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth-options';
 import { stripe, STRIPE_PRICES } from '@/lib/stripe';
 import { syncSubscription } from '@/lib/stripe-sync';
 import prisma from '@/lib/prisma';
