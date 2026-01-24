@@ -6,7 +6,7 @@ import { setLunarCache } from '@/lib/lunar-cache';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
 
-const MICROSERVICE_URL = getApiUrl('CALENDARIO');
+// MICROSERVICE_URL is now retrieved lazily inside the handler to avoid build-time errors
 const TIMEOUT_MS = 90000; // 90 segundos
 
 interface NatalData {
@@ -37,15 +37,15 @@ interface NatalData {
 }
 
 export async function POST(request: NextRequest) {
+  // Retrieve configuration lazily inside handler
+  const MICROSERVICE_URL = getApiUrl('CALENDARIO');
+
   try {
     // Obtener sesión del usuario
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'No autenticado' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }
 
     // Obtener datos de la solicitud
@@ -54,29 +54,25 @@ export async function POST(request: NextRequest) {
     const forceRecalculate = body.forceRecalculate === true;
 
     if (!natalData || !natalData.year) {
-      return NextResponse.json(
-        { error: 'Datos natales inválidos' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Datos natales inválidos' }, { status: 400 });
     }
 
     // Obtener userId desde la base de datos usando el email
     const user = await prisma.user.findUnique({
       where: { email: session.user.email! },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
     }
 
     const userId = user.id;
     const year = natalData.year;
 
-    console.log(`📅 Solicitud de calendario personal: usuario ${userId}, año ${year}, forceRecalculate: ${forceRecalculate}`);
+    console.log(
+      `📅 Solicitud de calendario personal: usuario ${userId}, año ${year}, forceRecalculate: ${forceRecalculate}`
+    );
 
     // Intentar obtener del cache (si no es recalculación forzada)
     if (!forceRecalculate) {
@@ -88,9 +84,14 @@ export async function POST(request: NextRequest) {
           events: cachedData.events,
           calculation_time: 0,
           total_events: cachedData.events.length,
-          transits_count: cachedData.events.filter((e: any) => e.tipo_evento?.includes('Tránsito')).length,
-          progressed_moon_count: cachedData.events.filter((e: any) => e.tipo_evento === 'Luna Progresada').length,
-          profections_count: cachedData.events.filter((e: any) => e.tipo_evento === 'Profección Anual').length,
+          transits_count: cachedData.events.filter((e: any) => e.tipo_evento?.includes('Tránsito'))
+            .length,
+          progressed_moon_count: cachedData.events.filter(
+            (e: any) => e.tipo_evento === 'Luna Progresada'
+          ).length,
+          profections_count: cachedData.events.filter(
+            (e: any) => e.tipo_evento === 'Profección Anual'
+          ).length,
           from_cache: true,
           calculated_at: cachedData.calculatedAt,
           expires_at: cachedData.expiresAt,
@@ -125,10 +126,7 @@ export async function POST(request: NextRequest) {
 
     // Validar respuesta
     if (!data.events || !Array.isArray(data.events)) {
-      return NextResponse.json(
-        { error: 'Respuesta inválida del microservicio' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Respuesta inválida del microservicio' }, { status: 500 });
     }
 
     // Guardar en cache
@@ -141,7 +139,14 @@ export async function POST(request: NextRequest) {
     // Guardar en cache lunar (Fases y sus aspectos)
     try {
       const lunarEvents = data.events.filter((e: any) => {
-        const isPhaseType = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento);
+        const isPhaseType = [
+          'Luna Nueva',
+          'Luna Llena',
+          'Cuarto Creciente',
+          'Cuarto Menguante',
+          'Eclipse Solar',
+          'Eclipse Lunar',
+        ].includes(e.tipo_evento);
         const isPhaseAspect = e.metadata && e.metadata.phase_type; // Aspectos generados por el filtro de fases
         return isPhaseType || isPhaseAspect;
       });
@@ -166,7 +171,6 @@ export async function POST(request: NextRequest) {
       profections_count: data.profections_count || 0,
       from_cache: false,
     });
-
   } catch (error) {
     console.error('Error en API de calendario personal:', error);
 
@@ -178,21 +182,16 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(
-      { error: 'Error desconocido' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Error desconocido' }, { status: 500 });
   }
 }
 
 // Endpoint para verificar salud del microservicio
 export async function GET() {
+  const MICROSERVICE_URL = getApiUrl('CALENDARIO');
   try {
     const response = await fetch(`${MICROSERVICE_URL}/health`, {
       method: 'GET',
