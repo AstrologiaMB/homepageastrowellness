@@ -18,18 +18,13 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "@types/react", "@types/node"],
+    "types": ["node", "@types/react", "@types/node", "google.maps"],
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
