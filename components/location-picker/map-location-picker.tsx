@@ -1,324 +1,304 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { useToast } from "@/hooks/use-toast"
-import { useJsApiLoader } from "@react-google-maps/api"
-import { AdvancedMarker, APIProvider, Map, Pin, type MapEvent } from "@vis.gl/react-google-maps"
-import { Check, Loader2, MapPin, Search, X } from "lucide-react"
-import { useCallback, useRef, useState } from "react"
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useToast } from '@/hooks/use-toast';
+import {
+  AdvancedMarker,
+  APIProvider,
+  Map,
+  Pin,
+  useApiIsLoaded,
+  useMapsLibrary,
+} from '@vis.gl/react-google-maps';
+import { Check, Loader2, MapPin, Search, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Position for default map view (centered on South America)
-const DEFAULT_CENTER = { lat: -15, lng: -60 }
-const DEFAULT_ZOOM = 3
+const DEFAULT_CENTER = { lat: -15, lng: -60 };
+const DEFAULT_ZOOM = 3;
 
 export interface LocationData {
-  lat: number
-  lng: number
-  address: string
-  timezone: string
+  lat: number;
+  lng: number;
+  address: string;
+  timezone: string;
 }
 
 export interface MapLocationPickerProps {
-  apiKey: string
-  initialQuery?: string
-  locationType: "birth" | "residence"
-  onLocationSelect: (location: LocationData) => void
-  onCancel: () => void
-  isOpen: boolean
+  apiKey: string;
+  initialQuery?: string;
+  locationType: 'birth' | 'residence';
+  onLocationSelect: (location: LocationData) => void;
+  onCancel: () => void;
+  isOpen: boolean;
 }
 
-const libraries: ("places" | "geometry")[] = ["places"]
-
-export function MapLocationPicker({
-  apiKey,
-  initialQuery = "",
+// Inner component that uses the Maps API hooks
+function MapPickerContent({
+  initialQuery = '',
   locationType,
   onLocationSelect,
   onCancel,
-  isOpen,
-}: MapLocationPickerProps) {
-  const isMobile = useIsMobile()
-  const { toast } = useToast()
-  const [searchQuery, setSearchQuery] = useState(initialQuery)
-  const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([])
-  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null)
-  const [selectedAddress, setSelectedAddress] = useState<string>("")
-  const [timezone, setTimezone] = useState<string | null>(null)
-  const [isFetchingTimezone, setIsFetchingTimezone] = useState(false)
-  const [isLoadingPlace, setIsLoadingPlace] = useState(false)
-  const mapRef = useRef<google.maps.Map | null>(null)
+  isMobile,
+}: Omit<MapLocationPickerProps, 'apiKey' | 'isOpen'> & { isMobile: boolean }) {
+  const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
+  const [selectedAddress, setSelectedAddress] = useState<string>('');
+  const [timezone, setTimezone] = useState<string | null>(null);
+  const [isFetchingTimezone, setIsFetchingTimezone] = useState(false);
+  const [isLoadingPlace, setIsLoadingPlace] = useState(false);
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const clickListenerRef = useRef<google.maps.MapsEventListener | null>(null);
 
-  const { isLoaded: isMapsLoaded, loadError } = useJsApiLoader({
-    id: "google-maps-location-picker",
-    googleMapsApiKey: apiKey,
-    libraries,
-  })
+  // Load places library using @vis.gl hook
+  const placesLib = useMapsLibrary('places');
+  const isApiLoaded = useApiIsLoaded();
+
+  // Cleanup click listener on unmount
+  useEffect(() => {
+    return () => {
+      if (clickListenerRef.current) {
+        google.maps.event.removeListener(clickListenerRef.current);
+        clickListenerRef.current = null;
+      }
+    };
+  }, []);
 
   // Fetch timezone for a location
-  const fetchTimezone = useCallback(
-    async (lat: number, lng: number): Promise<string | null> => {
-      setIsFetchingTimezone(true)
-      try {
-        const timestamp = Math.floor(Date.now() / 1000)
-        const response = await fetch(
-          `/api/google-maps/timezone?lat=${lat}&lng=${lng}&timestamp=${timestamp}`
-        )
+  const fetchTimezone = useCallback(async (lat: number, lng: number): Promise<string | null> => {
+    setIsFetchingTimezone(true);
+    try {
+      const timestamp = Math.floor(Date.now() / 1000);
+      const response = await fetch(
+        `/api/google-maps/timezone?lat=${lat}&lng=${lng}&timestamp=${timestamp}`
+      );
 
-        if (!response.ok) {
-          console.warn("Failed to fetch timezone, using default")
-          return null
-        }
-
-        const data = await response.json()
-        return data.timeZoneId || null
-      } catch (error) {
-        console.error("Error fetching timezone:", error)
-        return null
-      } finally {
-        setIsFetchingTimezone(false)
+      if (!response.ok) {
+        console.warn('Failed to fetch timezone, using default');
+        return null;
       }
+
+      const data = await response.json();
+      return data.timeZoneId || null;
+    } catch (error) {
+      console.error('Error fetching timezone:', error);
+      return null;
+    } finally {
+      setIsFetchingTimezone(false);
+    }
+  }, []);
+
+  // Handle map click
+  const handleMapClick = useCallback(
+    (lat: number, lng: number, map: google.maps.Map) => {
+      setSelectedLocation({ lat, lng });
+      map.setCenter({ lat, lng });
+      map.setZoom(12);
+
+      // Reverse geocode to get address
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        { location: { lat, lng } },
+        (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
+          if (status === 'OK' && results?.[0]) {
+            const address = results[0].formatted_address;
+            setSelectedAddress(address);
+            setSearchQuery(address);
+
+            // Fetch timezone
+            fetchTimezone(lat, lng).then((tz) => {
+              setTimezone(tz);
+            });
+          }
+        }
+      );
     },
-    []
-  )
+    [fetchTimezone]
+  );
 
   // Handle map ready - capture map instance when map is idle
-  const handleMapIdle = useCallback((event: MapEvent) => {
-    const map = event.map as google.maps.Map
-    mapRef.current = map
+  const handleMapIdle = useCallback(
+    (event: { map: google.maps.Map }) => {
+      const map = event.map;
+      mapRef.current = map;
 
-    // Attach native click listener only once
-    if (!map) return
+      if (!map) return;
 
-    // Remove any existing listener to avoid duplicates
-    if ((map as any)._clickListener) {
-      google.maps.event.removeListener((map as any)._clickListener)
-    }
-
-    const clickListener = map.addListener(
-      "click",
-      (e: google.maps.MapMouseEvent) => {
-        if (!e.latLng) return
-
-        const lat = e.latLng.lat()
-        const lng = e.latLng.lng()
-
-        setSelectedLocation({ lat, lng })
-        // Use map instance methods instead of React state to avoid drag conflicts
-        map.setCenter({ lat, lng })
-        map.setZoom(12)
-
-        // Reverse geocode to get address
-        const geocoder = new google.maps.Geocoder()
-        geocoder.geocode(
-          { location: { lat, lng } },
-          (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
-            if (status === "OK" && results?.[0]) {
-              const address = results[0].formatted_address
-              setSelectedAddress(address)
-              setSearchQuery(address)
-
-              // Fetch timezone
-              fetchTimezone(lat, lng).then((tz) => {
-                setTimezone(tz)
-              })
-            }
-          }
-        )
+      // Remove any existing listener to avoid duplicates
+      if (clickListenerRef.current) {
+        google.maps.event.removeListener(clickListenerRef.current);
       }
-    )
 
-    // Store listener reference for cleanup
-    ;(map as any)._clickListener = clickListener
-  }, [fetchTimezone])
+      const clickListener = map.addListener('click', (e: google.maps.MapMouseEvent) => {
+        if (!e.latLng) return;
+        handleMapClick(e.latLng.lat(), e.latLng.lng(), map);
+      });
+
+      clickListenerRef.current = clickListener;
+    },
+    [handleMapClick]
+  );
 
   // Handle place prediction
   const handleSearchChange = useCallback(
     async (query: string) => {
-      setSearchQuery(query)
+      setSearchQuery(query);
 
-      if (!query.trim() || !isMapsLoaded) {
-        setPredictions([])
-        return
+      if (!query.trim() || !isApiLoaded || !placesLib) {
+        setPredictions([]);
+        return;
       }
 
       try {
-        const service = new google.maps.places.AutocompleteService()
+        const service = new placesLib.AutocompleteService();
         service.getPlacePredictions(
           {
             input: query,
-            types: ["(cities)"],
+            types: ['(cities)'],
           },
           (predictions, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
-              setPredictions(predictions)
+              setPredictions(predictions);
             } else {
-              setPredictions([])
+              setPredictions([]);
             }
           }
-        )
+        );
       } catch (error) {
-        console.error("Error getting predictions:", error)
-        setPredictions([])
+        console.error('Error getting predictions:', error);
+        setPredictions([]);
       }
     },
-    [isMapsLoaded]
-  )
+    [isApiLoaded, placesLib]
+  );
 
   // Handle place selection from predictions
   const handlePlaceSelect = useCallback(
     async (placeId: string, description: string) => {
-      setIsLoadingPlace(true)
-      setPredictions([])
-      setSearchQuery(description)
+      if (!placesLib) return;
+
+      setIsLoadingPlace(true);
+      setPredictions([]);
+      setSearchQuery(description);
 
       try {
-        const service = new google.maps.places.PlacesService(document.createElement("div"))
+        const service = new placesLib.PlacesService(document.createElement('div'));
         service.getDetails(
           {
             placeId,
-            fields: ["geometry", "formatted_address"],
+            fields: ['geometry', 'formatted_address'],
           },
           (place, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK && place?.geometry?.location) {
-              const lat = place.geometry.location.lat()
-              const lng = place.geometry.location.lng()
-              const address = place.formatted_address || description
+              const lat = place.geometry.location.lat();
+              const lng = place.geometry.location.lng();
+              const address = place.formatted_address || description;
 
-              setSelectedLocation({ lat, lng })
-              setSelectedAddress(address)
+              setSelectedLocation({ lat, lng });
+              setSelectedAddress(address);
 
-              // Use map instance methods instead of React state to avoid drag conflicts
-              const map = mapRef.current
+              // Use map instance methods
+              const map = mapRef.current;
               if (map) {
-                map.setCenter({ lat, lng })
-                map.setZoom(12)
+                map.setCenter({ lat, lng });
+                map.setZoom(12);
               }
 
               // Fetch timezone
               fetchTimezone(lat, lng).then((tz) => {
-                setTimezone(tz)
-              })
+                setTimezone(tz);
+              });
             }
-            setIsLoadingPlace(false)
+            setIsLoadingPlace(false);
           }
-        )
+        );
       } catch (error) {
-        console.error("Error getting place details:", error)
-        setIsLoadingPlace(false)
+        console.error('Error getting place details:', error);
+        setIsLoadingPlace(false);
       }
     },
-    [fetchTimezone]
-  )
+    [fetchTimezone, placesLib]
+  );
 
   // Handle confirm
   const handleConfirm = useCallback(() => {
     if (!selectedLocation || !selectedAddress) {
       const locationLabel =
-        locationType === "birth" ? "ubicación de nacimiento" : "ubicación de residencia"
+        locationType === 'birth' ? 'ubicación de nacimiento' : 'ubicación de residencia';
 
       toast({
-        title: "Ubicación no seleccionada",
-        description: `Por favor, haz clic en "Seleccionar en mapa" para elegir tu ${locationLabel}, o busca una ciudad en el buscador.`,
-        variant: "destructive",
-      })
-      return
+        title: 'Ubicación no seleccionada',
+        description: `Por favor, haz clic en el mapa para elegir tu ${locationLabel}, o busca una ciudad en el buscador.`,
+        variant: 'destructive',
+      });
+      return;
     }
 
     onLocationSelect({
       lat: selectedLocation.lat,
       lng: selectedLocation.lng,
       address: selectedAddress,
-      timezone: timezone || "UTC",
-    })
-  }, [selectedLocation, selectedAddress, timezone, onLocationSelect, locationType, toast])
+      timezone: timezone || 'UTC',
+    });
+  }, [selectedLocation, selectedAddress, timezone, onLocationSelect, locationType, toast]);
+
+  // Handle marker drag end
+  const handleMarkerDragEnd = useCallback(
+    (event: google.maps.MapMouseEvent) => {
+      if (!event.latLng) return;
+
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+
+      setSelectedLocation({ lat, lng });
+
+      // Reverse geocode to get address for new position
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        { location: { lat, lng } },
+        (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
+          if (status === 'OK' && results?.[0]) {
+            const address = results[0].formatted_address;
+            setSelectedAddress(address);
+            setSearchQuery(address);
+
+            // Fetch timezone for new position
+            fetchTimezone(lat, lng).then((tz) => {
+              setTimezone(tz);
+            });
+          }
+        }
+      );
+    },
+    [fetchTimezone]
+  );
 
   // Get dialog title based on location type
   const getDialogTitle = () => {
-    return locationType === "birth"
-      ? "Selecciona tu ubicación de nacimiento"
-      : "Selecciona tu ubicación de residencia"
-  }
+    return locationType === 'birth'
+      ? 'Selecciona tu ubicación de nacimiento'
+      : 'Selecciona tu ubicación de residencia';
+  };
 
-  // Reset state when dialog opens
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        onCancel()
-      }
-    },
-    [onCancel]
-  )
-
-  // Show loading state if maps is loading
-  if (!isMapsLoaded) {
-    const content = (
+  // Show loading state if places library is not loaded
+  if (!isApiLoaded || !placesLib) {
+    return (
       <div className="flex flex-col items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
         <p className="text-muted-foreground">Cargando mapa...</p>
       </div>
-    )
-
-    return (
-      <APIProvider apiKey={apiKey}>
-        {isMobile ? (
-          <Sheet open={isOpen} onOpenChange={handleOpenChange}>
-            <SheetContent side="bottom" className="max-w-3xl">
-              {content}
-            </SheetContent>
-          </Sheet>
-        ) : (
-          <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-w-3xl">{content}</DialogContent>
-          </Dialog>
-        )}
-      </APIProvider>
-    )
+    );
   }
 
-  // Show error if maps failed to load
-  if (loadError) {
-    const errorContent = (
-      <>
-        <DialogHeader>
-          <DialogTitle>Error</DialogTitle>
-        </DialogHeader>
-        <div className="py-8 text-center">
-          <p className="text-destructive mb-4">No se pudo cargar el mapa</p>
-          <p className="text-sm text-muted-foreground">
-            Verifica tu conexión a internet o intenta más tarde.
-          </p>
-        </div>
-        <div className="flex justify-end">
-          <Button variant="outline" onClick={onCancel}>
-            Cerrar
-          </Button>
-        </div>
-      </>
-    )
-
-    return (
-      <APIProvider apiKey={apiKey}>
-        {isMobile ? (
-          <Sheet open={isOpen} onOpenChange={handleOpenChange}>
-            <SheetContent side="bottom" className="max-w-3xl">
-              {errorContent}
-            </SheetContent>
-          </Sheet>
-        ) : (
-          <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-w-3xl">{errorContent}</DialogContent>
-          </Dialog>
-        )}
-      </APIProvider>
-    )
-  }
-
-  // Shared content component for both Dialog and Sheet
-  const mapPickerContent = (
+  return (
     <>
       {isMobile ? (
         <SheetHeader>
@@ -370,21 +350,20 @@ export function MapLocationPicker({
         {selectedAddress && (
           <div className="bg-muted/50 border border-border rounded-lg p-3">
             <p className="text-sm">
-              <strong className="text-foreground">Ubicación seleccionada:</strong>{" "}
-              {selectedAddress}
+              <strong className="text-foreground">Ubicación seleccionada:</strong> {selectedAddress}
             </p>
-            <div className="flex gap-4 text-xs text-muted-foreground mt-1">
+            <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-1">
               {selectedLocation && (
-                <span>Coordenadas: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lng.toFixed(4)}</span>
+                <span>
+                  Coordenadas: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lng.toFixed(4)}
+                </span>
               )}
-              {timezone && (
-                <span>Zona horaria: {timezone}</span>
-              )}
+              {timezone && <span>Zona horaria: {timezone}</span>}
             </div>
           </div>
         )}
 
-        {/* Map - responsive height for mobile */}
+        {/* Map */}
         <div className="relative w-full h-[300px] md:h-[400px] bg-muted rounded-lg overflow-hidden">
           <Map
             defaultZoom={DEFAULT_ZOOM}
@@ -393,17 +372,26 @@ export function MapLocationPicker({
             mapId="astro-location-picker-v2"
             gestureHandling="greedy"
             disableDefaultUI={false}
+            streetViewControl={false}
+            fullscreenControl={false}
+            mapTypeControl={false}
             onIdle={handleMapIdle}
             className="w-full h-full"
           >
             {selectedLocation && (
-              <AdvancedMarker position={selectedLocation}>
-                <Pin
-                  background="#f59e0b"
-                  borderColor="#b45309"
-                  glyphColor="#ffffff"
-                  scale={1.5}
-                />
+              <AdvancedMarker
+                position={selectedLocation}
+                draggable={true}
+                onDragEnd={handleMarkerDragEnd}
+              >
+                <div style={{ pointerEvents: 'none' }}>
+                  <Pin
+                    background="#7669E0"
+                    borderColor="#5B4FCF"
+                    glyphColor="#FFFFFF"
+                    scale={1.2}
+                  />
+                </div>
               </AdvancedMarker>
             )}
           </Map>
@@ -431,26 +419,56 @@ export function MapLocationPicker({
         </div>
       </div>
     </>
-  )
+  );
+}
+
+// Main component with APIProvider wrapper
+export function MapLocationPicker({
+  apiKey,
+  initialQuery = '',
+  locationType,
+  onLocationSelect,
+  onCancel,
+  isOpen,
+}: MapLocationPickerProps) {
+  const isMobile = useIsMobile();
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onCancel();
+      }
+    },
+    [onCancel]
+  );
 
   return (
-    <APIProvider apiKey={apiKey}>
+    <APIProvider apiKey={apiKey} libraries={['places']}>
       {isMobile ? (
         <Sheet open={isOpen} onOpenChange={handleOpenChange}>
-          <SheetContent
-            side="bottom"
-            className="max-h-[90vh] overflow-y-auto"
-          >
-            {mapPickerContent}
+          <SheetContent side="bottom" className="max-h-[90vh] overflow-y-auto">
+            <MapPickerContent
+              initialQuery={initialQuery}
+              locationType={locationType}
+              onLocationSelect={onLocationSelect}
+              onCancel={onCancel}
+              isMobile={isMobile}
+            />
           </SheetContent>
         </Sheet>
       ) : (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            {mapPickerContent}
+            <MapPickerContent
+              initialQuery={initialQuery}
+              locationType={locationType}
+              onLocationSelect={onLocationSelect}
+              onCancel={onCancel}
+              isMobile={isMobile}
+            />
           </DialogContent>
         </Dialog>
       )}
     </APIProvider>
-  )
+  );
 }
