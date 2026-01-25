@@ -25,6 +25,11 @@ export async function GET() {
         residenceCity: true,
         residenceCountry: true,
         birthDataChangeCount: true,
+        birthLat: true,
+        birthLon: true,
+        timezone: true,
+        residenceLat: true,
+        residenceLon: true,
       },
     });
 

@@ -31,6 +31,8 @@ export interface LocationData {
 export interface MapLocationPickerProps {
   apiKey: string;
   initialQuery?: string;
+  initialLat?: number;
+  initialLng?: number;
   locationType: 'birth' | 'residence';
   onLocationSelect: (location: LocationData) => void;
   onCancel: () => void;
@@ -40,6 +42,8 @@ export interface MapLocationPickerProps {
 // Inner component that uses the Maps API hooks
 function MapPickerContent({
   initialQuery = '',
+  initialLat,
+  initialLng,
   locationType,
   onLocationSelect,
   onCancel,
@@ -48,19 +52,39 @@ function MapPickerContent({
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
+
+  // Use initial coordinates if provided
+  const hasInitialLocation = initialLat !== undefined && initialLng !== undefined;
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(
-    null
+    hasInitialLocation ? { lat: initialLat, lng: initialLng } : null
   );
-  const [selectedAddress, setSelectedAddress] = useState<string>('');
+  const [selectedAddress, setSelectedAddress] = useState<string>(
+    hasInitialLocation ? initialQuery : ''
+  );
   const [timezone, setTimezone] = useState<string | null>(null);
   const [isFetchingTimezone, setIsFetchingTimezone] = useState(false);
   const [isLoadingPlace, setIsLoadingPlace] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
   const clickListenerRef = useRef<google.maps.MapsEventListener | null>(null);
+  const hasInitialCenteredRef = useRef(false);
 
   // Load places library using @vis.gl hook
   const placesLib = useMapsLibrary('places');
   const isApiLoaded = useApiIsLoaded();
+
+  // Sync state with initial props when they change (e.g., when saved data loads)
+  useEffect(() => {
+    if (initialLat !== undefined && initialLng !== undefined) {
+      setSelectedLocation({ lat: initialLat, lng: initialLng });
+      setSelectedAddress(initialQuery || '');
+      setSearchQuery(initialQuery || '');
+      // Center map on initial location
+      if (mapRef.current) {
+        mapRef.current.setCenter({ lat: initialLat, lng: initialLng });
+        mapRef.current.setZoom(12);
+      }
+    }
+  }, [initialLat, initialLng, initialQuery]);
 
   // Cleanup click listener on unmount
   useEffect(() => {
@@ -71,6 +95,26 @@ function MapPickerContent({
       }
     };
   }, []);
+
+  // Fetch timezone for initial location if provided
+  useEffect(() => {
+    if (hasInitialLocation && initialLat !== undefined && initialLng !== undefined && !timezone) {
+      const timestamp = Math.floor(Date.now() / 1000);
+      fetch(`/api/google-maps/timezone?lat=${initialLat}&lng=${initialLng}&timestamp=${timestamp}`)
+        .then((response) => {
+          if (response.ok) return response.json();
+          return null;
+        })
+        .then((data) => {
+          if (data?.timeZoneId) {
+            setTimezone(data.timeZoneId);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching initial timezone:', error);
+        });
+    }
+  }, [hasInitialLocation, initialLat, initialLng, timezone]);
 
   // Fetch timezone for a location
   const fetchTimezone = useCallback(async (lat: number, lng: number): Promise<string | null> => {
@@ -132,6 +176,13 @@ function MapPickerContent({
 
       if (!map) return;
 
+      // Center on initial location when map is first ready
+      if (!hasInitialCenteredRef.current && initialLat !== undefined && initialLng !== undefined) {
+        map.setCenter({ lat: initialLat, lng: initialLng });
+        map.setZoom(12);
+        hasInitialCenteredRef.current = true;
+      }
+
       // Remove any existing listener to avoid duplicates
       if (clickListenerRef.current) {
         google.maps.event.removeListener(clickListenerRef.current);
@@ -144,7 +195,7 @@ function MapPickerContent({
 
       clickListenerRef.current = clickListener;
     },
-    [handleMapClick]
+    [handleMapClick, initialLat, initialLng]
   );
 
   // Handle place prediction
@@ -366,8 +417,10 @@ function MapPickerContent({
         {/* Map */}
         <div className="relative w-full h-[300px] md:h-[400px] bg-muted rounded-lg overflow-hidden">
           <Map
-            defaultZoom={DEFAULT_ZOOM}
-            defaultCenter={DEFAULT_CENTER}
+            defaultZoom={hasInitialLocation ? 12 : DEFAULT_ZOOM}
+            defaultCenter={
+              hasInitialLocation ? { lat: initialLat!, lng: initialLng! } : DEFAULT_CENTER
+            }
             zoomControl
             mapId="astro-location-picker-v2"
             gestureHandling="greedy"
@@ -426,6 +479,8 @@ function MapPickerContent({
 export function MapLocationPicker({
   apiKey,
   initialQuery = '',
+  initialLat,
+  initialLng,
   locationType,
   onLocationSelect,
   onCancel,
@@ -442,13 +497,19 @@ export function MapLocationPicker({
     [onCancel]
   );
 
+  // Key to force remount when initial coordinates change
+  const contentKey = `${locationType}-${initialLat ?? 'none'}-${initialLng ?? 'none'}`;
+
   return (
     <APIProvider apiKey={apiKey} libraries={['places']}>
       {isMobile ? (
         <Sheet open={isOpen} onOpenChange={handleOpenChange}>
           <SheetContent side="bottom" className="max-h-[90vh] overflow-y-auto">
             <MapPickerContent
+              key={contentKey}
               initialQuery={initialQuery}
+              initialLat={initialLat}
+              initialLng={initialLng}
               locationType={locationType}
               onLocationSelect={onLocationSelect}
               onCancel={onCancel}
@@ -460,7 +521,10 @@ export function MapLocationPicker({
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <MapPickerContent
+              key={contentKey}
               initialQuery={initialQuery}
+              initialLat={initialLat}
+              initialLng={initialLng}
               locationType={locationType}
               onLocationSelect={onLocationSelect}
               onCancel={onCancel}
