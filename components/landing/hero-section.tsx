@@ -1,72 +1,65 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Star } from "lucide-react";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, Star } from 'lucide-react';
 
 export function HeroSection() {
-    return (
-        <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
-            {/* 
+  return (
+    <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
+      {/* 
         VIDEO BACKGROUND PLACEHOLDER 
         TODO: Replace with <video> tag when asset is provided.
         Current: Deep Indigo gradient + subtle pulse to simulate movement.
       */}
-            {/* Video Background */}
-            <div className="absolute inset-0 z-0">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover opacity-60"
-                >
-                    <source src="/assets/landing/hero-loop.mp4" type="video/mp4" />
-                </video>
-            </div>
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60">
+          <source src="/assets/landing/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F19]/80 via-[#1a1f3c]/50 to-[#0B0F19] z-10" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F19]/80 via-[#1a1f3c]/50 to-[#0B0F19] z-10" />
 
-            <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-5 mx-auto">
+      <div className="relative z-20 container px-4 md:px-6 flex flex-col items-center text-center space-y-5 mx-auto">
+        {/* Badge / Pill */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 sm:px-4 py-1.5 text-sm font-medium text-[#D4AF37] backdrop-blur-md mx-4 sm:mx-0">
+          <Star className="h-3.5 w-3.5 fill-current" />
+          <span className="tracking-wide uppercase text-xs">Algoritmos Suizos de Precisión</span>
+        </div>
 
-                {/* Badge / Pill */}
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 sm:px-4 py-1.5 text-sm font-medium text-[#D4AF37] backdrop-blur-md mx-4 sm:mx-0">
-                    <Star className="h-3.5 w-3.5 fill-current" />
-                    <span className="tracking-wide uppercase text-xs">Algoritmos Suizos de Precisión</span>
-                </div>
+        {/* H1 Headline */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight font-serif max-w-4xl leading-tight px-4 sm:px-0">
+          Sincroniza tu vida con <br className="hidden sm:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">
+            precisión de grado.
+          </span>
+        </h1>
 
-                {/* H1 Headline */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight font-serif max-w-4xl leading-tight px-4 sm:px-0">
-                    Sincroniza tu vida con <br className="hidden sm:block" />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">
-                        precisión de grado.
-                    </span>
-                </h1>
+        {/* Subheader */}
+        <p className="max-w-2xl text-base sm:text-lg md:text-xl text-gray-300 md:leading-relaxed font-light px-4 sm:px-0">
+          Herramientas astrológicas de nivel profesional: Calendarios personalizados, Cartas
+          Dracónicas y Análisis Vibracional para tu evolución consciente.
+        </p>
 
-                {/* Subheader */}
-                <p className="max-w-2xl text-base sm:text-lg md:text-xl text-gray-300 md:leading-relaxed font-light px-4 sm:px-0">
-                    Herramientas astrológicas de nivel profesional: Calendarios personalizados,
-                    Cartas Dracónicas y Análisis Vibracional para tu evolución consciente.
-                </p>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
-                    <Button
-                        asChild
-                        size="lg"
-                        className="bg-[#D4AF37] hover:bg-[#b08d26] text-[#0B0F19] font-bold text-base px-8 h-12 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-105"
-                    >
-                        <Link href="/auth/register">
-                            Comenzar Gratis
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                    <p className="text-xs text-gray-500 mt-2 sm:mt-0 sm:ml-4 flex items-center justify-center">
-                        * Registro en 30 segundos
-                    </p>
-                </div>
-            </div>
-        </section>
-    );
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
+          <Button
+            asChild
+            size="lg"
+            className="bg-[#D4AF37] hover:bg-[#b08d26] text-[#0B0F19] font-bold text-base px-8 h-12 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-105"
+          >
+            <Link href="/auth/login">
+              Comenzar Gratis
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+          <p className="text-xs text-gray-500 mt-2 sm:mt-0 sm:ml-4 flex items-center justify-center">
+            * Registro en 30 segundos
+          </p>
+        </div>
+      </div>
+    </section>
+  );
 }
