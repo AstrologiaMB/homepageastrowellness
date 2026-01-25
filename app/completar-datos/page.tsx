@@ -163,14 +163,14 @@ function CompletarDatosForm() {
           form.setValue('residenceCountry', data.residenceCountry || '');
 
           // Load existing location data into state
-          if (data.birthLat != null && data.birthLon != null) {
+          if (data.birthLat && data.birthLon) {
             setBirthLocation({
               lat: data.birthLat,
               lng: data.birthLon,
               timezone: data.timezone || 'UTC',
             });
           }
-          if (data.residenceLat != null && data.residenceLon != null) {
+          if (data.residenceLat && data.residenceLon) {
             setResidenceLocation({
               lat: data.residenceLat,
               lng: data.residenceLon,
@@ -687,15 +687,13 @@ function CompletarDatosForm() {
         </div>
       </div>
 
-      {/* Map Location Picker Dialog - only render after user data has loaded */}
-      {googleMapsApiKey && !loadingData && (
+      {/* Map Location Picker Dialog */}
+      {googleMapsApiKey && (
         <MapLocationPicker
           apiKey={googleMapsApiKey}
           initialQuery={
             locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')
           }
-          initialLat={locationType === 'birth' ? birthLocation?.lat : residenceLocation?.lat}
-          initialLng={locationType === 'birth' ? birthLocation?.lng : residenceLocation?.lng}
           locationType={locationType}
           onLocationSelect={handleMapLocationSelect}
           onCancel={() => setShowMapPicker(false)}
