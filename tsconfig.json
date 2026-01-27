@@ -18,7 +18,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "@types/react", "@types/node"],
+    "types": ["node", "@types/react", "@types/node", "@types/google.maps"],
     "plugins": [
       {
         "name": "next"
