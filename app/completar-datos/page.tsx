@@ -1,17 +1,17 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Calendar, Home, Loader2, MapPin, Sparkles, User } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Calendar, MapPin, Home, User, Loader2, Sparkles } from 'lucide-react';
 
+import { MapLocationPicker, type LocationData } from '@/components/location-picker';
+import { ProtectedPage } from '@/components/protected-page';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FormStatus, FormWarning } from '@/components/ui/form-status';
 import {
   Form,
   FormControl,
@@ -21,6 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { FormStatus, FormWarning } from '@/components/ui/form-status';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -29,7 +31,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { MapLocationPicker, type LocationData } from '@/components/location-picker';
 
 /**
  * Celestial-themed background with subtle animated gradient
@@ -735,7 +736,9 @@ export default function CompletarDatosPage() {
         </div>
       }
     >
-      <CompletarDatosForm />
+      <ProtectedPage>
+        <CompletarDatosForm />
+      </ProtectedPage>
     </Suspense>
   );
 }
