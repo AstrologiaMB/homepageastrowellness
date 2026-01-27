@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { useState, useEffect, Suspense } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useSession } from "next-auth/react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Calendar, MapPin, Home, User, Loader2, Sparkles } from "lucide-react"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Calendar, Home, Loader2, MapPin, Sparkles, User } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { FormStatus, FormWarning } from "@/components/ui/form-status"
+import { MapLocationPicker, type LocationData } from '@/components/location-picker';
+import { ProtectedPage } from '@/components/protected-page';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -20,19 +20,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form';
+import { FormStatus, FormWarning } from '@/components/ui/form-status';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { toast } from "sonner"
-import {
-  MapLocationPicker,
-  type LocationData,
-} from "@/components/location-picker"
+} from '@/components/ui/select';
+import { toast } from 'sonner';
 
 /**
  * Celestial-themed background with subtle animated gradient
@@ -40,161 +38,169 @@ import {
  */
 
 // Schema for the user data form (extended with conditional fields)
-const completarDatosSchema = z.object({
-  birthDate: z.string().min(1, 'La fecha de nacimiento es requerida'),
-  birthCity: z.string().optional(),
-  birthCountry: z.string().optional(),
-  knowsBirthTime: z.boolean().default(false),
-  birthHour: z.coerce.number().int().min(0).max(23).optional(),
-  birthMinute: z.coerce.number().int().min(0).max(59).optional(),
-  gender: z.enum(['masculino', 'femenino'], {
-    required_error: 'Selecciona una opción',
-  }),
-  residenceCity: z.string().optional(),
-  residenceCountry: z.string().optional(),
-}).refine((data) => {
-  // If knowsBirthTime is true, hour and minute are required
-  if (data.knowsBirthTime) {
-    return data.birthHour !== undefined && data.birthMinute !== undefined
-  }
-  return true
-}, {
-  message: 'La hora y minuto son requeridos cuando conoces tu hora de nacimiento',
-  path: ['birthHour'],
-})
+const completarDatosSchema = z
+  .object({
+    birthDate: z.string().min(1, 'La fecha de nacimiento es requerida'),
+    birthCity: z.string().optional(),
+    birthCountry: z.string().optional(),
+    knowsBirthTime: z.boolean().default(false),
+    birthHour: z.coerce.number().int().min(0).max(23).optional(),
+    birthMinute: z.coerce.number().int().min(0).max(59).optional(),
+    gender: z.enum(['masculino', 'femenino'], {
+      required_error: 'Selecciona una opción',
+    }),
+    residenceCity: z.string().optional(),
+    residenceCountry: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      // If knowsBirthTime is true, hour and minute are required
+      if (data.knowsBirthTime) {
+        return data.birthHour !== undefined && data.birthMinute !== undefined;
+      }
+      return true;
+    },
+    {
+      message: 'La hora y minuto son requeridos cuando conoces tu hora de nacimiento',
+      path: ['birthHour'],
+    }
+  );
 
-type CompletarDatosFormData = z.infer<typeof completarDatosSchema>
+type CompletarDatosFormData = z.infer<typeof completarDatosSchema>;
 
 function CompletarDatosForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const { update } = useSession()
-  const [isLoading, setIsLoading] = useState(false)
-  const [loadingData, setLoadingData] = useState(true)
-  const [showMapPicker, setShowMapPicker] = useState(false)
-  const [locationType, setLocationType] = useState<'birth' | 'residence'>('birth')
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { update } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
+  const [showMapPicker, setShowMapPicker] = useState(false);
+  const [locationType, setLocationType] = useState<'birth' | 'residence'>('birth');
   const [birthLocation, setBirthLocation] = useState<{
-    lat: number
-    lng: number
-    timezone: string
-  } | null>(null)
+    lat: number;
+    lng: number;
+    timezone: string;
+  } | null>(null);
   const [residenceLocation, setResidenceLocation] = useState<{
-    lat: number
-    lng: number
-    timezone: string
-  } | null>(null)
-  const [googleMapsApiKey, setGoogleMapsApiKey] = useState<string | null>(null)
+    lat: number;
+    lng: number;
+    timezone: string;
+  } | null>(null);
+  const [googleMapsApiKey, setGoogleMapsApiKey] = useState<string | null>(null);
   const [userData, setUserData] = useState({
-    birthDate: "",
-    birthCity: "",
-    birthCountry: "",
+    birthDate: '',
+    birthCity: '',
+    birthCountry: '',
     birthHour: 0,
     birthMinute: 0,
     knowsBirthTime: false,
-    gender: "",
-    residenceCity: "",
-    residenceCountry: "",
+    gender: '',
+    residenceCity: '',
+    residenceCountry: '',
     birthDataChangeCount: 0,
     birthLat: null as number | null,
     birthLon: null as number | null,
     timezone: null as string | null,
     residenceLat: null as number | null,
     residenceLon: null as number | null,
-  })
+  });
 
   // Capturar la URL de redirección si existe
-  const callbackUrl = searchParams.get("callbackUrl") || "/"
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   // Fetch Google Maps API key from server
   useEffect(() => {
     async function fetchApiKey() {
       try {
-        const response = await fetch("/api/google-maps/config")
+        const response = await fetch('/api/google-maps/config');
         if (response.ok) {
-          const data = await response.json()
-          setGoogleMapsApiKey(data.apiKey)
+          const data = await response.json();
+          setGoogleMapsApiKey(data.apiKey);
         } else {
-          console.error("Failed to fetch Google Maps API key")
+          console.error('Failed to fetch Google Maps API key');
         }
       } catch (error) {
-        console.error("Error fetching Google Maps API key:", error)
+        console.error('Error fetching Google Maps API key:', error);
       }
     }
-    fetchApiKey()
-  }, [])
+    fetchApiKey();
+  }, []);
 
   const form = useForm<CompletarDatosFormData>({
     resolver: zodResolver(completarDatosSchema),
     defaultValues: {
-      birthDate: "",
-      birthCity: "",
-      birthCountry: "",
+      birthDate: '',
+      birthCity: '',
+      birthCountry: '',
       knowsBirthTime: false,
       birthHour: 0,
       birthMinute: 0,
       gender: undefined,
-      residenceCity: "",
-      residenceCountry: "",
+      residenceCity: '',
+      residenceCountry: '',
     },
-  })
+  });
 
-  const knowsBirthTime = form.watch('knowsBirthTime')
+  const knowsBirthTime = form.watch('knowsBirthTime');
 
   // Cargar datos del usuario al montar el componente
   useEffect(() => {
     async function loadUserData() {
       try {
-        const response = await fetch("/api/user/profile")
+        const response = await fetch('/api/user/profile');
         if (response.ok) {
-          const data = await response.json()
-          setUserData(data)
+          const data = await response.json();
+          setUserData(data);
 
           // Pre-llenar campos con datos del usuario
-          form.setValue('birthDate', data.birthDate || '')
-          form.setValue('birthCity', data.birthCity || '')
-          form.setValue('birthCountry', data.birthCountry || '')
-          form.setValue('knowsBirthTime', data.knowsBirthTime || false)
-          form.setValue('birthHour', data.birthHour || 0)
-          form.setValue('birthMinute', data.birthMinute || 0)
-          form.setValue('gender', data.gender || undefined)
-          form.setValue('residenceCity', data.residenceCity || '')
-          form.setValue('residenceCountry', data.residenceCountry || '')
+          form.setValue('birthDate', data.birthDate || '');
+          form.setValue('birthCity', data.birthCity || '');
+          form.setValue('birthCountry', data.birthCountry || '');
+          form.setValue('knowsBirthTime', data.knowsBirthTime || false);
+          form.setValue('birthHour', data.birthHour || 0);
+          form.setValue('birthMinute', data.birthMinute || 0);
+          form.setValue('gender', data.gender || undefined);
+          form.setValue('residenceCity', data.residenceCity || '');
+          form.setValue('residenceCountry', data.residenceCountry || '');
 
           // Load existing location data into state
-          if (data.birthLat && data.birthLon) {
+          if (data.birthLat != null && data.birthLon != null) {
             setBirthLocation({
               lat: data.birthLat,
               lng: data.birthLon,
               timezone: data.timezone || 'UTC',
-            })
+            });
           }
-          if (data.residenceLat && data.residenceLon) {
+          if (data.residenceLat != null && data.residenceLon != null) {
             setResidenceLocation({
               lat: data.residenceLat,
               lng: data.residenceLon,
               timezone: 'UTC', // Residence timezone not stored separately
-            })
+            });
           }
         }
       } catch (error) {
-        console.error("Error al cargar datos del usuario:", error)
+        console.error('Error al cargar datos del usuario:', error);
       } finally {
-        setLoadingData(false)
+        setLoadingData(false);
       }
     }
 
-    loadUserData()
-  }, [form])
+    loadUserData();
+  }, [form]);
 
   const handleSubmit = async (data: CompletarDatosFormData) => {
     // Validate that birth location has been selected via map
     if (!birthLocation) {
-      toast.error("Por favor selecciona tu ubicación de nacimiento usando el botón 'Mapa'")
-      form.setError('birthCity', { type: 'manual', message: 'Usa el botón "Mapa" para seleccionar tu ubicación' })
-      return
+      toast.error("Por favor selecciona tu ubicación de nacimiento usando el botón 'Mapa'");
+      form.setError('birthCity', {
+        type: 'manual',
+        message: 'Usa el botón "Mapa" para seleccionar tu ubicación',
+      });
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     const requestData = {
       birthDate: data.birthDate,
@@ -211,47 +217,50 @@ function CompletarDatosForm() {
       birthTimezone: birthLocation.timezone,
       residenceLat: residenceLocation?.lat || null,
       residenceLon: residenceLocation?.lng || null,
-    }
+    };
 
     try {
-      const response = await fetch("/api/user/update", {
-        method: "POST",
+      const response = await fetch('/api/user/update', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || "Error al guardar datos")
+        throw new Error(result.error || 'Error al guardar datos');
       }
 
       // Verificar el estado de los datos
-      const refreshResponse = await fetch("/api/auth/refresh-token")
-      const refreshResult = await refreshResponse.json()
+      const refreshResponse = await fetch('/api/auth/refresh-token');
+      const refreshResult = await refreshResponse.json();
 
       if (!refreshResult.success) {
-        console.warn("No se pudo verificar el estado de los datos")
+        console.warn('No se pudo verificar el estado de los datos');
       }
 
       // Actualizar la sesión
-      await update()
+      await update();
 
       // Mostrar toast de éxito
-      toast.success("¡Datos guardados correctamente!")
+      toast.success('¡Datos guardados correctamente!');
 
       // Redirigir directamente al Dashboard
-      router.push(callbackUrl)
+      router.push(callbackUrl);
     } catch (error) {
-      console.error("Error:", error)
-      toast.error("Error al guardar datos. Intenta nuevamente.")
-      form.setError('root', { type: 'manual', message: 'Error al guardar datos. Intenta nuevamente.' })
+      console.error('Error:', error);
+      toast.error('Error al guardar datos. Intenta nuevamente.');
+      form.setError('root', {
+        type: 'manual',
+        message: 'Error al guardar datos. Intenta nuevamente.',
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleMapLocationSelect = (location: LocationData) => {
     if (locationType === 'birth') {
@@ -259,35 +268,35 @@ function CompletarDatosForm() {
         lat: location.lat,
         lng: location.lng,
         timezone: location.timezone,
-      })
+      });
     } else {
       setResidenceLocation({
         lat: location.lat,
         lng: location.lng,
         timezone: location.timezone,
-      })
+      });
     }
-    setShowMapPicker(false)
+    setShowMapPicker(false);
 
     // Extract city and country from address
-    const addressParts = location.address.split(',').map((p) => p.trim())
-    const city = addressParts[0] || location.address
-    const country = addressParts[addressParts.length - 1] || ""
+    const addressParts = location.address.split(',').map((p) => p.trim());
+    const city = addressParts[0] || location.address;
+    const country = addressParts[addressParts.length - 1] || '';
 
-    form.setValue(locationType === 'birth' ? 'birthCity' : 'residenceCity', city)
-    form.setValue(locationType === 'birth' ? 'birthCountry' : 'residenceCountry', country)
+    form.setValue(locationType === 'birth' ? 'birthCity' : 'residenceCity', city);
+    form.setValue(locationType === 'birth' ? 'birthCountry' : 'residenceCountry', country);
 
     toast.success(
       locationType === 'birth'
         ? `Ubicación de nacimiento: ${city}`
         : `Ubicación de residencia: ${city}`
-    )
-  }
+    );
+  };
 
   const handleOpenMapPicker = (type: 'birth' | 'residence') => {
-    setLocationType(type)
-    setShowMapPicker(true)
-  }
+    setLocationType(type);
+    setShowMapPicker(true);
+  };
 
   if (loadingData) {
     return (
@@ -298,10 +307,22 @@ function CompletarDatosForm() {
 
         {/* Animated subtle starry effect */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-0.5 h-0.5 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div
+            className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse"
+            style={{ animationDelay: '0s' }}
+          />
+          <div
+            className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse"
+            style={{ animationDelay: '1s' }}
+          />
+          <div
+            className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse"
+            style={{ animationDelay: '2s' }}
+          />
+          <div
+            className="absolute bottom-1/4 right-1/4 w-0.5 h-0.5 bg-accent rounded-full animate-pulse"
+            style={{ animationDelay: '0.5s' }}
+          />
         </div>
 
         <div className="relative text-center">
@@ -309,13 +330,15 @@ function CompletarDatosForm() {
             <Sparkles className="h-10 w-10 sm:h-12 sm:w-12 text-primary animate-pulse" />
             <Loader2 className="h-8 w-8 sm:h-10 sm:w-10 animate-spin absolute text-primary" />
           </div>
-          <p className="text-sm sm:text-base text-muted-foreground">Cargando tus datos cósmicos...</p>
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Cargando tus datos cósmicos...
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
-  const isLocked = userData.birthDataChangeCount >= 3
+  const isLocked = userData.birthDataChangeCount >= 3;
 
   return (
     <>
@@ -327,12 +350,30 @@ function CompletarDatosForm() {
 
         {/* Animated subtle starry effect */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-[15%] left-[20%] w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s', animationDuration: '3s' }} />
-          <div className="absolute top-[25%] right-[15%] w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
-          <div className="absolute top-[45%] left-[10%] w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s', animationDuration: '2.5s' }} />
-          <div className="absolute bottom-[30%] right-[20%] w-0.5 h-0.5 bg-accent rounded-full animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }} />
-          <div className="absolute top-[60%] left-[60%] w-[2px] h-[2px] bg-primary/60 rounded-full animate-pulse" style={{ animationDelay: '1.5s', animationDuration: '5s' }} />
-          <div className="absolute bottom-[20%] left-[30%] w-1 h-1 bg-primary/50 rounded-full animate-pulse" style={{ animationDelay: '2.5s', animationDuration: '4s' }} />
+          <div
+            className="absolute top-[15%] left-[20%] w-1 h-1 bg-primary rounded-full animate-pulse"
+            style={{ animationDelay: '0s', animationDuration: '3s' }}
+          />
+          <div
+            className="absolute top-[25%] right-[15%] w-0.5 h-0.5 bg-primary rounded-full animate-pulse"
+            style={{ animationDelay: '1s', animationDuration: '4s' }}
+          />
+          <div
+            className="absolute top-[45%] left-[10%] w-1 h-1 bg-accent rounded-full animate-pulse"
+            style={{ animationDelay: '2s', animationDuration: '2.5s' }}
+          />
+          <div
+            className="absolute bottom-[30%] right-[20%] w-0.5 h-0.5 bg-accent rounded-full animate-pulse"
+            style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}
+          />
+          <div
+            className="absolute top-[60%] left-[60%] w-[2px] h-[2px] bg-primary/60 rounded-full animate-pulse"
+            style={{ animationDelay: '1.5s', animationDuration: '5s' }}
+          />
+          <div
+            className="absolute bottom-[20%] left-[30%] w-1 h-1 bg-primary/50 rounded-full animate-pulse"
+            style={{ animationDelay: '2.5s', animationDuration: '4s' }}
+          />
         </div>
 
         {/* Responsive content container */}
@@ -357,9 +398,9 @@ function CompletarDatosForm() {
               {/* Important notice with forced word wrap */}
               <FormWarning className="mb-4 sm:mb-5 md:mb-6 break-words">
                 <span className="break-words">
-                  <strong>Precisión requerida:</strong> Por favor completa tus datos personales
-                  para poder hacer los cálculos necesarios. Ten cuidado al completar tus datos,
-                  sobre todo hora y lugar de nacimiento. <br />
+                  <strong>Precisión requerida:</strong> Por favor completa tus datos personales para
+                  poder hacer los cálculos necesarios. Ten cuidado al completar tus datos, sobre
+                  todo hora y lugar de nacimiento. <br />
                   <strong>Solo tienes 3 oportunidades</strong> para colocar los datos correctamente.
                 </span>
               </FormWarning>
@@ -367,19 +408,19 @@ function CompletarDatosForm() {
               {/* Warning about remaining changes with word wrap */}
               {userData.birthDataChangeCount > 0 && (
                 <FormStatus
-                  variant={userData.birthDataChangeCount >= 3 ? "error" : "warning"}
+                  variant={userData.birthDataChangeCount >= 3 ? 'error' : 'warning'}
                   className="mb-4 sm:mb-5 md:mb-6 break-words"
                 >
                   <span className="break-words">
                     <strong className="whitespace-normal">
                       {userData.birthDataChangeCount >= 3
-                        ? "Límite de cambios alcanzado"
+                        ? 'Límite de cambios alcanzado'
                         : `Aviso: Te quedan ${3 - userData.birthDataChangeCount} cambios disponibles`}
                     </strong>
                     <span className="whitespace-normal">
                       {userData.birthDataChangeCount >= 3
-                        ? " Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones."
-                        : " Asegúrate de que la información sea correcta antes de guardar."}
+                        ? ' Has alcanzado el límite máximo de 3 cambios en tus datos de nacimiento. Por motivos de seguridad y consistencia, no puedes realizar más modificaciones.'
+                        : ' Asegúrate de que la información sea correcta antes de guardar.'}
                     </span>
                   </span>
                 </FormStatus>
@@ -387,7 +428,10 @@ function CompletarDatosForm() {
 
               {/* Form */}
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-5 md:space-y-6">
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="space-y-4 sm:space-y-5 md:space-y-6"
+                >
                   <fieldset disabled={isLocked} className="space-y-4 sm:space-y-5 md:space-y-6">
                     {/* Birth Date */}
                     <FormField
@@ -441,7 +485,10 @@ function CompletarDatosForm() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-sm sm:text-base">Hora</FormLabel>
-                              <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                              <Select
+                                onValueChange={(val) => field.onChange(parseInt(val))}
+                                defaultValue={field.value?.toString()}
+                              >
                                 <FormControl>
                                   <SelectTrigger className="h-11 sm:h-12 min-h-[44px]">
                                     <SelectValue placeholder="Hora" />
@@ -449,7 +496,11 @@ function CompletarDatosForm() {
                                 </FormControl>
                                 <SelectContent>
                                   {Array.from({ length: 24 }, (_, i) => (
-                                    <SelectItem key={i} value={i.toString()} className="text-sm sm:text-base">
+                                    <SelectItem
+                                      key={i}
+                                      value={i.toString()}
+                                      className="text-sm sm:text-base"
+                                    >
                                       {i.toString().padStart(2, '0')}
                                     </SelectItem>
                                   ))}
@@ -466,7 +517,10 @@ function CompletarDatosForm() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-sm sm:text-base">Minuto</FormLabel>
-                              <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                              <Select
+                                onValueChange={(val) => field.onChange(parseInt(val))}
+                                defaultValue={field.value?.toString()}
+                              >
                                 <FormControl>
                                   <SelectTrigger className="h-11 sm:h-12 min-h-[44px]">
                                     <SelectValue placeholder="Minuto" />
@@ -474,7 +528,11 @@ function CompletarDatosForm() {
                                 </FormControl>
                                 <SelectContent>
                                   {Array.from({ length: 60 }, (_, i) => (
-                                    <SelectItem key={i} value={i.toString()} className="text-sm sm:text-base">
+                                    <SelectItem
+                                      key={i}
+                                      value={i.toString()}
+                                      className="text-sm sm:text-base"
+                                    >
                                       {i.toString().padStart(2, '0')}
                                     </SelectItem>
                                   ))}
@@ -508,10 +566,13 @@ function CompletarDatosForm() {
                         <div className="bg-muted/50 border border-border/50 rounded-lg p-3 sm:p-4 text-sm">
                           <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1.5">
                             <span className="text-green-500 shrink-0">✓</span>
-                            <span className="font-medium text-xs sm:text-sm">Ubicación seleccionada</span>
+                            <span className="font-medium text-xs sm:text-sm">
+                              Ubicación seleccionada
+                            </span>
                           </div>
                           <p className="text-xs text-muted-foreground break-all">
-                            Coordenadas: {birthLocation.lat.toFixed(4)}, {birthLocation.lng.toFixed(4)}
+                            Coordenadas: {birthLocation.lat.toFixed(4)},{' '}
+                            {birthLocation.lng.toFixed(4)}
                           </p>
                           <p className="text-xs text-muted-foreground break-all">
                             Zona horaria: {birthLocation.timezone}
@@ -540,8 +601,12 @@ function CompletarDatosForm() {
                                 <SelectValue placeholder="Selecciona una opción" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="masculino" className="text-sm sm:text-base">Masculino</SelectItem>
-                                <SelectItem value="femenino" className="text-sm sm:text-base">Femenino</SelectItem>
+                                <SelectItem value="masculino" className="text-sm sm:text-base">
+                                  Masculino
+                                </SelectItem>
+                                <SelectItem value="femenino" className="text-sm sm:text-base">
+                                  Femenino
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </FormControl>
@@ -571,15 +636,19 @@ function CompletarDatosForm() {
                         <div className="bg-muted/50 border border-border/50 rounded-lg p-3 sm:p-4 text-sm">
                           <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-1.5">
                             <span className="text-green-500 shrink-0">✓</span>
-                            <span className="font-medium text-xs sm:text-sm">Ubicación seleccionada</span>
+                            <span className="font-medium text-xs sm:text-sm">
+                              Ubicación seleccionada
+                            </span>
                           </div>
                           <p className="text-xs text-muted-foreground break-all">
-                            Coordenadas: {residenceLocation.lat.toFixed(4)}, {residenceLocation.lng.toFixed(4)}
+                            Coordenadas: {residenceLocation.lat.toFixed(4)},{' '}
+                            {residenceLocation.lng.toFixed(4)}
                           </p>
                         </div>
                       ) : (
                         <FormDescription className="text-xs sm:text-sm break-words">
-                          Haz clic en "Seleccionar en mapa" para elegir tu ubicación de residencia (opcional)
+                          Haz clic en "Seleccionar en mapa" para elegir tu ubicación de residencia
+                          (opcional)
                         </FormDescription>
                       )}
                     </div>
@@ -619,40 +688,57 @@ function CompletarDatosForm() {
         </div>
       </div>
 
-      {/* Map Location Picker Dialog */}
-      {googleMapsApiKey && (
+      {/* Map Location Picker Dialog - only render after user data has loaded */}
+      {googleMapsApiKey && !loadingData && (
         <MapLocationPicker
           apiKey={googleMapsApiKey}
-          initialQuery={locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')}
-        locationType={locationType}
-        onLocationSelect={handleMapLocationSelect}
+          initialQuery={
+            locationType === 'birth' ? form.getValues('birthCity') : form.getValues('residenceCity')
+          }
+          initialLat={locationType === 'birth' ? birthLocation?.lat : residenceLocation?.lat}
+          initialLng={locationType === 'birth' ? birthLocation?.lng : residenceLocation?.lng}
+          locationType={locationType}
+          onLocationSelect={handleMapLocationSelect}
           onCancel={() => setShowMapPicker(false)}
           isOpen={showMapPicker}
         />
       )}
     </>
-  )
+  );
 }
 
 export default function CompletarDatosPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
-        {/* Subtle animated background gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/5 via-background to-background opacity-40" />
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+          {/* Subtle animated background gradient */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background opacity-60" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/5 via-background to-background opacity-40" />
 
-        {/* Animated subtle starry effect */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+          {/* Animated subtle starry effect */}
+          <div className="absolute inset-0 opacity-30">
+            <div
+              className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-pulse"
+              style={{ animationDelay: '0s' }}
+            />
+            <div
+              className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-primary rounded-full animate-pulse"
+              style={{ animationDelay: '1s' }}
+            />
+            <div
+              className="absolute top-1/2 left-1/2 w-1 h-1 bg-accent rounded-full animate-pulse"
+              style={{ animationDelay: '2s' }}
+            />
+          </div>
+
+          <p className="relative text-sm sm:text-base text-muted-foreground">Cargando...</p>
         </div>
-
-        <p className="relative text-sm sm:text-base text-muted-foreground">Cargando...</p>
-      </div>
-    }>
-      <CompletarDatosForm />
+      }
+    >
+      <ProtectedPage>
+        <CompletarDatosForm />
+      </ProtectedPage>
     </Suspense>
-  )
+  );
 }
