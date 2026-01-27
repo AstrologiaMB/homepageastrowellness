@@ -84,6 +84,8 @@ jobs:
             NEXT_PUBLIC_CALENDARIO_API_URL=${{ secrets.NEXT_PUBLIC_CALENDARIO_API_URL }}
             NEXT_PUBLIC_ASTROGEMATRIA_API_URL=${{ secrets.NEXT_PUBLIC_ASTROGEMATRIA_API_URL }}
             NEXT_PUBLIC_CARTA_ELECTIVA_API_URL=${{ secrets.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL }}
+            STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
+            STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
 
   cleanup_review_app:
     name: Cleanup review app
