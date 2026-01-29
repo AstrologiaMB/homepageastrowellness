@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getRequiredEntitlement } from '@/lib/subscription';
+import { NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
@@ -21,6 +20,7 @@ export async function middleware(request: NextRequest) {
       '/calendario/general', // General calendar page
       '/proximamente', // Coming soon page
       '/admin', // Admin routes (matches /admin/*)
+      '/assets'
     ];
 
     // Check if current path is allowed
