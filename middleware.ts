@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
       '/auth', // Auth routes (matches /auth/*)
       '/calendario/general', // General calendar page
       '/proximamente', // Coming soon page
+      '/admin', // Admin routes (matches /admin/*)
     ];
 
     // Check if current path is allowed
@@ -27,7 +28,8 @@ export async function middleware(request: NextRequest) {
       path === '/' ||
       path === '/calendario/general' ||
       path === '/proximamente' ||
-      path.startsWith('/auth');
+      path.startsWith('/auth') ||
+      path.startsWith('/admin');
 
     if (!isAllowed) {
       // Redirect to coming soon page if not allowed
