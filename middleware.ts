@@ -29,7 +29,8 @@ export async function middleware(request: NextRequest) {
       path === '/calendario/general' ||
       path === '/proximamente' ||
       path.startsWith('/auth') ||
-      path.startsWith('/admin');
+      path.startsWith('/admin') ||
+      path.startsWith('/assets');
 
     if (!isAllowed) {
       // Redirect to coming soon page if not allowed
