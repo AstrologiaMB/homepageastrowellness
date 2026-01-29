@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export function LoginButton() {
   const { status } = useSession();
@@ -19,7 +19,7 @@ export function LoginButton() {
         variant="outline"
         className="bg-[#0B0F19]/50 backdrop-blur-md border-[#D4AF37]/30 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0B0F19] font-light"
       >
-        <Link href="/auth/login">Ingresar</Link>
+        <Link href="/auth/login">Iniciar sesión</Link>
       </Button>
     </div>
   );

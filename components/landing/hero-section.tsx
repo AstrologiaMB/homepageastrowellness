@@ -1,14 +1,14 @@
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star } from 'lucide-react';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
     <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
-      {/* 
-        VIDEO BACKGROUND PLACEHOLDER 
+      {/*
+        VIDEO BACKGROUND PLACEHOLDER
         TODO: Replace with <video> tag when asset is provided.
         Current: Deep Indigo gradient + subtle pulse to simulate movement.
       */}
@@ -51,7 +51,7 @@ export function HeroSection() {
             className="bg-[#D4AF37] hover:bg-[#b08d26] text-[#0B0F19] font-bold text-base px-8 h-12 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-105"
           >
             <Link href="/auth/login">
-              Comenzar Gratis
+              Regístrate ahora
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
