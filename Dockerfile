@@ -73,6 +73,9 @@ COPY --from=builder /app/package.json ./package.json
 # Install Prisma CLI at the exact version from package.json for migrations
 RUN npm install prisma@6.7.0 --save-dev --legacy-peer-deps
 
+# Install sharp for image optimization (required in standalone mode)
+RUN npm install sharp@0.33.5 --legacy-peer-deps
+
 RUN chown -R nextjs:nodejs /app
 
 USER nextjs
