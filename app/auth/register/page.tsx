@@ -86,6 +86,17 @@ export default function RegisterPage() {
     }
   }
 
+  const handleGoogleLogin = async () => {
+    setIsLoading(true)
+    try {
+      await signIn('google', { callbackUrl: '/' })
+    } catch (error) {
+      console.error('Error:', error)
+      setServerError('Error al registrarse con Google')
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="h-dvh bg-white dark:bg-black flex items-center justify-center relative overflow-hidden transition-colors duration-300">
       <StarField />
@@ -231,6 +242,28 @@ export default function RegisterPage() {
               </Button>
             </form>
           </Form>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-black/10 dark:border-white/10" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white dark:bg-black px-4 text-black/40 dark:text-white/40 tracking-wider">
+                O
+              </span>
+            </div>
+          </div>
+
+          {/* Google Login */}
+          <Button
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            type="button"
+            className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all h-12 rounded-sm font-light tracking-wide"
+          >
+            Continuar con Google
+          </Button>
 
           {/* Links */}
           <div className="space-y-1.5 text-center">
