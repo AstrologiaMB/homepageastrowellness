@@ -12,6 +12,7 @@ import bcrypt from 'bcryptjs';
 import { getAuthConfig } from '@/lib/auth-utils';
 import { env } from '@/lib/env';
 import { ADMIN_EMAILS, AUTH_ROUTES } from '@/lib/constants';
+import { syncUserToFluentCRM } from '@/lib/fluentcrm';
 
 const authConfig = getAuthConfig();
 
@@ -211,6 +212,7 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     async createUser({ user }) {
+      // Update terms acceptance
       await prisma.user.update({
         where: { id: user.id },
         data: {
@@ -218,6 +220,16 @@ export const authOptions: NextAuthOptions = {
           termsAcceptedAt: new Date(),
         },
       });
+
+      // Sync to FluentCRM (non-blocking)
+      if (user.email) {
+        syncUserToFluentCRM({
+          email: user.email,
+          name: user.name,
+        }).catch((error) => {
+          console.error('[FluentCRM] Failed to sync user:', error);
+        });
+      }
     },
   },
 };
