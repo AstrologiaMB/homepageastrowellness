@@ -50,7 +50,7 @@ export function HeroSection() {
             size="lg"
             className="bg-[#D4AF37] hover:bg-[#b08d26] text-[#0B0F19] font-bold text-base px-8 h-12 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-105"
           >
-            <Link href="/auth/login">
+            <Link href="/auth/register">
               Regístrate ahora
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
