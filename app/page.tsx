@@ -33,7 +33,7 @@ export default function Page() {
             Hola, {session.user?.name || 'Viajero Astral'}
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg">
-            Bienvenido a Astrowellness. Tu guía astrológica para el 2026 está lista.
+            Bienvenido a Astrochat. Tu guía astrológica para el 2026 está lista.
           </p>
         </div>
 
