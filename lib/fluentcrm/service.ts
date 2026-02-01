@@ -27,14 +27,14 @@ function parseName(fullName?: string | null): { firstName: string; lastName: str
 
 /**
  * Sync a user to FluentCRM
- * Creates a subscriber and adds them to the "astrochat" list
+ * Creates a subscriber if not exists, or adds to list if already exists
  */
 export async function syncUserToFluentCRM(user: UserData): Promise<void> {
   const client = new FluentCRMClient();
   const { firstName, lastName } = parseName(user.name);
 
-  // Single API call - list ID is hardcoded
-  await client.createSubscriber({
+  // Use syncSubscriber which handles the case when the subscriber already exists
+  const result = await client.syncSubscriber({
     email: user.email,
     first_name: firstName || undefined,
     last_name: lastName || undefined,
@@ -42,5 +42,6 @@ export async function syncUserToFluentCRM(user: UserData): Promise<void> {
     lists: [client.getListId()],
   });
 
-  console.log(`[FluentCRM] Synced user ${user.email}`);
+  const action = result.message === 'Added to lists' ? 'added to list' : 'created';
+  console.log(`[FluentCRM] User ${user.email} ${action}`);
 }

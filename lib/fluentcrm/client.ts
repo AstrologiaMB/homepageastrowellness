@@ -8,6 +8,7 @@ import type {
   FluentCRMListsResponse,
   CreateSubscriberData,
   FluentCRMSubscriberResponse,
+  FluentCRMSubscriber,
 } from './types';
 
 // Hardcoded config - move to env variables later
@@ -17,6 +18,13 @@ const CONFIG = {
   password: 'UhL2 ZPXG Gg5q HJjA 3BfU r2PE',
   listId: 358, // "astrochat" list - hardcoded since it always exists
 };
+
+interface SubscribersSearchResponse {
+  subscribers: {
+    data: FluentCRMSubscriber[];
+    total?: number;
+  };
+}
 
 export class FluentCRMClient {
   private baseUrl: string;
@@ -86,6 +94,40 @@ export class FluentCRMClient {
   }
 
   /**
+   * Get a subscriber by email
+   * Uses the special endpoint: /subscribers/0?get_by_email=<email>
+   */
+  async findSubscriberByEmail(email: string): Promise<FluentCRMSubscriber | null> {
+    try {
+      const response = await this.request<{ subscriber: FluentCRMSubscriber }>(
+        `/subscribers/0?get_by_email=${encodeURIComponent(email)}`
+      );
+      return response.subscriber || null;
+    } catch (error) {
+      // 404 or 422 "Subscriber not found" means subscriber doesn't exist
+      if (error instanceof Error &&
+          (error.message.includes('404') || error.message.includes('Subscriber not found'))) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Add a subscriber to lists using PUT with attach_lists
+   */
+  async addSubscriberToLists(subscriberId: number, listIds: number[]): Promise<void> {
+    await this.request(`/subscribers/${subscriberId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        subscriber: {
+          attach_lists: listIds,
+        },
+      }),
+    });
+  }
+
+  /**
    * Create a new subscriber
    */
   async createSubscriber(data: CreateSubscriberData): Promise<FluentCRMSubscriberResponse> {
@@ -93,6 +135,26 @@ export class FluentCRMClient {
       method: 'POST',
       body: JSON.stringify(data),
     });
+  }
+
+  /**
+   * Sync a subscriber - creates if not exists, adds to list if exists
+   * This is the preferred method to use for user registration
+   */
+  async syncSubscriber(data: CreateSubscriberData): Promise<FluentCRMSubscriberResponse> {
+    // First, try to find existing subscriber
+    const existing = await this.findSubscriberByEmail(data.email);
+
+    if (existing) {
+      // Subscriber exists - add to lists if specified
+      if (data.lists && data.lists.length > 0) {
+        await this.addSubscriberToLists(existing.id, data.lists);
+      }
+      return { subscriber: existing, message: 'Added to lists' };
+    }
+
+    // Subscriber doesn't exist - create new
+    return this.createSubscriber(data);
   }
 
   /**
