@@ -19,13 +19,6 @@ const CONFIG = {
   listId: 358, // "astrochat" list - hardcoded since it always exists
 };
 
-interface SubscribersSearchResponse {
-  subscribers: {
-    data: FluentCRMSubscriber[];
-    total?: number;
-  };
-}
-
 export class FluentCRMClient {
   private baseUrl: string;
   private authHeader: string;
