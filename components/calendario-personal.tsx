@@ -911,7 +911,9 @@ export function CalendarioPersonal() {
                                 )}
                               </Badge>
                               <span className="font-medium text-muted-foreground">
-                                {evento.tipo_evento}{' '}
+                                {evento.tipo_evento === 'Aspecto' && evento.tipo_aspecto
+                                  ? evento.tipo_aspecto
+                                  : evento.tipo_evento}{' '}
                                 {evento.planeta1 &&
                                   `(${evento.planeta1}${evento.planeta2 ? `-${evento.planeta2}` : ''})`}
                               </span>
