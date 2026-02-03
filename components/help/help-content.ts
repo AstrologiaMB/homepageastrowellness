@@ -76,7 +76,7 @@ export const HELP_CONTENT: HelpCategory[] = [
       {
         question: '¿Cómo uso el Calendario Personal?',
         answer:
-          'Tu calendario muestra una vista semanal de tus tránsitos. Navega entre semanas o meses para ver cómo los planetas activan tu carta día a día.',
+          'Tu calendario organiza los eventos por importancia. La **Tarjeta Dorada** te muestra el tránsito clave del día. Usa los iconos para identificar la energía al instante: **Flecha (➡️)** para Ingresos a signos y **Estrella (⭐)** para Retrogradaciones. Despliega cada tarjeta para leer cómo te afecta personalmente.',
       },
       {
         question: "¿Qué es el 'Clima Astral'?",
