@@ -8,6 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { StoryModal } from './lunar-cycles/StoryModal';
 import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
+import { getEventStyle } from '@/lib/event-styles';
 import { BookOpen, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
@@ -177,15 +178,35 @@ export function EventoConInterpretacion({
 
   const isHighRelevance = evento.relevance === 'high';
 
+  const style = getEventStyle(evento.tipo_evento);
+  const Icon = style.icon;
+
   const content = (
     <div
       className={`space-y-2 px-3 py-3 sm:px-4 sm:py-4 ${variant === 'minimal' ? 'p-0 sm:p-0' : ''}`}
     >
       {isHighRelevance && variant !== 'minimal' && (
-        <div className="text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider mb-1">
-          Evento Destacado
+        <div className="flex items-center gap-2 mb-1">
+          <div className="p-1 rounded-full bg-amber-500/10 dark:bg-amber-500/20">
+            <Icon className="w-3 h-3 text-amber-700 dark:text-amber-400" />
+          </div>
+          <div className="text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider">
+            Evento Destacado
+          </div>
         </div>
       )}
+
+      {!isHighRelevance && variant !== 'minimal' && (
+        <div className="flex items-center gap-2 mb-1">
+          <div className={`p-1 rounded-md ${style.iconBg}`}>
+            <Icon className={`h-3 w-3 ${style.iconColor}`} />
+          </div>
+          <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${style.badgeColor}`}>
+            {evento.tipo_evento}
+          </div>
+        </div>
+      )}
+
       <div
         className={`font-semibold ${isHighRelevance && variant !== 'minimal' ? 'text-xl font-serif tracking-tight text-amber-900 dark:text-amber-100 leading-tight' : ''}`}
       >
@@ -199,7 +220,11 @@ export function EventoConInterpretacion({
           </span>
         ) : (
           <span>
-            {evento.tipo_evento} a las {horaFormateada}
+            {!isHighRelevance && variant !== 'minimal'
+              ? // For non-high relevance, title is simpler now that we have the badge above
+                `A las ${horaFormateada}`
+              : // For high relevance or minimal, keep existing title
+                `${evento.tipo_evento} a las ${horaFormateada}`}
           </span>
         )}
       </div>
