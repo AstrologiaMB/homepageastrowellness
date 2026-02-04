@@ -58,6 +58,7 @@ declare module 'next-auth/jwt' {
 }
 
 export const authOptions: NextAuthOptions = {
+  // @ts-ignore
   trustHost: true,
   providers: [
     GoogleProvider({
