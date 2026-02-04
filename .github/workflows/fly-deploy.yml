@@ -26,8 +26,7 @@ jobs:
 
       - name: Deploy to Fly.io
         run: |
-          flyctl scale count 0 --yes || true
-          flyctl deploy --remote-only --ha=false
+          flyctl deploy --remote-only --ha=false --strategy bluegreen
 
   review_app:
     name: Deploy review app
