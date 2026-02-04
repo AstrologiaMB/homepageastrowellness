@@ -83,13 +83,12 @@ export function StoryModal({ isOpen, onClose, family }: StoryModalProps) {
                   {/* Timeline Node */}
                   <div
                     className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 
-                                        ${
-                                          isCurrent
-                                            ? 'bg-purple-600 border-purple-600 ring-4 ring-purple-100'
-                                            : isPast
-                                              ? 'bg-purple-400 border-purple-400'
-                                              : 'bg-white border-slate-300'
-                                        }`}
+                                        ${isCurrent
+                        ? 'bg-purple-600 border-purple-600 ring-4 ring-purple-100'
+                        : isPast
+                          ? 'bg-purple-400 border-purple-400'
+                          : 'bg-white border-slate-300'
+                      }`}
                   />
 
                   <div
