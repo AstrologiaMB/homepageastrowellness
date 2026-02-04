@@ -81,6 +81,8 @@ const getEventStyle = (tipoEvento: string) => {
 };
 
 export function EventoAstrologico({ evento }: EventoAstrologicoProps) {
+  if (!evento) return null;
+
   // Handle special case for house transits
   if (evento.tipo_evento === 'Tránsito Casa Estado') {
     // Use structured data for house transits and progressed moon
