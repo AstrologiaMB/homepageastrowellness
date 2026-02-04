@@ -55,9 +55,9 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
   }
 
   // Separar eventos por tipo para mejor organización
-  const posicionesBasicas = eventos.filter((event) => event.tipo === 'posicion_basica');
-  const cuspidesCruzadas = eventos.filter((event) => event.tipo === 'cuspide_cruzada');
-  const aspectosCruzados = eventos.filter((event) => event.tipo === 'aspecto_cruzado');
+  const posicionesBasicas = eventos.filter((event) => event?.tipo === 'posicion_basica');
+  const cuspidesCruzadas = eventos.filter((event) => event?.tipo === 'cuspide_cruzada');
+  const aspectosCruzados = eventos.filter((event) => event?.tipo === 'aspecto_cruzado');
 
   return (
     <div className="space-y-8">

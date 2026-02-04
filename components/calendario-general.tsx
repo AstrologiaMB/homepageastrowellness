@@ -85,8 +85,13 @@ export function CalendarioGeneral() {
       const allEvents = [...currentYearData, ...nextYearData];
       const uniqueEvents = allEvents.filter(
         (event, index, self) =>
+          event &&
+          event.fecha_utc &&
           index ===
-          self.findIndex((e) => e.fecha_utc === event.fecha_utc && e.hora_utc === event.hora_utc)
+          self.findIndex(
+            (e) =>
+              e && e.fecha_utc === event.fecha_utc && e.hora_utc === event.hora_utc
+          )
       );
 
       setEventos(uniqueEvents);
@@ -285,17 +290,15 @@ export function CalendarioGeneral() {
           return (
             <Card
               key={day.toISOString()}
-              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-300 hover:shadow-lg ${
-                isToday
+              className={`flex-none w-full max-w-full box-border overflow-hidden transition-all duration-300 hover:shadow-lg ${isToday
                   ? 'border-[2px] border-primary bg-primary/5 dark:bg-primary/10'
                   : 'glass-card'
-              }`}
+                }`}
             >
               {/* Day Header */}
               <div
-                className={`px-3 py-3 md:p-4 rounded-t-lg ${
-                  isToday ? 'bg-primary/10 dark:bg-primary/20' : 'bg-muted/50 dark:bg-muted/30'
-                }`}
+                className={`px-3 py-3 md:p-4 rounded-t-lg ${isToday ? 'bg-primary/10 dark:bg-primary/20' : 'bg-muted/50 dark:bg-muted/30'
+                  }`}
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold text-lg capitalize flex items-center gap-2">
