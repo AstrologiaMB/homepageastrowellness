@@ -21,22 +21,22 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     // 2. Ejecutar borrado de caché
-    const result = await prisma.interpretacionCache.deleteMany({
+    const result = await prisma.personalCalendarCache.deleteMany({
       where: {
         userId: userId,
       },
     });
 
     console.log(
-      `[Admin] Caché limpiada para usuario ${userId}. Registros eliminados: ${result.count}`
+      `[Admin] Caché de calendario limpiada para usuario ${userId}. Registros eliminados: ${result.count}`
     );
 
     return NextResponse.json({
-      message: 'Caché de interpretaciones limpiada exitosamente',
+      message: 'Caché de calendario limpiada exitosamente',
       deletedCount: result.count,
     });
   } catch (error) {
-    console.error('Error al limpiar caché de interpretaciones:', error);
+    console.error('Error al limpiar caché de calendario:', error);
     return NextResponse.json(
       { error: 'Error interno del servidor al limpiar la caché' },
       { status: 500 }

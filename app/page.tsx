@@ -1,15 +1,14 @@
 'use client';
 
+import { BentoFeatures } from '@/components/landing/bento-features';
+import { ComparisonTable } from '@/components/landing/comparison-table';
+import { HeroSection } from '@/components/landing/hero-section';
+import { LoginButton } from '@/components/landing/login-button';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Calendar, Star } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-// import { TermsCheckbox } from "@/components/auth/terms-checkbox"; // Unused in new design
-import { BentoFeatures } from '@/components/landing/bento-features';
-import { ComparisonTable } from '@/components/landing/comparison-table';
-import { HeroSection } from '@/components/landing/hero-section';
-import { LoginButton } from '@/components/landing/login-button';
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -34,7 +33,7 @@ export default function Page() {
             Hola, {session.user?.name || 'Viajero Astral'}
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg">
-            Bienvenido a Astrowellness. Tu guía astrológica para el 2026 está lista.
+            Bienvenido a Astrochat. Tu guía astrológica para el 2026 está lista.
           </p>
         </div>
 

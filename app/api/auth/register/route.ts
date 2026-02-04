@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { Resend } from 'resend'
 import prisma from '@/lib/prisma'
+import { syncUserToFluentCRM } from '@/lib/fluentcrm'
 
 // Configurar servicios de email
 const sesClient = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY ? new SESClient({
@@ -74,6 +75,14 @@ export async function POST(request: NextRequest) {
       console.error('Error enviando email de bienvenida:', emailError)
       // No fallar la creación del usuario por error de email
     }
+
+    // Sync to FluentCRM (non-blocking)
+    syncUserToFluentCRM({
+      email: email.toLowerCase(),
+      name: name.trim(),
+    }).catch((error) => {
+      console.error('[FluentCRM] Failed to sync user:', error)
+    })
 
     return NextResponse.json({
       message: 'Usuario creado exitosamente',

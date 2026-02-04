@@ -1,31 +1,31 @@
-import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import prisma from "@/lib/prisma"
-import { sendEmail } from "@/lib/email-service"
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth-options';
+import prisma from '@/lib/prisma';
+import { sendEmail } from '@/lib/email-service';
 
-const MAX_BIRTH_DATA_CHANGES = 3
+const MAX_BIRTH_DATA_CHANGES = 3;
 
 export async function POST(req: Request) {
   try {
     // 1. Verificar autenticación
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
     // 2. Obtener datos del formulario
-    const data = await req.json()
-    console.log("Datos recibidos para actualización:", data.email || session.user.email) // Log seguro
+    const data = await req.json();
+    console.log('Datos recibidos para actualización:', data.email || session.user.email); // Log seguro
 
     // 3. Obtener usuario actual para comparación
     const currentUser = await prisma.user.findUnique({
       where: { email: session.user.email },
-      include: { cartasNatales: { select: { id: true } } } // Solo necesitamos saber si existen para invalidar
-    })
+      include: { cartasNatales: { select: { id: true } } }, // Solo necesitamos saber si existen para invalidar
+    });
 
     if (!currentUser) {
-      return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
+      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
     }
 
     // 4. Preparar nuevos datos
@@ -37,47 +37,54 @@ export async function POST(req: Request) {
       birthDateFormatted = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
-    const newKnowsBirthTime = Boolean(data.knowsBirthTime)
-    const newBirthHour = newKnowsBirthTime ? Number(data.birthHour) : null
-    const newBirthMinute = newKnowsBirthTime ? Number(data.birthMinute) : null
-    const newBirthCity = data.birthCity as string
-    const newBirthCountry = data.birthCountry as string
+    const newKnowsBirthTime = Boolean(data.knowsBirthTime);
+    const newBirthHour = newKnowsBirthTime ? Number(data.birthHour) : null;
+    const newBirthMinute = newKnowsBirthTime ? Number(data.birthMinute) : null;
+    const newBirthCity = data.birthCity as string;
+    const newBirthCountry = data.birthCountry as string;
 
     // 5. Detectar cambios en datos de nacimiento (CRÍTICOS)
     // Comparamos valores primitivos. Para fechas, usamos getTime()
-    const isDateChanged = currentUser.birthDate?.getTime() !== birthDateFormatted?.getTime()
-    const isTimeChanged = currentUser.birthHour !== newBirthHour || currentUser.birthMinute !== newBirthMinute
+    const isDateChanged = currentUser.birthDate?.getTime() !== birthDateFormatted?.getTime();
+    const isTimeChanged =
+      currentUser.birthHour !== newBirthHour || currentUser.birthMinute !== newBirthMinute;
     // Comparamos strings normalizados por si acaso (trim)
-    const isCityChanged = currentUser.birthCity?.trim() !== newBirthCity?.trim()
-    const isCountryChanged = currentUser.birthCountry?.trim() !== newBirthCountry?.trim()
+    const isCityChanged = currentUser.birthCity?.trim() !== newBirthCity?.trim();
+    const isCountryChanged = currentUser.birthCountry?.trim() !== newBirthCountry?.trim();
 
-    const isBirthDataChanged = isDateChanged || isTimeChanged || isCityChanged || isCountryChanged
+    const isBirthDataChanged = isDateChanged || isTimeChanged || isCityChanged || isCountryChanged;
 
     // 6. Lógica de Restricción
-    let shouldIncrementCounter = false
-    let currentCount = currentUser.birthDataChangeCount
+    let shouldIncrementCounter = false;
+    let currentCount = currentUser.birthDataChangeCount;
 
     // Si hay cambios en datos de nacimiento
     if (isBirthDataChanged) {
       // Verificar si es la primera vez (si todos los campos estaban vacíos, no cuenta como cambio, es "carga inicial")
-      const isFirstLoad = !currentUser.birthDate && !currentUser.birthCity
+      const isFirstLoad = !currentUser.birthDate && !currentUser.birthCity;
 
       if (!isFirstLoad) {
         // Es una modificación real
         if (currentCount >= MAX_BIRTH_DATA_CHANGES) {
           // Admin override check (hardcoded users for safety/simplicity per request)
-          const isAdmin = ["info@astrochat.online", "info@mariablaquier.com"].includes(session.user.email)
+          const isAdmin = ['info@astrochat.online', 'info@mariablaquier.com'].includes(
+            session.user.email
+          );
 
           if (!isAdmin) {
-            console.warn(`Usuario ${session.user.email} intentó exceder el límite de cambios.`)
-            return NextResponse.json({
-              error: "Has alcanzado el límite de 3 cambios en tus datos de nacimiento. Por favor contacta a info@astrochat.online para solicitar ayuda."
-            }, { status: 403 })
+            console.warn(`Usuario ${session.user.email} intentó exceder el límite de cambios.`);
+            return NextResponse.json(
+              {
+                error:
+                  'Has alcanzado el límite de 3 cambios en tus datos de nacimiento. Por favor contacta a info@astrochat.online para solicitar ayuda.',
+              },
+              { status: 403 }
+            );
           }
         }
 
         // Si no excedió, marcaremos para incrementar
-        shouldIncrementCounter = true
+        shouldIncrementCounter = true;
       }
     }
 
@@ -104,27 +111,27 @@ export async function POST(req: Request) {
         residenceLon: data.residenceLon ? Number(data.residenceLon) : null,
         // Note: residence timezone is not stored separately as schema doesn't have that field
         // Incrementamos contador atomicamente si corresponde
-        birthDataChangeCount: shouldIncrementCounter ? { increment: 1 } : undefined
-      }
-    })
+        birthDataChangeCount: shouldIncrementCounter ? { increment: 1 } : undefined,
+      },
+    });
 
     // 8. Post-Procesamiento (Cache y Emails)
     if (isBirthDataChanged) {
       // INVALIDAR CACHE: Eliminar cartas natales antiguas
       if (currentUser.cartasNatales.length > 0) {
         await prisma.cartaNatal.deleteMany({
-          where: { userId: currentUser.id }
-        })
-        console.log(`Cache de cartas invalidado para usuario ${currentUser.email}`)
+          where: { userId: currentUser.id },
+        });
+        console.log(`Cache de cartas invalidado para usuario ${currentUser.email}`);
       }
 
       // ENVIAR EMAIL DE NOTIFICACIÓN
       if (shouldIncrementCounter) {
-        const remaining = MAX_BIRTH_DATA_CHANGES - (currentCount + 1)
+        const remaining = MAX_BIRTH_DATA_CHANGES - (currentCount + 1);
 
         await sendEmail({
           to: session.user.email,
-          subject: "Actualización de Datos de Nacimiento - Astrochat",
+          subject: 'Actualización de Datos de Nacimiento - Astrochat',
           html: `
             <div style="font-family: Arial, sans-serif; padding: 20px;">
               <h2>Has actualizado tus datos de nacimiento</h2>
@@ -137,8 +144,8 @@ export async function POST(req: Request) {
               <p>Si necesitas ayuda adicional, contacta a info@astrochat.online.</p>
             </div>
           `,
-          text: `Has actualizado tus datos de nacimiento. Te quedan ${remaining} cambios disponibles.`
-        })
+          text: `Has actualizado tus datos de nacimiento. Te quedan ${remaining} cambios disponibles.`,
+        });
       }
     }
 
@@ -147,16 +154,15 @@ export async function POST(req: Request) {
       updatedUser.birthDate &&
       updatedUser.birthCity &&
       updatedUser.residenceCity
-    )
+    );
 
     return NextResponse.json({
       success: true,
       hasCompletedData: hasCompletedData,
-      changesLeft: MAX_BIRTH_DATA_CHANGES - updatedUser.birthDataChangeCount
-    })
-
+      changesLeft: MAX_BIRTH_DATA_CHANGES - updatedUser.birthDataChangeCount,
+    });
   } catch (error) {
-    console.error("Error al actualizar usuario:", error)
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 })
+    console.error('Error al actualizar usuario:', error);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }

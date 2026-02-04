@@ -211,7 +211,9 @@ export function CalendarioPersonal() {
 
           setEventos((prev) => {
             // Eliminar eventos existentes para este año antes de agregar los nuevos (evitar duplicados)
-            const otherYearsEvents = prev.filter((e) => !e.fecha_utc.startsWith(String(year)));
+            const otherYearsEvents = prev.filter(
+              (e) => e && e.fecha_utc && !e.fecha_utc.startsWith(String(year))
+            );
 
             return [...otherYearsEvents, ...filteredEvents].sort((a, b) => {
               // Ordenar por fecha y hora
@@ -411,11 +413,10 @@ export function CalendarioPersonal() {
                           <Button
                             key={monthIndex}
                             variant={isCurrentMonth ? 'default' : 'outline'}
-                            className={`h-14 flex flex-col items-center justify-center gap-1 transition-all duration-200 ${
-                              isCurrentMonth
+                            className={`h-14 flex flex-col items-center justify-center gap-1 transition-all duration-200 ${isCurrentMonth
                                 ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
                                 : 'hover:border-primary/50 hover:bg-primary/5'
-                            }`}
+                              }`}
                             onClick={() => handleMonthSelect(date)}
                           >
                             <span className="text-sm font-semibold capitalize">
@@ -443,11 +444,10 @@ export function CalendarioPersonal() {
                   <Button
                     key={index}
                     variant={isCurrentWeek ? 'default' : 'outline'}
-                    className={`justify-start h-auto py-3 px-4 transition-all duration-200 ${
-                      isCurrentWeek
+                    className={`justify-start h-auto py-3 px-4 transition-all duration-200 ${isCurrentWeek
                         ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90 border-primary'
                         : 'hover:border-primary/50 hover:bg-primary/5'
-                    }`}
+                      }`}
                     onClick={() => handleDateSelect(week.start)}
                   >
                     <div className="flex flex-col items-start gap-1 w-full">
@@ -739,11 +739,10 @@ export function CalendarioPersonal() {
                     <div className="flex items-center gap-2 z-10 w-full mb-1">
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-lg shadow-sm shrink-0
-                        ${
-                          item.tipo === 'luna_progresada'
+                        ${item.tipo === 'luna_progresada'
                             ? 'bg-primary/10 text-primary'
                             : 'bg-accent/10 text-accent'
-                        }
+                          }
                       `}
                       >
                         {item.simbolo || (item.tipo === 'luna_progresada' ? '🌙' : '🪐')}
@@ -826,11 +825,10 @@ export function CalendarioPersonal() {
           return (
             <div
               key={day.toISOString()}
-              className={`flex flex-col gap-3 p-4 rounded-xl border transition-colors ${
-                isToday
+              className={`flex flex-col gap-3 p-4 rounded-xl border transition-colors ${isToday
                   ? 'bg-primary/5 border-primary/40 dark:bg-primary/10'
                   : 'bg-card/50 border-border/50 hover:bg-card/80'
-              }`}
+                }`}
             >
               {/* Day Header */}
               <div className="flex items-baseline gap-2 pb-2 border-b border-border/50">

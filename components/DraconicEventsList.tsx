@@ -55,9 +55,9 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
   }
 
   // Separar eventos por tipo para mejor organización
-  const posicionesBasicas = eventos.filter((event) => event.tipo === 'posicion_basica');
-  const cuspidesCruzadas = eventos.filter((event) => event.tipo === 'cuspide_cruzada');
-  const aspectosCruzados = eventos.filter((event) => event.tipo === 'aspecto_cruzado');
+  const posicionesBasicas = eventos.filter((event) => event?.tipo === 'posicion_basica');
+  const cuspidesCruzadas = eventos.filter((event) => event?.tipo === 'cuspide_cruzada');
+  const aspectosCruzados = eventos.filter((event) => event?.tipo === 'aspecto_cruzado');
 
   return (
     <div className="space-y-8">
@@ -82,9 +82,18 @@ export function DraconicEventsList({ eventos, loading, error }: DraconicEventsLi
             🏠 Cúspides Cruzadas ({cuspidesCruzadas.length})
           </h3>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            {cuspidesCruzadas.map((event) => (
-              <DraconicEventCard key={event.id} event={event} />
-            ))}
+            {cuspidesCruzadas
+              .sort((a, b) => {
+                // Extraer número de casa del título "Casa X Dracónica..."
+                const getHouse = (t: string) => {
+                  const m = t.match(/Casa\s+(\d+)/i);
+                  return m ? parseInt(m[1]) : 999;
+                };
+                return getHouse(a.titulo) - getHouse(b.titulo);
+              })
+              .map((event) => (
+                <DraconicEventCard key={event.id} event={event} />
+              ))}
           </div>
         </div>
       )}

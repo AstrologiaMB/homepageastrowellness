@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
 
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     // Obtener datos del request
     const { palabra } = await request.json();
-    
+
     if (!palabra || typeof palabra !== 'string' || palabra.trim().length === 0) {
       return NextResponse.json({ error: 'Palabra requerida' }, { status: 400 });
     }
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     // Verificar caché
     const cacheExistente = await prisma.astrogematriaCache.findUnique({
-      where: { palabra: palabraNormalizada }
+      where: { palabra: palabraNormalizada },
     });
 
     if (cacheExistente) {
@@ -36,19 +36,22 @@ export async function POST(request: NextRequest) {
           reduccion_zodiacal: cacheExistente.reduccionZodiacal,
           signo: cacheExistente.signo,
           grados: cacheExistente.grados,
-          posicion_completa: cacheExistente.posicionCompleta
+          posicion_completa: cacheExistente.posicionCompleta,
         },
         cached: true,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
 
     // Llamar al microservicio de astrogematría
-    const astrogematriaResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ palabra })
-    });
+    const astrogematriaResponse = await fetch(
+      `${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ palabra }),
+      }
+    );
 
     if (!astrogematriaResponse.ok) {
       const errorData = await astrogematriaResponse.json().catch(() => ({}));
@@ -71,8 +74,8 @@ export async function POST(request: NextRequest) {
           reduccionZodiacal: resultado.data.reduccion_zodiacal,
           signo: resultado.data.signo,
           grados: resultado.data.grados,
-          posicionCompleta: resultado.data.posicion_completa
-        }
+          posicionCompleta: resultado.data.posicion_completa,
+        },
       });
     } catch (cacheError) {
       // Si hay error en el caché, continuar sin fallar
@@ -83,16 +86,15 @@ export async function POST(request: NextRequest) {
       success: true,
       data: resultado.data,
       cached: false,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('Error en API astrogematría:', error);
-    
+
     // Determinar el tipo de error y código de estado apropiado
     let statusCode = 500;
     let errorMessage = 'Error interno del servidor';
-    
+
     if (error instanceof Error) {
       if (error.message.includes('fetch')) {
         statusCode = 503;
@@ -105,9 +107,12 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ 
-      success: false,
-      error: errorMessage 
-    }, { status: statusCode });
+    return NextResponse.json(
+      {
+        success: false,
+        error: errorMessage,
+      },
+      { status: statusCode }
+    );
   }
 }

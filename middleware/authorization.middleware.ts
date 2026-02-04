@@ -1,15 +1,15 @@
 /**
  * Authorization Middleware
- * 
+ *
  * Middleware for checking if a user has the required entitlements
  * to access a specific resource.
- * 
+ *
  * @module middleware/authorization.middleware
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth-options';
 import { AuthError } from '@/lib/errors/AuthError';
 import { logger } from '@/lib/logger';
 import { isAdmin } from '@/services/auth.service';
@@ -22,7 +22,10 @@ import type { UserEntitlements } from '@/types/auth.types';
  * @param entitlement - Entitlement to check
  * @returns True if user has the entitlement
  */
-function hasEntitlement(entitlements: UserEntitlements | null | undefined, entitlement: keyof UserEntitlements): boolean {
+function hasEntitlement(
+  entitlements: UserEntitlements | null | undefined,
+  entitlement: keyof UserEntitlements
+): boolean {
   if (!entitlements) {
     return false;
   }
@@ -39,7 +42,7 @@ function castEntitlements(entitlements: any): UserEntitlements | null {
 
 /**
  * Require base bundle entitlement
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -59,9 +62,9 @@ export async function requireBaseBundle(request: NextRequest) {
   }
 
   if (!hasEntitlement(entitlements, 'hasBaseBundle')) {
-    logger.warn('Unauthorized base bundle access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized base bundle access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Base bundle subscription required');
   }
@@ -71,7 +74,7 @@ export async function requireBaseBundle(request: NextRequest) {
 
 /**
  * Require lunar calendar entitlement
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -79,7 +82,9 @@ export async function requireLunarCalendar(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    logger.warn('Unauthenticated lunar calendar access attempt', { path: request.nextUrl.pathname });
+    logger.warn('Unauthenticated lunar calendar access attempt', {
+      path: request.nextUrl.pathname,
+    });
     throw AuthError.unauthorized('Authentication required');
   }
 
@@ -91,9 +96,9 @@ export async function requireLunarCalendar(request: NextRequest) {
   }
 
   if (!hasEntitlement(entitlements, 'hasLunarCalendar')) {
-    logger.warn('Unauthorized lunar calendar access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized lunar calendar access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Lunar calendar add-on required');
   }
@@ -103,7 +108,7 @@ export async function requireLunarCalendar(request: NextRequest) {
 
 /**
  * Require astrogematria entitlement
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -123,9 +128,9 @@ export async function requireAstrogematria(request: NextRequest) {
   }
 
   if (!hasEntitlement(entitlements, 'hasAstrogematria')) {
-    logger.warn('Unauthorized astrogematria access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized astrogematria access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Astrogematria add-on required');
   }
@@ -135,7 +140,7 @@ export async function requireAstrogematria(request: NextRequest) {
 
 /**
  * Require elective chart entitlement
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -143,7 +148,9 @@ export async function requireElectiveChart(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    logger.warn('Unauthenticated elective chart access attempt', { path: request.nextUrl.pathname });
+    logger.warn('Unauthenticated elective chart access attempt', {
+      path: request.nextUrl.pathname,
+    });
     throw AuthError.unauthorized('Authentication required');
   }
 
@@ -155,9 +162,9 @@ export async function requireElectiveChart(request: NextRequest) {
   }
 
   if (!hasEntitlement(entitlements, 'hasElectiveChart')) {
-    logger.warn('Unauthorized elective chart access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized elective chart access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Elective chart add-on required');
   }
@@ -167,7 +174,7 @@ export async function requireElectiveChart(request: NextRequest) {
 
 /**
  * Require draconic chart entitlement
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -175,7 +182,9 @@ export async function requireDraconicAccess(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    logger.warn('Unauthenticated draconic chart access attempt', { path: request.nextUrl.pathname });
+    logger.warn('Unauthenticated draconic chart access attempt', {
+      path: request.nextUrl.pathname,
+    });
     throw AuthError.unauthorized('Authentication required');
   }
 
@@ -187,9 +196,9 @@ export async function requireDraconicAccess(request: NextRequest) {
   }
 
   if (!hasEntitlement(entitlements, 'hasDraconicAccess')) {
-    logger.warn('Unauthorized draconic chart access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized draconic chart access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Draconic chart access required');
   }
@@ -199,7 +208,7 @@ export async function requireDraconicAccess(request: NextRequest) {
 
 /**
  * Require admin role
- * 
+ *
  * @param request - Next.js request object
  * @returns Promise resolving to session or throws error
  */
@@ -212,9 +221,9 @@ export async function requireAdmin(request: NextRequest) {
   }
 
   if (!isAdmin(session.user.email)) {
-    logger.warn('Unauthorized admin access attempt', { 
-      email: session.user.email, 
-      path: request.nextUrl.pathname 
+    logger.warn('Unauthorized admin access attempt', {
+      email: session.user.email,
+      path: request.nextUrl.pathname,
     });
     throw AuthError.forbidden('Admin access required');
   }

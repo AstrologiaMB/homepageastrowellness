@@ -1,21 +1,21 @@
 "use client"
 
 import { useAuth } from "@/auth/auth-provider"
-import { useRouter } from "next/navigation"
-import { User } from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
+import { User } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function NavUser() {
   const { user, logout } = useAuth()
@@ -44,11 +44,11 @@ export function NavUser() {
           variant="outline"
           onClick={handleAction(() => router.push('/auth/login'))}
           className="w-full justify-center group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2 justify-start font-light hover:bg-sidebar-accent/50 transition-colors"
-          title={state === "collapsed" ? "Ingresar" : undefined}
+          title={state === "collapsed" ? "Iniciar sesión" : undefined}
         >
           <User className="h-4 w-4 group-data-[collapsible=icon]:mr-0" strokeWidth={1.5} />
           <span className="group-data-[collapsible=icon]:hidden">
-            Ingresar
+            Iniciar sesión
           </span>
         </Button>
 
