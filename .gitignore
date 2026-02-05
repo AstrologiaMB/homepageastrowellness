@@ -89,3 +89,6 @@ TITULOS_EVENTOS_*.txt
 
 # Memory bank (development only)
 memory_bank/
+
+# Sentry Config File
+.env.sentry-build-plugin
