@@ -17,7 +17,20 @@ export const features = {
     enableAllFeatures: process.env.NEXT_PUBLIC_ENABLE_ALL_FEATURES === 'true',
 };
 
-export const isFeatureEnabled = (featureKey: keyof typeof features) => {
+// Email del administrador autorizado para ver features ocultos
+const ADMIN_EMAIL = 'info@astrochat.online';
+
+export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: string | null) => {
+    // 1. Si el flag global de dev está activo, todo activo
     if (features.enableAllFeatures) return true;
-    return features[featureKey] || false;
+
+    // 2. Si el feature está oficialmente activo, activo
+    if (features[featureKey]) return true;
+
+    // 3. BYPASS: Si es el calendario personal Y es el admin, activo
+    if (featureKey === 'enablePersonalCalendar' && userEmail === ADMIN_EMAIL) {
+        return true;
+    }
+
+    return false;
 };
