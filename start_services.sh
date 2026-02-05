@@ -34,7 +34,7 @@ start_service "/Users/apple/astro_interpretador_rag_fastapi" "source venv/bin/ac
 start_service "/Users/apple/astrogematria_fastapi" "source venv/bin/activate && python app.py" "FastAPI Astrogematría" 8003
 start_service "/Users/apple/astro-calendar-personal-fastapi" "./start_robust.sh" "FastAPI Calendario Personal" 8004
 start_service "/Users/apple/carta-electiva-api" "source venv/bin/activate && python -m uvicorn app:app --host 0.0.0.0 --port 8005 --reload" "FastAPI Carta Electiva" 8005
-start_service "/Users/apple/sidebar-fastapi" "npm run dev" "Next.js Frontend" 3000
+start_service "/Users/apple/astrochat/homepageastrowellness" "npm run dev" "Next.js Frontend" 3000
 
 echo ""
 echo "⏳ Esperando que los servicios se inicialicen..."
