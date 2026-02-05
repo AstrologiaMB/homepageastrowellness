@@ -11,32 +11,13 @@ import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
 import { getEventStyle } from '@/lib/event-styles';
 import { BookOpen, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { createDateFromUtc } from '@/lib/date-utils';
+
+import { PersonalCalendarEvent } from '@/lib/personal-calendar-api';
+import { RelevanceLevel, HouseTransitStrict } from '@/lib/api-clients/calendar';
 
 interface EventoConInterpretacionProps {
-  evento: {
-    fecha_utc: string;
-    hora_utc: string;
-    tipo_evento: string;
-    descripcion: string;
-    planeta1?: string;
-    planeta2?: string;
-    posicion1?: string;
-    posicion2?: string;
-    tipo_aspecto?: string;
-    house_transits?: Array<{
-      tipo: string;
-      planeta: string;
-      simbolo: string;
-      signo?: string;
-      grado?: number;
-      casa: number;
-      casa_significado: string;
-    }>;
-    // Otros campos opcionales
-    // Otros campos opcionales
-    relevance?: 'high' | 'medium' | 'low';
-    interpretacion?: string;
-  };
+  evento: PersonalCalendarEvent;
   natalData?: any;
   variant?: 'default' | 'minimal';
   className?: string;
@@ -146,12 +127,12 @@ export function EventoConInterpretacion({
   };
 
   // Extraer solo la hora y minutos de la hora UTC
-  const horaLocal = new Date(`${evento.fecha_utc}T${evento.hora_utc}:00Z`);
+  const horaLocal = createDateFromUtc(evento.fecha_utc, evento.hora_utc);
   const horaFormateada = `${horaLocal.getHours().toString().padStart(2, '0')}:${horaLocal.getMinutes().toString().padStart(2, '0')}`;
 
   // Handle special case for house transits
   if (evento.tipo_evento === 'Tránsito Casa Estado') {
-    const houseTransits = evento.house_transits || [];
+    const houseTransits: HouseTransitStrict[] = evento.house_transits || [];
 
     return (
       <div className="w-full">
@@ -176,7 +157,7 @@ export function EventoConInterpretacion({
     );
   }
 
-  const isHighRelevance = evento.relevance === 'high';
+  const isHighRelevance = evento.relevance === RelevanceLevel.HIGH;
 
   const style = getEventStyle(evento.tipo_evento);
   const Icon = style.icon;
@@ -211,10 +192,10 @@ export function EventoConInterpretacion({
         className={`font-semibold ${isHighRelevance && variant !== 'minimal' ? 'text-xl font-serif tracking-tight text-amber-900 dark:text-amber-100 leading-tight' : ''}`}
       >
         {isHighRelevance &&
-        variant !== 'minimal' &&
-        evento.tipo_evento === 'Aspecto' &&
-        evento.planeta1 &&
-        evento.tipo_aspecto ? (
+          variant !== 'minimal' &&
+          evento.tipo_evento === 'Aspecto' &&
+          evento.planeta1 &&
+          evento.tipo_aspecto ? (
           <span>
             {evento.planeta1} {evento.tipo_aspecto} {evento.planeta2}
           </span>
@@ -222,9 +203,9 @@ export function EventoConInterpretacion({
           <span>
             {!isHighRelevance && variant !== 'minimal'
               ? // For non-high relevance, title is simpler now that we have the badge above
-                `A las ${horaFormateada}`
+              `A las ${horaFormateada}`
               : // For high relevance or minimal, keep existing title
-                `${evento.tipo_evento} a las ${horaFormateada}`}
+              `${evento.tipo_evento} a las ${horaFormateada}`}
           </span>
         )}
       </div>

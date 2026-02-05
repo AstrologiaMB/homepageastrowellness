@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Moon, RefreshCw, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { createDateFromUtc } from '@/lib/date-utils';
 
 interface AstroEvent {
   fecha_utc: string;
@@ -99,14 +100,14 @@ export function CalendarioLunar() {
           return !eclipseKeys.has(key);
         });
 
-        const aspectEvents = allEvents.filter((e) => e.metadata?.phase_type);
+        const aspectEvents = allEvents.filter((e) => e.phase_type);
 
         // Grouping
         const grouped: LunarEventGroup[] = phaseEvents.map((main) => {
           // Construct proper UTC date object
-          // fecha_utc is "YYYY-MM-DD", hora_utc is "HH:MM"
-          const isoString = `${main.fecha_utc}T${main.hora_utc}:00Z`;
-          const fullDate = new Date(isoString);
+          // fecha_utc is now a full ISO string (YYYY-MM-DDTHH:MM:SSZ)
+          // or fallback if backend changes
+          const fullDate = createDateFromUtc(main.fecha_utc, main.hora_utc);
 
           const relatedAspects = aspectEvents.filter((asp) => {
             // Aspect might not have same exact minute if calculated slightly differently?

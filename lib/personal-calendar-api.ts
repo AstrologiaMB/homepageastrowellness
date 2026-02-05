@@ -1,16 +1,7 @@
-interface PersonalCalendarEvent {
-  fecha_utc: string;
-  hora_utc: string;
-  tipo_evento: string;
-  descripcion: string;
-  planeta1?: string;
-  planeta2?: string;
-  tipo_aspecto?: string;
-  orbe?: string;
-  es_aplicativo?: string;
-  harmony?: string;
-  [key: string]: any;
-}
+import { AstroEventStrict } from '@/lib/api-clients/calendar';
+
+// Re-export strict type for use in components
+export type PersonalCalendarEvent = AstroEventStrict;
 
 interface NatalData {
   points: {

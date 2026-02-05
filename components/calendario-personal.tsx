@@ -44,31 +44,15 @@ import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoConInterpretacion } from './evento-con-interpretacion';
 import { useUserNatalData } from '@/hooks/use-user-natal-data';
-import { fetchPersonalCalendar, checkMicroserviceHealth } from '@/lib/personal-calendar-api';
-
-// Definir la interfaz para los eventos personales
-interface EventoPersonal {
-  fecha_utc: string;
-  hora_utc: string;
-  tipo_evento: string;
-  descripcion: string;
-  planeta1?: string;
-  planeta2?: string;
-  tipo_aspecto?: string;
-  orbe?: string;
-  es_aplicativo?: string;
-  harmony?: string;
-  relevance?: 'high' | 'medium' | 'low';
-  interpretacion?: string;
-  [key: string]: any;
-}
+import { fetchPersonalCalendar, checkMicroserviceHealth, PersonalCalendarEvent } from '@/lib/personal-calendar-api';
+import { RelevanceLevel } from '@/lib/api-clients/calendar';
 
 export function CalendarioPersonal() {
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { locale: es }));
   const [isDateSelectOpen, setIsDateSelectOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false); // NEW STATE
   const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
-  const [eventos, setEventos] = useState<EventoPersonal[]>([]);
+  const [eventos, setEventos] = useState<PersonalCalendarEvent[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
   const [calculationError, setCalculationError] = useState<string | null>(null);
   // Track which years have been loaded to avoid re-fetching
@@ -414,8 +398,8 @@ export function CalendarioPersonal() {
                             key={monthIndex}
                             variant={isCurrentMonth ? 'default' : 'outline'}
                             className={`h-14 flex flex-col items-center justify-center gap-1 transition-all duration-200 ${isCurrentMonth
-                                ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
-                                : 'hover:border-primary/50 hover:bg-primary/5'
+                              ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
+                              : 'hover:border-primary/50 hover:bg-primary/5'
                               }`}
                             onClick={() => handleMonthSelect(date)}
                           >
@@ -445,8 +429,8 @@ export function CalendarioPersonal() {
                     key={index}
                     variant={isCurrentWeek ? 'default' : 'outline'}
                     className={`justify-start h-auto py-3 px-4 transition-all duration-200 ${isCurrentWeek
-                        ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90 border-primary'
-                        : 'hover:border-primary/50 hover:bg-primary/5'
+                      ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90 border-primary'
+                      : 'hover:border-primary/50 hover:bg-primary/5'
                       }`}
                     onClick={() => handleDateSelect(week.start)}
                   >
@@ -660,7 +644,7 @@ export function CalendarioPersonal() {
 
                 // Filtrar eventos de estado para el mes actual que se está visualizando
                 const stateEvents = eventos.filter((e) => e.tipo_evento === 'Tránsito Casa Estado');
-                let targetEvent: EventoPersonal | null = null;
+                let targetEvent: PersonalCalendarEvent | null = null;
 
                 if (stateEvents.length > 0) {
                   // Estrategia: Buscar el evento más cercano a la semana que se está visualizando.
@@ -670,7 +654,7 @@ export function CalendarioPersonal() {
                   let minDiff = Infinity;
                   const weekCenter = addDays(currentWeekStart, 3); // Comparamos con el centro de la semana
 
-                  stateEvents.forEach((e) => {
+                  for (const e of stateEvents) {
                     const eDate = createDateFromUtc(e.fecha_utc, e.hora_utc);
                     const diff = Math.abs(eDate.getTime() - weekCenter.getTime());
 
@@ -678,12 +662,12 @@ export function CalendarioPersonal() {
                       minDiff = diff;
                       targetEvent = e;
                     }
-                  });
+                  }
                 }
 
                 if (targetEvent) {
                   // Extraer items del metadata del evento seleccionado
-                  const houseTransits = (targetEvent as any).metadata?.house_transits || [];
+                  const houseTransits = targetEvent.house_transits || [];
                   if (Array.isArray(houseTransits)) {
                     houseTransits.forEach((item: any) => {
                       // Clave única: Planeta + Casa
@@ -696,7 +680,7 @@ export function CalendarioPersonal() {
                 } else {
                   // Fallback legacy (solo si no hay eventos de estado)
                   stateEvents.forEach((event) => {
-                    const houseTransits = event.metadata?.house_transits || [];
+                    const houseTransits = event.house_transits || [];
                     if (Array.isArray(houseTransits)) {
                       houseTransits.forEach((item: any) => {
                         const key = `${item.planeta}-${item.casa}`;
@@ -826,8 +810,8 @@ export function CalendarioPersonal() {
             <div
               key={day.toISOString()}
               className={`flex flex-col gap-3 p-4 rounded-xl border transition-colors ${isToday
-                  ? 'bg-primary/5 border-primary/40 dark:bg-primary/10'
-                  : 'bg-card/50 border-border/50 hover:bg-card/80'
+                ? 'bg-primary/5 border-primary/40 dark:bg-primary/10'
+                : 'bg-card/50 border-border/50 hover:bg-card/80'
                 }`}
             >
               {/* Day Header */}
@@ -920,7 +904,7 @@ export function CalendarioPersonal() {
                           <AccordionContent className="pb-4 pt-1">
                             <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground bg-muted/30 p-4 rounded-md">
                               <EventoConInterpretacion
-                                evento={{ ...evento, relevance: 'medium' }}
+                                evento={{ ...evento, relevance: RelevanceLevel.MEDIUM }}
                                 natalData={natalData}
                                 variant="minimal"
                               />

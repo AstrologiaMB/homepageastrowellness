@@ -5,9 +5,9 @@ import { getCalendarCache, setCalendarCache } from '@/lib/calendar-cache';
 import { setLunarCache } from '@/lib/lunar-cache';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
+import { CalendarClient } from '@/lib/api-clients/calendar';
 
 // MICROSERVICE_URL is now retrieved lazily inside the handler to avoid build-time errors
-const TIMEOUT_MS = 90000; // 90 segundos
 
 interface NatalData {
   points: {
@@ -104,76 +104,80 @@ export async function POST(request: NextRequest) {
 
     const startTime = Date.now();
 
-    const response = await fetch(`${MICROSERVICE_URL}/calculate-personal-calendar-dynamic`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(natalData),
-      signal: AbortSignal.timeout(TIMEOUT_MS),
-    });
+    // Initialize generated client
+    const client = new CalendarClient({ BASE: MICROSERVICE_URL });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Error del microservicio: ${response.status} - ${errorText}`);
-      return NextResponse.json(
-        { error: `Error del microservicio: ${errorText}` },
-        { status: response.status }
-      );
-    }
+    // Adapt legacy NatalData to BirthDataRequest for the NEW strict endpoint
+    // natalData.hora_local is typically "YYYY-MM-DDTHH:MM" or similar ISO
+    const [birthDate, birthTimeFull] = natalData.hora_local.split('T');
+    const birthTime = birthTimeFull ? birthTimeFull.substring(0, 5) : "12:00"; // Ensure HH:MM
 
-    const data = await response.json();
-
-    // Validar respuesta
-    if (!data.events || !Array.isArray(data.events)) {
-      return NextResponse.json({ error: 'Respuesta inválida del microservicio' }, { status: 500 });
-    }
-
-    // Guardar en cache
-    const cacheSuccess = await setCalendarCache(userId, year, data.events);
-
-    if (!cacheSuccess) {
-      console.warn('⚠️ No se pudo guardar en cache');
-    }
-
-    // Guardar en cache lunar (Fases y sus aspectos)
     try {
-      const lunarEvents = data.events.filter((e: any) => {
-        const isPhaseType = [
-          'Luna Nueva',
-          'Luna Llena',
-          'Cuarto Creciente',
-          'Cuarto Menguante',
-          'Eclipse Solar',
-          'Eclipse Lunar',
-        ].includes(e.tipo_evento);
-        const isPhaseAspect = e.metadata && e.metadata.phase_type; // Aspectos generados por el filtro de fases
-        return isPhaseType || isPhaseAspect;
+      const data = await client.default.calculatePersonalCalendarDynamicEndpointCalculatePersonalCalendarDynamicPost({
+        name: natalData.name,
+        birth_date: birthDate,
+        birth_time: birthTime,
+        location: {
+          latitude: natalData.location.latitude,
+          longitude: natalData.location.longitude,
+          name: natalData.location.name,
+          timezone: natalData.location.timezone,
+        },
+        year: year,
       });
 
-      if (lunarEvents.length > 0) {
-        await setLunarCache(userId, year, lunarEvents);
-        console.log(`🌙 Guardados ${lunarEvents.length} eventos lunares en cache auxiliar`);
+      // Guardar en cache
+      const cacheSuccess = await setCalendarCache(userId, year, data.events);
+
+      if (!cacheSuccess) {
+        console.warn('⚠️ No se pudo guardar en cache');
       }
-    } catch (lunarError) {
-      console.error('Error guardando cache lunar:', lunarError);
-      // No fallamos el request principal por esto
+
+      // Guardar en cache lunar (Fases y sus aspectos)
+      try {
+        const lunarEvents = data.events.filter((e: any) => {
+          const isPhaseType = [
+            'Luna Nueva',
+            'Luna Llena',
+            'Cuarto Creciente',
+            'Cuarto Menguante',
+            'Eclipse Solar',
+            'Eclipse Lunar',
+          ].includes(e.tipo_evento);
+          const isPhaseAspect = e.metadata && (e.metadata as any).phase_type;
+          return isPhaseType || isPhaseAspect;
+        });
+
+        if (lunarEvents.length > 0) {
+          await setLunarCache(userId, year, lunarEvents);
+          console.log(`🌙 Guardados ${lunarEvents.length} eventos lunares en cache auxiliar`);
+        }
+      } catch (lunarError) {
+        console.error('Error guardando cache lunar:', lunarError);
+      }
+
+      const calculationTime = (Date.now() - startTime) / 1000;
+
+      return NextResponse.json({
+        events: data.events,
+        calculation_time: calculationTime,
+        total_events: data.total_events || data.events.length,
+        transits_count: data.transits_count || 0,
+        progressed_moon_count: data.progressed_moon_count || 0,
+        profections_count: data.profections_count || 0,
+        from_cache: false,
+      });
+
+    } catch (apiError: any) {
+      console.error(`Error del microservicio:`, apiError);
+      return NextResponse.json(
+        { error: `Error del microservicio: ${apiError.message || apiError}` },
+        { status: 500 }
+      );
     }
-
-    const calculationTime = (Date.now() - startTime) / 1000;
-
-    return NextResponse.json({
-      events: data.events,
-      calculation_time: calculationTime,
-      total_events: data.total_events || data.events.length,
-      transits_count: data.transits_count || 0,
-      progressed_moon_count: data.progressed_moon_count || 0,
-      profections_count: data.profections_count || 0,
-      from_cache: false,
-    });
   } catch (error) {
     console.error('Error en API de calendario personal:', error);
-
+    // ... rest of error handling
     if (error instanceof Error) {
       if (error.name === 'TimeoutError') {
         return NextResponse.json(
@@ -181,10 +185,8 @@ export async function POST(request: NextRequest) {
           { status: 408 }
         );
       }
-
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
     return NextResponse.json({ error: 'Error desconocido' }, { status: 500 });
   }
 }

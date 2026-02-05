@@ -10,21 +10,12 @@ import { es } from 'date-fns/locale';
 import { Search, ArrowRight } from 'lucide-react';
 import { createDateFromUtc } from '@/lib/date-utils';
 
-interface EventoPersonal {
-  fecha_utc: string;
-  hora_utc: string;
-  tipo_evento: string;
-  descripcion: string;
-  planeta1?: string;
-  planeta2?: string;
-  tipo_aspecto?: string;
-  [key: string]: any;
-}
+import { PersonalCalendarEvent } from '@/lib/personal-calendar-api';
 
 interface TransitSearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  events: EventoPersonal[];
+  events: PersonalCalendarEvent[];
   onSelectEvent: (date: Date) => void;
 }
 
