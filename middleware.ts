@@ -10,33 +10,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check if ONLY_GENERAL_CALENDAR restriction is enabled
-  const onlyGeneralCalendar = process.env.ONLY_GENERAL_CALENDAR === 'true';
+  // const onlyGeneralCalendar = process.env.ONLY_GENERAL_CALENDAR === 'true';
 
-  if (onlyGeneralCalendar) {
-    // Define allowed paths when restriction is active
-    const allowedPaths = [
-      '/', // Homepage
-      '/auth', // Auth routes (matches /auth/*)
-      '/calendario/general', // General calendar page
-      '/proximamente', // Coming soon page
-      '/admin', // Admin routes (matches /admin/*)
-      '/assets'
-    ];
-
-    // Check if current path is allowed
-    const isAllowed =
-      path === '/' ||
-      path === '/calendario/general' ||
-      path === '/proximamente' ||
-      path.startsWith('/auth') ||
-      path.startsWith('/admin') ||
-      path.startsWith('/assets');
-
-    if (!isAllowed) {
-      // Redirect to coming soon page if not allowed
-      return NextResponse.redirect(new URL('/proximamente', request.url));
-    }
-  }
+  // if (onlyGeneralCalendar) {
+  //   // ... logic removed to rely on granular feature flags in components/lib/features.ts ...
+  // }
 
   // Skip middleware for authentication pages
   if (path.startsWith('/auth')) {
