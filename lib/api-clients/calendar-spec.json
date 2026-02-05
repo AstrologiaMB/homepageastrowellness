@@ -1,0 +1,1266 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Personal Astrology Calendar API",
+        "description": "Complete microservice for calculating personal astrological events: transits, lunar phases, eclipses, progressed moon, and profections",
+        "version": "2.0.0"
+    },
+    "paths": {
+        "/calculate-personal-calendar-dynamic": {
+            "post": {
+                "summary": "Calculate Personal Calendar Dynamic Endpoint",
+                "description": "Calculate personal astrological calendar events using dynamic natal chart calculation.\nThis endpoint receives basic birth data and calculates the complete natal chart dynamically.\nReturns Strict Types (datetime, etc).",
+                "operationId": "calculate_personal_calendar_dynamic_endpoint_calculate_personal_calendar_dynamic_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BirthDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CalculationResponseStrict"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/calculate-personal-calendar": {
+            "post": {
+                "summary": "Calculate Personal Calendar Endpoint",
+                "description": "Legacy endpoint: Calculate personal astrological calendar events using pre-calculated natal chart.\nThis endpoint receives a complete natal chart and uses it for calculations.",
+                "operationId": "calculate_personal_calendar_endpoint_calculate_personal_calendar_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NatalDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CalculationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/calculate-cycles": {
+            "post": {
+                "summary": "Calculate Cycles Endpoint",
+                "description": "Identify active Lunar Gestation Cycles (Families) for a specific date.\nTraces back from the target date (if it's a key phase) to the Seed New Moon,\nand returns the full 27-month cycle timeline.\nAlso calculates Metonic Index based on birth date.",
+                "operationId": "calculate_cycles_endpoint_calculate_cycles_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CycleAnalysisRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActiveCyclesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "summary": "Health Check",
+                "description": "Health check endpoint.",
+                "operationId": "health_check_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/info": {
+            "get": {
+                "summary": "Service Info",
+                "description": "Service information endpoint.",
+                "operationId": "service_info_info_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InfoResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "Root",
+                "description": "Root endpoint with basic service information.",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ActiveCyclesResponse": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "title": "Date"
+                    },
+                    "active_cycles": {
+                        "items": {
+                            "$ref": "#/components/schemas/CycleFamilyResponse"
+                        },
+                        "type": "array",
+                        "title": "Active Cycles"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "date",
+                    "active_cycles"
+                ],
+                "title": "ActiveCyclesResponse"
+            },
+            "AstroEventResponse": {
+                "properties": {
+                    "fecha_utc": {
+                        "type": "string",
+                        "title": "Fecha Utc"
+                    },
+                    "hora_utc": {
+                        "type": "string",
+                        "title": "Hora Utc"
+                    },
+                    "tipo_evento": {
+                        "type": "string",
+                        "title": "Tipo Evento"
+                    },
+                    "descripcion": {
+                        "type": "string",
+                        "title": "Descripcion"
+                    },
+                    "planeta1": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Planeta1"
+                    },
+                    "planeta2": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Planeta2"
+                    },
+                    "posicion1": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion1"
+                    },
+                    "posicion2": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion2"
+                    },
+                    "tipo_aspecto": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tipo Aspecto"
+                    },
+                    "orbe": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Orbe"
+                    },
+                    "es_aplicativo": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Es Aplicativo"
+                    },
+                    "harmony": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Harmony"
+                    },
+                    "elevacion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Elevacion",
+                        "default": ""
+                    },
+                    "azimut": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Azimut",
+                        "default": ""
+                    },
+                    "signo": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Signo"
+                    },
+                    "grado": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grado"
+                    },
+                    "posicion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion"
+                    },
+                    "casa_natal": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Casa Natal"
+                    },
+                    "house_transits": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "House Transits"
+                    },
+                    "interpretacion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Interpretacion"
+                    },
+                    "relevance": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Relevance",
+                        "default": "low"
+                    },
+                    "metadata": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metadata"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "fecha_utc",
+                    "hora_utc",
+                    "tipo_evento",
+                    "descripcion"
+                ],
+                "title": "AstroEventResponse"
+            },
+            "AstroEventStrict": {
+                "properties": {
+                    "fecha_utc": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Fecha Utc",
+                        "description": "Fecha y hora exacta en UTC"
+                    },
+                    "hora_utc": {
+                        "type": "string",
+                        "title": "Hora Utc",
+                        "description": "Hora formateada HH:MM para compatibilidad UI"
+                    },
+                    "tipo_evento": {
+                        "type": "string",
+                        "title": "Tipo Evento"
+                    },
+                    "descripcion": {
+                        "type": "string",
+                        "title": "Descripcion"
+                    },
+                    "relevance": {
+                        "$ref": "#/components/schemas/RelevanceLevel",
+                        "default": "low"
+                    },
+                    "planeta1": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Planeta1"
+                    },
+                    "planeta2": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Planeta2"
+                    },
+                    "posicion1": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion1"
+                    },
+                    "posicion2": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion2"
+                    },
+                    "tipo_aspecto": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tipo Aspecto"
+                    },
+                    "orbe": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Orbe"
+                    },
+                    "es_aplicativo": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Es Aplicativo"
+                    },
+                    "harmony": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Harmony"
+                    },
+                    "elevacion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Elevacion"
+                    },
+                    "azimut": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Azimut"
+                    },
+                    "signo": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Signo"
+                    },
+                    "grado": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grado"
+                    },
+                    "posicion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Posicion"
+                    },
+                    "casa_natal": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Casa Natal"
+                    },
+                    "house_transits": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/HouseTransitStrict"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "House Transits"
+                    },
+                    "interpretacion": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Interpretacion"
+                    },
+                    "visibilidad_local": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Visibilidad Local"
+                    },
+                    "phase_type": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Phase Type",
+                        "description": "Tipo de fase lunar asociada"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "fecha_utc",
+                    "hora_utc",
+                    "tipo_evento",
+                    "descripcion"
+                ],
+                "title": "AstroEventStrict",
+                "description": "Modelo estricto para eventos astrológicos.\nElimina la ambigüedad de 'Dict[str, Any]' y fuerza tipos concretos."
+            },
+            "BirthDataRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "title": "Birth Date",
+                        "description": "Birth date in YYYY-MM-DD format"
+                    },
+                    "birth_time": {
+                        "type": "string",
+                        "title": "Birth Time",
+                        "description": "Birth time in HH:MM format"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/LocationData"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "title": "Year",
+                        "description": "Year for which to calculate events",
+                        "default": 2025
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "birth_date",
+                    "birth_time",
+                    "location"
+                ],
+                "title": "BirthDataRequest",
+                "description": "Request model for basic birth data that will be used to calculate natal chart dynamically."
+            },
+            "CalculationResponse": {
+                "properties": {
+                    "events": {
+                        "items": {
+                            "$ref": "#/components/schemas/AstroEventResponse"
+                        },
+                        "type": "array",
+                        "title": "Events"
+                    },
+                    "total_events": {
+                        "type": "integer",
+                        "title": "Total Events"
+                    },
+                    "calculation_time": {
+                        "type": "number",
+                        "title": "Calculation Time"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "title": "Year"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "events",
+                    "total_events",
+                    "calculation_time",
+                    "year",
+                    "name"
+                ],
+                "title": "CalculationResponse"
+            },
+            "CalculationResponseStrict": {
+                "properties": {
+                    "events": {
+                        "items": {
+                            "$ref": "#/components/schemas/AstroEventStrict"
+                        },
+                        "type": "array",
+                        "title": "Events"
+                    },
+                    "total_events": {
+                        "type": "integer",
+                        "title": "Total Events"
+                    },
+                    "calculation_time": {
+                        "type": "number",
+                        "title": "Calculation Time"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "title": "Year"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "transits_count": {
+                        "type": "integer",
+                        "title": "Transits Count",
+                        "default": 0
+                    },
+                    "progressed_moon_count": {
+                        "type": "integer",
+                        "title": "Progressed Moon Count",
+                        "default": 0
+                    },
+                    "profections_count": {
+                        "type": "integer",
+                        "title": "Profections Count",
+                        "default": 0
+                    },
+                    "from_cache": {
+                        "type": "boolean",
+                        "title": "From Cache",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "events",
+                    "total_events",
+                    "calculation_time",
+                    "year",
+                    "name"
+                ],
+                "title": "CalculationResponseStrict"
+            },
+            "CycleAnalysisRequest": {
+                "properties": {
+                    "birth_date": {
+                        "type": "string",
+                        "title": "Birth Date",
+                        "description": "Birth date in YYYY-MM-DD format"
+                    },
+                    "target_date": {
+                        "type": "string",
+                        "title": "Target Date",
+                        "description": "Date to check for active cycles (YYYY-MM-DD)"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/LocationData"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "birth_date",
+                    "target_date",
+                    "location"
+                ],
+                "title": "CycleAnalysisRequest"
+            },
+            "CycleFamilyResponse": {
+                "properties": {
+                    "family_sign": {
+                        "type": "string",
+                        "title": "Family Sign"
+                    },
+                    "metonic_index": {
+                        "type": "integer",
+                        "title": "Metonic Index"
+                    },
+                    "seed": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CyclePhaseResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "action": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CyclePhaseResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "fruition": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CyclePhaseResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "release": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CyclePhaseResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "family_sign",
+                    "metonic_index",
+                    "seed",
+                    "action",
+                    "fruition",
+                    "release"
+                ],
+                "title": "CycleFamilyResponse"
+            },
+            "CyclePhaseResponse": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "title": "Date"
+                    },
+                    "phase": {
+                        "type": "string",
+                        "title": "Phase"
+                    },
+                    "sign": {
+                        "type": "string",
+                        "title": "Sign"
+                    },
+                    "degree": {
+                        "type": "number",
+                        "title": "Degree"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "date",
+                    "phase",
+                    "sign",
+                    "degree",
+                    "description"
+                ],
+                "title": "CyclePhaseResponse"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "HealthResponse": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "title": "Timestamp"
+                    },
+                    "version": {
+                        "type": "string",
+                        "title": "Version"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status",
+                    "timestamp",
+                    "version"
+                ],
+                "title": "HealthResponse"
+            },
+            "HouseData": {
+                "properties": {
+                    "sign": {
+                        "type": "string",
+                        "title": "Sign"
+                    },
+                    "position": {
+                        "type": "string",
+                        "title": "Position"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "title": "Longitude"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "sign",
+                    "position",
+                    "longitude"
+                ],
+                "title": "HouseData"
+            },
+            "HouseTransitStrict": {
+                "properties": {
+                    "tipo": {
+                        "type": "string",
+                        "title": "Tipo",
+                        "description": "Tipo de tránsito (ej. 'transito_planetario', 'luna_progresada')"
+                    },
+                    "planeta": {
+                        "type": "string",
+                        "title": "Planeta"
+                    },
+                    "simbolo": {
+                        "type": "string",
+                        "title": "Simbolo"
+                    },
+                    "signo": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Signo"
+                    },
+                    "grado": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grado"
+                    },
+                    "casa": {
+                        "type": "integer",
+                        "title": "Casa"
+                    },
+                    "casa_significado": {
+                        "type": "string",
+                        "title": "Casa Significado"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "tipo",
+                    "planeta",
+                    "simbolo",
+                    "casa",
+                    "casa_significado"
+                ],
+                "title": "HouseTransitStrict",
+                "description": "Modelo estricto para tránsitos por casas."
+            },
+            "InfoResponse": {
+                "properties": {
+                    "service": {
+                        "type": "string",
+                        "title": "Service"
+                    },
+                    "version": {
+                        "type": "string",
+                        "title": "Version"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "endpoints": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Endpoints"
+                    },
+                    "features": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Features"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "service",
+                    "version",
+                    "description",
+                    "endpoints",
+                    "features"
+                ],
+                "title": "InfoResponse"
+            },
+            "LocationData": {
+                "properties": {
+                    "latitude": {
+                        "type": "number",
+                        "title": "Latitude"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "title": "Longitude"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timezone": {
+                        "type": "string",
+                        "title": "Timezone"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "latitude",
+                    "longitude",
+                    "name",
+                    "timezone"
+                ],
+                "title": "LocationData"
+            },
+            "NatalDataRequest": {
+                "properties": {
+                    "points": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/PointData"
+                        },
+                        "type": "object",
+                        "title": "Points"
+                    },
+                    "houses": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/HouseData"
+                        },
+                        "type": "object",
+                        "title": "Houses"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/LocationData"
+                    },
+                    "hora_local": {
+                        "type": "string",
+                        "title": "Hora Local"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "title": "Year",
+                        "description": "Year for which to calculate events",
+                        "default": 2025
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "points",
+                    "houses",
+                    "location",
+                    "hora_local",
+                    "name"
+                ],
+                "title": "NatalDataRequest"
+            },
+            "PointData": {
+                "properties": {
+                    "sign": {
+                        "type": "string",
+                        "title": "Sign"
+                    },
+                    "position": {
+                        "type": "string",
+                        "title": "Position"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "title": "Longitude"
+                    },
+                    "latitude": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Latitude",
+                        "default": 0
+                    },
+                    "distance": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Distance",
+                        "default": 0
+                    },
+                    "speed": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Speed",
+                        "default": 0
+                    },
+                    "retrograde": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Retrograde",
+                        "default": false
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "sign",
+                    "position",
+                    "longitude"
+                ],
+                "title": "PointData"
+            },
+            "RelevanceLevel": {
+                "type": "string",
+                "enum": [
+                    "high",
+                    "medium",
+                    "low"
+                ],
+                "title": "RelevanceLevel"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

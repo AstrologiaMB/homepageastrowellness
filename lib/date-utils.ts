@@ -81,9 +81,9 @@ export function formatLocalDateTime(utcDateTimeString: string): string {
   return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
     .toString()
     .padStart(2, '0')}/${date.getFullYear()} - ${date.getHours().toString().padStart(2, '0')}:${date
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')}`;
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
 }
 
 /**
@@ -93,5 +93,10 @@ export function formatLocalDateTime(utcDateTimeString: string): string {
  * @returns Objeto Date con la fecha y hora convertida
  */
 export function createDateFromUtc(dateUtc: string, timeUtc: string): Date {
+  // If dateUtc is already an ISO string (contains 'T'), parse it directly
+  if (dateUtc.includes('T')) {
+    return new Date(dateUtc);
+  }
+  // Legacy fallback: Construct ISO string from parts
   return new Date(`${dateUtc}T${timeUtc}:00Z`);
 }
