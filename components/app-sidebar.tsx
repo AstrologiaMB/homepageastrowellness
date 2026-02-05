@@ -106,9 +106,110 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   isHomepage: boolean;
 }
 
+import { useSession } from "next-auth/react";
+import { isFeatureEnabled } from "@/lib/features";
+
 export function AppSidebar(props: AppSidebarProps) {
   const { isHomepage: _isHomepage, ...restProps } = props;
-  const navigationData = getNavigationData();
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email;
+
+  const navigationData = {
+    user: {
+      name: session?.user?.name || 'Usuario',
+      email: session?.user?.email || '',
+      avatar: session?.user?.image || '',
+    },
+    navMain: [
+      {
+        title: 'Calendario',
+        url: '/calendario',
+        icon: Calendar,
+        isActive: true, // Esto podría ser dinámico basado en pathname
+        tooltip: 'Calendario astrológico con eventos planetarios y tránsitos',
+        items: [
+          {
+            title: 'General',
+            url: '/calendario/general',
+            enabled: true
+          },
+          {
+            title: 'Personal',
+            url: '/calendario/personal',
+            enabled: isFeatureEnabled('enablePersonalCalendar', userEmail)
+          },
+          {
+            title: 'Planificador Lunar',
+            url: '/calendario/lunar',
+            enabled: isFeatureEnabled('enableLunarCalendar', userEmail)
+          },
+        ].filter(item => item.enabled),
+      },
+      {
+        title: 'Cartas',
+        url: '/cartas',
+        icon: Star,
+        tooltip: 'Cartas astrológicas: natal, trópica, dracónica',
+        items: [
+          {
+            title: 'Carta Trópica',
+            url: '/cartas/tropica',
+            enabled: isFeatureEnabled('enableTropicalChart', userEmail)
+          },
+          {
+            title: 'Carta Dracónica',
+            url: '/cartas/draconica',
+            enabled: isFeatureEnabled('enableDraconicChart', userEmail)
+          },
+        ].filter(item => item.enabled),
+      },
+      {
+        title: 'Buenos Momentos',
+        url: '/carta-electiva',
+        icon: Target,
+        tooltip: 'Búsqueda de momentos astrológicos óptimos',
+        enabled: isFeatureEnabled('enableElectional', userEmail)
+      },
+      {
+        title: 'Servicios',
+        url: '#',
+        icon: Handshake,
+        tooltip: 'Servicios con revisión personalizada por astrólogos',
+        items: [
+          {
+            title: 'Carta Horaria',
+            url: '/cartas/horaria',
+            enabled: true // Siempre visible por ahora?
+          },
+          {
+            title: 'Rectificación de Carta',
+            url: '/rectificacion-carta',
+            enabled: true
+          },
+        ].filter(item => item.enabled),
+        enabled: true
+      },
+      {
+        title: 'Astrogematria',
+        url: '#',
+        icon: Bot,
+        tooltip: 'Cálculos numéricos y análisis astrogemátrico',
+        items: [
+          {
+            title: 'Cálculos',
+            url: '/astrogematria/calculos',
+            enabled: true
+          },
+          {
+            title: 'Interpretaciones',
+            url: '/astrogematria/interpretaciones',
+            enabled: true
+          },
+        ].filter(item => item.enabled),
+        enabled: isFeatureEnabled('enableAstrogematria', userEmail)
+      },
+    ].filter(section => section.enabled !== false && (!section.items || section.items.length > 0)),
+  };
 
   return (
     <Sidebar collapsible="icon" {...restProps}>
