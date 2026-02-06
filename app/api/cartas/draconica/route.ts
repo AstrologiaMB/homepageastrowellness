@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
 import { getNatalChartClient } from '@/lib/api-clients/natal-chart-client';
-import { getApiUrl } from '@/lib/api-config';
 
 export async function POST() {
   try {

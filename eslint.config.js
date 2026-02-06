@@ -17,6 +17,7 @@ export default [
       '**/.next/types/**',
       '**/prisma/generated/**',
       '**/lib/generated/**',
+      '**/lib/api-clients/**',
       '**/coverage/**',
       '**/build/**',
     ],
