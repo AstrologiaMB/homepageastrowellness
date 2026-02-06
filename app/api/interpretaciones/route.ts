@@ -3,26 +3,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
-
-// Tipos para las interpretaciones
-interface InterpretacionItem {
-  titulo: string;
-  tipo: string;
-  interpretacion: string;
-  planeta?: string;
-  signo?: string;
-  casa?: string;
-  aspecto?: string;
-  planeta1?: string;
-  planeta2?: string;
-  grados?: string;
-}
-
-interface InterpretacionResponse {
-  interpretacion_narrativa: string;
-  interpretaciones_individuales: InterpretacionItem[];
-  tiempo_generacion: number;
-}
+import {
+  getAstroInterpreterClient,
+  type InterpretacionItem,
+  type InterpretacionRequest
+} from '@/lib/api-clients/astro-interpreter-client';
 
 // Función para combinar información de casa con planetas en signo
 function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): InterpretacionItem[] {
@@ -54,7 +39,7 @@ function combinarInformacionCasa(interpretaciones: InterpretacionItem[]): Interp
 // Función auxiliar para procesar en background (Fire & Forget)
 async function procesarInterpretacionBackground(
   cacheId: string,
-  ragRequest: any,
+  ragRequest: InterpretacionRequest,
   getRequestCookies: () => string
 ) {
   try {
@@ -91,21 +76,10 @@ async function procesarInterpretacionBackground(
       }
     }
 
-    // Llamar al microservicio RAG
-    const ragResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(ragRequest),
-      signal: AbortSignal.timeout(600000), // 10 minutos server-side timeout
-    });
+    // Llamar al microservicio RAG usando el cliente generado
+    const client = getAstroInterpreterClient();
+    const interpretacionData = await client.default.generarInterpretacionInterpretarPost(ragRequest);
 
-    if (!ragResponse.ok) {
-      throw new Error(`Error RAG Microservice: ${await ragResponse.text()}`);
-    }
-
-    const interpretacionData: InterpretacionResponse = await ragResponse.json();
     const duration = (Date.now() - startTime) / 1000;
 
     console.log(`✅ Interpretación generada en background (${duration}s)`);
@@ -247,7 +221,7 @@ export async function POST(request: NextRequest) {
     // 2. Iniciar Nuevo Procesamiento (Async)
     console.log(`🚀 Iniciando generación ASYNC para ${user.email} (${tipo})`);
 
-    const ragRequest = {
+    const ragRequest: InterpretacionRequest = {
       carta_natal: {
         nombre: user.name || 'Usuario',
         points: cartaNatalData.points,
