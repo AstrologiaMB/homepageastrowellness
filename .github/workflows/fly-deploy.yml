@@ -26,7 +26,7 @@ jobs:
 
       - name: Deploy to Fly.io
         run: |
-          flyctl deploy --remote-only --ha=false --strategy bluegreen
+          flyctl deploy --remote-only --ha=false --strategy bluegreen --build-arg COMMIT_SHA=${{ github.sha }}
 
   review_app:
     name: Deploy review app
