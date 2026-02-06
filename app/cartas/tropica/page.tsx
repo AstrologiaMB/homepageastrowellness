@@ -21,10 +21,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ProtectedPage } from '@/components/protected-page';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
 import { Compass, Eye, Table as TableIcon, Sparkles } from 'lucide-react';
+import type { NatalChart } from '@/lib/api-clients/natal-chart';
 
 interface CartaNatalData {
   success: boolean;
-  data: any;
+  data: NatalChart;
   data_reducido: any;
   cached: boolean;
   timestamp: string;
@@ -38,7 +39,7 @@ interface CartaNatalData {
  */
 export default function CartasTropicaPage() {
   const [cartaData, setCartaData] = useState<any>(null);
-  const [cartaCompleta, setCartaCompleta] = useState<any>(null);
+  const [cartaCompleta, setCartaCompleta] = useState<NatalChart | null>(null);
   const [, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [, setCached] = useState(false);

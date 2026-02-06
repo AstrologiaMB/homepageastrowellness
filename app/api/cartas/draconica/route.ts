@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
+import { getNatalChartClient } from '@/lib/api-clients/natal-chart-client';
 import { getApiUrl } from '@/lib/api-config';
 
 export async function POST() {
@@ -27,7 +28,7 @@ export async function POST() {
       },
     });
 
-    if (!user || !user.birthDate || !user.birthCity) {
+    if (!user || !user.birthDate || !user.birthCity || !user.birthCountry) {
       return NextResponse.json(
         {
           error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.',
@@ -67,27 +68,17 @@ export async function POST() {
       });
     }
 
-    // Llamar a FastAPI
-    console.log('Llamando a FastAPI para calcular carta dracónica...');
-    const fastApiResponse = await fetch(`${getApiUrl('CALCULOS')}/carta-natal/draconica`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre: user.name || 'Usuario',
-        fecha_nacimiento: fechaNacimiento,
-        hora_nacimiento: horaNacimiento,
-        ciudad_nacimiento: user.birthCity,
-        pais_nacimiento: user.birthCountry,
-      }),
+    // Llamar a FastAPI usando el cliente generado
+    console.log('Llamando a FastAPI para calcular carta dracónica (v2)...');
+
+    const client = getNatalChartClient();
+    const resultado = await client.default.calcularCartaDraconicaCartaNatalDraconicaPost({
+      nombre: user.name || 'Usuario',
+      fecha_nacimiento: fechaNacimiento,
+      hora_nacimiento: horaNacimiento,
+      ciudad_nacimiento: user.birthCity,
+      pais_nacimiento: user.birthCountry,
     });
-
-    if (!fastApiResponse.ok) {
-      const errorText = await fastApiResponse.text();
-      console.error('Error en FastAPI:', errorText);
-      throw new Error(`Error en FastAPI: ${fastApiResponse.status}`);
-    }
-
-    const resultado = await fastApiResponse.json();
 
     if (!resultado.success) {
       throw new Error(resultado.error || 'Error calculando carta dracónica');

@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/table';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AstroSymbol } from '@/components/astro-symbol';
+import type { NatalChart } from '@/lib/api-clients/natal-chart';
 
 /**
  * Interfaz para los datos completos de la carta natal.
@@ -29,11 +30,12 @@ import { AstroSymbol } from '@/components/astro-symbol';
  * @property {Record<string, any>} points - Objeto con las posiciones planetarias completas.
  * @property {Record<string, any>} houses - Objeto con las casas astrológicas.
  */
+/**
+ * Interfaz para los datos completos de la carta natal.
+ * Se usa el tipo estricto generado.
+ */
 interface CartaNatalTablaProps {
-  chartData: {
-    points: Record<string, any>;
-    houses: Record<string, any>;
-  };
+  chartData: NatalChart | null | undefined;
 }
 
 // Mapeo de grados a nombres de signos zodiacales

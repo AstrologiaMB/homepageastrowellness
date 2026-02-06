@@ -31,10 +31,11 @@ import {
 import { ProtectedPage } from '@/components/protected-page';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
 import { Star, Eye, Table as TableIcon, Sparkles, Zap } from 'lucide-react';
+import type { NatalChart } from '@/lib/api-clients/natal-chart';
 
 interface CartaNatalData {
   success: boolean;
-  data: any;
+  data: NatalChart;
   data_reducido: any;
   cached: boolean;
   timestamp: string;
@@ -49,11 +50,11 @@ interface CartaNatalData {
 export default function CartasDraconicaPage() {
   // Estados para carta dracónica (existentes)
   const [cartaData, setCartaData] = useState<any>(null);
-  const [cartaCompleta, setCartaCompleta] = useState<any>(null);
+  const [cartaCompleta, setCartaCompleta] = useState<NatalChart | null>(null);
 
   // Estados para carta tropical (nuevos)
   const [cartaTropicalData, setCartaTropicalData] = useState<any>(null);
-  const [, setCartaTropicalCompleta] = useState<any>(null);
+  const [, setCartaTropicalCompleta] = useState<NatalChart | null>(null);
 
   // Estados para eventos dracónicos
   const [eventosDraconicos, setEventosDraconicos] = useState<any>(null);
