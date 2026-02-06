@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
-import { getApiUrl } from '@/lib/api-config';
+import { getCartaElectivaClient } from '@/lib/api-clients/carta-electiva-client';
+import type { BusquedaRequest } from '@/lib/api-clients/carta-electiva';
 
 export async function POST(request: NextRequest) {
   try {
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Preparar payload para el microservicio
-    const payload = {
+    const payload: BusquedaRequest = {
       user_id: user.id,
       tema: tema,
       fecha_inicio: fecha_inicio,
@@ -86,101 +87,35 @@ export async function POST(request: NextRequest) {
       ubicacion,
     });
 
-    // Llamar al microservicio de carta electiva con timeout de 5 minutos
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutos
+    // Llamar al microservicio de carta electiva
+    const client = getCartaElectivaClient();
+    let taskResponse;
 
-    let cartaElectivaResponse;
     try {
-      cartaElectivaResponse = await fetch(`${getApiUrl('CARTA_ELECTIVA')}/buscar`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
-    } catch (fetchError: any) {
-      clearTimeout(timeoutId);
+      taskResponse = await client.default.buscarBuscarPost(payload);
+    } catch (error: any) {
+      console.error('Error en microservicio carta electiva:', error);
 
-      if (fetchError.name === 'AbortError') {
-        console.error('⏰ Timeout en API carta electiva (5 min)');
-        return NextResponse.json(
-          {
-            error:
-              'La búsqueda tomó más de 5 minutos. Inténtalo con un período más corto (máximo 30 días recomendado).',
-          },
-          { status: 408 }
-        );
+      // Mapeo básico de errores basado en status
+      if (error.status === 408) { // Timeout logic handled in client/backend
+        throw new Error('La búsqueda tomó demasiado tiempo.');
+      }
+      if (error.status === 503) {
+        throw new Error('Servicio no disponible.');
       }
 
-      console.error('Error de conexión con carta electiva API:', fetchError);
-      return NextResponse.json(
-        {
-          error:
-            'Servicio de carta electiva no disponible. Verifica que el servidor esté ejecutándose.',
-        },
-        { status: 503 }
-      );
+      throw new Error(error.body?.error || error.message || 'Error desconocido en servicio');
     }
 
-    clearTimeout(timeoutId);
-
-    if (!cartaElectivaResponse.ok) {
-      const errorData = await cartaElectivaResponse.json().catch(() => ({}));
-      console.error('Error en microservicio carta electiva:', errorData);
-
-      // Manejar diferentes tipos de errores
-      if (cartaElectivaResponse.status === 408) {
-        return NextResponse.json(
-          {
-            error:
-              errorData.detail ||
-              'La búsqueda tomó más de 5 minutos. Inténtalo con un período más corto.',
-          },
-          { status: 408 }
-        );
-      }
-
-      if (cartaElectivaResponse.status === 503) {
-        return NextResponse.json(
-          {
-            error: 'Servicio de carta electiva no disponible. Inténtalo más tarde.',
-          },
-          { status: 503 }
-        );
-      }
-
-      if (cartaElectivaResponse.status === 400) {
-        return NextResponse.json(
-          {
-            error: errorData.detail || 'Parámetros inválidos en la búsqueda.',
-          },
-          { status: 400 }
-        );
-      }
-
-      throw new Error(
-        errorData.detail ||
-          errorData.error ||
-          `Error en el servicio de carta electiva: ${cartaElectivaResponse.status}`
-      );
+    if (!taskResponse.success) {
+      throw new Error(taskResponse.error || 'Error procesando la búsqueda de carta electiva');
     }
 
-    const resultado = await cartaElectivaResponse.json();
-
-    if (!resultado.success) {
-      throw new Error(resultado.error || 'Error procesando la búsqueda de carta electiva');
-    }
-
-    console.log('✅ Búsqueda completada:', {
-      momentos: resultado.data?.momentos?.length || 0,
-      tiempo_calculo: resultado.data?.estadisticas?.tiempo_calculo,
+    console.log('✅ Búsqueda completada (Async Task Started):', {
+      task_id: taskResponse.task_id
     });
 
-    return NextResponse.json({
-      success: true,
-      data: resultado.data,
-      timestamp: new Date().toISOString(),
-    });
+    return NextResponse.json(taskResponse);
   } catch (error) {
     console.error('Error en API carta electiva:', error);
 

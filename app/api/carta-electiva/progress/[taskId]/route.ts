@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
-import { getApiUrl } from '@/lib/api-config';
+import { getCartaElectivaClient } from '@/lib/api-clients/carta-electiva-client';
 
 export async function GET(
   request: NextRequest,
@@ -16,22 +16,18 @@ export async function GET(
     }
 
     // Call backend
-    const backendUrl = getApiUrl('CARTA_ELECTIVA');
-    const response = await fetch(`${backendUrl}/progress/${taskId}`);
-
-    // Check backend status but always return JSON
-    // If backend is down, fetch throws. If backend returns 404, response.ok is false.
-
-    if (!response.ok) {
-      // Try to parse error
-      const errorData = await response.json().catch(() => null);
-      return NextResponse.json(errorData || { error: 'Backend error' }, {
-        status: response.status,
-      });
+    // Call backend using client
+    const client = getCartaElectivaClient();
+    let progressResponse;
+    try {
+      progressResponse = await client.default.progressProgressTaskIdGet(taskId);
+    } catch (error: any) {
+      // Handle client errors
+      if (error.status === 404) return NextResponse.json({ error: 'Task not found' }, { status: 404 });
+      throw error;
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json(progressResponse);
   } catch (error) {
     console.error('Error proxying progress:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

@@ -38,26 +38,10 @@ import { Progress } from '@/components/ui/progress';
 import { cartaElectivaSchema, type CartaElectivaFormData } from '@/lib/form-schemas';
 import { Loader2, Search, Calendar, Target, Clock, Star, Calendar as CalendarIcon } from 'lucide-react';
 
-interface ResultadoBusqueda {
-  success: boolean;
-  data?: {
-    momentos: Array<{
-      ranking: number;
-      fecha_hora: string;
-      puntuacion_total: number;
-      enraizamiento_pct: number;
-      calidad_pct: number;
-      categoria: string;
-    }>;
-    estadisticas: {
-      total_momentos: number;
-      tiempo_calculo: string;
-      factor_optimizacion: string;
-    };
-  };
-  error?: string;
-  timestamp?: string;
-}
+import type {
+  BusquedaResponse
+} from '@/lib/api-clients/carta-electiva';
+
 
 const TEMAS_DISPONIBLES = [
   {
@@ -90,7 +74,7 @@ export default function CartaElectivaPage() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressMessage, setProgressMessage] = useState('');
-  const [resultado, setResultado] = useState<ResultadoBusqueda | null>(null);
+  const [resultado, setResultado] = useState<BusquedaResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progressInterval, setProgressInterval] = useState<NodeJS.Timeout | null>(null);
 
