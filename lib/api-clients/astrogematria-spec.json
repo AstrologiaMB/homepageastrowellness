@@ -1,0 +1,414 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Astrogematr\u00eda API - Astrowellness",
+    "description": "API para c\u00e1lculos de astrogematr\u00eda - Convierte palabras en posiciones zodiacales",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Endpoint ra\u00edz con informaci\u00f3n b\u00e1sica del servicio",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check del servicio",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/astrogematria/calcular": {
+      "post": {
+        "summary": "Calcular Astrogematria",
+        "description": "Calcula el valor astrogematr\u00edcico de una palabra o frase\ny determina su posici\u00f3n en la rueda zodiacal",
+        "operationId": "calcular_astrogematria_astrogematria_calcular_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AstrogematriaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AstrogematriaResponseStrict"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/astrogematria/remedios": {
+      "get": {
+        "summary": "Get Remedios",
+        "description": "Obtiene la lista de remedios homeop\u00e1ticos por grado y signo zodiacal",
+        "operationId": "get_remedios_astrogematria_remedios_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemediosResponseStrict"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AstrogematriaDataStrict": {
+        "properties": {
+          "palabra_original": {
+            "type": "string",
+            "title": "Palabra Original",
+            "description": "Input word"
+          },
+          "palabra_procesada": {
+            "type": "string",
+            "title": "Palabra Procesada",
+            "description": "Processed word (uppercase, no accents)"
+          },
+          "valor_astrogematrico": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Valor Astrogematrico",
+            "description": "Calculated numerical value"
+          },
+          "reduccion_zodiacal": {
+            "type": "integer",
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Reduccion Zodiacal",
+            "description": "Zodiac index (1-12)"
+          },
+          "signo": {
+            "$ref": "#/components/schemas/ZodiacSign"
+          },
+          "grados": {
+            "type": "integer",
+            "maximum": 29.0,
+            "minimum": 0.0,
+            "title": "Grados",
+            "description": "Degree within the sign (0-29)"
+          },
+          "posicion_completa": {
+            "type": "string",
+            "title": "Posicion Completa",
+            "description": "Full textual description (e.g. '12\u00b0 Aries')"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "palabra_original",
+          "palabra_procesada",
+          "valor_astrogematrico",
+          "reduccion_zodiacal",
+          "signo",
+          "grados",
+          "posicion_completa"
+        ],
+        "title": "AstrogematriaDataStrict",
+        "description": "Strict schema for calculation results"
+      },
+      "AstrogematriaRequest": {
+        "properties": {
+          "palabra": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Palabra",
+            "description": "Palabra o frase a calcular"
+          }
+        },
+        "type": "object",
+        "required": [
+          "palabra"
+        ],
+        "title": "AstrogematriaRequest",
+        "description": "Datos de entrada para calcular astrogematr\u00eda"
+      },
+      "AstrogematriaResponseStrict": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AstrogematriaDataStrict"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "AstrogematriaResponseStrict",
+        "description": "Strict Calculation Response"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "python_version": {
+            "type": "string",
+            "title": "Python Version"
+          },
+          "dependencies_ok": {
+            "type": "boolean",
+            "title": "Dependencies Ok"
+          },
+          "commit_sha": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Commit Sha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "version",
+          "timestamp",
+          "python_version",
+          "dependencies_ok"
+        ],
+        "title": "HealthResponse",
+        "description": "Respuesta del health check"
+      },
+      "RemedioItem": {
+        "properties": {
+          "grado": {
+            "type": "integer",
+            "maximum": 29.0,
+            "minimum": 0.0,
+            "title": "Grado"
+          },
+          "signo": {
+            "$ref": "#/components/schemas/ZodiacSign"
+          },
+          "remedio": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Remedio"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "grado",
+          "signo",
+          "remedio"
+        ],
+        "title": "RemedioItem",
+        "description": "Strict schema for a single remedy entry"
+      },
+      "RemediosData": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "remedios": {
+            "items": {
+              "$ref": "#/components/schemas/RemedioItem"
+            },
+            "type": "array",
+            "title": "Remedios"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "remedios"
+        ],
+        "title": "RemediosData"
+      },
+      "RemediosResponseStrict": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RemediosData"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "title": "RemediosResponseStrict",
+        "description": "Strict schema for Remedios endpoint"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ZodiacSign": {
+        "type": "string",
+        "enum": [
+          "Aries",
+          "Tauro",
+          "Geminis",
+          "Cancer",
+          "Leo",
+          "Virgo",
+          "Libra",
+          "Escorpio",
+          "Sagitario",
+          "Capricornio",
+          "Acuario",
+          "Piscis"
+        ],
+        "title": "ZodiacSign"
+      }
+    }
+  }
+}

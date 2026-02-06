@@ -13,9 +13,11 @@
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
+import type { AstrogematriaDataStrict } from '@/lib/api-clients/astrogematria';
+
 // Importar el componente dinámicamente con { ssr: false }
-const CartaNatalAstrogematria = dynamic(() => import('@/components/carta-natal-astrogematria').then(mod => mod.CartaNatalAstrogematria), { 
-  ssr: false 
+const CartaNatalAstrogematria = dynamic(() => import('@/components/carta-natal-astrogematria').then(mod => mod.CartaNatalAstrogematria), {
+  ssr: false
 });
 
 /**
@@ -26,12 +28,7 @@ interface CartaNatalAstrogematriaWrapperProps {
     planets: Record<string, number[]>;
     cusps: number[];
   };
-  astrogematriaData: {
-    palabra_original: string;
-    grados: number;
-    signo: string;
-    posicion_completa: string;
-  };
+  astrogematriaData: AstrogematriaDataStrict;
 }
 
 /**

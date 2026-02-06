@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
-import { getApiUrl } from '@/lib/api-config';
+import { getAstrogematriaClient } from '@/lib/api-clients/astrogematria-client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,21 +44,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Llamar al microservicio de astrogematría
-    const astrogematriaResponse = await fetch(
-      `${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ palabra }),
-      }
-    );
+    const client = getAstrogematriaClient();
+    const resultado = await client.default.calcularAstrogematriaAstrogematriaCalcularPost({
+      palabra: palabra
+    });
 
-    if (!astrogematriaResponse.ok) {
-      const errorData = await astrogematriaResponse.json().catch(() => ({}));
-      throw new Error(errorData.detail || 'Error en el servicio de astrogematría');
-    }
-
-    const resultado = await astrogematriaResponse.json();
 
     if (!resultado.success || !resultado.data) {
       throw new Error('Respuesta inválida del servicio de astrogematría');
@@ -69,12 +59,12 @@ export async function POST(request: NextRequest) {
       await prisma.astrogematriaCache.create({
         data: {
           palabra: palabraNormalizada,
-          palabraProcesada: resultado.data.palabra_procesada,
-          valorTotal: resultado.data.valor_astrogematrico,
-          reduccionZodiacal: resultado.data.reduccion_zodiacal,
-          signo: resultado.data.signo,
-          grados: resultado.data.grados,
-          posicionCompleta: resultado.data.posicion_completa,
+          palabraProcesada: resultado.data!.palabra_procesada,
+          valorTotal: resultado.data!.valor_astrogematrico,
+          reduccionZodiacal: resultado.data!.reduccion_zodiacal,
+          signo: resultado.data!.signo,
+          grados: resultado.data!.grados,
+          posicionCompleta: resultado.data!.posicion_completa,
         },
       });
     } catch (cacheError) {

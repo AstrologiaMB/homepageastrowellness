@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
-import { getApiUrl } from '@/lib/api-config';
+import { getAstrogematriaClient } from '@/lib/api-clients/astrogematria-client';
 
 export async function GET() {
   try {
@@ -12,17 +12,8 @@ export async function GET() {
     }
 
     // Llamar al microservicio de remedios
-    const remediosResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/remedios`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (!remediosResponse.ok) {
-      const errorData = await remediosResponse.json().catch(() => ({}));
-      throw new Error(errorData.detail || 'Error en el servicio de remedios');
-    }
-
-    const resultado = await remediosResponse.json();
+    const client = getAstrogematriaClient();
+    const resultado = await client.default.getRemediosAstrogematriaRemediosGet();
 
     if (!resultado.success || !resultado.data || !resultado.data.remedios) {
       throw new Error('Respuesta inválida del servicio de remedios');

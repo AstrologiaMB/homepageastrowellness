@@ -11,27 +11,14 @@ import { Loader2, Calculator, Star, Clock, User, ExternalLink } from "lucide-rea
 import { CartaNatalAstrogematriaWrapper } from "@/components/carta-natal-astrogematria-wrapper";
 import Link from "next/link";
 
-interface AstrogematriaData {
-  palabra_original: string;
-  palabra_procesada: string;
-  valor_astrogematrico: number;
-  reduccion_zodiacal: number;
-  signo: string;
-  grados: number;
-  posicion_completa: string;
-}
+import type { AstrogematriaDataStrict, AstrogematriaResponseStrict } from '@/lib/api-clients/astrogematria';
 
-interface AstrogematriaResponse {
-  success: boolean;
-  data?: AstrogematriaData;
-  error?: string;
-  cached?: boolean;
-  timestamp?: string;
-}
+// Removed local interfaces in favor of strict types
+
 
 export default function AstrogematriaCalculosPage() {
   const [palabra, setPalabra] = useState('');
-  const [resultado, setResultado] = useState<AstrogematriaData | null>(null);
+  const [resultado, setResultado] = useState<AstrogematriaDataStrict | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cached, setCached] = useState(false);
@@ -56,7 +43,7 @@ export default function AstrogematriaCalculosPage() {
         body: JSON.stringify({ palabra: palabra.trim() })
       });
 
-      const data: AstrogematriaResponse = await response.json();
+      const data: AstrogematriaResponseStrict = await response.json();
 
       if (data.success && data.data) {
         setResultado(data.data);
