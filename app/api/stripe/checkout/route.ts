@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { stripe } from '@/lib/stripe';
+import { features, isFeatureEnabled } from '@/lib/features';
+import { ENTITLEMENT_MAPPING } from '@/lib/constants/stripe.constants';
 import prisma from '@/lib/prisma';
 
 export async function POST(_request: Request) {
@@ -48,6 +50,29 @@ export async function POST(_request: Request) {
       price: priceId,
       quantity: 1,
     }));
+
+    // [SECURITY] Validate Feature Flags
+    // Iterate over items and check if the associated feature is enabled for this user.
+    for (const priceId of items) {
+      const featureKey = Object.entries(ENTITLEMENT_MAPPING).find(([key]) => key === priceId)?.[1];
+      // Map entitlement key to feature flag key
+      let featureFlagKey: keyof typeof features | undefined;
+
+      // Manual mapping based on ENTITLEMENT_MAPPING keys to features keys
+      if (featureKey === 'hasBaseBundle') featureFlagKey = 'enablePersonalCalendar';
+      if (featureKey === 'hasLunarCalendar') featureFlagKey = 'enableLunarCalendar';
+      if (featureKey === 'hasAstrogematria') featureFlagKey = 'enableAstrogematria';
+      if (featureKey === 'hasElectiveChart') featureFlagKey = 'enableElectional';
+      if (featureKey === 'hasDraconicAccess') featureFlagKey = 'enableDraconicChart';
+
+      if (featureFlagKey) {
+        const isEnabled = isFeatureEnabled(featureFlagKey, session.user.email);
+        if (!isEnabled) {
+          console.warn(`[SECURITY] Blocked purchase attempt for disabled feature: ${featureFlagKey} by ${session.user.email}`);
+          return new NextResponse('Feature Disabled', { status: 403 });
+        }
+      }
+    }
 
     // Check for Draconic logic (Prerequisite check)
     // If buying Draconic (One-Time), user MUST have Base Bundle active technically.

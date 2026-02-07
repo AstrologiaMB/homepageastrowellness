@@ -18,6 +18,7 @@ import { Star, Calendar, Bot, CheckCircle, Moon, Calculator, Clock } from 'lucid
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
+import { isFeatureEnabled } from '@/lib/features';
 
 // Note: STRIPE_PRICES are in lib/stripe but we'll hardcode here for client safety/ease if needed, or import.
 // For now, restoring the object definitions.
@@ -242,209 +243,227 @@ function UpgradePageContent() {
               Calendario Personal diario.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5 sm:space-y-6">
-            <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-purple-50/50 dark:bg-purple-950/20 transition-smooth">
-                <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full shrink-0">
-                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600 dark:text-purple-400" />
+          {!isFeatureEnabled('enablePersonalCalendar', user?.email) ? (
+            <CardContent className="space-y-5 sm:space-y-6">
+              <div className="flex flex-col items-center justify-center py-8 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-muted-foreground" />
                 </div>
-                <div className="min-w-0">
-                  <h4 className="font-semibold text-sm sm:text-base">Calendario Personal</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    Tu clima astrológico personal día a día.
+                <div>
+                  <h3 className="text-lg font-semibold">Próximamente</h3>
+                  <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                    Estamos preparando la apertura oficial. ¡Mantente atento!
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-indigo-50/50 dark:bg-indigo-950/20 transition-smooth">
-                <div className="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full shrink-0">
-                  <Star className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="font-semibold text-sm sm:text-base">Carta Trópica</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    Mapa completo de tu psique y potenciales natales.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator className="my-4 sm:my-6" />
-
-            <div>
-              <h3 className="font-semibold text-base sm:text-lg mb-4 flex items-center gap-2">
-                <TargetIcon className="h-4 w-4 sm:h-5 sm:w-5" /> Agrega complementos (Add-ons)
-              </h3>
-
-              {isBaseActive && (
-                <div className="glass-card bg-blue-50/50 dark:bg-blue-950/20 text-blue-800 dark:text-blue-200 p-3 sm:p-4 rounded-lg mb-4 text-xs sm:text-sm flex gap-2 sm:gap-3 items-start">
-                  <Bot className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 shrink-0" />
-                  <div className="min-w-0">
-                    <strong className="block mb-1">Suscripción Activa</strong>
-                    <p>
-                      Puedes activar o desactivar los complementos directamente marcando las
-                      casillas. Los cambios se reflejarán en tu próxima facturación.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <div className="space-y-3 sm:space-y-4">
-                {/* Add-on: Lunar */}
-                <div
-                  className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth ${entitlements.hasLunarCalendar ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' : 'glass-card hover:border-primary/30'}`}
-                >
-                  <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
-                    <Checkbox
-                      id="addon-lunar"
-                      checked={selectedAddOns.lunar || entitlements.hasLunarCalendar}
-                      onCheckedChange={(c) => {
-                        if (isBaseActive) {
-                          handleUpdateSubscription(PRICES.ADD_ON_LUNAR, !!c ? 'add' : 'remove');
-                        } else {
-                          setSelectedAddOns((prev) => ({ ...prev, lunar: !!c }));
-                        }
-                      }}
-                      disabled={loading}
-                      className="mt-0.5 sm:mt-0 shrink-0"
-                    />
-                    <label htmlFor="addon-lunar" className="cursor-pointer space-y-1 min-w-0">
-                      <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2">
-                        <Moon
-                          className={`h-3 w-3 sm:h-4 sm:w-4 shrink-0 ${entitlements.hasLunarCalendar ? 'text-green-600' : 'text-slate-500'}`}
-                        />
-                        <span>Fases Lunares</span>
-                        {entitlements.hasLunarCalendar && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs"
-                          >
-                            Activo
-                          </Badge>
-                        )}
-                      </div>
+            </CardContent>
+          ) : (
+            <>
+              <CardContent className="space-y-5 sm:space-y-6">
+                <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+                  <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-purple-50/50 dark:bg-purple-950/20 transition-smooth">
+                    <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full shrink-0">
+                      <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-sm sm:text-base">Calendario Personal</h4>
                       <p className="text-xs sm:text-sm text-muted-foreground">
-                        Sincroniza tus intenciones con el ciclo de la Luna.
+                        Tu clima astrológico personal día a día.
                       </p>
-                    </label>
+                    </div>
                   </div>
-                  <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
-                    {entitlements.hasLunarCalendar
-                      ? 'Activo'
-                      : `+$${PRICE_VALUES.LUNAR.toFixed(2)}/mes`}
-                  </div>
-                </div>
-
-                {/* Add-on: Astrogematria */}
-                <div
-                  className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth ${entitlements.hasAstrogematria ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' : 'glass-card hover:border-primary/30'}`}
-                >
-                  <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
-                    <Checkbox
-                      id="addon-astro"
-                      checked={selectedAddOns.astro || entitlements.hasAstrogematria}
-                      onCheckedChange={(c) => {
-                        if (isBaseActive) {
-                          handleUpdateSubscription(
-                            PRICES.ADD_ON_ASTROGEMATRIA,
-                            !!c ? 'add' : 'remove'
-                          );
-                        } else {
-                          setSelectedAddOns((prev) => ({ ...prev, astro: !!c }));
-                        }
-                      }}
-                      disabled={loading}
-                      className="mt-0.5 sm:mt-0 shrink-0"
-                    />
-                    <label htmlFor="addon-astro" className="cursor-pointer space-y-1 min-w-0">
-                      <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2">
-                        <Calculator
-                          className={`h-3 w-3 sm:h-4 sm:w-4 shrink-0 ${entitlements.hasAstrogematria ? 'text-green-600' : 'text-emerald-500'}`}
-                        />
-                        <span>Astrogematria</span>
-                        {entitlements.hasAstrogematria && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs"
-                          >
-                            Activo
-                          </Badge>
-                        )}
-                      </div>
+                  <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-indigo-50/50 dark:bg-indigo-950/20 transition-smooth">
+                    <div className="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full shrink-0">
+                      <Star className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-sm sm:text-base">Carta Trópica</h4>
                       <p className="text-xs sm:text-sm text-muted-foreground">
-                        La alquimia entre tus palabras y tu mapa astral.
+                        Mapa completo de tu psique y potenciales natales.
                       </p>
-                    </label>
-                  </div>
-                  <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
-                    {entitlements.hasAstrogematria
-                      ? 'Activo'
-                      : `+$${PRICE_VALUES.ASTRO.toFixed(2)}/mes`}
+                    </div>
                   </div>
                 </div>
 
-                {/* Add-on: Elective (Disabled / Coming Soon) */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth glass-card opacity-60 cursor-not-allowed">
-                  <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
-                    <Checkbox
-                      id="addon-elective"
-                      checked={false}
-                      disabled={true}
-                      className="mt-0.5 sm:mt-0 shrink-0"
-                    />
-                    <label
-                      htmlFor="addon-elective"
-                      className="cursor-not-allowed space-y-1 min-w-0"
+                <Separator className="my-4 sm:my-6" />
+
+                <div>
+                  <h3 className="font-semibold text-base sm:text-lg mb-4 flex items-center gap-2">
+                    <TargetIcon className="h-4 w-4 sm:h-5 sm:w-5" /> Agrega complementos (Add-ons)
+                  </h3>
+
+                  {isBaseActive && (
+                    <div className="glass-card bg-blue-50/50 dark:bg-blue-950/20 text-blue-800 dark:text-blue-200 p-3 sm:p-4 rounded-lg mb-4 text-xs sm:text-sm flex gap-2 sm:gap-3 items-start">
+                      <Bot className="h-4 w-4 sm:h-5 sm:w-5 mt-0.5 shrink-0" />
+                      <div className="min-w-0">
+                        <strong className="block mb-1">Suscripción Activa</strong>
+                        <p>
+                          Puedes activar o desactivar los complementos directamente marcando las
+                          casillas. Los cambios se reflejarán en tu próxima facturación.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-3 sm:space-y-4">
+                    {/* Add-on: Lunar */}
+                    <div
+                      className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth ${entitlements.hasLunarCalendar ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' : 'glass-card hover:border-primary/30'}`}
                     >
-                      <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2 text-muted-foreground">
-                        <Clock className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
-                        <span>Buenos Momentos</span>
-                        <Badge
-                          variant="outline"
-                          className="bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800 text-xs"
-                        >
-                          Próximamente
-                        </Badge>
+                      <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+                        <Checkbox
+                          id="addon-lunar"
+                          checked={selectedAddOns.lunar || entitlements.hasLunarCalendar}
+                          onCheckedChange={(c) => {
+                            if (isBaseActive) {
+                              handleUpdateSubscription(PRICES.ADD_ON_LUNAR, !!c ? 'add' : 'remove');
+                            } else {
+                              setSelectedAddOns((prev) => ({ ...prev, lunar: !!c }));
+                            }
+                          }}
+                          disabled={loading}
+                          className="mt-0.5 sm:mt-0 shrink-0"
+                        />
+                        <label htmlFor="addon-lunar" className="cursor-pointer space-y-1 min-w-0">
+                          <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2">
+                            <Moon
+                              className={`h-3 w-3 sm:h-4 sm:w-4 shrink-0 ${entitlements.hasLunarCalendar ? 'text-green-600' : 'text-slate-500'}`}
+                            />
+                            <span>Fases Lunares</span>
+                            {entitlements.hasLunarCalendar && (
+                              <Badge
+                                variant="secondary"
+                                className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs"
+                              >
+                                Activo
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">
+                            Sincroniza tus intenciones con el ciclo de la Luna.
+                          </p>
+                        </label>
                       </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        Encuentra el mejor momento para tus acciones.
-                      </p>
-                    </label>
-                  </div>
-                  <div className="font-semibold text-xs sm:text-sm text-muted-foreground text-right sm:text-left shrink-0">
-                    No disponible
+                      <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
+                        {entitlements.hasLunarCalendar
+                          ? 'Activo'
+                          : `+$${PRICE_VALUES.LUNAR.toFixed(2)}/mes`}
+                      </div>
+                    </div>
+
+                    {/* Add-on: Astrogematria */}
+                    <div
+                      className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth ${entitlements.hasAstrogematria ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' : 'glass-card hover:border-primary/30'}`}
+                    >
+                      <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+                        <Checkbox
+                          id="addon-astro"
+                          checked={selectedAddOns.astro || entitlements.hasAstrogematria}
+                          onCheckedChange={(c) => {
+                            if (isBaseActive) {
+                              handleUpdateSubscription(
+                                PRICES.ADD_ON_ASTROGEMATRIA,
+                                !!c ? 'add' : 'remove'
+                              );
+                            } else {
+                              setSelectedAddOns((prev) => ({ ...prev, astro: !!c }));
+                            }
+                          }}
+                          disabled={loading}
+                          className="mt-0.5 sm:mt-0 shrink-0"
+                        />
+                        <label htmlFor="addon-astro" className="cursor-pointer space-y-1 min-w-0">
+                          <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2">
+                            <Calculator
+                              className={`h-3 w-3 sm:h-4 sm:w-4 shrink-0 ${entitlements.hasAstrogematria ? 'text-green-600' : 'text-emerald-500'}`}
+                            />
+                            <span>Astrogematria</span>
+                            {entitlements.hasAstrogematria && (
+                              <Badge
+                                variant="secondary"
+                                className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs"
+                              >
+                                Activo
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">
+                            La alquimia entre tus palabras y tu mapa astral.
+                          </p>
+                        </label>
+                      </div>
+                      <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
+                        {entitlements.hasAstrogematria
+                          ? 'Activo'
+                          : `+$${PRICE_VALUES.ASTRO.toFixed(2)}/mes`}
+                      </div>
+                    </div>
+
+                    {/* Add-on: Elective (Disabled / Coming Soon) */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 border rounded-lg transition-smooth glass-card opacity-60 cursor-not-allowed">
+                      <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+                        <Checkbox
+                          id="addon-elective"
+                          checked={false}
+                          disabled={true}
+                          className="mt-0.5 sm:mt-0 shrink-0"
+                        />
+                        <label
+                          htmlFor="addon-elective"
+                          className="cursor-not-allowed space-y-1 min-w-0"
+                        >
+                          <div className="font-medium text-sm sm:text-base flex flex-wrap items-center gap-2 text-muted-foreground">
+                            <Clock className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
+                            <span>Buenos Momentos</span>
+                            <Badge
+                              variant="outline"
+                              className="bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800 text-xs"
+                            >
+                              Próximamente
+                            </Badge>
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">
+                            Encuentra el mejor momento para tus acciones.
+                          </p>
+                        </label>
+                      </div>
+                      <div className="font-semibold text-xs sm:text-sm text-muted-foreground text-right sm:text-left shrink-0">
+                        No disponible
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-3 sm:gap-4 glass-card bg-muted/10 border-t p-4 sm:p-6">
-            {!isBaseActive && (
-              <div className="flex justify-between items-center w-full">
-                <span className="text-base sm:text-lg font-medium">Total Mensual</span>
-                <span className="text-2xl sm:text-3xl font-bold gradient-primary">
-                  ${monthlyTotal.toFixed(2)}
-                </span>
-              </div>
-            )}
+              </CardContent>
+              <CardFooter className="flex flex-col gap-3 sm:gap-4 glass-card bg-muted/10 border-t p-4 sm:p-6">
+                {!isBaseActive && (
+                  <div className="flex justify-between items-center w-full">
+                    <span className="text-base sm:text-lg font-medium">Total Mensual</span>
+                    <span className="text-2xl sm:text-3xl font-bold gradient-primary">
+                      ${monthlyTotal.toFixed(2)}
+                    </span>
+                  </div>
+                )}
 
-            <Button
-              onClick={() => handleCheckout('subscription')}
-              size="lg"
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-sm sm:text-base lg:text-lg shadow-md h-11 sm:h-12"
-              disabled={loading}
-            >
-              {loading
-                ? 'Procesando...'
-                : isBaseActive
-                  ? 'Gestionar Facturación (Tarjetas)'
-                  : 'Suscribirse Ahora'}
-            </Button>
-            <p className="text-xs sm:text-sm text-muted-foreground text-center">
-              {isBaseActive
-                ? 'Gestiona tus métodos de pago y facturas en el Portal de Stripe.'
-                : 'Gestionado por Stripe. Puedes cancelar o modificar tu plan en cualquier momento.'}
-            </p>
-          </CardFooter>
+                <Button
+                  onClick={() => handleCheckout('subscription')}
+                  size="lg"
+                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-sm sm:text-base lg:text-lg shadow-md h-11 sm:h-12"
+                  disabled={loading}
+                >
+                  {loading
+                    ? 'Procesando...'
+                    : isBaseActive
+                      ? 'Gestionar Facturación (Tarjetas)'
+                      : 'Suscribirse Ahora'}
+                </Button>
+                <p className="text-xs sm:text-sm text-muted-foreground text-center">
+                  {isBaseActive
+                    ? 'Gestiona tus métodos de pago y facturas en el Portal de Stripe.'
+                    : 'Gestionado por Stripe. Puedes cancelar o modificar tu plan en cualquier momento.'}
+                </p>
+              </CardFooter>
+            </>
+          )}
         </Card>
 
         {/* Draconic One-Time */}
@@ -491,12 +510,12 @@ function UpgradePageContent() {
             </Button>
           </CardFooter>
         </Card>
-      </div>
+      </div >
 
       <div className="mt-8 sm:mt-12 text-center text-xs sm:text-sm text-muted-foreground">
         <p>¿Necesitas ayuda? Contacta a soporte.</p>
       </div>
-    </div>
+    </div >
   );
 }
 
