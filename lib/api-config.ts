@@ -43,7 +43,7 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
     CALENDARIO: process.env.NEXT_PUBLIC_CALENDARIO_API_URL || '',
     ASTROGEMATRIA: process.env.NEXT_PUBLIC_ASTROGEMATRIA_API_URL || '',
     CARTA_ELECTIVA: process.env.NEXT_PUBLIC_CARTA_ELECTIVA_API_URL || '',
-    FRONTEND_INTERNAL: 'http://localhost:8080' // Railway internal port (no SSL)
+    FRONTEND_INTERNAL: `http://localhost:${process.env.PORT || 3000}` // Dynamic internal port
   }
 };
 
