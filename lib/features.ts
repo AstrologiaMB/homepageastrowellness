@@ -28,8 +28,8 @@ export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: 
     // 2. Si el feature está oficialmente activo, activo
     if (features[featureKey]) return true;
 
-    // 3. BYPASS: Si es el calendario personal Y es el admin, activo
-    if (featureKey === 'enablePersonalCalendar' && userEmail === ADMIN_EMAIL) {
+    // 3. BYPASS: Si es el admin, activo TODO
+    if (userEmail === ADMIN_EMAIL) {
         return true;
     }
 
