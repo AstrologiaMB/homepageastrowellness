@@ -133,14 +133,29 @@ export async function POST(req: Request) {
 
       // 2. Email de Confirmación al Usuario
       if (session.user.email) {
+        // Formatear nombre para el saludo (FirstName)
+        const firstName = user.name ? user.name.split(' ')[0] : 'Hola';
+
         await sendEmail({
           to: session.user.email,
           subject: 'Solicitud de Rectificación recibida - Astrochat',
           html: `
             <h2>Solicitud Recibida Exitosamente</h2>
-            <p>Hola,</p>
+            <p>Hola <strong>${firstName}</strong>,</p>
             <p>Confirmamos que hemos recibido tu solicitud de rectificación junto con los eventos de vida reportados.</p>
-            <p>El equipo de María Blaquier analizará tu caso. Si la rectificación es viable con la información proporcionada, te contactaremos con los pasos para el pago y el inicio del proceso.</p>
+            <br/>
+            
+            <h3>Tus eventos registrados:</h3>
+            
+            <h4>💔 Eventos Tristes:</h4>
+            <ul>${sadEventsList}</ul>
+            
+            <h4>❤️ Eventos Alegres:</h4>
+            <ul>${happyEventsList}</ul>
+            
+            <br/>
+            <hr/>
+            <p>Muchas gracias por tu consulta, en <strong>48 horas</strong> te responderemos si es posible rectificar tu hora de nacimiento. En caso afirmativo te enviaremos el link de pago.</p>
             <br/>
             <p><em>El equipo de Astrochat</em></p>
           `,
