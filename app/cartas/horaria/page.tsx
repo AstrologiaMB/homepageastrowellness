@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/auth/auth-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -275,22 +276,33 @@ const QUESTION_CATEGORIES = [
 
 // Esquema de validación para el formulario
 const horariaFormSchema = z.object({
-  firstName: z.string().min(1, 'El nombre es obligatorio'),
-  lastName: z.string().min(1, 'Los apellidos son obligatorios'),
-  email: z.string().email('El correo electrónico debe ser válido'),
-  country: z.string().min(1, 'Debes seleccionar un país'),
-  acceptSingleQuestion: z.enum(['Si', 'no'], {
-    required_error: 'Debes seleccionar una opción',
+  firstName: z.string().min(2, { message: 'El nombre es requerido' }),
+  lastName: z.string().min(2, { message: 'El apellido es requerido' }),
+  email: z.string().email({ message: 'Email inválido' }),
+  country: z.string().min(1, { message: 'Selecciona un país' }),
+  acceptSingleQuestion: z.boolean().refine((val) => val === true, {
+    message: 'Debes confirmar que entiendes',
   }),
-  isFirstTime: z.enum(['Si', 'no'], {
-    required_error: 'Debes seleccionar una opción',
-  }),
-  questionCategory: z.string().min(1, 'Debes seleccionar una categoría'),
+  isFirstTime: z.boolean().default(false),
+  questionCategory: z.string().min(1, { message: 'Selecciona una categoría' }),
   acceptConsiderations: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar las consideraciones para continuar',
+    message: 'Debes aceptar las consideraciones',
   }),
-  question: z.string().min(5, 'La pregunta debe tener al menos 5 caracteres'),
+  hasContext: z.enum(['yes', 'no'], {
+    required_error: 'Por favor indica si deseas agregar contexto',
+  }),
+  question: z.string()
+    .min(10, { message: 'La pregunta debe tener al menos 10 caracteres' })
+    .max(500, { message: 'La pregunta no puede exceder los 500 caracteres' }),
   context: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.hasContext === 'yes' && (!data.context || data.context.length < 10)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'El contexto es requerido si seleccionas "Sí"',
+      path: ['context'],
+    });
+  }
 });
 
 type HorariaFormData = z.infer<typeof horariaFormSchema>;
@@ -301,7 +313,7 @@ const FORM_SECTIONS = [
   { key: 'confirmation', title: 'Confirmaciones', fields: ['acceptSingleQuestion', 'isFirstTime'] },
   { key: 'category', title: 'Categoría', fields: ['questionCategory'] },
   { key: 'considerations', title: 'Consideraciones', fields: ['acceptConsiderations'] },
-  { key: 'question', title: 'Tu Pregunta', fields: ['question', 'context'] },
+  { key: 'question', title: 'Tu Pregunta', fields: ['hasContext', 'question', 'context'] },
 ];
 
 export default function CartasHorariaPage() {
@@ -318,12 +330,13 @@ export default function CartasHorariaPage() {
       lastName: '',
       email: '',
       country: '',
-      acceptSingleQuestion: undefined,
-      isFirstTime: undefined,
+      acceptSingleQuestion: false,
+      isFirstTime: false,
       questionCategory: '',
       acceptConsiderations: false,
       question: '',
       context: '',
+      hasContext: undefined,
     },
   });
 
@@ -404,6 +417,24 @@ export default function CartasHorariaPage() {
     });
     return () => subscription.unsubscribe();
   }, [form]);
+
+  // Helper to determine if a section is complete
+  const getSectionCompletion = useCallback(() => {
+    const currentValues = form.getValues();
+    return FORM_SECTIONS.reduce((acc, section) => {
+      const isComplete = section.fields.every((field) => {
+        const value = currentValues[field as keyof HorariaFormData];
+        if (typeof value === 'boolean') return value === true;
+        if (typeof value === 'string') return value.trim().length > 0;
+        if (field === 'hasContext') return value !== undefined; // Ensure hasContext is selected
+        return false;
+      });
+      acc[section.key] = isComplete;
+      return acc;
+    }, {} as Record<string, boolean>);
+  }, [form]);
+
+  const completedSteps = getSectionCompletion();
 
   // Mostrar pantalla de carga mientras se verifica la autenticación
   if (isLoading || loadingData) {
@@ -558,13 +589,7 @@ export default function CartasHorariaPage() {
                 {/* Existing Form Logic */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {FORM_SECTIONS.map((section) => {
-                    const sectionForm = form.getValues();
-                    const isComplete = section.fields.every((field) => {
-                      const value = sectionForm[field as keyof HorariaFormData];
-                      if (typeof value === 'boolean') return value === true;
-                      if (typeof value === 'string') return value.trim().length > 0;
-                      return false;
-                    });
+                    const isComplete = completedSteps[section.key];
                     return (
                       <Badge
                         key={section.key}
@@ -688,30 +713,16 @@ export default function CartasHorariaPage() {
                             control={form.control}
                             name="acceptSingleQuestion"
                             render={({ field }) => (
-                              <FormItem className="space-y-3">
-                                <FormLabel className="text-foreground">
-                                  ¿Aceptas que la carta horaria responde una (1) pregunta?
-                                </FormLabel>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 glass-card p-4 rounded-lg">
                                 <FormControl>
-                                  <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-2"
-                                  >
-                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                      <FormControl>
-                                        <RadioGroupItem value="Si" />
-                                      </FormControl>
-                                      <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                      <FormControl>
-                                        <RadioGroupItem value="no" />
-                                      </FormControl>
-                                      <FormLabel className="font-normal cursor-pointer">No</FormLabel>
-                                    </FormItem>
-                                  </RadioGroup>
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-primary" />
                                 </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel className="text-foreground cursor-pointer">
+                                    Acepto que la carta horaria responde una (1) pregunta.
+                                    <span className="text-primary ml-1">*</span>
+                                  </FormLabel>
+                                </div>
                                 <FormMessage />
                               </FormItem>
                             )}
@@ -721,34 +732,19 @@ export default function CartasHorariaPage() {
                             control={form.control}
                             name="isFirstTime"
                             render={({ field }) => (
-                              <FormItem className="space-y-3">
-                                <FormLabel className="text-foreground">
-                                  ¿Es la primera vez que haces esta pregunta, a cualquier oráculo?
-                                  <span className="text-primary ml-1">*</span>
-                                </FormLabel>
-                                <p className="text-xs text-muted-foreground">
-                                  Si ya fue formulada, la carta horaria pierde validez.
-                                </p>
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 glass-card p-4 rounded-lg">
                                 <FormControl>
-                                  <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-2"
-                                  >
-                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                      <FormControl>
-                                        <RadioGroupItem value="Si" />
-                                      </FormControl>
-                                      <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                      <FormControl>
-                                        <RadioGroupItem value="no" />
-                                      </FormControl>
-                                      <FormLabel className="font-normal cursor-pointer">No</FormLabel>
-                                    </FormItem>
-                                  </RadioGroup>
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-primary" />
                                 </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel className="text-foreground cursor-pointer">
+                                    Es la primera vez que hago esta pregunta, a cualquier oráculo.
+                                    <span className="text-primary ml-1">*</span>
+                                  </FormLabel>
+                                  <FormDescription className="text-xs">
+                                    Si ya fue formulada, la carta horaria pierde validez.
+                                  </FormDescription>
+                                </div>
                                 <FormMessage />
                               </FormItem>
                             )}
@@ -870,60 +866,134 @@ export default function CartasHorariaPage() {
                         </AccordionContent>
                       </AccordionItem>
 
-                      {/* Sección 5: Tu Pregunta */}
+                      {/* Paso 5: Contexto y Pregunta (Reordenado) */}
                       <AccordionItem value="item-4" className="glass-card rounded-xl border-border/50 px-4">
                         <AccordionTrigger className="hover:no-underline py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                              <span className="text-primary font-semibold">5</span>
+                          <div className="flex items-center gap-3 w-full">
+                            <div className={`flex items-center justify-center w-8 h-8 rounded-full border ${completedSteps.question ? 'bg-primary border-primary text-primary-foreground' : 'border-muted-foreground/30 text-muted-foreground'}`}>
+                              {completedSteps.question ? <CheckCircle2 className="w-5 h-5" /> : <span className="text-sm font-medium">5</span>}
                             </div>
                             <div className="text-left">
-                              <h3 className="font-semibold text-foreground">Tu Pregunta</h3>
-                              <p className="text-sm text-muted-foreground">Formula tu pregunta al cielo</p>
+                              <h3 className={`font-medium ${completedSteps.question ? 'text-primary' : 'text-foreground'}`}>
+                                Tu Pregunta
+                              </h3>
+                              <p className="text-sm text-muted-foreground">Contexto y formulación</p>
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-4 pb-2 space-y-4">
+                        <AccordionContent className="pt-4 pb-2 space-y-6">
+
+                          {/* 1. Selección de Contexto (Active Choice) */}
                           <FormField
                             control={form.control}
-                            name="question"
+                            name="hasContext"
                             render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-foreground">
-                                  Tu pregunta a la Carta Horaria
-                                  <span className="text-primary ml-1">*</span>
-                                </FormLabel>
+                              <FormItem className="space-y-3">
+                                <FormLabel className="text-base font-medium">¿Deseas agregar el contexto de tu pregunta?</FormLabel>
                                 <FormControl>
-                                  <Textarea
-                                    placeholder="¿Qué deseas preguntarle a la carta horaria?"
-                                    className="min-h-[120px] border-border/50 resize-none"
-                                    showCount
-                                    maxLength={500}
-                                    {...field}
-                                  />
+                                  <RadioGroup
+                                    onValueChange={(val) => {
+                                      field.onChange(val);
+                                      if (val === 'no') {
+                                        form.setValue('context', 'Sin contexto explícito');
+                                      } else {
+                                        form.setValue('context', '');
+                                      }
+                                    }}
+                                    defaultValue={field.value}
+                                    className="flex flex-col space-y-1"
+                                  >
+                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                      <FormControl>
+                                        <RadioGroupItem value="yes" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">
+                                        Sí, es importante para entender la situación
+                                      </FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                      <FormControl>
+                                        <RadioGroupItem value="no" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">
+                                        No, es una duda directa sin trasfondo necesario
+                                      </FormLabel>
+                                    </FormItem>
+                                  </RadioGroup>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
 
+                          {/* 2. Campo de Contexto (Condicional) */}
+                          {form.watch('hasContext') === 'yes' && (
+                            <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+                              {/* Context Guide Alert */}
+                              <div className="bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-sm">
+                                <div className="flex gap-2 items-start">
+                                  <span className="text-xl">💡</span>
+                                  <div className="space-y-2">
+                                    <p className="font-semibold text-blue-800 dark:text-blue-300">Tip de experto:</p>
+                                    <p className="text-blue-700 dark:text-blue-400">
+                                      Para que la carta responda con precisión, necesitamos los <strong>hechos</strong>, no solo la intención.
+                                    </p>
+                                    <ul className="list-none space-y-1 mt-1 text-muted-foreground">
+                                      <li className="flex gap-2 text-red-500/80 dark:text-red-400/80">
+                                        <span>❌</span> <span><em>Vago:</em> "¿Volveremos?"</span>
+                                      </li>
+                                      <li className="flex gap-2 text-emerald-600/80 dark:text-emerald-400/80">
+                                        <span>✅</span> <span><em>Útil:</em> "Terminamos hace 3 meses, hubo contacto ayer y quiero saber si retomaremos la relación."</span>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <FormField
+                                control={form.control}
+                                name="context"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Tu contexto <span className="text-red-500">*</span></FormLabel>
+                                    <FormControl>
+                                      <Textarea
+                                        placeholder="Describe la situación actual, los involucrados y hechos recientes relevantes..."
+                                        className="resize-none min-h-[120px] bg-background/50"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <div className="flex justify-end">
+                                      <span className="text-xs text-muted-foreground">
+                                        {field.value?.length || 0}/1000
+                                      </span>
+                                    </div>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          )}
+
+                          {/* 3. Campo de Pregunta */}
                           <FormField
                             control={form.control}
-                            name="context"
+                            name="question"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-foreground">
-                                  Tu contexto (opcional pero recomendado)
-                                </FormLabel>
+                                <FormLabel>Tu pregunta a la Carta Horaria <span className="text-red-500">*</span></FormLabel>
                                 <FormControl>
                                   <Textarea
-                                    placeholder="Brinda el contexto, cuanto más detallado mejor será la respuesta."
-                                    className="min-h-[120px] border-border/50 resize-none"
-                                    showCount
-                                    maxLength={1000}
+                                    placeholder="¿Qué deseas preguntarle a la carta horaria?"
+                                    className="resize-none min-h-[100px] bg-background/50"
                                     {...field}
                                   />
                                 </FormControl>
+                                <div className="flex justify-end">
+                                  <span className="text-xs text-muted-foreground">
+                                    {field.value?.length || 0}/500
+                                  </span>
+                                </div>
                                 <FormMessage />
                               </FormItem>
                             )}
