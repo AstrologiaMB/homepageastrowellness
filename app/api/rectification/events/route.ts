@@ -126,7 +126,7 @@ export async function POST(req: Request) {
 
       // 1. Email al Administrador
       await sendEmail({
-        to: 'cursos@mariablaquier.com, majaspe@hotmail.com',
+        to: ['cursos@mariablaquier.com', 'majaspe@hotmail.com'],
         subject: `[Astrochat] Solicitud de Rectificación COMPLETA - ${session.user.email}`,
         html: emailHtml,
       });
