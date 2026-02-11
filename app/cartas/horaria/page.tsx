@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
@@ -380,7 +381,6 @@ export default function CartasHorariaPage() {
     }
   }, [isAuthenticated, isLoading, user, router, form]);
 
-  // Manejar envío del formulario
   const onSubmit = async (data: HorariaFormData) => {
     setIsSubmitting(true);
     try {
@@ -398,17 +398,54 @@ export default function CartasHorariaPage() {
         throw new Error(result.error || 'Error al procesar la solicitud');
       }
 
-      alert(
-        '¡Solicitud de carta horaria enviada con éxito! Te contactaremos pronto con la respuesta.'
-      );
+      toast.success('¡Solicitud enviada con éxito!', {
+        description: 'Te contactaremos pronto con la respuesta.'
+      });
       router.push('/');
     } catch (error) {
       console.error('Error al enviar solicitud de carta horaria:', error);
-      alert('Error al procesar la solicitud. Por favor, intenta nuevamente.');
+      toast.error('Error al procesar la solicitud', {
+        description: 'Por favor, intenta nuevamente.'
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const onError = useCallback((errors: any) => {
+    toast.error('Faltan campos por completar', {
+      description: 'Por favor revisa los campos marcados en rojo.',
+      duration: 4000,
+    });
+
+    const firstErrorKey = Object.keys(errors)[0];
+    if (firstErrorKey) {
+      const sectionKey = FORM_SECTIONS.find(section => section.fields.includes(firstErrorKey))?.key;
+
+      // Map section keys to accordion values
+      const sectionToAccordionValue: Record<string, string> = {
+        'personal': 'item-0',
+        'confirmation': 'item-1',
+        'category': 'item-2',
+        'considerations': 'item-3',
+        'question': 'item-4'
+      };
+
+      if (sectionKey && sectionToAccordionValue[sectionKey]) {
+        // Expand accordion if needed (implementation depends on how Accordion state is managed, assuming controlled or just finding the element to scroll)
+        // Ideally we would setAccordionValue(sectionToAccordionValue[sectionKey]) if it was controlled state.
+        // For now, let's try to scroll to the element.
+
+        setTimeout(() => {
+          const element = document.querySelector(`[name="${firstErrorKey}"]`) as HTMLElement;
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            element.focus();
+          }
+        }, 100);
+      }
+    }
+  }, []);
 
   // Watch form changes to update section pills reactively
   useEffect(() => {
@@ -608,7 +645,7 @@ export default function CartasHorariaPage() {
                 </div>
 
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
                     <Accordion type="single" collapsible defaultValue="item-0" className="space-y-4">
                       {/* Sección 1: Información Personal */}
                       <AccordionItem value="item-0" className="glass-card rounded-xl border-border/50 px-4">
