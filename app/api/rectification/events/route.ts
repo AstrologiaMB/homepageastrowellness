@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
+import { sendEmail } from '@/lib/email-service';
 
 export async function POST(req: Request) {
   try {
@@ -82,6 +83,73 @@ export async function POST(req: Request) {
         rectificationStatus: 'in_progress',
       },
     });
+
+    // Enviar notificaciones por email incluyendo los eventos
+    try {
+      // Formatear eventos para el email
+      const sadEventsList = createdEvents
+        .filter(e => e.eventType === 'sad')
+        .map(e => `<li><strong>${new Date(e.eventDate).toLocaleDateString()}:</strong> ${e.description}${e.notes ? ` <em>(${e.notes})</em>` : ''}</li>`)
+        .join('');
+
+      const happyEventsList = createdEvents
+        .filter(e => e.eventType === 'happy')
+        .map(e => `<li><strong>${new Date(e.eventDate).toLocaleDateString()}:</strong> ${e.description}${e.notes ? ` <em>(${e.notes})</em>` : ''}</li>`)
+        .join('');
+
+      const emailHtml = `
+        <h2>Nueva Solicitud de Rectificación (Completa)</h2>
+        <p><strong>Usuario:</strong> ${user.name || 'Sin nombre'} (${user.email})</p>
+        <p><strong>Fecha de solicitud:</strong> ${new Date().toLocaleDateString()}</p>
+        <p><strong>Estado:</strong> ${user.rectificationStatus === 'in_progress' ? 'En progreso (Eventos recibidos)' : user.rectificationStatus}</p>
+        <br/>
+        
+        <h3>Datos de Nacimiento Actuales:</h3>
+        <ul>
+          <li><strong>Fecha:</strong> ${user.birthDate ? new Date(user.birthDate).toLocaleDateString() : 'No definida'}</li>
+          <li><strong>Hora:</strong> ${user.birthHour}:${user.birthMinute?.toString().padStart(2, '0') || '00'}</li>
+          <li><strong>Lugar:</strong> ${user.birthCity}, ${user.birthCountry}</li>
+        </ul>
+        <br/>
+        
+        <h3>Eventos de Vida Reportados:</h3>
+        
+        <h4>💔 Eventos Tristes:</h4>
+        <ul>${sadEventsList}</ul>
+        
+        <h4>❤️ Eventos Alegres:</h4>
+        <ul>${happyEventsList}</ul>
+        
+        <br/>
+        <p>El usuario ha aceptado la incertidumbre y completado el formulario de eventos.</p>
+      `;
+
+      // 1. Email al Administrador
+      await sendEmail({
+        to: 'cursos@mariablaquier.com, majaspe@hotmail.com',
+        subject: `[Astrochat] Solicitud de Rectificación COMPLETA - ${session.user.email}`,
+        html: emailHtml,
+      });
+
+      // 2. Email de Confirmación al Usuario
+      if (session.user.email) {
+        await sendEmail({
+          to: session.user.email,
+          subject: 'Solicitud de Rectificación recibida - Astrochat',
+          html: `
+            <h2>Solicitud Recibida Exitosamente</h2>
+            <p>Hola,</p>
+            <p>Confirmamos que hemos recibido tu solicitud de rectificación junto con los eventos de vida reportados.</p>
+            <p>El equipo de María Blaquier analizará tu caso. Si la rectificación es viable con la información proporcionada, te contactaremos con los pasos para el pago y el inicio del proceso.</p>
+            <br/>
+            <p><em>El equipo de Astrochat</em></p>
+          `,
+        });
+      }
+    } catch (emailError) {
+      console.error('Error enviando emails de rectificación:', emailError);
+      // No fallamos la request si falla el email, pero lo logueamos
+    }
 
     return NextResponse.json({
       success: true,
