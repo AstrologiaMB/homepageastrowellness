@@ -419,446 +419,544 @@ export default function CartasHorariaPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-background to-blue-50/30 dark:from-purple-950/30 dark:via-background dark:to-blue-950/20 p-4 md:p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Navigation */}
         <div className="flex items-center gap-4">
           <AstroBackButtonInline href="/cartas" />
         </div>
 
-        {/* Human Review Notice Card */}
-        <div className="glass-card-strong rounded-2xl p-6 border-l-4 border-l-amber-500">
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 flex-shrink-0">
-              <UserCircle className="w-6 h-6 text-amber-600 dark:text-amber-500" strokeWidth={1.5} />
-            </div>
-            <div className="space-y-2 flex-1">
-              <h3 className="text-lg font-semibold text-foreground">Servicio Personalizado</h3>
-              <p className="text-muted-foreground text-sm">
-                Esta carta será revisada personalmente por un astrólogo. Recibirás una respuesta detallada
-                por correo electrónico una vez que tu solicitud haya sido analizada.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Page Header */}
-        <div className="glass-card-strong rounded-2xl p-6 md:p-8 border-l-4 border-l-primary">
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-xl bg-primary/10 dark:bg-primary/20 flex-shrink-0">
-              <HelpCircle className="w-6 h-6 text-primary" strokeWidth={1.5} />
-            </div>
-            <div className="space-y-2 flex-1">
-              <h1 className="text-2xl md:text-3xl font-light tracking-tight gradient-primary">
-                Carta Horaria
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Educational Content */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Hero Section */}
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
+                Respuestas concretas a tus <span className="gradient-primary font-medium">preguntas más urgentes</span>
               </h1>
-              <p className="text-muted-foreground">
-                Solicita una interpretación astrológica para responder una pregunta específica
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Descubre el poder de la Astrología Horaria para tomar decisiones precisas en el momento exacto.
               </p>
             </div>
-          </div>
 
-          {/* Section Completion Pills */}
-          <div className="mt-6 flex flex-wrap gap-2">
-            {FORM_SECTIONS.map((section) => {
-              const sectionForm = form.getValues();
-              const isComplete = section.fields.every((field) => {
-                const value = sectionForm[field as keyof HorariaFormData];
-                if (typeof value === 'boolean') return value === true;
-                if (typeof value === 'string') return value.trim().length > 0;
-                return false;
-              });
-              return (
-                <Badge
-                  key={section.key}
-                  variant={isComplete ? 'default' : 'outline'}
-                  className={isComplete ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}
-                >
-                  {isComplete ? (
-                    <CheckCircle2 className="w-3 h-3 mr-1" />
-                  ) : (
-                    <Circle className="w-3 h-3 mr-1" />
-                  )}
-                  {section.title}
-                </Badge>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Form Card */}
-        <div className="glass-card-strong rounded-2xl p-6 md:p-8">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <Accordion type="multiple" defaultValue={['item-0']} className="space-y-4">
-                {/* Sección 1: Información Personal */}
-                <AccordionItem value="item-0" className="glass-card rounded-xl border-border/50 px-4">
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                        <span className="text-primary font-semibold">1</span>
-                      </div>
-                      <div className="text-left">
-                        <h3 className="font-semibold text-foreground">Información Personal</h3>
-                        <p className="text-sm text-muted-foreground">Tus datos de contacto</p>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="firstName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Nombre</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Tu nombre" {...field} className="border-border/50" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="lastName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Apellidos</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Tus apellidos" {...field} className="border-border/50" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground">Correo electrónico</FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="tu@email.com" {...field} className="border-border/50" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="country"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground">País donde resides</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="border-border/50">
-                                <SelectValue placeholder="Seleccionar país" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {COUNTRIES.map((country) => (
-                                <SelectItem key={country.value} value={country.value}>
-                                  {country.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Sección 2: Confirmaciones */}
-                <AccordionItem value="item-1" className="glass-card rounded-xl border-border/50 px-4">
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                        <span className="text-primary font-semibold">2</span>
-                      </div>
-                      <div className="text-left">
-                        <h3 className="font-semibold text-foreground">Confirmaciones</h3>
-                        <p className="text-sm text-muted-foreground">Requisitos de la carta horaria</p>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2 space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="acceptSingleQuestion"
-                      render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <FormLabel className="text-foreground">
-                            ¿Aceptas que la carta horaria responde una (1) pregunta?
-                          </FormLabel>
-                          <FormControl>
-                            <RadioGroup
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              className="flex flex-col space-y-2"
-                            >
-                              <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                <FormControl>
-                                  <RadioGroupItem value="Si" />
-                                </FormControl>
-                                <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
-                              </FormItem>
-                              <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                <FormControl>
-                                  <RadioGroupItem value="no" />
-                                </FormControl>
-                                <FormLabel className="font-normal cursor-pointer">No</FormLabel>
-                              </FormItem>
-                            </RadioGroup>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="isFirstTime"
-                      render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <FormLabel className="text-foreground">
-                            ¿Es la primera vez que haces esta pregunta, a cualquier oráculo?
-                            <span className="text-primary ml-1">*</span>
-                          </FormLabel>
-                          <p className="text-xs text-muted-foreground">
-                            Si ya fue formulada, la carta horaria pierde validez.
-                          </p>
-                          <FormControl>
-                            <RadioGroup
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              className="flex flex-col space-y-2"
-                            >
-                              <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                <FormControl>
-                                  <RadioGroupItem value="Si" />
-                                </FormControl>
-                                <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
-                              </FormItem>
-                              <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
-                                <FormControl>
-                                  <RadioGroupItem value="no" />
-                                </FormControl>
-                                <FormLabel className="font-normal cursor-pointer">No</FormLabel>
-                              </FormItem>
-                            </RadioGroup>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Sección 3: Categoría */}
-                <AccordionItem value="item-2" className="glass-card rounded-xl border-border/50 px-4">
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                        <span className="text-primary font-semibold">3</span>
-                      </div>
-                      <div className="text-left">
-                        <h3 className="font-semibold text-foreground">Categoría</h3>
-                        <p className="text-sm text-muted-foreground">Área de tu pregunta</p>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2">
-                    <FormField
-                      control={form.control}
-                      name="questionCategory"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground">La pregunta es acerca de</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="border-border/50">
-                                <SelectValue placeholder="Seleccionar categoría" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {QUESTION_CATEGORIES.map((category) => (
-                                <SelectItem key={category.value} value={category.value}>
-                                  {category.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Sección 4: Consideraciones */}
-                <AccordionItem value="item-3" className="glass-card rounded-xl border-border/50 px-4">
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                        <span className="text-primary font-semibold">4</span>
-                      </div>
-                      <div className="text-left">
-                        <h3 className="font-semibold text-foreground">Consideraciones</h3>
-                        <p className="text-sm text-muted-foreground">Importante antes de preguntar</p>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2 space-y-4">
-                    <div className="glass-card p-4 rounded-xl space-y-3">
-                      <div className="flex items-start gap-2">
-                        <span className="text-primary flex-shrink-0">•</span>
-                        <p className="text-sm">
-                          <strong className="text-foreground">Es preferible aportar un marco de tiempo.</strong>
-                          <span className="text-muted-foreground"> Por ejemplo: ¿Formaré una relación en los próximos 6 meses? ¿Venderé la casa este año?</span>
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-primary flex-shrink-0">•</span>
-                        <p className="text-sm">
-                          <strong className="text-foreground">El Astrólogo NO es vidente.</strong>
-                          <span className="text-muted-foreground"> Es importante especificar el contexto. Por ejemplo, si preguntas por Juan, aclarar si es amigo, hermano, etc.</span>
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-primary flex-shrink-0">•</span>
-                        <p className="text-sm">
-                          <strong className="text-foreground">Si no provees contexto inicial, no se enviará una nueva respuesta.</strong>
-                          <span className="text-muted-foreground"> Incluye toda la información relevante desde el principio.</span>
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-primary flex-shrink-0">•</span>
-                        <p className="text-sm">
-                          <strong className="text-foreground">La carta horaria debe reflejar la realidad.</strong>
-                          <span className="text-muted-foreground"> Cuanto más contexto, más precisa será la respuesta.</span>
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-primary flex-shrink-0">•</span>
-                        <p className="text-sm">
-                          <strong className="text-foreground">Evita preguntas con múltiples opciones.</strong>
-                          <span className="text-muted-foreground"> En lugar de "¿Conviene la opción A o B?", formula la pregunta con la alternativa que prefieres.</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="acceptConsiderations"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 glass-card p-4 rounded-lg">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-primary" />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel className="text-foreground cursor-pointer">
-                              He leído y entendido las consideraciones
-                              <span className="text-primary ml-1">*</span>
-                            </FormLabel>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Sección 5: Tu Pregunta */}
-                <AccordionItem value="item-4" className="glass-card rounded-xl border-border/50 px-4">
-                  <AccordionTrigger className="hover:no-underline py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
-                        <span className="text-primary font-semibold">5</span>
-                      </div>
-                      <div className="text-left">
-                        <h3 className="font-semibold text-foreground">Tu Pregunta</h3>
-                        <p className="text-sm text-muted-foreground">Formula tu pregunta al cielo</p>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2 space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="question"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground">
-                            Tu pregunta a la Carta Horaria
-                            <span className="text-primary ml-1">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="¿Qué deseas preguntarle a la carta horaria?"
-                              className="min-h-[120px] border-border/50 resize-none"
-                              showCount
-                              maxLength={500}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="context"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground">
-                            Tu contexto (opcional pero recomendado)
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Brinda el contexto, cuanto más detallado mejor será la respuesta."
-                              className="min-h-[120px] border-border/50 resize-none"
-                              showCount
-                              maxLength={1000}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-
-              {/* Submit Button */}
-              <div className="pt-4">
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-elegant-lg"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Enviando...
-                    </span>
-                  ) : (
-                    'Enviar mi pregunta'
-                  )}
-                </Button>
-                <p className="text-xs text-center text-muted-foreground mt-3">
-                  Los campos marcados con <span className="text-primary">*</span> son obligatorios
+            {/* What is Horary Astrology? */}
+            <div className="glass-card-strong rounded-2xl p-6 md:p-8 space-y-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                  <HelpCircle className="w-6 h-6 text-primary" strokeWidth={1.5} />
+                </div>
+                <h2 className="text-2xl font-light text-foreground">¿Qué es la Astrología Horaria?</h2>
+              </div>
+              <div className="space-y-4 text-muted-foreground">
+                <p>
+                  A diferencia de una carta natal, la Astrología Horaria es una técnica tradicional y precisa que se enfoca en el <strong>presente</strong>. Se basa en el mapa del cielo en el momento exacto en que nace tu duda.
+                </p>
+                <p>
+                  Es, en esencia, la herramienta más eficaz de la astrología para obtener <strong>respuestas puntuales a situaciones específicas</strong>. No necesitas tu hora de nacimiento para esta consulta, ¡solo tu pregunta!
                 </p>
               </div>
-            </form>
-          </Form>
+            </div>
+
+            {/* The Art of Asking */}
+            <div className="glass-card-strong rounded-2xl p-6 md:p-8 space-y-4">
+              <h2 className="text-xl font-medium text-foreground">El arte de preguntar: La clave de la precisión</h2>
+              <p className="text-muted-foreground">
+                Para que los astros hablen con claridad, la pregunta debe nacer de una intención real. Una respuesta libre de ambigüedades requiere una pregunta <strong>meditada, directa y orientada a un resultado claro</strong>.
+              </p>
+            </div>
+
+            {/* Examples */}
+            <div className="glass-card-strong rounded-2xl p-6 md:p-8 space-y-6">
+              <h2 className="text-xl font-medium text-foreground mb-4">Ejemplos de consultas frecuentes</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span>Relaciones</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">¿Tenemos futuro como pareja? ¿Volverá mi ex?</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span>Carrera</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">¿Obtendré este empleo? ¿Me conviene cambiar de trabajo?</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span>Finanzas</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">¿Este viaje de negocios será lucrativo? ¿Es buen momento para invertir?</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span>Bienes</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">¿Me conviene comprar esta casa? ¿Venderé mi propiedad pronto?</p>
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <div className="flex items-center gap-2 text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <span>Búsquedas</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">¿Dónde está mi mascota? ¿Dónde dejé las llaves?</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Service Guarantee */}
+            <div className="glass-card-strong rounded-2xl p-6 md:p-8 space-y-4 border-l-4 border-l-primary/50">
+              <h2 className="text-xl font-medium text-foreground">Un servicio personalizado y humano</h2>
+              <ul className="space-y-3 text-muted-foreground">
+                <li className="flex gap-3">
+                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  <span><strong>No recibirás un informe genérico</strong> generado por un software. Cada carta es analizada por un astrólogo profesional.</span>
+                </li>
+                <li className="flex gap-3">
+                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  <span><strong>Análisis de viabilidad:</strong> Una vez recibida tu pregunta, evaluaremos si la consulta es apta para ser respondida con claridad.</span>
+                </li>
+                <li className="flex gap-3">
+                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  <span><strong>Respuesta detallada:</strong> Recibirás la interpretación completa directamente en tu correo electrónico.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Pricing Section - Highlighting Transparency */}
+            <div className="glass-card-strong rounded-2xl p-6 md:p-8 bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20">
+              <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-light text-foreground mb-1">Valor e Inversión</h3>
+                  <p className="text-3xl font-semibold gradient-primary">USD 85</p>
+                </div>
+                <div className="text-sm text-muted-foreground md:text-right max-w-sm">
+                  <p className="font-medium text-foreground mb-1 flex items-center md:justify-end gap-2">
+                    <UserCircle className="w-4 h-4 text-amber-500" />
+                    Garantía de transparencia
+                  </p>
+                  <p>No realizas ningún pago por adelantado. Solo abonas una vez que hayamos confirmado que tu consulta puede ser respondida.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: Sticky Form */}
+          <div className="lg:col-span-5 relative">
+            <div className="sticky top-6">
+
+              {/* Form Card */}
+              <div className="glass-card-strong rounded-2xl p-6 md:p-8 border-t-4 border-t-primary shadow-xl">
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold text-foreground">Consulta ahora</h2>
+                  <p className="text-sm text-muted-foreground">Completa el formulario para iniciar tu análisis.</p>
+                </div>
+
+                {/* Existing Form Logic */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {FORM_SECTIONS.map((section) => {
+                    const sectionForm = form.getValues();
+                    const isComplete = section.fields.every((field) => {
+                      const value = sectionForm[field as keyof HorariaFormData];
+                      if (typeof value === 'boolean') return value === true;
+                      if (typeof value === 'string') return value.trim().length > 0;
+                      return false;
+                    });
+                    return (
+                      <Badge
+                        key={section.key}
+                        variant={isComplete ? 'default' : 'outline'}
+                        className={isComplete ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}
+                      >
+                        {isComplete ? (
+                          <CheckCircle2 className="w-3 h-3 mr-1" />
+                        ) : (
+                          <Circle className="w-3 h-3 mr-1" />
+                        )}
+                        {section.title}
+                      </Badge>
+                    );
+                  })}
+                </div>
+
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <Accordion type="single" collapsible defaultValue="item-0" className="space-y-4">
+                      {/* Sección 1: Información Personal */}
+                      <AccordionItem value="item-0" className="glass-card rounded-xl border-border/50 px-4">
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                              <span className="text-primary font-semibold">1</span>
+                            </div>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-foreground">Información Personal</h3>
+                              <p className="text-sm text-muted-foreground">Tus datos de contacto</p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pb-2 space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="firstName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground">Nombre</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Tu nombre" {...field} className="border-border/50" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="lastName"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-foreground">Apellidos</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Tus apellidos" {...field} className="border-border/50" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground">Correo electrónico</FormLabel>
+                                <FormControl>
+                                  <Input type="email" placeholder="tu@email.com" {...field} className="border-border/50" />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="country"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground">País donde resides</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="border-border/50">
+                                      <SelectValue placeholder="Seleccionar país" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {COUNTRIES.map((country) => (
+                                      <SelectItem key={country.value} value={country.value}>
+                                        {country.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+
+                      {/* Sección 2: Confirmaciones */}
+                      <AccordionItem value="item-1" className="glass-card rounded-xl border-border/50 px-4">
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                              <span className="text-primary font-semibold">2</span>
+                            </div>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-foreground">Confirmaciones</h3>
+                              <p className="text-sm text-muted-foreground">Requisitos de la carta horaria</p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pb-2 space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="acceptSingleQuestion"
+                            render={({ field }) => (
+                              <FormItem className="space-y-3">
+                                <FormLabel className="text-foreground">
+                                  ¿Aceptas que la carta horaria responde una (1) pregunta?
+                                </FormLabel>
+                                <FormControl>
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="flex flex-col space-y-2"
+                                  >
+                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
+                                      <FormControl>
+                                        <RadioGroupItem value="Si" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
+                                      <FormControl>
+                                        <RadioGroupItem value="no" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">No</FormLabel>
+                                    </FormItem>
+                                  </RadioGroup>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="isFirstTime"
+                            render={({ field }) => (
+                              <FormItem className="space-y-3">
+                                <FormLabel className="text-foreground">
+                                  ¿Es la primera vez que haces esta pregunta, a cualquier oráculo?
+                                  <span className="text-primary ml-1">*</span>
+                                </FormLabel>
+                                <p className="text-xs text-muted-foreground">
+                                  Si ya fue formulada, la carta horaria pierde validez.
+                                </p>
+                                <FormControl>
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="flex flex-col space-y-2"
+                                  >
+                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
+                                      <FormControl>
+                                        <RadioGroupItem value="Si" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">Sí</FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-3 space-y-0 glass-card p-3 rounded-lg">
+                                      <FormControl>
+                                        <RadioGroupItem value="no" />
+                                      </FormControl>
+                                      <FormLabel className="font-normal cursor-pointer">No</FormLabel>
+                                    </FormItem>
+                                  </RadioGroup>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+
+                      {/* Sección 3: Categoría */}
+                      <AccordionItem value="item-2" className="glass-card rounded-xl border-border/50 px-4">
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                              <span className="text-primary font-semibold">3</span>
+                            </div>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-foreground">Categoría</h3>
+                              <p className="text-sm text-muted-foreground">Área de tu pregunta</p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pb-2">
+                          <FormField
+                            control={form.control}
+                            name="questionCategory"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground">La pregunta es acerca de</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="border-border/50">
+                                      <SelectValue placeholder="Seleccionar categoría" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {QUESTION_CATEGORIES.map((category) => (
+                                      <SelectItem key={category.value} value={category.value}>
+                                        {category.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+
+                      {/* Sección 4: Consideraciones */}
+                      <AccordionItem value="item-3" className="glass-card rounded-xl border-border/50 px-4">
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                              <span className="text-primary font-semibold">4</span>
+                            </div>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-foreground">Consideraciones</h3>
+                              <p className="text-sm text-muted-foreground">Importante antes de preguntar</p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pb-2 space-y-4">
+                          <div className="glass-card p-4 rounded-xl space-y-3">
+                            <div className="flex items-start gap-2">
+                              <span className="text-primary flex-shrink-0">•</span>
+                              <p className="text-sm">
+                                <strong className="text-foreground">Es preferible aportar un marco de tiempo.</strong>
+                                <span className="text-muted-foreground"> Por ejemplo: ¿Formaré una relación en los próximos 6 meses? ¿Venderé la casa este año?</span>
+                              </p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-primary flex-shrink-0">•</span>
+                              <p className="text-sm">
+                                <strong className="text-foreground">El Astrólogo NO es vidente.</strong>
+                                <span className="text-muted-foreground"> Es importante especificar el contexto. Por ejemplo, si preguntas por Juan, aclarar si es amigo, hermano, etc.</span>
+                              </p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-primary flex-shrink-0">•</span>
+                              <p className="text-sm">
+                                <strong className="text-foreground">Si no provees contexto inicial, no se enviará una nueva respuesta.</strong>
+                                <span className="text-muted-foreground"> Incluye toda la información relevante desde el principio.</span>
+                              </p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-primary flex-shrink-0">•</span>
+                              <p className="text-sm">
+                                <strong className="text-foreground">La carta horaria debe reflejar la realidad.</strong>
+                                <span className="text-muted-foreground"> Cuanto más contexto, más precisa será la respuesta.</span>
+                              </p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-primary flex-shrink-0">•</span>
+                              <p className="text-sm">
+                                <strong className="text-foreground">Evita preguntas con múltiples opciones.</strong>
+                                <span className="text-muted-foreground"> En lugar de "Conviene la opción A o B?", formula la pregunta con la alternativa que prefieres.</span>
+                              </p>
+                            </div>
+                          </div>
+
+                          <FormField
+                            control={form.control}
+                            name="acceptConsiderations"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-start space-x-3 space-y-0 glass-card p-4 rounded-lg">
+                                <FormControl>
+                                  <Checkbox checked={field.value} onCheckedChange={field.onChange} className="border-primary" />
+                                </FormControl>
+                                <div className="space-y-1 leading-none">
+                                  <FormLabel className="text-foreground cursor-pointer">
+                                    He leído y entendido las consideraciones
+                                    <span className="text-primary ml-1">*</span>
+                                  </FormLabel>
+                                </div>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+
+                      {/* Sección 5: Tu Pregunta */}
+                      <AccordionItem value="item-4" className="glass-card rounded-xl border-border/50 px-4">
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-primary/10 dark:bg-primary/20">
+                              <span className="text-primary font-semibold">5</span>
+                            </div>
+                            <div className="text-left">
+                              <h3 className="font-semibold text-foreground">Tu Pregunta</h3>
+                              <p className="text-sm text-muted-foreground">Formula tu pregunta al cielo</p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pb-2 space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="question"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground">
+                                  Tu pregunta a la Carta Horaria
+                                  <span className="text-primary ml-1">*</span>
+                                </FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder="¿Qué deseas preguntarle a la carta horaria?"
+                                    className="min-h-[120px] border-border/50 resize-none"
+                                    showCount
+                                    maxLength={500}
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="context"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-foreground">
+                                  Tu contexto (opcional pero recomendado)
+                                </FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder="Brinda el contexto, cuanto más detallado mejor será la respuesta."
+                                    className="min-h-[120px] border-border/50 resize-none"
+                                    showCount
+                                    maxLength={1000}
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+
+                    {/* Submit Button */}
+                    <div className="pt-4">
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-elegant-lg"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            Enviando...
+                          </span>
+                        ) : (
+                          'Enviar mi pregunta'
+                        )}
+                      </Button>
+                      <p className="text-xs text-center text-muted-foreground mt-3">
+                        Los campos marcados con <span className="text-primary">*</span> son obligatorios
+                      </p>
+                    </div>
+                  </form>
+                </Form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
