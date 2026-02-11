@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/auth/auth-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -279,13 +280,13 @@ const horariaFormSchema = z.object({
   lastName: z.string().min(2, { message: 'El apellido es requerido' }),
   email: z.string().email({ message: 'Email inválido' }),
   country: z.string().min(1, { message: 'Selecciona un país' }),
-  acceptSingleQuestion: z.literal(true, {
-    errorMap: () => ({ message: 'Debes confirmar que entiendes' }),
+  acceptSingleQuestion: z.boolean().refine((val) => val === true, {
+    message: 'Debes confirmar que entiendes',
   }),
   isFirstTime: z.boolean().default(false),
   questionCategory: z.string().min(1, { message: 'Selecciona una categoría' }),
-  acceptConsiderations: z.literal(true, {
-    errorMap: () => ({ message: 'Debes aceptar las consideraciones' }),
+  acceptConsiderations: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar las consideraciones',
   }),
   hasContext: z.enum(['yes', 'no'], {
     required_error: 'Por favor indica si deseas agregar contexto',
