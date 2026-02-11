@@ -43,14 +43,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (acceptSingleQuestion !== 'Si') {
+    // Normalizar booleanos a strings para validación y DB
+    const acceptSingleQuestionStr = acceptSingleQuestion === true || acceptSingleQuestion === 'Si' ? 'Si' : 'No';
+    const isFirstTimeStr = isFirstTime === true || isFirstTime === 'Si' ? 'Si' : 'No';
+
+    if (acceptSingleQuestionStr !== 'Si') {
       return NextResponse.json(
         { success: false, error: 'Debes aceptar que la carta horaria responde una sola pregunta' },
         { status: 400 }
       );
     }
 
-    if (isFirstTime !== 'Si') {
+    if (isFirstTimeStr !== 'Si') {
       return NextResponse.json(
         { success: false, error: 'La pregunta debe ser formulada por primera vez' },
         { status: 400 }
@@ -87,8 +91,8 @@ export async function POST(request: NextRequest) {
         lastName,
         email,
         country,
-        acceptSingleQuestion,
-        isFirstTime,
+        acceptSingleQuestion: acceptSingleQuestionStr,
+        isFirstTime: isFirstTimeStr,
         questionCategory,
         question,
         context: context || '',
