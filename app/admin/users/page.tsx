@@ -683,8 +683,8 @@ export default function AdminUsersPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-4 pt-4 border-t">
               <p className="text-sm text-muted-foreground">
-                Mostrando {users.length} de {totalCount} usuarios (página {currentPage} de{' '}
-                {totalPages})
+                Mostrando {(currentPage - 1) * 50 + 1}–{(currentPage - 1) * 50 + users.length} de{' '}
+                {totalCount} usuarios (página {currentPage} de {totalPages})
               </p>
               <div className="flex items-center gap-2">
                 <Button
