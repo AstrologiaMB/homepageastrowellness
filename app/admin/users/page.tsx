@@ -83,6 +83,9 @@ export default function AdminUsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [premiumCount, setPremiumCount] = useState(0);
+  const [freeCount, setFreeCount] = useState(0);
+  const [newThisWeekCount, setNewThisWeekCount] = useState(0);
   const searchDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Growth / Marketing CSV Export
@@ -177,6 +180,9 @@ export default function AdminUsersPage() {
         setUsers(data.users);
         setTotalCount(data.pagination.totalCount);
         setTotalPages(data.pagination.totalPages);
+        setPremiumCount(data.globalStats.premiumCount);
+        setFreeCount(data.globalStats.freeCount);
+        setNewThisWeekCount(data.globalStats.newThisWeekCount);
       }
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -548,9 +554,7 @@ export default function AdminUsersPage() {
             <Star className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.subscriptionStatus === 'premium').length}
-            </div>
+            <div className="text-2xl font-bold">{premiumCount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -559,9 +563,7 @@ export default function AdminUsersPage() {
             <UserIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.subscriptionStatus === 'free').length}
-            </div>
+            <div className="text-2xl font-bold">{freeCount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -570,15 +572,7 @@ export default function AdminUsersPage() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {
-                users.filter((u) => {
-                  const createdAt = new Date(u.createdAt);
-                  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-                  return createdAt > weekAgo;
-                }).length
-              }
-            </div>
+            <div className="text-2xl font-bold">{newThisWeekCount}</div>
           </CardContent>
         </Card>
       </div>
