@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/auth/auth-provider';
 import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 interface ProtectedPageProps {
   children: React.ReactNode;
@@ -39,7 +39,7 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
 
       if (requiredEntitlement) {
         // Check entitlement
-        const hasEntitlement = user?.entitlements?.[requiredEntitlement];
+        const hasEntitlement = user?.entitlements![requiredEntitlement];
         if (!hasEntitlement) {
           setIsChecking(false);
           router.replace(entitlementRedirect);
@@ -49,7 +49,15 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
 
       setIsChecking(false);
     }
-  }, [isAuthenticated, isLoading, router, redirectTo, requiredEntitlement, entitlementRedirect, user]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    router,
+    redirectTo,
+    requiredEntitlement,
+    entitlementRedirect,
+    user,
+  ]);
 
   if (isLoading || isChecking) {
     return (
