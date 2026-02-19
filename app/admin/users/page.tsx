@@ -38,6 +38,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import {
   Calendar,
@@ -681,39 +689,88 @@ export default function AdminUsersPage() {
 
           {/* Paginación */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-4 pt-4 border-t">
+            <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 Mostrando {(currentPage - 1) * 50 + 1}–{(currentPage - 1) * 50 + users.length} de{' '}
-                {totalCount} usuarios (página {currentPage} de {totalPages})
+                {totalCount} usuarios
               </p>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const newPage = currentPage - 1;
-                    setCurrentPage(newPage);
-                    fetchUsers(newPage, searchTerm, statusFilter);
-                  }}
-                  disabled={currentPage <= 1}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  Anterior
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const newPage = currentPage + 1;
-                    setCurrentPage(newPage);
-                    fetchUsers(newPage, searchTerm, statusFilter);
-                  }}
-                  disabled={currentPage >= totalPages}
-                >
-                  Siguiente
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      size="default"
+                      className={cn('gap-1 pl-2.5', currentPage <= 1 && 'pointer-events-none opacity-50')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) {
+                          const p = currentPage - 1;
+                          setCurrentPage(p);
+                          fetchUsers(p, searchTerm, statusFilter);
+                        }
+                      }}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Anterior
+                    </PaginationLink>
+                  </PaginationItem>
+
+                  {(() => {
+                    const pages: (number | 'ellipsis')[] = [];
+                    if (totalPages <= 7) {
+                      for (let i = 1; i <= totalPages; i++) pages.push(i);
+                    } else {
+                      pages.push(1);
+                      if (currentPage > 3) pages.push('ellipsis');
+                      const start = Math.max(2, currentPage - 1);
+                      const end = Math.min(totalPages - 1, currentPage + 1);
+                      for (let i = start; i <= end; i++) pages.push(i);
+                      if (currentPage < totalPages - 2) pages.push('ellipsis');
+                      pages.push(totalPages);
+                    }
+                    return pages.map((page, idx) =>
+                      page === 'ellipsis' ? (
+                        <PaginationItem key={`ellipsis-${idx}`}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      ) : (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            href="#"
+                            isActive={page === currentPage}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentPage(page);
+                              fetchUsers(page, searchTerm, statusFilter);
+                            }}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )
+                    );
+                  })()}
+
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      size="default"
+                      className={cn('gap-1 pr-2.5', currentPage >= totalPages && 'pointer-events-none opacity-50')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) {
+                          const p = currentPage + 1;
+                          setCurrentPage(p);
+                          fetchUsers(p, searchTerm, statusFilter);
+                        }
+                      }}
+                    >
+                      Siguiente
+                      <ChevronRight className="h-4 w-4" />
+                    </PaginationLink>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           )}
         </CardContent>
