@@ -29,6 +29,7 @@ import {
   translateAspect,
 } from '@/lib/astrology-utils';
 import { ProtectedPage } from '@/components/protected-page';
+import { RequireCompletedData } from '@/components/require-completed-data';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
 import { Star, Eye, Table as TableIcon, Sparkles, Zap } from 'lucide-react';
 import type { NatalChart } from '@/lib/api-clients/natal-chart';
@@ -339,7 +340,8 @@ export default function CartasDraconicaPage() {
 
   return (
     <ProtectedPage requiredEntitlement="hasDraconicAccess" entitlementRedirect="/upgrade">
-      <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
+      <RequireCompletedData>
+        <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
         {/* Navigation */}
         <div className="mb-6">
           <AstroBackButtonInline href="/cartas" />
@@ -570,7 +572,8 @@ export default function CartasDraconicaPage() {
             </div>
           </>
         )}
-      </div>
+        </div>
+      </RequireCompletedData>
     </ProtectedPage>
   );
 }

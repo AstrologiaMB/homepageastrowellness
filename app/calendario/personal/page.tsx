@@ -8,8 +8,8 @@ import { Calendar } from "lucide-react";
 
 export default function CalendarioPersonalPage() {
   return (
-    <RequireCompletedData>
-      <ProtectedPage>
+    <ProtectedPage requiredEntitlement="hasBaseBundle" entitlementRedirect="/upgrade">
+      <RequireCompletedData>
         <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
           {/* Navigation */}
           <div className="mb-6">
@@ -35,7 +35,7 @@ export default function CalendarioPersonalPage() {
 
           <CalendarioPersonalWrapper />
         </div>
-      </ProtectedPage>
-    </RequireCompletedData>
+      </RequireCompletedData>
+    </ProtectedPage>
   );
 }
