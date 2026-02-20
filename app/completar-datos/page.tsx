@@ -249,8 +249,8 @@ function CompletarDatosForm() {
       // Mostrar toast de éxito
       toast.success('¡Datos guardados correctamente!');
 
-      // Redirigir: si viene del flujo post-pago ir al calendario personal, sino al callbackUrl
-      router.push(isPostpago ? '/calendario/personal' : callbackUrl);
+      // Redirigir al callbackUrl (viene de ProtectedPage o de upgrade post-pago)
+      router.push(callbackUrl);
     } catch (error) {
       console.error('Error:', error);
       toast.error('Error al guardar datos. Intenta nuevamente.');

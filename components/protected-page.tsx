@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/auth/auth-provider';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 interface ProtectedPageProps {
@@ -27,12 +27,12 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
 }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
-        setIsChecking(false);
         router.replace(redirectTo);
         return;
       }
@@ -41,8 +41,8 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
         // Check entitlement
         const hasEntitlement = user?.entitlements![requiredEntitlement];
         if (!hasEntitlement) {
-          setIsChecking(false);
-          router.replace(entitlementRedirect);
+          const url = `${entitlementRedirect}?callbackUrl=${encodeURIComponent(pathname)}`;
+          router.replace(url);
           return;
         }
       }
@@ -56,6 +56,7 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
     redirectTo,
     requiredEntitlement,
     entitlementRedirect,
+    pathname,
     user,
   ]);
 

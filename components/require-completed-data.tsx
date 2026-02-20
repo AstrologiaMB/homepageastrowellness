@@ -23,7 +23,6 @@ export const RequireCompletedData: React.FC<RequireCompletedDataProps> = ({
   useEffect(() => {
     if (!isLoading) {
       if (!user?.hasCompletedData) {
-        setIsChecking(false)
         router.replace(`${redirectTo}?callbackUrl=${encodeURIComponent(pathname)}`)
         return
       }

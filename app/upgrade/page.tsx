@@ -19,17 +19,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { isFeatureEnabled } from '@/lib/features';
-
-// Note: STRIPE_PRICES are in lib/stripe but we'll hardcode here for client safety/ease if needed, or import.
-// For now, restoring the object definitions.
-
-const PRICES = {
-  BASE_BUNDLE: 'price_1ShGWULOQsTENXFlKx62Lxlx',
-  ADD_ON_LUNAR: 'price_1ShGX9LOQsTENXFlz3FXikyg',
-  ADD_ON_ASTROGEMATRIA: 'price_1ShGXVLOQsTENXFlygB8zOK0',
-  ADD_ON_ELECTIVE: 'price_1ShGY7LOQsTENXFlvmAt6Nk2',
-  ONE_TIME_DRACONIC: 'price_1ShGYSLOQsTENXFlGVyzY7t4',
-};
+import { STRIPE_PRICES } from '@/lib/constants/stripe.constants';
 
 const PRICE_VALUES = {
   BASE: 3.0,
@@ -143,13 +133,13 @@ function UpgradePageContent() {
       let items: string[] = [];
 
       if (mode === 'subscription') {
-        items.push(PRICES.BASE_BUNDLE);
-        if (selectedAddOns.lunar) items.push(PRICES.ADD_ON_LUNAR);
-        if (selectedAddOns.astro) items.push(PRICES.ADD_ON_ASTROGEMATRIA);
-        if (selectedAddOns.elective) items.push(PRICES.ADD_ON_ELECTIVE);
+        items.push(STRIPE_PRICES.BASE_BUNDLE);
+        if (selectedAddOns.lunar) items.push(STRIPE_PRICES.ADD_ON_LUNAR);
+        if (selectedAddOns.astro) items.push(STRIPE_PRICES.ADD_ON_ASTROGEMATRIA);
+        if (selectedAddOns.elective) items.push(STRIPE_PRICES.ADD_ON_ELECTIVE);
       } else {
         // Draconic logic
-        items.push(PRICES.ONE_TIME_DRACONIC);
+        items.push(STRIPE_PRICES.ONE_TIME_DRACONIC);
       }
 
       const response = await fetch('/api/stripe/checkout', {
@@ -207,7 +197,7 @@ function UpgradePageContent() {
                   href={
                     user?.hasCompletedData
                       ? callbackUrl || '/calendario/personal'
-                      : '/completar-datos?postpago=true'
+                      : `/completar-datos?postpago=true${callbackUrl ? `&callbackUrl=${encodeURIComponent(callbackUrl)}` : ''}`
                   }
                 >
                   {user?.hasCompletedData ? 'Acceder' : 'Completar Perfil'}
@@ -325,7 +315,7 @@ function UpgradePageContent() {
                           checked={selectedAddOns.lunar || entitlements.hasLunarCalendar}
                           onCheckedChange={(c) => {
                             if (isBaseActive) {
-                              handleUpdateSubscription(PRICES.ADD_ON_LUNAR, !!c ? 'add' : 'remove');
+                              handleUpdateSubscription(STRIPE_PRICES.ADD_ON_LUNAR, !!c ? 'add' : 'remove');
                             } else {
                               setSelectedAddOns((prev) => ({ ...prev, lunar: !!c }));
                             }
@@ -371,7 +361,7 @@ function UpgradePageContent() {
                           onCheckedChange={(c) => {
                             if (isBaseActive) {
                               handleUpdateSubscription(
-                                PRICES.ADD_ON_ASTROGEMATRIA,
+                                STRIPE_PRICES.ADD_ON_ASTROGEMATRIA,
                                 !!c ? 'add' : 'remove'
                               );
                             } else {
