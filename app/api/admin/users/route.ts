@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const search = searchParams.get('search') || '';
     const status = searchParams.get('status'); // 'free', 'premium', or empty for all
+    const exportAll = searchParams.get('export') === 'true';
 
     const skip = (page - 1) * limit;
 
@@ -85,8 +86,7 @@ export async function GET(request: NextRequest) {
           },
         },
         orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
+        ...(exportAll ? {} : { skip, take: limit }),
       }),
       prisma.user.count({ where }),
       prisma.user.count({

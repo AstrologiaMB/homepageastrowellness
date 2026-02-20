@@ -97,51 +97,72 @@ export default function AdminUsersPage() {
   const searchDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Growth / Marketing CSV Export
-  const downloadCSV = () => {
-    const headers = [
-      'ID',
-      'Name',
-      'Email',
-      'Join Date',
-      'Status',
-      'Has Base Bundle',
-      'Has Lunar Calendar',
-      'Has Astrogematria',
-      'Has Elective Chart',
-      'Has Draconic (Lifetime)',
-    ];
+  const downloadCSV = async () => {
+    setExportingCSV(true);
+    try {
+      const params = new URLSearchParams({ export: 'true' });
+      if (searchTerm) params.set('search', searchTerm);
+      if (statusFilter && statusFilter !== 'all') params.set('status', statusFilter);
+      const response = await fetch(`/api/admin/users?${params}`);
+      if (!response.ok) throw new Error('Error fetching users for export');
+      const data = await response.json();
+      const allUsers: User[] = data.users;
 
-    const rows = users.map((user) => [
-      user.id,
-      user.name || '',
-      user.email,
-      new Date(user.createdAt).toISOString().split('T')[0],
-      user.subscriptionStatus,
-      user.subscription?.hasBaseBundle ? 'YES' : 'NO',
-      user.subscription?.hasLunarCalendar ? 'YES' : 'NO',
-      user.subscription?.hasAstrogematria ? 'YES' : 'NO',
-      user.subscription?.hasElectiveChart ? 'YES' : 'NO',
-      user.hasDraconicAccess ? 'YES' : 'NO',
-    ]);
+      const headers = [
+        'ID',
+        'Name',
+        'Email',
+        'Join Date',
+        'Status',
+        'Has Base Bundle',
+        'Has Lunar Calendar',
+        'Has Astrogematria',
+        'Has Elective Chart',
+        'Has Draconic (Lifetime)',
+      ];
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map((row) => row.map((field) => `"${field}"`).join(',')),
-    ].join('\n');
+      const rows = allUsers.map((user) => [
+        user.id,
+        user.name || '',
+        user.email,
+        new Date(user.createdAt).toISOString().split('T')[0],
+        user.subscriptionStatus,
+        user.subscription?.hasBaseBundle ? 'YES' : 'NO',
+        user.subscription?.hasLunarCalendar ? 'YES' : 'NO',
+        user.subscription?.hasAstrogematria ? 'YES' : 'NO',
+        user.subscription?.hasElectiveChart ? 'YES' : 'NO',
+        user.hasDraconicAccess ? 'YES' : 'NO',
+      ]);
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute(
-      'download',
-      `astro_users_export_${new Date().toISOString().split('T')[0]}.csv`
-    );
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const csvContent = [
+        headers.join(','),
+        ...rows.map((row) => row.map((field) => `"${field}"`).join(',')),
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `astro_users_export_${new Date().toISOString().split('T')[0]}.csv`
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      toast({
+        title: 'Error',
+        description: 'No se pudo exportar el CSV. Intenta de nuevo.',
+        variant: 'destructive',
+      });
+    } finally {
+      setExportingCSV(false);
+    }
   };
   const [loading, setLoading] = useState(true);
+  const [exportingCSV, setExportingCSV] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -539,9 +560,14 @@ export default function AdminUsersPage() {
       </div>
 
       <div className="flex justify-end mb-6">
-        <Button onClick={downloadCSV} variant="outline" className="flex items-center gap-2">
+        <Button
+          onClick={downloadCSV}
+          variant="outline"
+          className="flex items-center gap-2"
+          disabled={exportingCSV}
+        >
           <Download className="h-4 w-4" />
-          Descargar CSV (Marketing)
+          {exportingCSV ? 'Exportando...' : 'Descargar CSV (Marketing)'}
         </Button>
       </div>
 
