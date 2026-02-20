@@ -38,9 +38,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import {
   Calendar,
+  ChevronLeft,
+  ChevronRight,
   Download,
   Filter,
   Mail,
@@ -52,7 +62,7 @@ import {
 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface User {
   id: string;
@@ -78,6 +88,13 @@ export default function AdminUsersPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [premiumCount, setPremiumCount] = useState(0);
+  const [freeCount, setFreeCount] = useState(0);
+  const [newThisWeekCount, setNewThisWeekCount] = useState(0);
+  const searchDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Growth / Marketing CSV Export
   const downloadCSV = () => {
@@ -152,15 +169,28 @@ export default function AdminUsersPage() {
       return;
     }
 
-    fetchUsers();
+    fetchUsers(1, '', 'all');
   }, [session, status, router]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (
+    page: number = 1,
+    search: string = '',
+    statusF: string = 'all'
+  ) => {
+    setLoading(true);
     try {
-      const response = await fetch('/api/admin/users');
+      const params = new URLSearchParams({ page: String(page), limit: '50' });
+      if (search) params.set('search', search);
+      if (statusF && statusF !== 'all') params.set('status', statusF);
+      const response = await fetch(`/api/admin/users?${params}`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data.users);
+        setTotalCount(data.pagination.totalCount);
+        setTotalPages(data.pagination.totalPages);
+        setPremiumCount(data.globalStats.premiumCount);
+        setFreeCount(data.globalStats.freeCount);
+        setNewThisWeekCount(data.globalStats.newThisWeekCount);
       }
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -188,7 +218,7 @@ export default function AdminUsersPage() {
       });
 
       if (response.ok) {
-        await fetchUsers(); // Recargar la lista
+        await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar la lista
         setIsDialogOpen(false);
         setSelectedUser(null);
       }
@@ -218,7 +248,7 @@ export default function AdminUsersPage() {
       });
 
       if (response.ok) {
-        await fetchUsers(); // Recargar la lista
+        await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar la lista
         setIsDialogOpen(false);
         setSelectedUser(null);
         toast({
@@ -258,7 +288,7 @@ export default function AdminUsersPage() {
       });
 
       if (response.ok) {
-        await fetchUsers(); // Recargar la lista
+        await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar la lista
         setIsDeleteDialogOpen(false);
         setUserToDelete(null);
         setIsDialogOpen(false);
@@ -428,7 +458,7 @@ export default function AdminUsersPage() {
       });
 
       if (response.ok) {
-        await fetchUsers(); // Recargar para ver el cambio en la lista si lo hubiera
+        await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar para ver el cambio en la lista si lo hubiera
         toast({
           title: 'Email verificado',
           description: 'El usuario ha sido marcado como verificado.',
@@ -462,21 +492,6 @@ export default function AdminUsersPage() {
       setVerifyingEmail(false);
     }
   };
-
-  const filteredUsers = users.filter((user) => {
-    // 1. Filter by term
-    const matchesTerm =
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
-    // 2. Filter by status
-    let matchesStatus = true;
-    if (statusFilter !== 'all') {
-      matchesStatus = user.subscriptionStatus === statusFilter;
-    }
-
-    return matchesTerm && matchesStatus;
-  });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -538,7 +553,7 @@ export default function AdminUsersPage() {
             <UserIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{users.length}</div>
+            <div className="text-2xl font-bold">{totalCount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -547,9 +562,7 @@ export default function AdminUsersPage() {
             <Star className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.subscriptionStatus === 'premium').length}
-            </div>
+            <div className="text-2xl font-bold">{premiumCount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -558,9 +571,7 @@ export default function AdminUsersPage() {
             <UserIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.subscriptionStatus === 'free').length}
-            </div>
+            <div className="text-2xl font-bold">{freeCount}</div>
           </CardContent>
         </Card>
         <Card>
@@ -569,15 +580,7 @@ export default function AdminUsersPage() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {
-                users.filter((u) => {
-                  const createdAt = new Date(u.createdAt);
-                  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-                  return createdAt > weekAgo;
-                }).length
-              }
-            </div>
+            <div className="text-2xl font-bold">{newThisWeekCount}</div>
           </CardContent>
         </Card>
       </div>
@@ -589,12 +592,27 @@ export default function AdminUsersPage() {
           <Input
             placeholder="Buscar por email o nombre..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearchTerm(value);
+              if (searchDebounce.current) clearTimeout(searchDebounce.current);
+              searchDebounce.current = setTimeout(() => {
+                setCurrentPage(1);
+                fetchUsers(1, value, statusFilter);
+              }, 400);
+            }}
             className="pl-10"
           />
         </div>
         <div className="w-full md:w-[200px]">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select
+            value={statusFilter}
+            onValueChange={(value) => {
+              setStatusFilter(value);
+              setCurrentPage(1);
+              fetchUsers(1, searchTerm, value);
+            }}
+          >
             <SelectTrigger>
               <div className="flex items-center gap-2">
                 <Filter className="h-4 w-4 text-muted-foreground" />
@@ -631,7 +649,7 @@ export default function AdminUsersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredUsers.map((user) => (
+              {users.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -668,6 +686,93 @@ export default function AdminUsersPage() {
               ))}
             </TableBody>
           </Table>
+
+          {/* Paginación */}
+          {totalPages > 1 && (
+            <div className="flex flex-col items-center gap-3 mt-4 pt-4 border-t">
+              <p className="text-sm text-muted-foreground">
+                Mostrando {(currentPage - 1) * 50 + 1}–{(currentPage - 1) * 50 + users.length} de{' '}
+                {totalCount} usuarios
+              </p>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      size="default"
+                      className={cn('gap-1 pl-2.5', currentPage <= 1 && 'pointer-events-none opacity-50')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) {
+                          const p = currentPage - 1;
+                          setCurrentPage(p);
+                          fetchUsers(p, searchTerm, statusFilter);
+                        }
+                      }}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Anterior
+                    </PaginationLink>
+                  </PaginationItem>
+
+                  {(() => {
+                    const pages: (number | 'ellipsis')[] = [];
+                    if (totalPages <= 7) {
+                      for (let i = 1; i <= totalPages; i++) pages.push(i);
+                    } else {
+                      pages.push(1);
+                      if (currentPage > 3) pages.push('ellipsis');
+                      const start = Math.max(2, currentPage - 1);
+                      const end = Math.min(totalPages - 1, currentPage + 1);
+                      for (let i = start; i <= end; i++) pages.push(i);
+                      if (currentPage < totalPages - 2) pages.push('ellipsis');
+                      pages.push(totalPages);
+                    }
+                    return pages.map((page, idx) =>
+                      page === 'ellipsis' ? (
+                        <PaginationItem key={`ellipsis-${idx}`}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      ) : (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            href="#"
+                            isActive={page === currentPage}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentPage(page);
+                              fetchUsers(page, searchTerm, statusFilter);
+                            }}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )
+                    );
+                  })()}
+
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      size="default"
+                      className={cn('gap-1 pr-2.5', currentPage >= totalPages && 'pointer-events-none opacity-50')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) {
+                          const p = currentPage + 1;
+                          setCurrentPage(p);
+                          fetchUsers(p, searchTerm, statusFilter);
+                        }
+                      }}
+                    >
+                      Siguiente
+                      <ChevronRight className="h-4 w-4" />
+                    </PaginationLink>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
 

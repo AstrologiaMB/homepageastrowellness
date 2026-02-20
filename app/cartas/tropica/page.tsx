@@ -19,6 +19,7 @@ import { InterpretacionesIndividuales } from '@/components/interpretaciones-indi
 import { useInterpretaciones } from '@/hooks/use-interpretaciones';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ProtectedPage } from '@/components/protected-page';
+import { RequireCompletedData } from '@/components/require-completed-data';
 import { AstroBackButtonInline } from '@/components/navigation/astro-back-button';
 import { Compass, Eye, Table as TableIcon, Sparkles } from 'lucide-react';
 import type { NatalChart } from '@/lib/api-clients/natal-chart';
@@ -99,7 +100,8 @@ export default function CartasTropicaPage() {
 
   return (
     <ProtectedPage requiredEntitlement="hasBaseBundle" entitlementRedirect="/upgrade">
-      <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
+      <RequireCompletedData>
+        <div className="px-3 py-4 md:p-6 max-w-7xl mx-auto overflow-x-hidden">
         {/* Navigation */}
         <div className="mb-6">
           <AstroBackButtonInline href="/cartas" />
@@ -233,7 +235,8 @@ export default function CartasTropicaPage() {
             </div>
           </>
         )}
-      </div>
+        </div>
+      </RequireCompletedData>
     </ProtectedPage>
   );
 }

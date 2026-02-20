@@ -107,6 +107,7 @@ function CompletarDatosForm() {
 
   // Capturar la URL de redirección si existe
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const isPostpago = searchParams.get('postpago') === 'true';
 
   // Fetch Google Maps API key from server
   useEffect(() => {
@@ -248,8 +249,8 @@ function CompletarDatosForm() {
       // Mostrar toast de éxito
       toast.success('¡Datos guardados correctamente!');
 
-      // Redirigir directamente al Dashboard
-      router.push(callbackUrl);
+      // Redirigir: si viene del flujo post-pago ir al calendario personal, sino al callbackUrl
+      router.push(isPostpago ? '/calendario/personal' : callbackUrl);
     } catch (error) {
       console.error('Error:', error);
       toast.error('Error al guardar datos. Intenta nuevamente.');
@@ -394,6 +395,17 @@ function CompletarDatosForm() {
                   Completa tu información para los cálculos astrológicos precisos
                 </p>
               </div>
+
+              {/* Post-payment welcome banner */}
+              {isPostpago && (
+                <div className="mb-4 sm:mb-5 md:mb-6 flex items-start gap-3 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-400">
+                  <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>
+                    <strong>¡Suscripción activada!</strong> Ahora completa tus datos de nacimiento
+                    para acceder a tus cartas astrológicas personalizadas.
+                  </span>
+                </div>
+              )}
 
               {/* Important notice with forced word wrap */}
               <FormWarning className="mb-4 sm:mb-5 md:mb-6 break-words">

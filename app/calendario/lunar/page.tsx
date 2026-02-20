@@ -8,8 +8,8 @@ import { Moon } from "lucide-react";
 
 export default function CalendarioLunarPage() {
   return (
-    <RequireCompletedData>
-      <ProtectedPage>
+    <ProtectedPage requiredEntitlement="hasLunarCalendar" entitlementRedirect="/upgrade">
+      <RequireCompletedData>
         <div className="p-4 md:p-6 max-w-7xl mx-auto">
           {/* Navigation */}
           <div className="mb-6">
@@ -35,7 +35,7 @@ export default function CalendarioLunarPage() {
 
           <CalendarioLunarWrapper />
         </div>
-      </ProtectedPage>
-    </RequireCompletedData>
+      </RequireCompletedData>
+    </ProtectedPage>
   );
 }

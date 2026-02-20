@@ -57,16 +57,15 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Obtener usuarios con paginación
-    const [users, totalCount] = await Promise.all([
+    // Obtener usuarios con paginación + stats globales (siempre sin filtros)
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const [users, totalCount, premiumCount, freeCount, newThisWeekCount] = await Promise.all([
       prisma.user.findMany({
         where,
         select: {
           id: true,
           email: true,
           name: true,
-          // subscriptionStatus removed
-          // subscriptionExpiresAt removed
           birthDataChangeCount: true,
           birthDate: true,
           birthCity: true,
@@ -90,6 +89,18 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.user.count({ where }),
+      prisma.user.count({
+        where: { subscription: { status: { in: ['active', 'trialing'] } } },
+      }),
+      prisma.user.count({
+        where: {
+          OR: [
+            { subscription: null },
+            { subscription: { status: { notIn: ['active', 'trialing'] } } },
+          ],
+        },
+      }),
+      prisma.user.count({ where: { createdAt: { gte: weekAgo } } }),
     ]);
 
     const formattedUsers = users.map((user: any) => {
@@ -126,6 +137,11 @@ export async function GET(request: NextRequest) {
         totalPages: Math.ceil(totalCount / limit),
         hasNextPage: page * limit < totalCount,
         hasPrevPage: page > 1,
+      },
+      globalStats: {
+        premiumCount,
+        freeCount,
+        newThisWeekCount,
       },
     });
   } catch (error) {

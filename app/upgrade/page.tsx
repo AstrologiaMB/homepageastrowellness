@@ -198,11 +198,20 @@ function UpgradePageContent() {
               <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
               <h1 className="text-3xl font-bold mb-4">¡Pago Exitoso!</h1>
               <p className="text-muted-foreground mb-8">
-                Tu suscripción se ha activado correctamente. Ya puedes acceder a las funcionalidades
-                premium.
+                {user?.hasCompletedData
+                  ? 'Tu suscripción se ha activado correctamente. Ya puedes acceder a las funcionalidades premium.'
+                  : 'Tu suscripción se ha activado correctamente. Completa tu perfil para acceder a tus cartas astrológicas.'}
               </p>
               <Button asChild size="lg" className="w-full">
-                <Link href={callbackUrl || '/calendario/personal'}>Continuar</Link>
+                <Link
+                  href={
+                    user?.hasCompletedData
+                      ? callbackUrl || '/calendario/personal'
+                      : '/completar-datos?postpago=true'
+                  }
+                >
+                  {user?.hasCompletedData ? 'Acceder' : 'Completar Perfil'}
+                </Link>
               </Button>
             </>
           )}
