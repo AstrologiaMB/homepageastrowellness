@@ -1,3 +1,5 @@
+import { BETA_MODE_ENABLED, BETA_USERS, BETA_FEATURE_FLAGS } from '@/config/beta-access';
+
 export const features = {
     // Calendario
     enablePersonalCalendar: process.env.NEXT_PUBLIC_ENABLE_PERSONAL_CALENDAR === 'true',
@@ -31,6 +33,11 @@ export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: 
     // 3. BYPASS: Si es el admin, activo TODO
     if (userEmail === ADMIN_EMAIL) {
         return true;
+    }
+
+    // 4. Beta users: activo solo features en BETA_FEATURE_FLAGS
+    if (BETA_MODE_ENABLED && userEmail && BETA_USERS.includes(userEmail)) {
+        return BETA_FEATURE_FLAGS.includes(featureKey);
     }
 
     return false;

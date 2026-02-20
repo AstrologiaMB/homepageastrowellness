@@ -1,3 +1,5 @@
+import { BETA_MODE_ENABLED, BETA_USERS, BETA_ENTITLEMENTS } from '@/config/beta-access';
+
 export const SUBSCRIPTION_STATUS = {
   FREE: 'free',
   ACTIVE: 'active',
@@ -18,6 +20,11 @@ export interface Entitlements {
  */
 export function checkEntitlement(user: any, feature: keyof Entitlements): boolean {
   if (!user) return false;
+
+  // Beta users: acceso solo a entitlements en BETA_ENTITLEMENTS
+  if (BETA_MODE_ENABLED && user.email && BETA_USERS.includes(user.email)) {
+    return BETA_ENTITLEMENTS.includes(feature);
+  }
 
   // 1. Support NextAuth Session User (has .entitlements property)
   if (user.entitlements) {
