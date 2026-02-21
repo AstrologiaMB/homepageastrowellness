@@ -34,7 +34,9 @@ export function NavMain({
 }) {
   const { state, openMobile, setOpenMobile, isMobile } = useSidebar();
   const router = useRouter();
-  const isSidebarCollapsed = state === 'collapsed';
+  // On mobile the sidebar renders as a full-width sheet drawer, so we never
+  // want icon-collapse behaviour regardless of the persisted desktop state.
+  const isSidebarCollapsed = state === 'collapsed' && !isMobile;
 
   // Close sidebar on mobile after navigation
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
