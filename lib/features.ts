@@ -1,3 +1,5 @@
+import { BETA_MODE_ENABLED, BETA_USERS, BETA_FEATURE_FLAGS } from '@/config/beta-access';
+
 export const features = {
     // Calendario
     enablePersonalCalendar: process.env.NEXT_PUBLIC_ENABLE_PERSONAL_CALENDAR === 'true',
@@ -22,7 +24,9 @@ const ADMIN_EMAIL = 'info@astrochat.online';
 
 export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: string | null) => {
     // 1. Si el flag global de dev está activo, todo activo
-    if (process.env.NODE_ENV === 'development') return true;
+    // NEXT_PUBLIC_TEST_FEATURE_FLAGS=true lo desactiva para poder testear beta/flags en local
+    const testingFlags = process.env.NEXT_PUBLIC_TEST_FEATURE_FLAGS === 'true';
+    if (process.env.NODE_ENV === 'development' && !testingFlags) return true;
     if (features.enableAllFeatures) return true;
 
     // 2. Si el feature está oficialmente activo, activo
@@ -31,6 +35,11 @@ export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: 
     // 3. BYPASS: Si es el admin, activo TODO
     if (userEmail === ADMIN_EMAIL) {
         return true;
+    }
+
+    // 4. Beta users: activo solo features en BETA_FEATURE_FLAGS
+    if (BETA_MODE_ENABLED && userEmail && BETA_USERS.includes(userEmail)) {
+        return BETA_FEATURE_FLAGS.includes(featureKey);
     }
 
     return false;

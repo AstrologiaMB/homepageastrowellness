@@ -58,7 +58,7 @@ const API_URLS: Record<'development' | 'production', ApiUrls> = {
  * ```typescript
  * const url = getApiUrl('ASTROGEMATRIA');
  * // Development: 'http://localhost:8003'
- * // Production: 'https://astrogematriafastapi-production.up.railway.app'
+ * // Production: 'https://astrogematria-fastapi.fly.dev'
  * ```
  */
 export function getApiUrl(service: ApiService): string {
