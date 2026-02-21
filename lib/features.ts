@@ -24,7 +24,9 @@ const ADMIN_EMAIL = 'info@astrochat.online';
 
 export const isFeatureEnabled = (featureKey: keyof typeof features, userEmail?: string | null) => {
     // 1. Si el flag global de dev está activo, todo activo
-    if (process.env.NODE_ENV === 'development') return true;
+    // NEXT_PUBLIC_TEST_FEATURE_FLAGS=true lo desactiva para poder testear beta/flags en local
+    const testingFlags = process.env.NEXT_PUBLIC_TEST_FEATURE_FLAGS === 'true';
+    if (process.env.NODE_ENV === 'development' && !testingFlags) return true;
     if (features.enableAllFeatures) return true;
 
     // 2. Si el feature está oficialmente activo, activo

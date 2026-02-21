@@ -8,7 +8,7 @@ export const BETA_MODE_ENABLED = true;
  * Estos usuarios ignoran las env vars de feature flags y el estado de suscripción.
  */
 export const BETA_USERS: string[] = [
-  // 'usuario@ejemplo.com',
+  'test@admin.com',
 ];
 
 /**
