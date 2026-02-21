@@ -1,3 +1,19 @@
+/**
+ * @deprecated Use ProtectedPage with requireCompletedData prop instead.
+ * This component is deprecated and will be removed in a future version.
+ *
+ * Migration example:
+ * // Before
+ * <ProtectedPage requiredEntitlement="hasBaseBundle">
+ *   <RequireCompletedData>{children}</RequireCompletedData>
+ * </ProtectedPage>
+ *
+ * // After
+ * <ProtectedPage requiredEntitlement="hasBaseBundle" requireCompletedData>
+ *   {children}
+ * </ProtectedPage>
+ */
+
 'use client'
 
 import React, { useEffect, useState } from 'react'
