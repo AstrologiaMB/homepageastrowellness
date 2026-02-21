@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/auth/auth-provider';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 interface ProtectedPageProps {
   children: React.ReactNode;
@@ -16,6 +16,14 @@ interface ProtectedPageProps {
    * Redirect path if entitlement check fails
    */
   entitlementRedirect?: string;
+  /**
+   * Optional: Require user to have completed their profile data
+   */
+  requireCompletedData?: boolean;
+  /**
+   * Redirect path if data completion check fails
+   */
+  dataRedirect?: string;
 }
 
 export const ProtectedPage: React.FC<ProtectedPageProps> = ({
@@ -24,32 +32,53 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
   redirectTo = '/auth/login',
   requiredEntitlement,
   entitlementRedirect = '/upgrade',
+  requireCompletedData = false,
+  dataRedirect = '/completar-datos',
 }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
+      // 1. Authentication check - always first
       if (!isAuthenticated) {
-        setIsChecking(false);
         router.replace(redirectTo);
         return;
       }
 
+      // 2. Entitlement check - if required
       if (requiredEntitlement) {
-        // Check entitlement
         const hasEntitlement = user?.entitlements?.[requiredEntitlement];
         if (!hasEntitlement) {
-          setIsChecking(false);
-          router.replace(entitlementRedirect);
+          const url = `${entitlementRedirect}?callbackUrl=${encodeURIComponent(pathname)}`;
+          router.replace(url);
           return;
         }
       }
 
+      // 3. Data completion check - if required (always after entitlement)
+      if (requireCompletedData && !user?.hasCompletedData) {
+        const url = `${dataRedirect}?callbackUrl=${encodeURIComponent(pathname)}`;
+        router.replace(url);
+        return;
+      }
+
       setIsChecking(false);
     }
-  }, [isAuthenticated, isLoading, router, redirectTo, requiredEntitlement, entitlementRedirect, user]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    router,
+    redirectTo,
+    requiredEntitlement,
+    entitlementRedirect,
+    requireCompletedData,
+    dataRedirect,
+    pathname,
+    user,
+  ]);
 
   if (isLoading || isChecking) {
     return (
@@ -65,6 +94,16 @@ export const ProtectedPage: React.FC<ProtectedPageProps> = ({
   }
 
   if (!isAuthenticated) {
+    return null;
+  }
+
+  // Entitlement check for render (belt and suspenders)
+  if (requiredEntitlement && !user?.entitlements?.[requiredEntitlement]) {
+    return null;
+  }
+
+  // Data completion check for render (belt and suspenders)
+  if (requireCompletedData && !user?.hasCompletedData) {
     return null;
   }
 

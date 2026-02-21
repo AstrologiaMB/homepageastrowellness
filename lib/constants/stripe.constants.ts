@@ -13,15 +13,15 @@
  */
 export const STRIPE_PRICES = {
   /** Base Bundle - Monthly subscription */
-  BASE_BUNDLE: 'price_1ShGWULOQsTENXFlKx62Lxlx',
+  BASE_BUNDLE: 'price_1T32KRPOMkZZZyKEVJ7NLpKE',
   /** Add-on: Lunar Calendar */
-  ADD_ON_LUNAR: 'price_1ShGX9LOQsTENXFlz3FXikyg',
+  ADD_ON_LUNAR: 'price_1T32KcPOMkZZZyKEWmYnKZYJ',
   /** Add-on: Astrogematria */
-  ADD_ON_ASTROGEMATRIA: 'price_1ShGXVLOQsTENXFlygB8zOK0',
+  ADD_ON_ASTROGEMATRIA: 'price_1T32KjPOMkZZZyKEy9yObtO3',
   /** Add-on: Elective Chart */
-  ADD_ON_ELECTIVE: 'price_1ShGY7LOQsTENXFlvmAt6Nk2',
+  ADD_ON_ELECTIVE: 'price_1T32KpPOMkZZZyKE7LF2SsA7',
   /** One-time: Draconic Chart */
-  ONE_TIME_DRACONIC: 'price_1ShGYSLOQsTENXFlGVyzY7t4',
+  ONE_TIME_DRACONIC: 'price_1T32KuPOMkZZZyKEa5dURS6t',
 } as const;
 
 /**

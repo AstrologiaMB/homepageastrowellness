@@ -283,7 +283,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/apple/astrochat/homepageastrowellness/prisma/generated/client",
+      "value": "/Users/nicolasariasescudero/Downloads/Astrologia/homepageastrowellness/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -301,7 +301,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/apple/astrochat/homepageastrowellness/prisma/schema.prisma",
+    "sourceFilePath": "/Users/nicolasariasescudero/Downloads/Astrologia/homepageastrowellness/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

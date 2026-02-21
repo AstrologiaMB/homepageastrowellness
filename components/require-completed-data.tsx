@@ -1,8 +1,24 @@
+/**
+ * @deprecated Use ProtectedPage with requireCompletedData prop instead.
+ * This component is deprecated and will be removed in a future version.
+ *
+ * Migration example:
+ * // Before
+ * <ProtectedPage requiredEntitlement="hasBaseBundle">
+ *   <RequireCompletedData>{children}</RequireCompletedData>
+ * </ProtectedPage>
+ *
+ * // After
+ * <ProtectedPage requiredEntitlement="hasBaseBundle" requireCompletedData>
+ *   {children}
+ * </ProtectedPage>
+ */
+
 'use client'
 
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/auth/auth-provider'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface RequireCompletedDataProps {
   children: React.ReactNode
@@ -17,18 +33,18 @@ export const RequireCompletedData: React.FC<RequireCompletedDataProps> = ({
 }) => {
   const { user, isLoading } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
   const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     if (!isLoading) {
       if (!user?.hasCompletedData) {
-        setIsChecking(false)
-        router.replace(redirectTo)
+        router.replace(`${redirectTo}?callbackUrl=${encodeURIComponent(pathname)}`)
         return
       }
       setIsChecking(false)
     }
-  }, [isLoading, user, router, redirectTo])
+  }, [isLoading, user, router, redirectTo, pathname])
 
   if (isLoading || isChecking) {
     return (
