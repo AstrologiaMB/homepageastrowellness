@@ -33,8 +33,7 @@
   },
   "dependencies": {
     "@astrodraw/astrochart": "^3.0.2",
-    "@aws-sdk/client-ses": "^3.879.0",
-    "@hookform/resolvers": "^3.9.1",
+"@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.7.0",
     "@react-google-maps/api": "^2.20.8",
     "@sentry/nextjs": "^10.38.0",

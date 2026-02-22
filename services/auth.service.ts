@@ -24,7 +24,6 @@ import type {
   RegisterData,
   User,
 } from '@/types/auth.types';
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
@@ -32,17 +31,6 @@ import { Resend } from 'resend';
 /**
  * Email service configuration
  */
-const sesClient =
-  process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
-    ? new SESClient({
-        region: process.env.AWS_REGION || 'us-east-1',
-        credentials: {
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-        },
-      })
-    : null;
-
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 /**
@@ -439,17 +427,7 @@ async function sendWelcomeEmail(email: string, name: string): Promise<void> {
     </div>
   `;
 
-  if (sesClient) {
-    const params = {
-      Source: fromEmail,
-      Destination: { ToAddresses: [email] },
-      Message: {
-        Subject: { Data: 'Welcome to Astrochat!' },
-        Body: { Html: { Data: htmlContent } },
-      },
-    };
-    await sesClient.send(new SendEmailCommand(params));
-  } else if (resend) {
+  if (resend) {
     await resend.emails.send({
       from: fromEmail,
       to: email,
@@ -517,22 +495,7 @@ async function sendResetPasswordEmail(
     </div>
   `;
 
-  if (sesClient) {
-    const params = {
-      Source: fromEmail,
-      Destination: { ToAddresses: [email] },
-      Message: {
-        Subject: { Data: 'Reset Your Password - Astrochat' },
-        Body: {
-          Html: { Data: htmlContent },
-          Text: {
-            Data: `Hello ${name},\n\nWe have received a request to reset your password in Astrochat.\n\nTo reset your password, visit: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you did not request this change, ignore this email.`,
-          },
-        },
-      },
-    };
-    await sesClient.send(new SendEmailCommand(params));
-  } else if (resend) {
+  if (resend) {
     await resend.emails.send({
       from: fromEmail,
       to: email,

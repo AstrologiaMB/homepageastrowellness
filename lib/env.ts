@@ -30,12 +30,7 @@ const envSchema = z.object({
   // External APIs
   OPENCAGE_API_KEY: z.string().min(1, 'OPENCAGE_API_KEY is required'),
 
-  // AWS SES (for local development)
-  AWS_REGION: z.string().default('us-east-1'),
-  AWS_ACCESS_KEY_ID: z.string().optional(),
-  AWS_SECRET_ACCESS_KEY: z.string().optional(),
-
-  // Resend (for Railway production)
+  // Resend (email service)
   RESEND_API_KEY: z.string().optional(),
 
   // Email Configuration

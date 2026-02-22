@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { Resend } from 'resend'
 import prisma from '@/lib/prisma'
-
-// Configurar servicios de email
-const sesClient = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY ? new SESClient({
-  region: process.env.AWS_REGION || 'us-east-1',
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-}) : null
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
@@ -74,7 +64,7 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // Enviar email con SES
+    // Enviar email de reset
     try {
       await sendResetPasswordEmail(user.email, user.name || 'Usuario', resetToken)
     } catch (emailError) {
@@ -99,129 +89,54 @@ async function sendResetPasswordEmail(email: string, name: string, resetToken: s
   const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password/${resetToken}`
   const fromEmail = process.env.FROM_EMAIL || 'info@astrochat.online'
 
-  // Si tenemos AWS SES configurado, usar AWS SES
-  if (sesClient) {
-    const params = {
-      Source: fromEmail,
-      Destination: {
-        ToAddresses: [email],
-      },
-      Message: {
-        Subject: {
-          Data: 'Restablece tu contraseña - Astrochat',
-        },
-        Body: {
-          Html: {
-            Data: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1 style="color: #333; text-align: center;">Restablece tu contraseña</h1>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Hola ${name},
-                </p>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
-                  Si no solicitaste este cambio, puedes ignorar este email.
-                </p>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Para restablecer tu contraseña, haz click en el siguiente enlace:
-                </p>
-
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="${resetUrl}"
-                     style="background-color: #007bff; color: white; padding: 12px 24px;
-                            text-decoration: none; border-radius: 5px; display: inline-block;">
-                    Restablecer Contraseña
-                  </a>
-                </div>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Este enlace expirará en 1 hora por seguridad.
-                </p>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Si el botón no funciona, copia y pega esta URL en tu navegador:
-                  <br>
-                  <span style="word-break: break-all; color: #007bff;">${resetUrl}</span>
-                </p>
-
-                <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px;">
-                  Si no solicitaste este cambio, tu contraseña permanecerá sin cambios.
-                </p>
-              </div>
-            `,
-          },
-          Text: {
-            Data: `
-Hola ${name},
-
-Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
-
-Para restablecer tu contraseña, visita: ${resetUrl}
-
-Este enlace expirará en 1 hora.
-
-Si no solicitaste este cambio, ignora este email.
-            `,
-          },
-        },
-      },
-    }
-
-    await sesClient.send(new SendEmailCommand(params))
-  }
-  // Si tenemos Resend configurado, usar Resend
-  else if (resend) {
-    await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: 'Restablece tu contraseña - Astrochat',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #333; text-align: center;">Restablece tu contraseña</h1>
-
-          <p style="color: #666; line-height: 1.6;">
-            Hola ${name},
-          </p>
-
-          <p style="color: #666; line-height: 1.6;">
-            Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
-            Si no solicitaste este cambio, puedes ignorar este email.
-          </p>
-
-          <p style="color: #666; line-height: 1.6;">
-            Para restablecer tu contraseña, haz click en el siguiente enlace:
-          </p>
-
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetUrl}"
-               style="background-color: #007bff; color: white; padding: 12px 24px;
-                      text-decoration: none; border-radius: 5px; display: inline-block;">
-              Restablecer Contraseña
-            </a>
-          </div>
-
-          <p style="color: #666; line-height: 1.6;">
-            Este enlace expirará en 1 hora por seguridad.
-          </p>
-
-          <p style="color: #666; line-height: 1.6;">
-            Si el botón no funciona, copia y pega esta URL en tu navegador:
-            <br>
-            <span style="word-break: break-all; color: #007bff;">${resetUrl}</span>
-          </p>
-
-          <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px;">
-            Si no solicitaste este cambio, tu contraseña permanecerá sin cambios.
-          </p>
-        </div>
-      `,
-    })
-  }
-  // Si no hay ningún servicio configurado, no enviar email pero no fallar
-  else {
+  if (!resend) {
     console.log('No email service configured - skipping password reset email')
+    return
   }
+
+  await resend.emails.send({
+    from: fromEmail,
+    to: email,
+    subject: 'Restablece tu contraseña - Astrochat',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #333; text-align: center;">Restablece tu contraseña</h1>
+
+        <p style="color: #666; line-height: 1.6;">
+          Hola ${name},
+        </p>
+
+        <p style="color: #666; line-height: 1.6;">
+          Hemos recibido una solicitud para restablecer tu contraseña en Astrochat.
+          Si no solicitaste este cambio, puedes ignorar este email.
+        </p>
+
+        <p style="color: #666; line-height: 1.6;">
+          Para restablecer tu contraseña, haz click en el siguiente enlace:
+        </p>
+
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrl}"
+             style="background-color: #007bff; color: white; padding: 12px 24px;
+                    text-decoration: none; border-radius: 5px; display: inline-block;">
+            Restablecer Contraseña
+          </a>
+        </div>
+
+        <p style="color: #666; line-height: 1.6;">
+          Este enlace expirará en 1 hora por seguridad.
+        </p>
+
+        <p style="color: #666; line-height: 1.6;">
+          Si el botón no funciona, copia y pega esta URL en tu navegador:
+          <br>
+          <span style="word-break: break-all; color: #007bff;">${resetUrl}</span>
+        </p>
+
+        <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px;">
+          Si no solicitaste este cambio, tu contraseña permanecerá sin cambios.
+        </p>
+      </div>
+    `,
+  })
 }

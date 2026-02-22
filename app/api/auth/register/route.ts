@@ -1,18 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { Resend } from 'resend'
 import prisma from '@/lib/prisma'
 import { syncUserToFluentCRM } from '@/lib/fluentcrm'
-
-// Configurar servicios de email
-const sesClient = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY ? new SESClient({
-  region: process.env.AWS_REGION || 'us-east-1',
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-}) : null
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
@@ -102,106 +92,48 @@ async function sendWelcomeEmail(email: string, name: string) {
   const fromEmail = process.env.FROM_EMAIL || 'info@astrochat.online'
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
 
-  // Si tenemos AWS SES configurado, usar AWS SES
-  if (sesClient) {
-    const params = {
-      Source: fromEmail,
-      Destination: {
-        ToAddresses: [email],
-      },
-      Message: {
-        Subject: {
-          Data: '¡Bienvenido a Astrochat!',
-        },
-        Body: {
-          Html: {
-            Data: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrochat, ${name}!</h1>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Gracias por registrarte en Astrochat. Tu cuenta ha sido creada exitosamente.
-                </p>
-
-                <p style="color: #666; line-height: 1.6;">
-                  Ya puedes acceder a todos nuestros servicios astrológicos:
-                </p>
-
-                <ul style="color: #666; line-height: 1.6;">
-                  <li>Cartas natales de alta precisión</li>
-                  <li>Interpretaciones con IA</li>
-                  <li>Calendarios personales</li>
-                  <li>Astrogematria</li>
-                </ul>
-
-                <p style="color: #666; line-height: 1.6;">
-                  ¡Comienza tu viaje astrológico ahora!
-                </p>
-
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="${appUrl}"
-                     style="background-color: #007bff; color: white; padding: 12px 24px;
-                            text-decoration: none; border-radius: 5px; display: inline-block;">
-                    Explorar Astrochat
-                  </a>
-                </div>
-
-                <p style="color: #999; font-size: 12px; text-align: center;">
-                  Si no creaste esta cuenta, puedes ignorar este email.
-                </p>
-              </div>
-            `,
-          },
-        },
-      },
-    }
-
-    await sesClient.send(new SendEmailCommand(params))
-  }
-  // Si tenemos Resend configurado, usar Resend
-  else if (resend) {
-    await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: '¡Bienvenido a Astrochat!',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrochat, ${name}!</h1>
-
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <p style="color: #666; line-height: 1.6;">
-              Gracias por registrarte en Astrochat. Tu cuenta ha sido creada exitosamente.
-            </p>
-
-            <p style="color: #666; line-height: 1.6;">
-              Ya puedes acceder a todos nuestros servicios astrológicos:
-            </p>
-
-            <ul style="color: #666; line-height: 1.6;">
-              <li>Cartas natales de alta precisión</li>
-              <li>Interpretaciones con IA</li>
-              <li>Calendarios personales</li>
-              <li>Astrogematria</li>
-            </ul>
-
-            <div style="text-align: center; margin-top: 30px;">
-              <a href="${appUrl}"
-                 style="background-color: #007bff; color: white; padding: 12px 24px;
-                        text-decoration: none; border-radius: 5px; display: inline-block;">
-                Explorar Astrochat
-              </a>
-            </div>
-          </div>
-
-          <p style="color: #999; font-size: 12px; text-align: center;">
-            Si no creaste esta cuenta, puedes ignorar este email.
-          </p>
-        </div>
-      `,
-    })
-  }
-  // Si no hay ningún servicio configurado, no enviar email pero no fallar
-  else {
+  if (!resend) {
     console.log('No email service configured - skipping welcome email')
+    return
   }
+
+  await resend.emails.send({
+    from: fromEmail,
+    to: email,
+    subject: '¡Bienvenido a Astrochat!',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #333; text-align: center;">¡Bienvenido a Astrochat, ${name}!</h1>
+
+        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
+          <p style="color: #666; line-height: 1.6;">
+            Gracias por registrarte en Astrochat. Tu cuenta ha sido creada exitosamente.
+          </p>
+
+          <p style="color: #666; line-height: 1.6;">
+            Ya puedes acceder a todos nuestros servicios astrológicos:
+          </p>
+
+          <ul style="color: #666; line-height: 1.6;">
+            <li>Cartas natales de alta precisión</li>
+            <li>Interpretaciones con IA</li>
+            <li>Calendarios personales</li>
+            <li>Astrogematria</li>
+          </ul>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="${appUrl}"
+               style="background-color: #007bff; color: white; padding: 12px 24px;
+                      text-decoration: none; border-radius: 5px; display: inline-block;">
+              Explorar Astrochat
+            </a>
+          </div>
+        </div>
+
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          Si no creaste esta cuenta, puedes ignorar este email.
+        </p>
+      </div>
+    `,
+  })
 }
