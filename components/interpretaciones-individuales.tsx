@@ -89,6 +89,7 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
           <ReactMarkdown
             components={{
               p: ({ ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
+              strong: ({ ...props }) => <strong className="font-bold dark:text-blue-300" {...props} />,
             }}
           >
             {item.interpretacion}
