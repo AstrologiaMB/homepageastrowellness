@@ -265,7 +265,7 @@ export async function calculateDraconicChart(
     const errorText = await fastApiResponse.text();
     logger.error('FastAPI error for draconic chart', { error: errorText, userId });
     throw ApiError.fromResponse(
-      `${getApiUrl('CALCULOS')}/carta-natal/draconica`,
+      `${getApiUrl('CALCULOS')}/carta-draconica/calcular`,
       'POST',
       fastApiResponse
     );
