@@ -54,11 +54,14 @@ export async function calculateTropicalChart(
       birthHour: true,
       birthMinute: true,
       knowsBirthTime: true,
+      birthLat: true,
+      birthLon: true,
+      timezone: true,
     },
   });
 
-  if (!user || !user.birthDate || !user.birthCity) {
-    throw new ApiError('Birth data incomplete', undefined, undefined, 400, 'VALIDATION_ERROR', 400);
+  if (!user || !user.birthDate || !user.birthCity || !user.birthLat || !user.birthLon || !user.timezone) {
+    throw new ApiError('Birth data incomplete (missing coordinates or timezone)', undefined, undefined, 400, 'VALIDATION_ERROR', 400);
   }
 
   const lugarNacimiento = `${user.birthCity}, ${user.birthCountry}`;
@@ -104,6 +107,9 @@ export async function calculateTropicalChart(
       hora_nacimiento: horaNacimiento,
       ciudad_nacimiento: user.birthCity,
       pais_nacimiento: user.birthCountry,
+      latitud: user.birthLat,
+      longitud: user.birthLon,
+      timezone: user.timezone,
     }),
   });
 
@@ -196,11 +202,14 @@ export async function calculateDraconicChart(
       birthHour: true,
       birthMinute: true,
       knowsBirthTime: true,
+      birthLat: true,
+      birthLon: true,
+      timezone: true,
     },
   });
 
-  if (!user || !user.birthDate || !user.birthCity) {
-    throw new ApiError('Birth data incomplete', undefined, undefined, 400, 'VALIDATION_ERROR', 400);
+  if (!user || !user.birthDate || !user.birthCity || !user.birthLat || !user.birthLon || !user.timezone) {
+    throw new ApiError('Birth data incomplete (missing coordinates or timezone)', undefined, undefined, 400, 'VALIDATION_ERROR', 400);
   }
 
   const lugarNacimiento = `${user.birthCity}, ${user.birthCountry}`;
@@ -246,6 +255,9 @@ export async function calculateDraconicChart(
       hora_nacimiento: horaNacimiento,
       ciudad_nacimiento: user.birthCity,
       pais_nacimiento: user.birthCountry,
+      latitud: user.birthLat,
+      longitud: user.birthLon,
+      timezone: user.timezone,
     }),
   });
 
