@@ -24,13 +24,16 @@ export async function POST() {
         birthHour: true,
         birthMinute: true,
         knowsBirthTime: true,
+        birthLat: true,
+        birthLon: true,
+        timezone: true,
       },
     });
 
-    if (!user || !user.birthDate || !user.birthCity || !user.birthCountry) {
+    if (!user || !user.birthDate || !user.birthCity || !user.birthCountry || user.birthLat == null || user.birthLon == null || !user.timezone) {
       return NextResponse.json(
         {
-          error: 'Datos de nacimiento incompletos. Por favor completa tu perfil.',
+          error: 'Datos de nacimiento incompletos. Por favor completa tu perfil con ubicación.',
         },
         { status: 400 }
       );
@@ -77,6 +80,9 @@ export async function POST() {
       hora_nacimiento: horaNacimiento,
       ciudad_nacimiento: user.birthCity,
       pais_nacimiento: user.birthCountry,
+      latitud: user.birthLat,
+      longitud: user.birthLon,
+      timezone: user.timezone,
     });
 
     if (!resultado.success) {
