@@ -14,8 +14,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Book, ArrowRight } from 'lucide-react';
+import { Book, ArrowRight, Save, Loader2 } from 'lucide-react';
 import { CycleFamily } from '@/lib/services/cycles-service';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 // Note: We might need to duplicate interfaces if standard import fails in client, but shared lib should work.
 
 interface StoryModalProps {
@@ -26,8 +28,12 @@ interface StoryModalProps {
   onNavigateToEntry?: (dateStr: string) => void;
 }
 
-export function StoryModal({ isOpen, onClose, family, focusedDate, onNavigateToEntry }: StoryModalProps) {
+export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalProps) {
   const [expandedPhase, setExpandedPhase] = React.useState<number | null>(null);
+  const [editingPhase, setEditingPhase] = React.useState<number | null>(null);
+  const [notes, setNotes] = React.useState('');
+  const [isSaving, setIsSaving] = React.useState(false);
+  const { toast } = useToast();
 
   if (!family) return null;
 
@@ -57,6 +63,45 @@ export function StoryModal({ isOpen, onClose, family, focusedDate, onNavigateToE
       (p) => p.data?.date && new Date(p.data.date) <= now
     );
   }
+
+  const handleSaveJournal = async (phaseIdx: number, phaseName: string, dateIso: string, existingId?: string) => {
+    try {
+      setIsSaving(true);
+      const payload = {
+        id: existingId,
+        date: dateIso,
+        eventType: phaseName,
+        notes: notes,
+      };
+
+      const res = await fetch('/api/journal/lunar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error('Error al guardar');
+
+      // Local optimistic update could be placed here, but a full hard refresh or parent trigger is more robust
+      // For immediate feedback, we will just close the editor and notify.
+      // A user might need to close/reopen or refresh the main page to see the new badge.
+      setEditingPhase(null);
+      setNotes('');
+      toast({
+        title: 'Diario actualizado',
+        description: 'Tus notas han sido guardadas. Cierra el modal y actualiza para ver los cambios.',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Error',
+        description: 'No se pudieron guardar tus notas.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -175,23 +220,81 @@ export function StoryModal({ isOpen, onClose, family, focusedDate, onNavigateToE
                     )}
 
                     {/* Allow editing if it's past, or if it's the currently focused/active one */}
-                    {(isCurrent || isPast) && (
+                    {(isCurrent || isPast) && editingPhase !== idx && (
                       <div className="mt-3 flex justify-end">
                         <Button
                           size="sm"
-                          variant="default"
-                          className="bg-purple-600 hover:bg-purple-700"
+                          variant="ghost"
+                          className="text-purple-600 hover:bg-purple-50"
                           onClick={() => {
-                            if (onNavigateToEntry) {
-                              // Pass the date string to the parent so it knows which card to scroll to
-                              onNavigateToEntry(phase.data!.date);
+                            setEditingPhase(idx);
+                            // If they are editing, prepopulate with their most recent entry if any
+                            if (hasJournal && phase.data!.journal_entries) {
+                              setNotes(phase.data!.journal_entries[0].notes);
+                            } else {
+                              setNotes('');
                             }
-                            onClose();
                           }}
                         >
-                          {hasJournal ? 'Ver Notas' : 'Escribir en el Diario'}
+                          {hasJournal ? 'Agregar Notas...' : 'Escribir en el Diario'}
                           <ArrowRight className="w-3 h-3 ml-2" />
                         </Button>
+                      </div>
+                    )}
+
+                    {/* Editor Form */}
+                    {editingPhase === idx && (
+                      <div className="mt-4 space-y-3 bg-purple-50/50 p-3 rounded-lg border border-purple-100">
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                          📖 Tu Diario para esta Fase
+                        </label>
+                        <Textarea
+                          placeholder={`Tus intenciones o eventos manifestados...`}
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          className="min-h-[100px] bg-white w-full"
+                          autoFocus
+                        />
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingPhase(null);
+                              setNotes('');
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                          <Button
+                            onClick={() => handleSaveJournal(
+                              idx,
+                              // Map 'Semilla' etc to exact names if needed, or use phaseName. 
+                              // Using phase.label simplified. Let's use the DB expected format if possible.
+                              // Wait, mainEvent.tipo_evento is what the other card uses. 
+                              // The label has the name in parens, e.g., 'Semilla (Luna Nueva)'
+                              // But `date` matches exactly. We'll extract what's in parentheses for eventType.
+                              phase.label.split('(')[1]?.replace(')', '') || phase.label,
+                              new Date(phase.data!.date).toISOString(),
+                              hasJournal && phase.data!.journal_entries ? phase.data!.journal_entries[0].id : undefined
+                            )}
+                            disabled={isSaving || !notes.trim()}
+                            size="sm"
+                            className="bg-purple-600 hover:bg-purple-700"
+                          >
+                            {isSaving ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Guardando
+                              </>
+                            ) : (
+                              <>
+                                <Save className="mr-2 h-4 w-4" />
+                                Guardar
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </div>
