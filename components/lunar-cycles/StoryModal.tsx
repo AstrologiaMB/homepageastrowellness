@@ -66,7 +66,7 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
     );
   }
 
-  const handleSaveJournal = async (phaseIdx: number, phaseName: string, dateIso: string, existingId?: string) => {
+  const handleSaveJournal = async (phaseIdx: number, phaseName: string, dateIso: string, existingId?: string, rawDataPhase?: any) => {
     try {
       setIsSaving(true);
       const payload = {
@@ -86,11 +86,24 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
 
       const savedEntry = await res.json();
 
-      // Optimistically update local state so the user sees it immediately
-      setLocalJournalEntries(prev => ({
-        ...prev,
-        [phaseIdx]: [savedEntry] // we assume the latest entry overwrites or is the only one
-      }));
+      // Ensure we preserve the ID for future edits
+      setLocalJournalEntries(prev => {
+        const existingEntries = prev[phaseIdx] || (rawDataPhase ? rawDataPhase.journal_entries : []) || [];
+
+        // If an ID was provided, we updated an existing entry. Find and replace it.
+        // Otherwise, it's a new entry, add it to the list.
+        let newEntries;
+        if (existingId) {
+          newEntries = existingEntries.map(e => e.id === existingId ? savedEntry : e);
+        } else {
+          newEntries = [...existingEntries, savedEntry];
+        }
+
+        return {
+          ...prev,
+          [phaseIdx]: newEntries
+        };
+      });
 
       setEditingPhase(null);
       setExpandedPhase(phaseIdx); // Auto-expand so the user immediately sees the saved note
@@ -285,7 +298,8 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                               // But `date` matches exactly. We'll extract what's in parentheses for eventType.
                               phase.label.split('(')[1]?.replace(')', '') || phase.label,
                               new Date(phase.data!.date).toISOString(),
-                              hasJournal && activeJournal ? activeJournal[0].id : undefined
+                              hasJournal && activeJournal ? activeJournal[0].id : undefined,
+                              phase.data
                             )}
                             disabled={isSaving || !notes.trim()}
                             size="sm"
