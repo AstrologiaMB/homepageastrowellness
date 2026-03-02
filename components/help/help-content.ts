@@ -42,6 +42,11 @@ export const HELP_CONTENT: HelpCategory[] = [
     icon: Map,
     items: [
       {
+        question: '¿Qué es la Carta Trópica y qué significan sus símbolos?',
+        answer:
+          'La Carta Trópica es tu mapa natal base. En el gráfico, verás letras que indican el "Estado Cósmico" o "Dignidad" de cada planeta:\n\n**r (Domicilio/Regencia):** El planeta está en el signo que gobierna. Su energía fluye de manera fuerte y natural.\n**e (Exaltación):** El planeta está como "invitado de honor". Su energía se magnifica positivamente.\n**E (Exaltación Exacta):** El planeta está exactamente en el grado de su máxima exaltación.\n**d (Detrimento/Exilio):** El planeta está en el signo opuesto a su domicilio. Es un terreno incómodo para su energía.\n**f (Caída):** El planeta está en el signo opuesto a su exaltación. Requiere más esfuerzo consciente.\n**R (Retrógrado - Mayúscula):** El planeta parece viajar hacia atrás desde la Tierra. Invita a la revisión interna de su energía.',
+      },
+      {
         question: '¿Qué es la Carta Dracónica?',
         answer:
           'Es una carta basada en los Nodos Lunares, que refleja el propósito del alma y vidas pasadas. Si tienes suscripción, este cálculo es automático y revela la misión espiritual detrás de tu personalidad.',
