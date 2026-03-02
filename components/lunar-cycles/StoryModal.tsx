@@ -93,6 +93,7 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
       }));
 
       setEditingPhase(null);
+      setExpandedPhase(phaseIdx); // Auto-expand so the user immediately sees the saved note
       setNotes('');
       toast({
         title: 'Diario actualizado',
@@ -244,7 +245,7 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                             }
                           }}
                         >
-                          {hasJournal ? 'Agregar Notas...' : 'Escribir en el Diario'}
+                          {hasJournal ? 'Editar Diario' : 'Escribir Diario'}
                           <ArrowRight className="w-3 h-3 ml-2" />
                         </Button>
                       </div>
