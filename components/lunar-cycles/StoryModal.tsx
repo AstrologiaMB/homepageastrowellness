@@ -33,6 +33,8 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
   const [editingPhase, setEditingPhase] = React.useState<number | null>(null);
   const [notes, setNotes] = React.useState('');
   const [isSaving, setIsSaving] = React.useState(false);
+  // Track successful saves locally so we don't need a hard page refresh
+  const [localJournalEntries, setLocalJournalEntries] = React.useState<Record<number, any[]>>({});
   const { toast } = useToast();
 
   if (!family) return null;
@@ -82,14 +84,19 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
 
       if (!res.ok) throw new Error('Error al guardar');
 
-      // Local optimistic update could be placed here, but a full hard refresh or parent trigger is more robust
-      // For immediate feedback, we will just close the editor and notify.
-      // A user might need to close/reopen or refresh the main page to see the new badge.
+      const savedEntry = await res.json();
+
+      // Optimistically update local state so the user sees it immediately
+      setLocalJournalEntries(prev => ({
+        ...prev,
+        [phaseIdx]: [savedEntry] // we assume the latest entry overwrites or is the only one
+      }));
+
       setEditingPhase(null);
       setNotes('');
       toast({
         title: 'Diario actualizado',
-        description: 'Tus notas han sido guardadas. Cierra el modal y actualiza para ver los cambios.',
+        description: 'Tus notas han sido guardadas con éxito.',
       });
     } catch (error) {
       console.error(error);
@@ -136,8 +143,9 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
               const dateObj = new Date(phase.data.date);
               const isPast = dateObj <= now;
               const isCurrent = idx === currentPhaseIndex;
-              const hasJournal =
-                phase.data.journal_entries && phase.data.journal_entries.length > 0;
+
+              const activeJournal = localJournalEntries[idx] || phase.data.journal_entries;
+              const hasJournal = activeJournal && activeJournal.length > 0;
 
               return (
                 <div key={idx} className="relative pl-8">
@@ -163,28 +171,28 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                           {format(dateObj, "d 'de' MMMM, yyyy", { locale: es })}
                         </p>
                       </div>
-                      {hasJournal && phase.data?.journal_entries && (
+                      {hasJournal && activeJournal && (
                         <Badge
                           variant="secondary"
                           className="gap-1 cursor-pointer hover:bg-slate-200"
                           onClick={() => setExpandedPhase(expandedPhase === idx ? null : idx)}
                         >
                           <Book className="w-3 h-3" />
-                          {phase.data.journal_entries.length}
+                          {activeJournal.length}
                         </Badge>
                       )}
                     </div>
 
                     <p className="text-sm text-slate-600 mb-3 italic">{phase.data.description}</p>
 
-                    {hasJournal && phase.data?.journal_entries && (
+                    {hasJournal && activeJournal && (
                       <div
                         className="bg-slate-50 p-3 rounded text-sm text-slate-700 space-y-2 cursor-pointer transition-colors hover:bg-slate-100"
                         onClick={() => setExpandedPhase(expandedPhase === idx ? null : idx)}
                       >
                         {expandedPhase === idx ? (
                           // Expanded View: Show ALL entries fully
-                          phase.data.journal_entries.map((entry) => (
+                          activeJournal.map((entry: any) => (
                             <div key={entry.id} className="border-l-2 border-purple-400 pl-3">
                               <div className="flex justify-between text-xs text-muted-foreground mb-1">
                                 <span>
@@ -197,19 +205,19 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                         ) : (
                           // Collapsed View: Show 2 entries truncated
                           <>
-                            {phase.data.journal_entries.slice(0, 2).map((entry) => (
+                            {activeJournal.slice(0, 2).map((entry: any) => (
                               <div key={entry.id} className="border-l-2 border-slate-300 pl-2">
                                 "{entry.notes.substring(0, 100)}
                                 {entry.notes.length > 100 ? '...' : ''}"
                               </div>
                             ))}
-                            {phase.data.journal_entries.length > 2 && (
+                            {activeJournal.length > 2 && (
                               <p className="text-xs text-muted-foreground text-center">
-                                +{phase.data.journal_entries.length - 2} entradas más (Click para
+                                +{activeJournal.length - 2} entradas más (Click para
                                 expandir)
                               </p>
                             )}
-                            {phase.data.journal_entries.length <= 2 && (
+                            {activeJournal.length <= 2 && (
                               <p className="text-xs text-muted-foreground text-center mt-1">
                                 (Click para ver detalles)
                               </p>
@@ -229,8 +237,8 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                           onClick={() => {
                             setEditingPhase(idx);
                             // If they are editing, prepopulate with their most recent entry if any
-                            if (hasJournal && phase.data!.journal_entries) {
-                              setNotes(phase.data!.journal_entries[0].notes);
+                            if (hasJournal && activeJournal) {
+                              setNotes(activeJournal[0].notes);
                             } else {
                               setNotes('');
                             }
@@ -276,7 +284,7 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                               // But `date` matches exactly. We'll extract what's in parentheses for eventType.
                               phase.label.split('(')[1]?.replace(')', '') || phase.label,
                               new Date(phase.data!.date).toISOString(),
-                              hasJournal && phase.data!.journal_entries ? phase.data!.journal_entries[0].id : undefined
+                              hasJournal && activeJournal ? activeJournal[0].id : undefined
                             )}
                             disabled={isSaving || !notes.trim()}
                             size="sm"
