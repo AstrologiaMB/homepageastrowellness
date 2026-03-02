@@ -86,7 +86,7 @@ export const HELP_CONTENT: HelpCategory[] = [
       {
         question: '¿Qué muestra el Calendario Lunar?',
         answer:
-          'Muestra las Fases Lunares y Eclipses. Lo especial es que calcula si estos eventos tocan tus puntos sensibles (conjunciones). Recuerda que los calendarios de años futuros se desbloquean en Diciembre.',
+          'A diferencia de un calendario astronómico general, este está sincronizado milimétricamente con **tu Carta Natal**.\n\n🌕 **Tus Activaciones Personales**\nCalculamos cuándo una fase lunar o eclipse cae exactamente sobre un punto sensible de tu carta (tus planetas o ángulos). Esto te avisa de momentos donde tu energía vital, emociones o relaciones serán estimuladas de forma directa.\n\n📖 **Tu Historia Lunar (El Ciclo de 27 Meses)**\nLa Luna no funciona en eventos aislados, sino en tramas largas. Cada Luna Nueva planta una "semilla" en un área de tu vida que tarda 27 meses en completarse (pasando por fases de *Acción*, *Fructificación* y *Liberación* en el mismo signo). Usa el botón **"Ver Historia"** para rastrear esta evolución y documentar tus intenciones en el **Diario Lunar** integrado.\n\n🔥 **Eclipses y Puntos de Giro**\nDestacamos fuertemente los Eclipses. Astrológicamente, actúan como aceleradores cósmicos que traen cierres o aperturas inevitables en la Casa Natal donde te suceden.\n\n*(Nota práctica: Para ayudarte a mantener el enfoque en tu trabajo energético de este año, los calendarios de años futuros se desbloquean automáticamente cada mes de Diciembre).*',
       },
     ],
   },
