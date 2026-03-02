@@ -22,9 +22,11 @@ interface StoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   family: CycleFamily;
+  focusedDate?: Date;
+  onNavigateToEntry?: (dateStr: string) => void;
 }
 
-export function StoryModal({ isOpen, onClose, family }: StoryModalProps) {
+export function StoryModal({ isOpen, onClose, family, focusedDate, onNavigateToEntry }: StoryModalProps) {
   const [expandedPhase, setExpandedPhase] = React.useState<number | null>(null);
 
   if (!family) return null;
@@ -36,11 +38,25 @@ export function StoryModal({ isOpen, onClose, family }: StoryModalProps) {
     { label: 'Liberación (Cuarto Menguante)', data: family.release, step: 4 },
   ];
 
-  // Determine current phase (last one that passed)
+  // Determine current phase
+  // If focusedDate is provided, verify which phase matches it (approx match by day).
+  // Otherwise, use time-based logic.
   const now = new Date();
-  const currentPhaseIndex = phases.findLastIndex(
-    (p) => p.data?.date && new Date(p.data.date) <= now
-  );
+
+  let currentPhaseIndex = -1;
+
+  if (focusedDate) {
+    // Find phase matching the focused date
+    const focusIso = focusedDate.toISOString().split('T')[0];
+    currentPhaseIndex = phases.findIndex(p => p.data?.date && p.data.date.startsWith(focusIso));
+  }
+
+  // If no match by date (or no date provided), fallback to "last passed phase"
+  if (currentPhaseIndex === -1) {
+    currentPhaseIndex = phases.findLastIndex(
+      (p) => p.data?.date && new Date(p.data.date) <= now
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -158,14 +174,22 @@ export function StoryModal({ isOpen, onClose, family }: StoryModalProps) {
                       </div>
                     )}
 
-                    {isCurrent && (
+                    {/* Allow editing if it's past, or if it's the currently focused/active one */}
+                    {(isCurrent || isPast) && (
                       <div className="mt-3 flex justify-end">
                         <Button
                           size="sm"
                           variant="default"
                           className="bg-purple-600 hover:bg-purple-700"
+                          onClick={() => {
+                            if (onNavigateToEntry) {
+                              // Pass the date string to the parent so it knows which card to scroll to
+                              onNavigateToEntry(phase.data!.date);
+                            }
+                            onClose();
+                          }}
                         >
-                          Escribir en el Diario
+                          {hasJournal ? 'Ver Notas' : 'Escribir en el Diario'}
                           <ArrowRight className="w-3 h-3 ml-2" />
                         </Button>
                       </div>

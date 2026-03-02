@@ -135,8 +135,39 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
     }
   };
 
+  const handleNavigateToEntry = (dateStr: string) => {
+    setIsStoryOpen(false);
+    // Use timeout to allow modal to close animation before scrolling
+    setTimeout(() => {
+      // Since we are inside ONE LunarEventCard which represents the focused event,
+      // and we want to scroll to potentially ANOTHER date in the main list, 
+      // we target the specific ID we will assign to each card.
+      // Actually, the card format is `lunar-card-${iso}`.
+      // We match by prefix or exact if possible. The `dateStr` from StoryModal might 
+      // vary slightly in timezone from `date.toISOString()`, but usually it's YYYY-MM-DD...
+      // Let's rely on a robust selector. We'll use the exact string passed by the API cycle.
+      const elId = `lunar-card-${dateStr}`;
+      const el = document.getElementById(elId);
+
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Optional: Add a brief highlight effect
+        el.classList.add('ring-4', 'ring-purple-400', 'transition-all');
+        setTimeout(() => el.classList.remove('ring-4', 'ring-purple-400'), 2000);
+      } else {
+        // Fallback if not found on page (e.g. if the list is paginated or filtered)
+        toast({
+          title: "Navegación",
+          description: "Ese evento no está visible en la vista actual.",
+        });
+      }
+    }, 300);
+  };
+
   return (
     <Card
+      id={`lunar-card-${date.toISOString()}`}
       className={`p-6 border-l-4 ${isEclipse ? 'border-l-orange-500 bg-orange-50/50 dark:bg-orange-500/10' : 'border-l-violet-400 dark:border-l-violet-500'}`}
     >
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
@@ -202,10 +233,12 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
           <h4 className="text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Aspectos Natales:</h4>
           <ul className="space-y-1">
             {aspects.map((aspect, idx) => (
-              <li key={idx} className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-2">
-                <span className="text-violet-500 dark:text-violet-400 mt-1">•</span>
-                <span>{aspect.descripcion}</span>
-              </li>
+              aspect.descripcion ? (
+                <li key={idx} className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-2">
+                  <span className="text-violet-500 dark:text-violet-400 mt-1">•</span>
+                  <span>{aspect.descripcion}</span>
+                </li>
+              ) : null
             ))}
           </ul>
         </div>
@@ -248,6 +281,8 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
           isOpen={isStoryOpen}
           onClose={() => setIsStoryOpen(false)}
           family={cycleData.active_cycles[0]}
+          focusedDate={date}
+          onNavigateToEntry={handleNavigateToEntry}
         />
       )}
     </Card>
