@@ -207,6 +207,10 @@ export const authOptions: NextAuthOptions = {
       name: authConfig.cookieName,
       options: authConfig.cookieOptions,
     },
+    state: authConfig.stateCookie,
+    csrfToken: authConfig.csrfTokenCookie,
+    pkceCodeVerifier: authConfig.pkceCodeVerifierCookie,
+    callbackUrl: authConfig.callbackUrlCookie,
   },
   pages: {
     signIn: AUTH_ROUTES.LOGIN,
