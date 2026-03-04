@@ -86,6 +86,8 @@ export const BETA_USERS: string[] = [
 export const BETA_FEATURE_FLAGS: Array<keyof typeof features> = [
   'enablePersonalCalendar',
   'enableTropicalChart',
+  'enableAstrogematria',
+  'enableLunarCalendar',
 ];
 
 /**
