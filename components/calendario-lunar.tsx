@@ -9,7 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Moon, RefreshCw, Lock } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { createDateFromUtc } from '@/lib/date-utils';
 
 interface AstroEvent {
@@ -33,7 +33,6 @@ export function CalendarioLunar() {
   const [groups, setGroups] = useState<LunarEventGroup[]>([]);
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
-  const { toast } = useToast();
 
   // Check year availability (Mid-December Rule)
   const isYearAvailable = (targetYear: number) => {
@@ -192,10 +191,8 @@ export function CalendarioLunar() {
               if (availability.available) {
                 setSelectedYear(year);
               } else {
-                toast({
-                  title: `Año ${year} Bloqueado 🔒`,
+                toast.error(`Año ${year} Bloqueado 🔒`, {
                   description: availability.message,
-                  variant: 'destructive',
                 });
               }
             }}

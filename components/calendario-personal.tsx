@@ -40,7 +40,7 @@ import {
   createDateFromUtc,
 } from '@/lib/date-utils';
 import { degreesToGMS } from '@/lib/astrology-utils';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EventoConInterpretacion } from './evento-con-interpretacion';
 import { useUserNatalData } from '@/hooks/use-user-natal-data';
@@ -70,7 +70,6 @@ export function CalendarioPersonal() {
 
   const today = new Date();
   const isMobile = useIsMobile();
-  const { toast } = useToast();
 
   // Hook para obtener datos natales del usuario
   const {
@@ -168,10 +167,8 @@ export function CalendarioPersonal() {
         if (!availability.available) {
           // Si no está disponible, mostrar aviso.
           // NO marcamos como cargado para permitir que el aviso salga de nuevo si el usuario insiste en navegar a estas fechas.
-          toast({
-            title: 'Año no disponible',
+          toast.error('Año no disponible', {
             description: availability.message || `No se pueden cargar datos del año ${year}`,
-            variant: 'destructive',
           });
 
           continue;
@@ -249,10 +246,8 @@ export function CalendarioPersonal() {
     // Verificar disponibilidad (re-check)
     const availability = isYearAvailable(yearToRefresh);
     if (!availability.available) {
-      toast({
-        title: 'No se puede actualizar',
+      toast.error('No se puede actualizar', {
         description: availability.message,
-        variant: 'destructive',
       });
       return;
     }
