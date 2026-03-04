@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import {
   AdvancedMarker,
   APIProvider,
@@ -49,7 +49,6 @@ function MapPickerContent({
   onCancel,
   isMobile,
 }: Omit<MapLocationPickerProps, 'apiKey' | 'isOpen'> & { isMobile: boolean }) {
-  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
 
@@ -285,10 +284,8 @@ function MapPickerContent({
       const locationLabel =
         locationType === 'birth' ? 'ubicación de nacimiento' : 'ubicación de residencia';
 
-      toast({
-        title: 'Ubicación no seleccionada',
+      toast.error('Ubicación no seleccionada', {
         description: `Por favor, haz clic en el mapa para elegir tu ${locationLabel}, o busca una ciudad en el buscador.`,
-        variant: 'destructive',
       });
       return;
     }
@@ -299,7 +296,7 @@ function MapPickerContent({
       address: selectedAddress,
       timezone: timezone || 'UTC',
     });
-  }, [selectedLocation, selectedAddress, timezone, onLocationSelect, locationType, toast]);
+  }, [selectedLocation, selectedAddress, timezone, onLocationSelect, locationType]);
 
   // Handle marker drag end
   const handleMarkerDragEnd = useCallback(

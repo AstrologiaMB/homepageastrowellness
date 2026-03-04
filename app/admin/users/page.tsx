@@ -46,7 +46,7 @@ import {
   PaginationLink,
 } from '@/components/ui/pagination';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import {
   Calendar,
   ChevronLeft,
@@ -86,7 +86,6 @@ interface User {
 export default function AdminUsersPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -152,10 +151,8 @@ export default function AdminUsersPage() {
       document.body.removeChild(link);
     } catch (error) {
       console.error('Error exporting CSV:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'No se pudo exportar el CSV. Intenta de nuevo.',
-        variant: 'destructive',
       });
     } finally {
       setExportingCSV(false);
@@ -272,25 +269,19 @@ export default function AdminUsersPage() {
         await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar la lista
         setIsDialogOpen(false);
         setSelectedUser(null);
-        toast({
-          title: 'Contador reiniciado',
+        toast.success('Contador reiniciado', {
           description: 'El contador de cambios de nacimiento ha sido reiniciado a 0.',
-          variant: 'default',
         });
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al reiniciar contador.',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error resetting counter:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión al reiniciar contador.',
-        variant: 'destructive',
       });
     } finally {
       setUpdating(false);
@@ -314,25 +305,19 @@ export default function AdminUsersPage() {
         setUserToDelete(null);
         setIsDialogOpen(false);
         setSelectedUser(null);
-        toast({
-          title: 'Usuario eliminado',
+        toast.success('Usuario eliminado', {
           description: 'El usuario y todos sus datos han sido eliminados permanentemente.',
-          variant: 'default',
         });
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al eliminar usuario',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error deleting user:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión al eliminar usuario',
-        variant: 'destructive',
       });
     } finally {
       setDeleting(false);
@@ -355,27 +340,21 @@ export default function AdminUsersPage() {
 
       if (response.ok) {
         const data = await response.json();
-        toast({
-          title: 'Caché de interpretaciones limpiada',
+        toast.success('Caché de interpretaciones limpiada', {
           description: `${data.message} (${data.deletedCount || 0} registros)`,
-          variant: 'default',
         });
         setIsDialogOpen(false);
         setSelectedUser(null);
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al limpiar caché',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error clearing cache:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión al intentar limpiar la caché.',
-        variant: 'destructive',
       });
     } finally {
       setClearingCache(false);
@@ -398,27 +377,21 @@ export default function AdminUsersPage() {
 
       if (response.ok) {
         const data = await response.json();
-        toast({
-          title: 'Caché de calendario eliminada',
+        toast.success('Caché de calendario eliminada', {
           description: `${data.message} (${data.deletedCount || 0} registros)`,
-          variant: 'default',
         });
         setIsDialogOpen(false);
         setSelectedUser(null);
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al limpiar caché de calendario',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error clearing calendar cache:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión al intentar limpiar la caché de calendario.',
-        variant: 'destructive',
       });
     } finally {
       setClearingCalendarCache(false);
@@ -443,26 +416,20 @@ export default function AdminUsersPage() {
       if (response.ok) {
         const data = await response.json();
         setTempPassword(data.tempPassword);
-        toast({
-          title: 'Contraseña generada',
+        toast.success('Contraseña generada', {
           description: 'Copia la nueva contraseña temporal.',
-          variant: 'default',
         });
         // No cerramos el dialog para que pueda ver la password
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al restablecer contraseña',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error resetting password:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión.',
-        variant: 'destructive',
       });
     } finally {
       setResettingPassword(false);
@@ -480,10 +447,8 @@ export default function AdminUsersPage() {
 
       if (response.ok) {
         await fetchUsers(currentPage, searchTerm, statusFilter); // Recargar para ver el cambio en la lista si lo hubiera
-        toast({
-          title: 'Email verificado',
+        toast.success('Email verificado', {
           description: 'El usuario ha sido marcado como verificado.',
-          variant: 'default',
         });
         // Actualizamos el usuario seleccionado localmente para que se refleje en el dialog
         if (selectedUser) {
@@ -496,18 +461,14 @@ export default function AdminUsersPage() {
         }
       } else {
         const data = await response.json();
-        toast({
-          title: 'Error',
+        toast.error('Error', {
           description: data.error || 'Error al verificar email',
-          variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error verifying email:', error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'Error de conexión.',
-        variant: 'destructive',
       });
     } finally {
       setVerifyingEmail(false);
@@ -990,8 +951,7 @@ export default function AdminUsersPage() {
                       className="bg-green-600 hover:bg-green-700"
                       onClick={() => {
                         navigator.clipboard.writeText(tempPassword);
-                        toast({
-                          title: 'Copiado',
+                        toast.success('Copiado', {
                           description: 'Contraseña copiada al portapapeles',
                         });
                       }}

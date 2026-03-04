@@ -1,10 +1,13 @@
 'use client';
 
-import ReactMarkdown from 'react-markdown';
+import dynamic from 'next/dynamic';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+
+// Dynamic import for react-markdown (~30KB savings on initial load)
+const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: true });
 
 interface InterpretacionItem {
   titulo: string;

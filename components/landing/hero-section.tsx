@@ -22,11 +22,6 @@ export function HeroSection() {
 
   return (
     <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
-      {/*
-        VIDEO BACKGROUND PLACEHOLDER
-        TODO: Replace with <video> tag when asset is provided.
-        Current: Deep Indigo gradient + subtle pulse to simulate movement.
-      */}
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video ref={videoRef} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60">
