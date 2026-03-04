@@ -12,7 +12,7 @@ export default async function AstrogematriaLayout({ children }: { children: Reac
 
   // 2. Check Entitlement
   // Note: user.entitlements is populated in authOptions callbacks
-  const entitlements = (session.user as any).entitlements || {};
+  const entitlements = (session?.user as any)?.entitlements || {};
 
   if (!entitlements.hasAstrogematria) {
     // Redirect to upgrade page with a clear reason (optional: add query param)

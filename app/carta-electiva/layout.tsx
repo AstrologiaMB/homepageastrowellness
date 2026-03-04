@@ -9,7 +9,7 @@ export default async function CartaElectivaLayout({ children }: { children: Reac
     redirect('/auth/login?callbackUrl=/carta-electiva');
   }
 
-  const entitlements = (session.user as any).entitlements || {};
+  const entitlements = (session?.user as any)?.entitlements || {};
 
   // Requirement: Elective Add-on
   if (!entitlements.hasElectiveChart) {

@@ -35,6 +35,9 @@ export function CartaNatalAstrogematria({ chartData, astrogematriaData }: CartaN
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let isMounted = true;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
     if (chartRef.current && chartData && chartData.planets && chartData.cusps && astrogematriaData) {
       // Debug logging
       console.log('🎯 Renderizando carta con astrogematría:', {
@@ -75,8 +78,11 @@ export function CartaNatalAstrogematria({ chartData, astrogematriaData }: CartaN
         chart.radix(cleanChartData);
 
         // 🔧 OVERLAY MANUAL: Agregar punto astrogematrícico después
-        setTimeout(() => {
-          const svgElement = chartRef.current?.querySelector('svg');
+        timeoutId = setTimeout(() => {
+          // Guard against unmounted component
+          if (!isMounted || !chartRef.current) return;
+
+          const svgElement = chartRef.current.querySelector('svg');
           if (svgElement) {
             // 🔧 FÓRMULA EXACTA DE @astrodraw/astrochart
             // Basada en el código fuente: utils.ts getPointPosition()
@@ -159,11 +165,18 @@ export function CartaNatalAstrogematria({ chartData, astrogematriaData }: CartaN
 
       } catch (error) {
         console.error('Error renderizando carta natal con astrogematría:', error);
-        if (chartRef.current) {
+        if (isMounted && chartRef.current) {
           chartRef.current.innerHTML = '<p class="text-center text-red-500 p-4">Error al renderizar la carta natal</p>';
         }
       }
     }
+
+    return () => {
+      isMounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [chartData, astrogematriaData]);
 
   // Validación defensiva

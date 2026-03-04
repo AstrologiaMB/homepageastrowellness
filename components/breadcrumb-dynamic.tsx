@@ -19,14 +19,19 @@ import { usePathname } from 'next/navigation';
  * - Capitalizes each word (title case)
  */
 function formatSegment(segment: string): string {
-  const decoded = decodeURIComponent(segment);
-  // Replace hyphens with spaces for multi-word page names
-  const withSpaces = decoded.replace(/-/g, ' ');
-  // Capitalize each word
-  return withSpaces
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  try {
+    const decoded = decodeURIComponent(segment);
+    // Replace hyphens with spaces for multi-word page names
+    const withSpaces = decoded.replace(/-/g, ' ');
+    // Capitalize each word
+    return withSpaces
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  } catch {
+    // If URI is malformed (e.g., %c0, %ff), return sanitized segment without decoding
+    return segment.replace(/-/g, ' ');
+  }
 }
 
 /**

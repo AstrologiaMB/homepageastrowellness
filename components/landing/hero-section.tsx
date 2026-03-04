@@ -1,10 +1,25 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Cleanup video on unmount to prevent DOM errors during navigation
+  useEffect(() => {
+    const video = videoRef.current;
+    return () => {
+      if (video) {
+        video.pause();
+        video.src = '';
+        video.load(); // Reset to empty state
+      }
+    };
+  }, []);
+
   return (
     <section className="relative w-full min-h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#0B0F19] text-white">
       {/*
@@ -14,7 +29,7 @@ export function HeroSection() {
       */}
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
-        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60">
+        <video ref={videoRef} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-60">
           <source src="/assets/landing/hero-loop.mp4" type="video/mp4" />
         </video>
       </div>
