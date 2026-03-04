@@ -1,5 +1,3 @@
-'use client';
-
 import { Calendar, Map, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
@@ -35,10 +33,9 @@ export function BentoFeatures() {
             {/* Mockup */}
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl group-hover:scale-[1.02] transition-transform duration-500 mt-auto">
               <Image
-                src="/assets/landing/calendario-personal.png"
+                src="/assets/landing/calendario-personal.webp"
                 alt="Calendario Astrológico Personalizado"
                 fill
-                unoptimized={true}
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -60,10 +57,9 @@ export function BentoFeatures() {
             {/* Mockup */}
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-[#D4AF37]/20 shadow-[0_0_30px_rgba(212,175,55,0.1)] group-hover:scale-[1.02] transition-transform duration-500 mt-auto">
               <Image
-                src="/assets/landing/carta-draconica.png"
+                src="/assets/landing/carta-draconica.webp"
                 alt="Carta Dracónica y Natal"
                 fill
-                unoptimized={true}
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -83,10 +79,9 @@ export function BentoFeatures() {
             {/* Mockup */}
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl group-hover:scale-[1.02] transition-transform duration-500 mt-auto">
               <Image
-                src="/assets/landing/astrogematria.png"
+                src="/assets/landing/astrogematria.webp"
                 alt="Cálculos de AstroGematría"
                 fill
-                unoptimized={true}
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -119,10 +114,9 @@ export function BentoFeatures() {
             {/* Mockup */}
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl group-hover:scale-[1.02] transition-transform duration-500 mt-auto">
               <Image
-                src="/assets/landing/fases-lunares.png"
+                src="/assets/landing/fases-lunares.webp"
                 alt="Calendario de Fases Lunares"
                 fill
-                unoptimized={true}
                 className="object-cover object-top"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />

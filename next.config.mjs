@@ -1,4 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
@@ -47,18 +49,103 @@ const nextConfig = {
 
   // Experimental features for performance
   experimental: {
-    // Optimize package imports
+    // Optimize package imports - reduces bundle size by only importing used modules
     optimizePackageImports: [
       'lucide-react',
       'date-fns',
       'clsx',
       'tailwind-merge',
       'class-variance-authority',
+      'recharts',
+      'cmdk',
+      // Additional optimizations
+      'react-markdown',
+      '@astrodraw/astrochart',
+      'radix-ui',
+      'react-day-picker',
+      // Form and validation
+      '@hookform/resolvers',
+      'zod',
+      // UI utilities
+      'sonner',
+      'next-themes',
     ],
     // Enable server actions
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    // Turbopack configuration for faster dev builds
+    turbo: {
+      resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    },
+  },
+
+  // Aggressive tree-shaking for lucide-react icons
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+    },
+  },
+
+  // Webpack configuration for chunk splitting
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          // Vendor chunk for all node_modules
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+            priority: 10,
+          },
+          // Separate chunk for recharts (large charting library ~110KB)
+          recharts: {
+            test: /[\\/]node_modules[\\/]recharts[\\/]/,
+            name: 'recharts',
+            chunks: 'all',
+            priority: 20,
+          },
+          // Separate chunk for Google Maps related packages
+          maps: {
+            test: /[\\/]node_modules[\\/](@vis\.gl|@react-google-maps)[\\/]/,
+            name: 'maps',
+            chunks: 'all',
+            priority: 20,
+          },
+          // Separate chunk for Sentry (~150KB) - only loads on errors
+          sentry: {
+            test: /[\\/]node_modules[\\/]@sentry[\\/]/,
+            name: 'sentry',
+            chunks: 'all',
+            priority: 25,
+          },
+          // Separate chunk for react-markdown and deps (~30KB)
+          markdown: {
+            test: /[\\/]node_modules[\\/](react-markdown|remark-|unified|bail|ccount|comma-separated-tokens|decode-named-character-reference|devlop|escape-string-regexp|hast-|is-|mdast-|micromark|myst|periscopic|property-information|space-separated-tokens|stringify-|trim-lines|trough|unist-|vfile|web-namespaces|zwitch)[\\/]/,
+            name: 'markdown',
+            chunks: 'all',
+            priority: 20,
+          },
+          // Separate chunk for Radix UI components
+          radix: {
+            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
+            name: 'radix-ui',
+            chunks: 'all',
+            priority: 20,
+          },
+          // Separate chunk for form libraries (react-hook-form, zod)
+          forms: {
+            test: /[\\/]node_modules[\\/](react-hook-form|@hookform|zod)[\\/]/,
+            name: 'forms',
+            chunks: 'all',
+            priority: 20,
+          },
+        },
+      };
+    }
+    return config;
   },
 
   // Headers for security and caching
@@ -90,10 +177,6 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
           },
         ],
       },
@@ -159,6 +242,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
     ];
   },
 
@@ -201,7 +293,12 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };
 
-export default withSentryConfig(nextConfig, {
+// Bundle analyzer wrapper for analyzing build output
+const withAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withSentryConfig(withAnalyzer(nextConfig), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

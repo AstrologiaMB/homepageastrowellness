@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Loader2, Save, BookOpen } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { StoryModal } from './lunar-cycles/StoryModal';
 import { ActiveCyclesResponse } from '@/lib/services/cycles-service';
 
@@ -54,8 +54,6 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
   const [cycleData, setCycleData] = useState<ActiveCyclesResponse | null>(null);
   const [, setIsCycleLoading] = useState(false);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
-
-  const { toast } = useToast();
 
   // Fetch Cycle Data on Mount
   React.useEffect(() => {
@@ -119,16 +117,13 @@ export function LunarEventCard({ group, initialEntry, natalData }: LunarEventCar
       const savedEntry = await res.json();
       setEntry(savedEntry);
 
-      toast({
-        title: 'Diario actualizado',
+      toast.success('Diario actualizado', {
         description: 'Tus notas han sido guardadas correctamente.',
       });
     } catch (error) {
       console.error(error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'No se pudieron guardar tus notas.',
-        variant: 'destructive',
       });
     } finally {
       setIsSaving(false);
