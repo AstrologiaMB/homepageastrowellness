@@ -75,6 +75,8 @@ export const BETA_USERS: string[] = [
   'amapimo3@gmail.com',
   'maribel2012@gmail.com',
   'tatocao76@gmail.com',
+  'mescuti@gmail.com',
+  'mblq@yahoo.es',
 ];
 
 /**
