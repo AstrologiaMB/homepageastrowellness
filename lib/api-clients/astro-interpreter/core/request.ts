@@ -203,6 +203,10 @@ export const sendRequest = async (
 ): Promise<Response> => {
     const controller = new AbortController();
 
+    // Timeout of 300s for LLM-based interpretation requests
+    const timeoutMs = 300_000;
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
     const request: RequestInit = {
         headers,
         body: body ?? formData,
@@ -216,7 +220,11 @@ export const sendRequest = async (
 
     onCancel(() => controller.abort());
 
-    return await fetch(url, request);
+    try {
+        return await fetch(url, request);
+    } finally {
+        clearTimeout(timeoutId);
+    }
 };
 
 export const getResponseHeader = (response: Response, responseHeader?: string): string | undefined => {
