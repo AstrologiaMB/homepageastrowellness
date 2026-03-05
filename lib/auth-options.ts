@@ -9,12 +9,9 @@ import prisma from '@/lib/prisma';
 import { NextAuthOptions } from 'next-auth';
 import type { DefaultSession as _DefaultSession, DefaultUser as _DefaultUser } from 'next-auth';
 import bcrypt from 'bcryptjs';
-import { getAuthConfig } from '@/lib/auth-utils';
 import { env } from '@/lib/env';
 import { ADMIN_EMAILS, AUTH_ROUTES } from '@/lib/constants';
 import { syncUserToFluentCRM } from '@/lib/fluentcrm';
-
-const authConfig = getAuthConfig();
 
 /**
  * Extend the built-in NextAuth types to include custom properties
@@ -201,17 +198,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: env.NEXTAUTH_SECRET,
-  useSecureCookies: authConfig.useSecureCookies,
-  cookies: {
-    sessionToken: {
-      name: authConfig.cookieName,
-      options: authConfig.cookieOptions,
-    },
-    state: authConfig.stateCookie,
-    csrfToken: authConfig.csrfTokenCookie,
-    pkceCodeVerifier: authConfig.pkceCodeVerifierCookie,
-    callbackUrl: authConfig.callbackUrlCookie,
-  },
   pages: {
     signIn: AUTH_ROUTES.LOGIN,
     error: AUTH_ROUTES.LOGIN,

@@ -38,22 +38,6 @@ export const PASSWORD_REQUIREMENTS = {
 } as const;
 
 /**
- * Session cookie configuration
- */
-export const SESSION_COOKIE = {
-  /** Default cookie name prefix */
-  PREFIX: 'next-auth.session-token',
-  /** Secure cookie name prefix for production */
-  SECURE_PREFIX: '__Secure-next-auth.session-token',
-  /** Cookie path */
-  PATH: '/',
-  /** Cookie same-site policy */
-  SAME_SITE: 'lax' as const,
-  /** HTTP-only flag */
-  HTTP_ONLY: true,
-} as const;
-
-/**
  * Authentication pages routes
  */
 export const AUTH_ROUTES = {
