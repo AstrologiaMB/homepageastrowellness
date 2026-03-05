@@ -251,8 +251,12 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
                           onClick={() => {
                             setEditingPhase(idx);
                             // If they are editing, prepopulate with their most recent entry if any
+                            // FIX: If there are multiple entries (legacy), concatenate them to prevent data hiding
                             if (hasJournal && activeJournal) {
-                              setNotes(activeJournal[0].notes);
+                              const combinedNotes = activeJournal
+                                .map((entry: any) => entry.notes)
+                                .join('\n\n--- Entrada anterior ---\n\n');
+                              setNotes(combinedNotes);
                             } else {
                               setNotes('');
                             }
