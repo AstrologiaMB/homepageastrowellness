@@ -17,7 +17,7 @@ import { es } from 'date-fns/locale';
 import { Book, ArrowRight, Save, Loader2 } from 'lucide-react';
 import { CycleFamily } from '@/lib/services/cycles-service';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 // Note: We might need to duplicate interfaces if standard import fails in client, but shared lib should work.
 
 interface StoryModalProps {
@@ -35,8 +35,6 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
   const [isSaving, setIsSaving] = React.useState(false);
   // Track successful saves locally so we don't need a hard page refresh
   const [localJournalEntries, setLocalJournalEntries] = React.useState<Record<number, any[]>>({});
-  const { toast } = useToast();
-
   if (!family) return null;
 
   const phases = [
@@ -108,16 +106,13 @@ export function StoryModal({ isOpen, onClose, family, focusedDate }: StoryModalP
       setEditingPhase(null);
       setExpandedPhase(phaseIdx); // Auto-expand so the user immediately sees the saved note
       setNotes('');
-      toast({
-        title: 'Diario actualizado',
+      toast.success('Diario actualizado', {
         description: 'Tus notas han sido guardadas con éxito.',
       });
     } catch (error) {
       console.error(error);
-      toast({
-        title: 'Error',
+      toast.error('Error', {
         description: 'No se pudieron guardar tus notas.',
-        variant: 'destructive',
       });
     } finally {
       setIsSaving(false);
