@@ -1,14 +1,7 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
-
-// Dynamic import for react-markdown to reduce initial bundle size (~30KB savings)
-// Only loads when markdown content needs to be rendered
-const ReactMarkdown = dynamic(() => import('react-markdown'), {
-  ssr: true,
-  loading: () => <span className="opacity-50">Cargando...</span>,
-});
 
 interface MarkdownRendererProps {
   content: string;
@@ -16,10 +9,6 @@ interface MarkdownRendererProps {
   className?: string;
 }
 
-/**
- * Lightweight markdown renderer with dynamic import
- * Use this instead of importing react-markdown directly
- */
 export function MarkdownRenderer({ content, components, className }: MarkdownRendererProps) {
   return (
     <div className={className}>
