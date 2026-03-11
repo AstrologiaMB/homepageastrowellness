@@ -75,23 +75,33 @@ export const HELP_CONTENT: HelpCategory[] = [
   },
   {
     id: 'calendar',
-    title: 'Mi Universo (Calendario)',
+    title: 'Mi Universo (El Calendario Personal)',
     icon: Calendar,
     items: [
       {
-        question: '¿Cómo uso el Calendario Personal?',
+        question: '¿Qué es el Calendario Personal y cómo lo leo?',
         answer:
-          'Tu calendario organiza los eventos por importancia. La **Tarjeta Dorada** te muestra el tránsito clave del día. Usa los iconos para identificar la energía al instante: **Flecha (➡️)** para Ingresos a signos y **Estrella (⭐)** para Retrogradaciones. Despliega cada tarjeta para leer cómo te afecta personalmente.',
+          'A diferencia de un horóscopo general, tu Calendario Personal es un mapa temporal calculado milimétricamente contra tu Carta Natal única. Los días donde no hay tarjetas son días de integración o "rutina cósmica". Cuando hay movimiento en el cielo que toca tu carta, lo verás reflejado. **Lee siempre las tarjetas de arriba hacia abajo**: las más grandes y coloridas son las energías protagonistas del día, y las más pequeñas son el contexto de fondo.',
       },
       {
-        question: "¿Qué es el 'Clima Astral'?",
+        question: '¿Qué son las Tarjetas "Hero" (Eventos Destacados)?',
         answer:
-          'Es la energía de fondo del mes. Muestra por qué Casas de tu carta transitan los planetas lentos (Júpiter a Plutón). Es el escenario donde ocurre tu vida este mes.',
+          '¿Has tenido días donde sientes que hay un "antes y un después"? Las **Tarjetas Hero** son eventos astrológicos de máxima potencia. Aparecen expandidas por defecto y en colores vibrantes:\n\n🔥 **Hitos Celestiales (Eclipses y Lunas Mayores):** Te marcan grandes finales, inicios o revelaciones.\n🪐 **Hitos Personales (Planetas Lentos):** Cuando gigantes como Júpiter (Oro), Saturno (Acero) o Plutón (Lava) hacen un contacto **matemáticamente exacto** con tus puntos personales. Son los tránsitos que definen capítulos enteros de tu vida. Solo las verás en el día de su mayor clímax.',
       },
       {
-        question: '¿Qué muestra el Calendario Lunar?',
+        question: '¿Para qué sirve el buscador (La Lupa)?',
         answer:
-          'A diferencia de un calendario astronómico general, este está sincronizado milimétricamente con **tu Carta Natal**.\n\n🌕 **Tus Activaciones Personales**\nCalculamos cuándo una fase lunar o eclipse cae exactamente sobre un punto sensible de tu carta (tus planetas o ángulos). Esto te avisa de momentos donde tu energía vital, emociones o relaciones serán estimuladas de forma directa.\n\n📖 **Tu Historia Lunar (El Ciclo de 27 Meses)**\nLa Luna no funciona en eventos aislados, sino en tramas largas. Cada Luna Nueva planta una "semilla" en un área de tu vida que tarda 27 meses en completarse (pasando por fases de *Acción*, *Fructificación* y *Liberación* en el mismo signo). Usa el botón **"Ver Historia"** para rastrear esta evolución y documentar tus intenciones en el **Diario Lunar** integrado.\n\n🔥 **Eclipses y Puntos de Giro**\nDestacamos fuertemente los Eclipses. Astrológicamente, actúan como aceleradores cósmicos que traen cierres o aperturas inevitables en la Casa Natal donde te suceden.\n\n*(Nota práctica: Para ayudarte a mantener el enfoque en tu trabajo energético de este año, los calendarios de años futuros se desbloquean automáticamente cada mes de Diciembre).*',
+          'Es tu máquina del tiempo astrológica. Te permite escanear todo el año actual en segundos. Lo hemos dividido en 4 niveles de impacto para que filtres lo que buscas:\n\n💎 **Hitos Relevantes:** Encuentra rápidamente los Eclipses y Fases Lunares clave de este año.\n🪐 **Clima Generacional:** Busca los grandes tránsitos de planetas lentos (los que cambian las reglas del juego).\n⚡ **Activadores Personales:** Rastrea planetas rápidos como Venus (Amor/Valor) o Marte (Acción/Deseo).\n🌙 **El Pulso Diario:** Sigue el recorrido emocional de la Luna por los signos.\n\n*Tip Pro: Usa el interruptor **"Solo Hitos Importantes"** para limpiar el ruido y ver instantáneamente los días cruciales.*',
+      },
+      {
+        question: '¿Qué significan las insignias de "⚡ Activador Lunar o de Eclipse"?',
+        answer:
+          'Imagina que hay luna llena y sientes la tensión en el aire... de repente, un tránsito menor (como la Luna tocando a Mercurio) prende la mecha y tienes una conversación reveladora. Esa insignia amarilla parpadeante te avisa que ese tránsito, aunque parezca pequeño, es el "gatillo" que está activando la gran energía del eclipse o fase lunar de ese día. ¡Presta atención a esas horas, son ventanas de acción!',
+      },
+      {
+        question: '¿Qué es la "Historia del Ciclo"?',
+        answer:
+          'La Luna no funciona en eventos aislados de un solo día, sino en tramas largas. Cada Luna Nueva planta una "semilla" en un área de tu vida que tarda 27 meses en completarse (pasando por fases de Acción, Fructificación y Liberación en el mismo signo). Usa el botón **"Ver Historia del Ciclo"** debajo de las fases lunares para rastrear esta evolución en el tiempo y entender qué patrón de tu vida se está activando.',
       },
     ],
   },
