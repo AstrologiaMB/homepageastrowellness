@@ -102,7 +102,7 @@ export async function POST(req: Request) {
       where: { id: user.id },
       data: {
         rectificationStatus: 'in_progress',
-        rectificationBirthDate: new Date(rectificationBirthDate),
+        rectificationBirthDate: new Date(rectificationBirthDate + 'T12:00:00'),
         rectificationBirthHour: birthHour,
         rectificationBirthMinute: birthMinute,
         rectificationBirthCity: rectificationBirthCity,
@@ -140,7 +140,7 @@ export async function POST(req: Request) {
         
         <h3>Datos de Nacimiento para Rectificación (Provisional):</h3>
         <ul>
-          <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate).toLocaleDateString()}</li>
+          <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate + 'T12:00:00').toLocaleDateString()}</li>
           <li><strong>Hora:</strong> ${birthHour}:${birthMinute.toString().padStart(2, '0')}</li>
           <li><strong>Lugar:</strong> ${rectificationBirthCity}, ${rectificationBirthCountry}</li>
         </ul>
@@ -181,7 +181,7 @@ export async function POST(req: Request) {
             
             <h3>Datos de nacimiento proporcionados para rectificación:</h3>
             <ul>
-              <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate).toLocaleDateString()}</li>
+              <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate + 'T12:00:00').toLocaleDateString()}</li>
               <li><strong>Hora:</strong> ${birthHour}:${birthMinute.toString().padStart(2, '0')}</li>
               <li><strong>Lugar:</strong> ${rectificationBirthCity}, ${rectificationBirthCountry}</li>
             </ul>
