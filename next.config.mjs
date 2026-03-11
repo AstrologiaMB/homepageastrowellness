@@ -1,4 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
@@ -47,17 +49,34 @@ const nextConfig = {
 
   // Experimental features for performance
   experimental: {
-    // Optimize package imports
+    // Optimize package imports - reduces bundle size by only importing used modules
     optimizePackageImports: [
       'lucide-react',
       'date-fns',
       'clsx',
       'tailwind-merge',
       'class-variance-authority',
+      'recharts',
+      'cmdk',
+      // Additional optimizations
+      'react-markdown',
+      '@astrodraw/astrochart',
+      'radix-ui',
+      'react-day-picker',
+      // Form and validation
+      '@hookform/resolvers',
+      'zod',
+      // UI utilities
+      'sonner',
+      'next-themes',
     ],
     // Enable server actions
     serverActions: {
       bodySizeLimit: '2mb',
+    },
+    // Turbopack configuration for faster dev builds
+    turbo: {
+      resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     },
   },
 
@@ -90,10 +109,6 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
           },
         ],
       },
@@ -159,6 +174,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
     ];
   },
 
@@ -201,7 +225,12 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };
 
-export default withSentryConfig(nextConfig, {
+// Bundle analyzer wrapper for analyzing build output
+const withAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withSentryConfig(withAnalyzer(nextConfig), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

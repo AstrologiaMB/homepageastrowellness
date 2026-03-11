@@ -1,8 +1,7 @@
 'use client';
 
-import ReactMarkdown from 'react-markdown';
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProseMarkdown } from '@/components/ui/markdown';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Sparkles, Loader2 } from 'lucide-react';
@@ -113,16 +112,10 @@ export function InterpretacionNarrativa({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300">
-          <ReactMarkdown
-            components={{
-              p: ({ ...props }) => <p className="mb-4 last:mb-0 leading-relaxed" {...props} />,
-              strong: ({ ...props }) => <strong className="font-bold text-blue-600 dark:text-blue-300" {...props} />,
-            }}
-          >
-            {interpretacion}
-          </ReactMarkdown>
-        </div>
+        <ProseMarkdown
+          content={interpretacion}
+          className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300"
+        />
       </CardContent>
     </Card>
   );

@@ -1,8 +1,7 @@
 'use client';
 
-import ReactMarkdown from 'react-markdown';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MarkdownRenderer } from '@/components/ui/markdown';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 
@@ -85,16 +84,16 @@ function InterpretacionItemCard({ item }: { item: InterpretacionItem }) {
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300">
-          <ReactMarkdown
-            components={{
-              p: ({ ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
-              strong: ({ ...props }) => <strong className="font-bold text-blue-600 dark:text-blue-300" {...props} />,
-            }}
-          >
-            {item.interpretacion}
-          </ReactMarkdown>
-        </div>
+        <MarkdownRenderer
+          content={item.interpretacion}
+          className="prose prose-stone prose-sm max-w-none text-gray-700 dark:text-gray-300"
+          components={{
+            p: ({ ...props }) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
+            strong: ({ ...props }) => (
+              <strong className="font-bold text-blue-600 dark:text-blue-300" {...props} />
+            ),
+          }}
+        />
       </CardContent>
     </Card>
   );
