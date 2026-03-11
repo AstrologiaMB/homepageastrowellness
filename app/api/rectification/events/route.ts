@@ -32,13 +32,34 @@ export async function POST(req: Request) {
     }
 
     // Obtener datos del cuerpo de la solicitud
-    const { events } = await req.json();
+    const { events, rectificationBirthDate, rectificationBirthTime, rectificationBirthCity, rectificationBirthCountry } = await req.json();
 
     // Validar que se hayan enviado 4 eventos (2 tristes y 2 alegres)
     if (!events || !Array.isArray(events) || events.length !== 4) {
       return NextResponse.json(
         {
           error: 'Debes proporcionar exactamente 4 eventos',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validar datos de rectificación
+    if (!rectificationBirthDate || !rectificationBirthTime || !rectificationBirthCity || !rectificationBirthCountry) {
+      return NextResponse.json(
+        {
+          error: 'Debes proporcionar todos los datos de nacimiento para rectificación',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Parsear hora (HH:MM)
+    const [birthHour, birthMinute] = rectificationBirthTime.split(':').map(Number);
+    if (isNaN(birthHour) || isNaN(birthMinute) || birthHour < 0 || birthHour > 23 || birthMinute < 0 || birthMinute > 59) {
+      return NextResponse.json(
+        {
+          error: 'Hora de nacimiento inválida',
         },
         { status: 400 }
       );
@@ -76,11 +97,16 @@ export async function POST(req: Request) {
       )
     );
 
-    // Actualizar el estado de la rectificación
+    // Actualizar el estado de la rectificación y guardar datos provisionales
     await prisma.user.update({
       where: { id: user.id },
       data: {
         rectificationStatus: 'in_progress',
+        rectificationBirthDate: new Date(rectificationBirthDate),
+        rectificationBirthHour: birthHour,
+        rectificationBirthMinute: birthMinute,
+        rectificationBirthCity: rectificationBirthCity,
+        rectificationBirthCountry: rectificationBirthCountry,
       },
     });
 
@@ -104,11 +130,19 @@ export async function POST(req: Request) {
         <p><strong>Estado:</strong> ${user.rectificationStatus === 'in_progress' ? 'En progreso (Eventos recibidos)' : user.rectificationStatus}</p>
         <br/>
         
-        <h3>Datos de Nacimiento Actuales:</h3>
+        <h3>Datos de Nacimiento Principales (Registrados):</h3>
         <ul>
           <li><strong>Fecha:</strong> ${user.birthDate ? new Date(user.birthDate).toLocaleDateString() : 'No definida'}</li>
           <li><strong>Hora:</strong> ${user.birthHour}:${user.birthMinute?.toString().padStart(2, '0') || '00'}</li>
           <li><strong>Lugar:</strong> ${user.birthCity}, ${user.birthCountry}</li>
+        </ul>
+        <br/>
+        
+        <h3>Datos de Nacimiento para Rectificación (Provisional):</h3>
+        <ul>
+          <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate).toLocaleDateString()}</li>
+          <li><strong>Hora:</strong> ${birthHour}:${birthMinute.toString().padStart(2, '0')}</li>
+          <li><strong>Lugar:</strong> ${rectificationBirthCity}, ${rectificationBirthCountry}</li>
         </ul>
         <br/>
         
@@ -143,6 +177,15 @@ export async function POST(req: Request) {
             <h2>Solicitud Recibida Exitosamente</h2>
             <p>Hola <strong>${firstName}</strong>,</p>
             <p>Confirmamos que hemos recibido tu solicitud de rectificación junto con los eventos de vida reportados.</p>
+            <br/>
+            
+            <h3>Datos de nacimiento proporcionados para rectificación:</h3>
+            <ul>
+              <li><strong>Fecha:</strong> ${new Date(rectificationBirthDate).toLocaleDateString()}</li>
+              <li><strong>Hora:</strong> ${birthHour}:${birthMinute.toString().padStart(2, '0')}</li>
+              <li><strong>Lugar:</strong> ${rectificationBirthCity}, ${rectificationBirthCountry}</li>
+            </ul>
+            <p><em>Estos datos se utilizarán únicamente para el proceso de rectificación y no modificarán tus datos principales.</em></p>
             <br/>
             
             <h3>Tus eventos registrados:</h3>

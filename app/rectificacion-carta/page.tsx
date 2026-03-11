@@ -47,6 +47,20 @@ const rectificationSchema = z.object({
   }),
 
   // Section 2: Considerations & Data
+  rectificationBirthDate: z.string().refine(
+    (val) => {
+      if (!val) return false;
+      const date = new Date(val);
+      return !isNaN(date.getTime());
+    },
+    { message: 'Fecha de nacimiento requerida' }
+  ),
+  rectificationBirthTime: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
+    message: 'Hora inválida (formato HH:MM)',
+  }),
+  rectificationBirthCity: z.string().min(2, { message: 'Ciudad requerida' }),
+  rectificationBirthCountry: z.string().min(2, { message: 'País requerido' }),
+
   acceptConsiderations: z.boolean().refine((val) => val === true, {
     message: 'Debes aceptar las consideraciones',
   }),
@@ -93,6 +107,7 @@ const FORM_SECTIONS = [
 export default function RectificacionCartaPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userData, setUserData] = useState<any>(null);
   const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,6 +117,10 @@ export default function RectificacionCartaPage() {
     resolver: zodResolver(rectificationSchema),
     defaultValues: {
       acceptUncertainty: undefined,
+      rectificationBirthDate: '',
+      rectificationBirthTime: '',
+      rectificationBirthCity: '',
+      rectificationBirthCountry: '',
       acceptConsiderations: false,
       events: [
         { eventType: 'sad', description: '', eventDate: '', notes: '' },
@@ -157,7 +176,11 @@ export default function RectificacionCartaPage() {
       if (section.key === 'uncertainty') {
         isComplete = values.acceptUncertainty === 'yes';
       } else if (section.key === 'personal') {
-        isComplete = values.acceptConsiderations === true;
+        isComplete = values.acceptConsiderations === true && 
+                     !!values.rectificationBirthDate && 
+                     !!values.rectificationBirthTime && 
+                     !!values.rectificationBirthCity && 
+                     !!values.rectificationBirthCountry;
       } else if (section.key === 'events') {
         // Check deeply if all events are filled
         const evs = values.events || [];
@@ -196,11 +219,17 @@ export default function RectificacionCartaPage() {
 
       if (!reqResponse.ok) throw new Error('Error al iniciar solicitud');
 
-      // 2. Send Events
+      // 2. Send Events & Provisional Data
       const eventsResponse = await fetch('/api/rectification/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ events: data.events }),
+        body: JSON.stringify({ 
+          events: data.events,
+          rectificationBirthDate: data.rectificationBirthDate,
+          rectificationBirthTime: data.rectificationBirthTime,
+          rectificationBirthCity: data.rectificationBirthCity,
+          rectificationBirthCountry: data.rectificationBirthCountry
+        }),
       });
 
       const result = await eventsResponse.json();
@@ -488,16 +517,68 @@ export default function RectificacionCartaPage() {
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 pb-2 space-y-4">
-                          {userData && (
-                            <div className="bg-muted/30 p-4 rounded-lg space-y-3 text-sm">
-                              <div className="grid grid-cols-2 gap-2">
-                                <div><span className="text-muted-foreground block text-xs">Nombre</span> {session?.user?.name}</div>
-                                <div><span className="text-muted-foreground block text-xs">Email</span> {session?.user?.email}</div>
-                                <div><span className="text-muted-foreground block text-xs">Fecha Nac.</span> {userData.birthDate ? new Date(userData.birthDate).toLocaleDateString('es-AR', { timeZone: 'UTC' }) : 'No definida'}</div>
-                                <div><span className="text-muted-foreground block text-xs">Ciudad</span> {userData.birthCity}</div>
-                              </div>
-                            </div>
-                          )}
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Ingresa los datos de nacimiento provisionales para el proceso de rectificación. 
+                            <strong> Estos datos no modificarán</strong> los datos que utilizamos para calcular tu carta en nuestra plataforma.
+                          </p>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/20 p-4 rounded-xl border border-border/50">
+                            <FormField
+                              control={form.control}
+                              name="rectificationBirthDate"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-xs">Fecha de Nacimiento</FormLabel>
+                                  <FormControl>
+                                    <Input type="date" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="rectificationBirthTime"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-xs">Hora de Nacimiento (Aprox.)</FormLabel>
+                                  <FormControl>
+                                    <Input type="time" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="rectificationBirthCity"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-xs">Ciudad de Nacimiento</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Ej: Buenos Aires" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="rectificationBirthCountry"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-xs">País de Nacimiento</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Ej: Argentina" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
 
                           <FormField
                             control={form.control}

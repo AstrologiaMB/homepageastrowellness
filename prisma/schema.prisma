@@ -39,6 +39,11 @@ model User {
   rectificationAcceptedUncertainty Boolean              @default(false)
   rectificationStatus              String?
   rectificationRequestDate         DateTime?
+  rectificationBirthDate           DateTime?
+  rectificationBirthHour           Int?
+  rectificationBirthMinute         Int?
+  rectificationBirthCity           String?
+  rectificationBirthCountry        String?
   rectificationEvents              RectificationEvent[]
   cartasNatales                    CartaNatal[]
   interpretaciones                 InterpretacionCache[]
