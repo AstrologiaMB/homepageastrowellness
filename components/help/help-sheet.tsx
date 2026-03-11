@@ -25,13 +25,16 @@ export function HelpSheet({ trigger }: { trigger?: React.ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
 
+  const normalizeText = (text: string) =>
+    text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
   // Filter content based on search query
   const filteredContent = HELP_CONTENT.map((category) => ({
     ...category,
     items: category.items.filter(
       (item) =>
-        item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.answer.toLowerCase().includes(searchQuery.toLowerCase())
+        normalizeText(item.question).includes(normalizeText(searchQuery)) ||
+        normalizeText(item.answer).includes(normalizeText(searchQuery))
     ),
   })).filter((category) => category.items.length > 0);
 
@@ -135,7 +138,7 @@ export function HelpSheet({ trigger }: { trigger?: React.ReactNode }) {
           <div className="mt-8 p-4 bg-muted/50 rounded-lg text-center">
             <p className="text-sm text-muted-foreground mb-2">¿No encuentras lo que buscas?</p>
             <Button variant="outline" size="sm" asChild>
-              <a href="mailto:info@astrochat.online">Contactar Soporte Humano</a>
+              <a href="mailto:soporte@astrochat.online">Contactar Soporte Humano</a>
             </Button>
           </div>
         </ScrollArea>

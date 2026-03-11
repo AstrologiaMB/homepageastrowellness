@@ -150,7 +150,7 @@ export const HELP_CONTENT: HelpCategory[] = [
       {
         question: 'Encontré un error, ¿qué hago?',
         answer:
-          'Toma una captura de pantalla y envíala a info@astrochat.online con una breve descripción.',
+          'Toma una captura de pantalla y envíala a soporte@astrochat.online con una breve descripción.',
       },
     ],
   },
