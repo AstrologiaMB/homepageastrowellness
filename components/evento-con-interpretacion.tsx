@@ -21,6 +21,12 @@ interface EventoConInterpretacionProps {
   natalData?: any;
   variant?: 'default' | 'minimal';
   className?: string;
+  specialContext?: {
+    type: string;
+    name: string;
+    isEclipse: boolean;
+    phaseIcon?: string;
+  };
 }
 
 export function EventoConInterpretacion({
@@ -28,13 +34,45 @@ export function EventoConInterpretacion({
   natalData,
   variant = 'default',
   className = '',
+  specialContext,
 }: EventoConInterpretacionProps) {
   const [interpretacion, setInterpretacion] = useState<string | null>(
     evento.interpretacion || null
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // --- Personal Hero Card Logic ---
+  const isSlowPlanet = (planet?: string | null) =>
+    planet ? ['júpiter', 'jupiter', 'saturno', 'urano', 'neptuno', 'plutón', 'pluton'].includes(planet.toLowerCase()) : false;
+
+  const isPersonalPoint = (point?: string | null) =>
+    point ? ['sol', 'luna', 'mercurio', 'venus', 'marte', 'ascendente', 'medio cielo'].includes(point.toLowerCase()) : false;
+
+  const isExactTransit = evento.orbe === "0°00'00\"";
+
+  const isPersonalHero =
+    evento.tipo_evento === 'Aspecto' &&
+    isSlowPlanet(evento.planeta1) &&
+    isPersonalPoint(evento.planeta2) &&
+    isExactTransit;
+
+  const isEclipse = evento.tipo_evento.includes('Eclipse');
+  const isMajorPhase = ['Luna Nueva', 'Luna Llena'].includes(evento.tipo_evento);
+  const isCelestialHero = isEclipse || isMajorPhase;
+
+  const isAnyHero = isPersonalHero || isCelestialHero;
+
+  // Auto-expand if it's ANY Hero card to maximize WOW factor
+  const [isExpanded, setIsExpanded] = useState(isAnyHero);
+
+  // --- Auto-Fetch Logic for Hero Cards ---
+  // If the card mounts naturally expanded (Hero) but has no interpretation yet, fetch it automatically.
+  useEffect(() => {
+    if (isExpanded && !interpretacion && !isLoading && !error) {
+      obtenerInterpretacion();
+    }
+  }, [isExpanded, interpretacion, isLoading, error]);
 
   // Update effect if prop changes
   useEffect(() => {
@@ -53,7 +91,6 @@ export function EventoConInterpretacion({
   const isPhase = ['Luna Nueva', 'Luna Llena', 'Cuarto Creciente', 'Cuarto Menguante'].includes(
     evento.tipo_evento
   );
-  const isEclipse = evento.tipo_evento.includes('Eclipse');
 
   // Fetch Cycle Data on Mount if Phase
   useEffect(() => {
@@ -157,15 +194,32 @@ export function EventoConInterpretacion({
     );
   }
 
-  const isHighRelevance = evento.relevance === RelevanceLevel.HIGH;
+  const isHighRelevance = evento.relevance === RelevanceLevel.HIGH || isPersonalHero;
 
-  const style = getEventStyle(evento.tipo_evento);
+  const style = getEventStyle(evento.tipo_evento, evento.planeta1);
   const Icon = style.icon;
+
+  const isMoonTransit = evento.tipo_evento === 'Aspecto' && (evento.planeta1 === 'Luna' || evento.planeta2 === 'Luna');
+  const isActivator = !!specialContext && isMoonTransit;
 
   const content = (
     <div
-      className={`space-y-2 px-3 py-3 sm:px-4 sm:py-4 ${variant === 'minimal' ? 'p-0 sm:p-0' : ''}`}
+      className={cn(
+        "space-y-2 px-3 py-3 sm:px-4 sm:py-4",
+        variant === 'minimal' ? 'p-0 sm:p-0' : '',
+        isActivator && !isHighRelevance && "border-l-2 border-amber-400 dark:border-amber-500 bg-amber-50/10"
+      )}
     >
+      {isActivator && !isHighRelevance && (
+        <div className="flex items-center gap-2 mb-1">
+          <Badge variant="outline" className="text-[10px] bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 animate-pulse">
+            ⚡ {specialContext.isEclipse ? 'Activador de Eclipse' : 'Activador Lunar'}
+          </Badge>
+          <span className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">
+            Este tránsito activa la energía de hoy
+          </span>
+        </div>
+      )}
       {isHighRelevance && variant !== 'minimal' && (
         <div className="flex items-center gap-2 mb-1">
           <div className="p-1 rounded-full bg-amber-500/10 dark:bg-amber-500/20">
@@ -189,9 +243,9 @@ export function EventoConInterpretacion({
       )}
 
       <div
-        className={`font-semibold ${isHighRelevance && variant !== 'minimal' ? 'text-xl font-serif tracking-tight text-amber-900 dark:text-amber-100 leading-tight' : ''}`}
+        className={`font-semibold ${isAnyHero && variant !== 'minimal' ? 'text-xl font-serif tracking-tight text-amber-900 dark:text-amber-100 leading-tight' : ''}`}
       >
-        {isHighRelevance &&
+        {isAnyHero &&
           variant !== 'minimal' &&
           evento.tipo_evento === 'Aspecto' &&
           evento.planeta1 &&
@@ -201,18 +255,19 @@ export function EventoConInterpretacion({
           </span>
         ) : (
           <span>
-            {!isHighRelevance && variant !== 'minimal'
-              ? // For non-high relevance, title is simpler now that we have the badge above
+            {!isAnyHero && variant !== 'minimal'
+              ? // For non-hero, title is simpler now that we have the badge above
               `A las ${horaFormateada}`
-              : // For high relevance or minimal, keep existing title
+              : // For hero or minimal, keep existing title
               `${evento.tipo_evento} a las ${horaFormateada}`}
           </span>
         )}
       </div>
 
-      {isHighRelevance && variant !== 'minimal' && (
-        <div className="text-sm text-amber-900/60 dark:text-amber-100/60 mb-2 font-medium">
-          A las {horaFormateada}
+      {/* Activator Logic - Only show subtitle if NOT high relevance or if it adds value */}
+      {!isHighRelevance && isActivator && variant !== 'minimal' && (
+        <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium italic">
+          {specialContext.isEclipse ? "Este tránsito activa la energía del eclipse" : "Este tránsito activa la energía lunar de hoy"}
         </div>
       )}
 
@@ -272,9 +327,9 @@ export function EventoConInterpretacion({
       )}
 
       <Button
-        variant={isHighRelevance && variant !== 'minimal' ? 'default' : 'outline'}
+        variant={isAnyHero && variant !== 'minimal' ? 'default' : 'outline'}
         size="sm"
-        className={`w-full mt-2 ${isHighRelevance && variant !== 'minimal' ? 'bg-amber-100 text-amber-900 hover:bg-amber-200 border-amber-200' : ''}`}
+        className={`w-full mt-2 ${isAnyHero && variant !== 'minimal' ? 'bg-amber-100 text-amber-900 hover:bg-amber-200 border-amber-200' : ''}`}
         onClick={() => {
           if (!isExpanded && !interpretacion) {
             obtenerInterpretacion();
@@ -296,7 +351,7 @@ export function EventoConInterpretacion({
         ) : (
           <>
             <ChevronDown className="h-4 w-4 mr-2" />
-            {isHighRelevance && variant !== 'minimal'
+            {isAnyHero && variant !== 'minimal'
               ? 'Leer interpretación completa'
               : 'Ver interpretación'}
           </>
@@ -341,8 +396,11 @@ export function EventoConInterpretacion({
     <Card
       className={cn(
         'w-full sm:w-72 flex-shrink-0 h-auto transition-all duration-300',
-        isHighRelevance
-          ? 'border-amber-400/50 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/10 shadow-md transform hover:scale-[1.01]'
+        isAnyHero
+          ? cn(
+            'border-amber-400/50 shadow-md transform hover:scale-[1.01]',
+            style.heroGradient || 'bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/10'
+          )
           : 'bg-card',
         className
       )}

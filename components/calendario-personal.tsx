@@ -180,18 +180,8 @@ export function CalendarioPersonal() {
         try {
           const response = await fetchPersonalCalendar(natalData, false, year);
 
-          // Filter out Lunar Phases and Eclipses (Commercial Separation)
-          const filteredEvents = response.events.filter(
-            (e) =>
-              ![
-                'Luna Nueva',
-                'Luna Llena',
-                'Cuarto Creciente',
-                'Cuarto Menguante',
-                'Eclipse Solar',
-                'Eclipse Lunar',
-              ].includes(e.tipo_evento)
-          );
+          // Keep all events (removed commercial separation filter)
+          const filteredEvents = response.events;
 
           setEventos((prev) => {
             // Eliminar eventos existentes para este año antes de agregar los nuevos (evitar duplicados)
@@ -264,18 +254,8 @@ export function CalendarioPersonal() {
       // Force refresh for this year
       const response = await fetchPersonalCalendar(natalData, true, yearToRefresh);
 
-      // Filter out Lunar Phases
-      const filteredEvents = response.events.filter(
-        (e) =>
-          ![
-            'Luna Nueva',
-            'Luna Llena',
-            'Cuarto Creciente',
-            'Cuarto Menguante',
-            'Eclipse Solar',
-            'Eclipse Lunar',
-          ].includes(e.tipo_evento)
-      );
+      // Keep all events
+      const filteredEvents = response.events;
 
       setEventos((prev) => {
         // Remove old events for this year and add new ones
@@ -799,19 +779,53 @@ export function CalendarioPersonal() {
 
           const isToday = isSameDay(day, today);
 
-          // Group by relevance
-          const highRelevanceEvents = eventosDelDia.filter((e) => e.relevance === 'high');
-          const mediumRelevanceEvents = eventosDelDia.filter(
-            (e) => !e.relevance || e.relevance === 'medium'
+          // Detect special events for this day
+          const eclipses = eventosDelDia.filter(e => e.tipo_evento.includes('Eclipse'));
+
+          // Deduplication: If there's an eclipse at the same time as a phase, hide the phase
+          const deduplicatedEvents = eventosDelDia.filter(e => {
+            if (['Luna Nueva', 'Luna Llena'].includes(e.tipo_evento)) {
+              const hasEclipseAtSameTime = eclipses.some(eclipse => eclipse.hora_utc === e.hora_utc);
+              return !hasEclipseAtSameTime;
+            }
+            return true;
+          });
+
+          const specialEvent = deduplicatedEvents.find(e =>
+            ['Luna Nueva', 'Luna Llena', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
           );
-          const lowRelevanceEvents = eventosDelDia.filter((e) => e.relevance === 'low');
+
+          const specialContext = specialEvent ? {
+            type: specialEvent.tipo_evento,
+            name: specialEvent.tipo_evento,
+            isEclipse: specialEvent.tipo_evento.includes('Eclipse'),
+            phaseIcon: specialEvent.tipo_evento.includes('Nueva') || specialEvent.tipo_evento.toLowerCase().includes('solar') ? '🌑' : '🌕'
+          } : undefined;
+
+          // Group by relevance, ensuring special lunar events are ALWAYS high relevance
+          const highRelevanceEvents = deduplicatedEvents.filter((e) =>
+            e.relevance === 'high' ||
+            ['Luna Nueva', 'Luna Llena', 'Eclipse Solar', 'Eclipse Lunar'].includes(e.tipo_evento)
+          );
+
+          const mediumRelevanceEvents = deduplicatedEvents.filter(
+            (e) => (!e.relevance || e.relevance === 'medium') &&
+              !['Luna Nueva', 'Luna Llena', 'Eclipse Solar', 'Eclipse Lunar', 'Cuarto Creciente', 'Cuarto Menguante'].includes(e.tipo_evento)
+          );
+
+          const lowRelevanceEvents = deduplicatedEvents.filter((e) =>
+            e.relevance === 'low' ||
+            ['Cuarto Creciente', 'Cuarto Menguante'].includes(e.tipo_evento)
+          );
 
           return (
             <div
               key={day.toISOString()}
-              className={`flex flex-col gap-3 p-4 rounded-xl border transition-colors ${isToday
-                ? 'bg-primary/5 border-primary/40 dark:bg-primary/10'
-                : 'bg-card/50 border-border/50 hover:bg-card/80'
+              className={`flex flex-col gap-3 p-4 rounded-xl border transition-all duration-500 ${isToday
+                ? 'bg-primary/5 border-primary/40 dark:bg-primary/10 shadow-sm'
+                : specialContext
+                  ? 'bg-amber-50/30 border-amber-200/50 dark:bg-amber-950/5 hover:bg-amber-50/50'
+                  : 'bg-card/50 border-border/50 hover:bg-card/80'
                 }`}
             >
               {/* Day Header */}
@@ -844,6 +858,7 @@ export function CalendarioPersonal() {
                       key={`high-${evento.fecha_utc}-${idx}`}
                       evento={evento}
                       natalData={natalData}
+                      specialContext={specialContext}
                       className="w-full sm:w-full max-w-none" // Force full width override
                     />
                   ))}
@@ -860,6 +875,7 @@ export function CalendarioPersonal() {
                       key={`med-${evento.fecha_utc}-${idx}`}
                       evento={evento}
                       natalData={natalData}
+                      specialContext={specialContext}
                     />
                   ))}
                 </div>
@@ -870,7 +886,12 @@ export function CalendarioPersonal() {
                 <div className={`mt-2 ${mediumRelevanceEvents.length > 0 ? 'pt-3' : ''}`}>
                   <div className="text-[10px] uppercase text-muted-foreground font-semibold mb-2 tracking-wider flex items-center gap-2">
                     <span className="h-px bg-border flex-1"></span>
-                    <span>Tránsitos Menores & Eventos Lunares</span>
+                    <span>
+                      {specialContext
+                        ? (specialContext.isEclipse ? `Tránsitos de Activación del Eclipse 🌑⚡️` : `Tránsitos de Activación Lunar ${specialContext.phaseIcon}⚡️`)
+                        : `Tránsitos Menores & Eventos Lunares`
+                      }
+                    </span>
                     <span className="h-px bg-border flex-1"></span>
                   </div>
                   <div className="w-full max-w-2xl mx-auto">
@@ -906,6 +927,7 @@ export function CalendarioPersonal() {
                               <EventoConInterpretacion
                                 evento={{ ...evento, relevance: RelevanceLevel.MEDIUM }}
                                 natalData={natalData}
+                                specialContext={specialContext}
                                 variant="minimal"
                               />
                             </div>
@@ -935,6 +957,7 @@ export function CalendarioPersonal() {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         events={eventos}
+        activeYear={getYear(currentWeekStart)}
         onSelectEvent={(date) => {
           setCurrentWeekStart(startOfWeek(date, { locale: es }));
         }}

@@ -35,6 +35,30 @@ export function HelpSheet({ trigger }: { trigger?: React.ReactNode }) {
     ),
   })).filter((category) => category.items.length > 0);
 
+  // Helper function to parse basic markdown (newlines and bold text)
+  const renderAnswer = (text: string) => {
+    return text.split('\n').map((line, lineIndex) => {
+      // If line is empty string, render a spacer instead
+      if (line.trim() === '') return <span key={lineIndex} className="block h-2" />;
+
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      return (
+        <span key={lineIndex} className="block mb-2 last:mb-0">
+          {parts.map((part, i) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return (
+                <strong key={i} className="font-semibold text-foreground">
+                  {part.slice(2, -2)}
+                </strong>
+              );
+            }
+            return <span key={i}>{part}</span>;
+          })}
+        </span>
+      );
+    });
+  };
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -89,7 +113,7 @@ export function HelpSheet({ trigger }: { trigger?: React.ReactNode }) {
                           {item.question}
                         </AccordionTrigger>
                         <AccordionContent className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                          {item.answer}
+                          {renderAnswer(item.answer)}
                         </AccordionContent>
                       </AccordionItem>
                     ))}
