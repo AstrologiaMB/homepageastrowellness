@@ -1792,6 +1792,8 @@ export namespace Prisma {
     birthLon: number | null
     residenceLat: number | null
     residenceLon: number | null
+    rectificationBirthHour: number | null
+    rectificationBirthMinute: number | null
   }
 
   export type UserSumAggregateOutputType = {
@@ -1802,6 +1804,8 @@ export namespace Prisma {
     birthLon: number | null
     residenceLat: number | null
     residenceLon: number | null
+    rectificationBirthHour: number | null
+    rectificationBirthMinute: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1834,6 +1838,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean | null
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    rectificationBirthDate: Date | null
+    rectificationBirthHour: number | null
+    rectificationBirthMinute: number | null
+    rectificationBirthCity: string | null
+    rectificationBirthCountry: string | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean | null
     termsAccepted: boolean | null
@@ -1870,6 +1879,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean | null
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    rectificationBirthDate: Date | null
+    rectificationBirthHour: number | null
+    rectificationBirthMinute: number | null
+    rectificationBirthCity: string | null
+    rectificationBirthCountry: string | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean | null
     termsAccepted: boolean | null
@@ -1906,6 +1920,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: number
     rectificationStatus: number
     rectificationRequestDate: number
+    rectificationBirthDate: number
+    rectificationBirthHour: number
+    rectificationBirthMinute: number
+    rectificationBirthCity: number
+    rectificationBirthCountry: number
     stripeCustomerId: number
     hasDraconicAccess: number
     termsAccepted: number
@@ -1922,6 +1941,8 @@ export namespace Prisma {
     birthLon?: true
     residenceLat?: true
     residenceLon?: true
+    rectificationBirthHour?: true
+    rectificationBirthMinute?: true
   }
 
   export type UserSumAggregateInputType = {
@@ -1932,6 +1953,8 @@ export namespace Prisma {
     birthLon?: true
     residenceLat?: true
     residenceLon?: true
+    rectificationBirthHour?: true
+    rectificationBirthMinute?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1964,6 +1987,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    rectificationBirthDate?: true
+    rectificationBirthHour?: true
+    rectificationBirthMinute?: true
+    rectificationBirthCity?: true
+    rectificationBirthCountry?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
     termsAccepted?: true
@@ -2000,6 +2028,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    rectificationBirthDate?: true
+    rectificationBirthHour?: true
+    rectificationBirthMinute?: true
+    rectificationBirthCity?: true
+    rectificationBirthCountry?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
     termsAccepted?: true
@@ -2036,6 +2069,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: true
     rectificationStatus?: true
     rectificationRequestDate?: true
+    rectificationBirthDate?: true
+    rectificationBirthHour?: true
+    rectificationBirthMinute?: true
+    rectificationBirthCity?: true
+    rectificationBirthCountry?: true
     stripeCustomerId?: true
     hasDraconicAccess?: true
     termsAccepted?: true
@@ -2159,6 +2197,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: boolean
     rectificationStatus: string | null
     rectificationRequestDate: Date | null
+    rectificationBirthDate: Date | null
+    rectificationBirthHour: number | null
+    rectificationBirthMinute: number | null
+    rectificationBirthCity: string | null
+    rectificationBirthCountry: string | null
     stripeCustomerId: string | null
     hasDraconicAccess: boolean
     termsAccepted: boolean
@@ -2214,6 +2257,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    rectificationBirthDate?: boolean
+    rectificationBirthHour?: boolean
+    rectificationBirthMinute?: boolean
+    rectificationBirthCity?: boolean
+    rectificationBirthCountry?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -2259,6 +2307,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    rectificationBirthDate?: boolean
+    rectificationBirthHour?: boolean
+    rectificationBirthMinute?: boolean
+    rectificationBirthCity?: boolean
+    rectificationBirthCountry?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -2295,6 +2348,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    rectificationBirthDate?: boolean
+    rectificationBirthHour?: boolean
+    rectificationBirthMinute?: boolean
+    rectificationBirthCity?: boolean
+    rectificationBirthCountry?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -2331,13 +2389,18 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: boolean
     rectificationRequestDate?: boolean
+    rectificationBirthDate?: boolean
+    rectificationBirthHour?: boolean
+    rectificationBirthMinute?: boolean
+    rectificationBirthCity?: boolean
+    rectificationBirthCountry?: boolean
     stripeCustomerId?: boolean
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
     termsAcceptedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "birthLat" | "birthLon" | "residenceLat" | "residenceLon" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "stripeCustomerId" | "hasDraconicAccess" | "termsAccepted" | "termsAcceptedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "password" | "emailVerified" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt" | "birthDate" | "birthCity" | "birthCountry" | "birthHour" | "birthMinute" | "knowsBirthTime" | "birthDataChangeCount" | "gender" | "residenceCity" | "residenceCountry" | "birthLat" | "birthLon" | "residenceLat" | "residenceLon" | "timezone" | "rectificationRequested" | "rectificationAcceptedUncertainty" | "rectificationStatus" | "rectificationRequestDate" | "rectificationBirthDate" | "rectificationBirthHour" | "rectificationBirthMinute" | "rectificationBirthCity" | "rectificationBirthCountry" | "stripeCustomerId" | "hasDraconicAccess" | "termsAccepted" | "termsAcceptedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rectificationEvents?: boolean | User$rectificationEventsArgs<ExtArgs>
     cartasNatales?: boolean | User$cartasNatalesArgs<ExtArgs>
@@ -2394,6 +2457,11 @@ export namespace Prisma {
       rectificationAcceptedUncertainty: boolean
       rectificationStatus: string | null
       rectificationRequestDate: Date | null
+      rectificationBirthDate: Date | null
+      rectificationBirthHour: number | null
+      rectificationBirthMinute: number | null
+      rectificationBirthCity: string | null
+      rectificationBirthCountry: string | null
       stripeCustomerId: string | null
       hasDraconicAccess: boolean
       termsAccepted: boolean
@@ -2858,6 +2926,11 @@ export namespace Prisma {
     readonly rectificationAcceptedUncertainty: FieldRef<"User", 'Boolean'>
     readonly rectificationStatus: FieldRef<"User", 'String'>
     readonly rectificationRequestDate: FieldRef<"User", 'DateTime'>
+    readonly rectificationBirthDate: FieldRef<"User", 'DateTime'>
+    readonly rectificationBirthHour: FieldRef<"User", 'Int'>
+    readonly rectificationBirthMinute: FieldRef<"User", 'Int'>
+    readonly rectificationBirthCity: FieldRef<"User", 'String'>
+    readonly rectificationBirthCountry: FieldRef<"User", 'String'>
     readonly stripeCustomerId: FieldRef<"User", 'String'>
     readonly hasDraconicAccess: FieldRef<"User", 'Boolean'>
     readonly termsAccepted: FieldRef<"User", 'Boolean'>
@@ -13661,6 +13734,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty: 'rectificationAcceptedUncertainty',
     rectificationStatus: 'rectificationStatus',
     rectificationRequestDate: 'rectificationRequestDate',
+    rectificationBirthDate: 'rectificationBirthDate',
+    rectificationBirthHour: 'rectificationBirthHour',
+    rectificationBirthMinute: 'rectificationBirthMinute',
+    rectificationBirthCity: 'rectificationBirthCity',
+    rectificationBirthCountry: 'rectificationBirthCountry',
     stripeCustomerId: 'stripeCustomerId',
     hasDraconicAccess: 'hasDraconicAccess',
     termsAccepted: 'termsAccepted',
@@ -13940,6 +14018,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
     rectificationStatus?: StringNullableFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    rectificationBirthDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    rectificationBirthHour?: IntNullableFilter<"User"> | number | null
+    rectificationBirthMinute?: IntNullableFilter<"User"> | number | null
+    rectificationBirthCity?: StringNullableFilter<"User"> | string | null
+    rectificationBirthCountry?: StringNullableFilter<"User"> | string | null
     stripeCustomerId?: StringNullableFilter<"User"> | string | null
     hasDraconicAccess?: BoolFilter<"User"> | boolean
     termsAccepted?: BoolFilter<"User"> | boolean
@@ -13984,6 +14067,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrderInput | SortOrder
     rectificationRequestDate?: SortOrderInput | SortOrder
+    rectificationBirthDate?: SortOrderInput | SortOrder
+    rectificationBirthHour?: SortOrderInput | SortOrder
+    rectificationBirthMinute?: SortOrderInput | SortOrder
+    rectificationBirthCity?: SortOrderInput | SortOrder
+    rectificationBirthCountry?: SortOrderInput | SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     hasDraconicAccess?: SortOrder
     termsAccepted?: SortOrder
@@ -14032,6 +14120,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFilter<"User"> | boolean
     rectificationStatus?: StringNullableFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    rectificationBirthDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    rectificationBirthHour?: IntNullableFilter<"User"> | number | null
+    rectificationBirthMinute?: IntNullableFilter<"User"> | number | null
+    rectificationBirthCity?: StringNullableFilter<"User"> | string | null
+    rectificationBirthCountry?: StringNullableFilter<"User"> | string | null
     hasDraconicAccess?: BoolFilter<"User"> | boolean
     termsAccepted?: BoolFilter<"User"> | boolean
     termsAcceptedAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -14075,6 +14168,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrderInput | SortOrder
     rectificationRequestDate?: SortOrderInput | SortOrder
+    rectificationBirthDate?: SortOrderInput | SortOrder
+    rectificationBirthHour?: SortOrderInput | SortOrder
+    rectificationBirthMinute?: SortOrderInput | SortOrder
+    rectificationBirthCity?: SortOrderInput | SortOrder
+    rectificationBirthCountry?: SortOrderInput | SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
     hasDraconicAccess?: SortOrder
     termsAccepted?: SortOrder
@@ -14119,6 +14217,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolWithAggregatesFilter<"User"> | boolean
     rectificationStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     rectificationRequestDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    rectificationBirthDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    rectificationBirthHour?: IntNullableWithAggregatesFilter<"User"> | number | null
+    rectificationBirthMinute?: IntNullableWithAggregatesFilter<"User"> | number | null
+    rectificationBirthCity?: StringNullableWithAggregatesFilter<"User"> | string | null
+    rectificationBirthCountry?: StringNullableWithAggregatesFilter<"User"> | string | null
     stripeCustomerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     hasDraconicAccess?: BoolWithAggregatesFilter<"User"> | boolean
     termsAccepted?: BoolWithAggregatesFilter<"User"> | boolean
@@ -14874,6 +14977,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -14918,6 +15026,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -14962,6 +15075,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -15006,6 +15124,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -15050,6 +15173,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -15086,6 +15214,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -15122,6 +15255,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -16125,6 +16263,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    rectificationBirthDate?: SortOrder
+    rectificationBirthHour?: SortOrder
+    rectificationBirthMinute?: SortOrder
+    rectificationBirthCity?: SortOrder
+    rectificationBirthCountry?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
     termsAccepted?: SortOrder
@@ -16139,6 +16282,8 @@ export namespace Prisma {
     birthLon?: SortOrder
     residenceLat?: SortOrder
     residenceLon?: SortOrder
+    rectificationBirthHour?: SortOrder
+    rectificationBirthMinute?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -16171,6 +16316,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    rectificationBirthDate?: SortOrder
+    rectificationBirthHour?: SortOrder
+    rectificationBirthMinute?: SortOrder
+    rectificationBirthCity?: SortOrder
+    rectificationBirthCountry?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
     termsAccepted?: SortOrder
@@ -16207,6 +16357,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: SortOrder
     rectificationStatus?: SortOrder
     rectificationRequestDate?: SortOrder
+    rectificationBirthDate?: SortOrder
+    rectificationBirthHour?: SortOrder
+    rectificationBirthMinute?: SortOrder
+    rectificationBirthCity?: SortOrder
+    rectificationBirthCountry?: SortOrder
     stripeCustomerId?: SortOrder
     hasDraconicAccess?: SortOrder
     termsAccepted?: SortOrder
@@ -16221,6 +16376,8 @@ export namespace Prisma {
     birthLon?: SortOrder
     residenceLat?: SortOrder
     residenceLon?: SortOrder
+    rectificationBirthHour?: SortOrder
+    rectificationBirthMinute?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -18005,6 +18162,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18048,6 +18210,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18107,6 +18274,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18150,6 +18322,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18193,6 +18370,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18236,6 +18418,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18295,6 +18482,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18338,6 +18530,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18381,6 +18578,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18424,6 +18626,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18483,6 +18690,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18526,6 +18738,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18569,6 +18786,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18612,6 +18834,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18671,6 +18898,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18714,6 +18946,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18757,6 +18994,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18800,6 +19042,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18859,6 +19106,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18902,6 +19154,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -18945,6 +19202,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -18988,6 +19250,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -19047,6 +19314,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -19090,6 +19362,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -19133,6 +19410,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -19176,6 +19458,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -19235,6 +19522,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -19278,6 +19570,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -19321,6 +19618,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -19364,6 +19666,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: boolean
     rectificationStatus?: string | null
     rectificationRequestDate?: Date | string | null
+    rectificationBirthDate?: Date | string | null
+    rectificationBirthHour?: number | null
+    rectificationBirthMinute?: number | null
+    rectificationBirthCity?: string | null
+    rectificationBirthCountry?: string | null
     stripeCustomerId?: string | null
     hasDraconicAccess?: boolean
     termsAccepted?: boolean
@@ -19423,6 +19730,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
@@ -19466,6 +19778,11 @@ export namespace Prisma {
     rectificationAcceptedUncertainty?: BoolFieldUpdateOperationsInput | boolean
     rectificationStatus?: NullableStringFieldUpdateOperationsInput | string | null
     rectificationRequestDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rectificationBirthHour?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthMinute?: NullableIntFieldUpdateOperationsInput | number | null
+    rectificationBirthCity?: NullableStringFieldUpdateOperationsInput | string | null
+    rectificationBirthCountry?: NullableStringFieldUpdateOperationsInput | string | null
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     hasDraconicAccess?: BoolFieldUpdateOperationsInput | boolean
     termsAccepted?: BoolFieldUpdateOperationsInput | boolean
