@@ -11,6 +11,8 @@ import prisma from '@/lib/prisma';
 import { logger } from '@/lib/logger';
 import { ApiError } from '@/lib/errors/ApiError';
 import { getApiUrl } from '@/lib/api-config';
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout';
+import { API_TIMEOUT } from '@/lib/constants/api.constants';
 
 // Extended API response type for astrology-specific responses
 interface AstrologyApiResponse {
@@ -98,7 +100,7 @@ export async function calculateTropicalChart(
 
   // Call FastAPI
   logger.info('Calling FastAPI for tropical chart calculation', { userId });
-  const fastApiResponse = await fetch(`${getApiUrl('CALCULOS')}/carta-natal/tropical`, {
+  const fastApiResponse = await fetchWithTimeout(`${getApiUrl('CALCULOS')}/carta-natal/tropical`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -246,7 +248,7 @@ export async function calculateDraconicChart(
 
   // Call FastAPI
   logger.info('Calling FastAPI for draconic chart calculation', { userId });
-  const fastApiResponse = await fetch(`${getApiUrl('CALCULOS')}/carta-draconica/calcular`, {
+  const fastApiResponse = await fetchWithTimeout(`${getApiUrl('CALCULOS')}/carta-draconica/calcular`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -387,7 +389,7 @@ export async function getChartInterpretation(
 
   // Call FastAPI
   logger.info('Calling FastAPI for interpretation', { userId, chartType });
-  const fastApiResponse = await fetch(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
+  const fastApiResponse = await fetchWithTimeout(`${getApiUrl('INTERPRETACIONES')}/interpretar`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -396,7 +398,7 @@ export async function getChartInterpretation(
       genero: gender,
       tipo: chartType,
     }),
-  });
+  }, API_TIMEOUT.LONG);
 
   if (!fastApiResponse.ok) {
     const errorText = await fastApiResponse.text();
@@ -529,7 +531,7 @@ export async function getPersonalCalendar(
 
   // Call FastAPI
   logger.info('Calling FastAPI for personal calendar', { userId, year });
-  const fastApiResponse = await fetch(`${getApiUrl('CALENDARIO')}/calendario-personal`, {
+  const fastApiResponse = await fetchWithTimeout(`${getApiUrl('CALENDARIO')}/calendario-personal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -629,7 +631,7 @@ export async function calculateAstrogematria(palabra: string): Promise<Astrology
 
   // Call FastAPI
   logger.info('Calling FastAPI for astrogematria', { palabra: normalizedPalabra });
-  const fastApiResponse = await fetch(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`, {
+  const fastApiResponse = await fetchWithTimeout(`${getApiUrl('ASTROGEMATRIA')}/astrogematria/calcular`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ palabra: normalizedPalabra }),

@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout';
 
 export async function POST() {
   try {
@@ -115,7 +116,7 @@ export async function POST() {
 
     // Llamar a FastAPI
     console.log('Llamando a FastAPI para calcular análisis cruzado dracónico-tropical...');
-    const fastApiResponse = await fetch(`${getApiUrl('CALCULOS')}/carta-natal/cruzada`, {
+    const fastApiResponse = await fetchWithTimeout(`${getApiUrl('CALCULOS')}/carta-natal/cruzada`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
