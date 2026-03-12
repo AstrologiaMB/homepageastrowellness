@@ -13,8 +13,8 @@ interface ProductPrice {
   recurring: { interval: string } | null;
 }
 
-/** In-memory cache: currency -> { data, timestamp } */
-const cache = new Map<string, { data: Record<string, ProductPrice>; timestamp: number }>();
+/** In-memory cache: requested currency -> { data, timestamp } */
+const cache = new Map<string, { data: Record<string, ProductPrice>; currency: string; timestamp: number }>();
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 /**
@@ -22,7 +22,8 @@ const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
  *
  * Returns active prices for all products in the requested currency.
  * Auto-detects currency from geo headers if not specified.
- * Response is keyed by product key (BASE_BUNDLE, ADD_ON_LUNAR, etc.)
+ * If any product lacks a price in the requested currency, ALL prices
+ * fall back to USD to prevent mixed-currency checkout sessions.
  */
 export async function GET(request: NextRequest) {
   try {
@@ -36,21 +37,19 @@ export async function GET(request: NextRequest) {
       currency = detectCurrencyFromHeaders(request.headers);
     }
 
-    // Check cache
+    // Check cache (keyed by requested currency)
     const cached = cache.get(currency);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
       return NextResponse.json({
-        currency,
+        currency: cached.currency,
         prices: cached.data,
-        cached: true,
       });
     }
 
     // Fetch prices for each product from Stripe
     const productEntries = Object.entries(STRIPE_PRODUCTS);
-    const prices: Record<string, ProductPrice> = {};
 
-    // Fetch all in parallel
+    // First pass: try the requested currency
     const results = await Promise.all(
       productEntries.map(async ([key, productId]) => {
         const stripePrices = await stripe.prices.list({
@@ -61,66 +60,54 @@ export async function GET(request: NextRequest) {
         });
 
         const price = stripePrices.data[0];
-        if (price) {
-          return {
-            key,
-            price: {
-              priceId: price.id,
-              productId: productId,
-              currency: price.currency,
-              unitAmount: (price.unit_amount || 0) / 100,
-              recurring: price.recurring
-                ? { interval: price.recurring.interval }
-                : null,
-            } satisfies ProductPrice,
-          };
-        }
+        return { key, productId, price: price || null };
+      })
+    );
 
-        // No price found for this currency — try USD fallback
-        if (currency !== 'usd') {
-          const fallbackPrices = await stripe.prices.list({
+    // Check if all products have a price in the requested currency
+    const allHaveCurrency = results.every((r) => r.price !== null);
+
+    // If any product lacks the requested currency, fall back ALL to USD
+    let finalCurrency = currency;
+    let finalResults = results;
+
+    if (!allHaveCurrency && currency !== 'usd') {
+      finalCurrency = 'usd';
+      finalResults = await Promise.all(
+        productEntries.map(async ([key, productId]) => {
+          const stripePrices = await stripe.prices.list({
             product: productId,
             currency: 'usd',
             active: true,
             limit: 1,
           });
-          const fallback = fallbackPrices.data[0];
-          if (fallback) {
-            return {
-              key,
-              price: {
-                priceId: fallback.id,
-                productId: productId,
-                currency: fallback.currency,
-                unitAmount: (fallback.unit_amount || 0) / 100,
-                recurring: fallback.recurring
-                  ? { interval: fallback.recurring.interval }
-                  : null,
-              } satisfies ProductPrice,
-            };
-          }
-        }
+          return { key, productId, price: stripePrices.data[0] || null };
+        })
+      );
+    }
 
-        return null;
-      })
-    );
-
-    for (const result of results) {
-      if (result) {
-        prices[result.key] = result.price;
+    // Build response
+    const prices: Record<string, ProductPrice> = {};
+    for (const result of finalResults) {
+      if (result.price) {
+        prices[result.key] = {
+          priceId: result.price.id,
+          productId: result.productId,
+          currency: result.price.currency,
+          unitAmount: (result.price.unit_amount || 0) / 100,
+          recurring: result.price.recurring
+            ? { interval: result.price.recurring.interval }
+            : null,
+        };
       }
     }
 
-    // Determine the actual currency returned (might be mixed if some fell back)
-    const actualCurrency = prices.BASE_BUNDLE?.currency || currency;
-
-    // Cache the result
-    cache.set(actualCurrency, { data: prices, timestamp: Date.now() });
+    // Cache under the requested currency key (so EUR requests don't miss cache)
+    cache.set(currency, { data: prices, currency: finalCurrency, timestamp: Date.now() });
 
     return NextResponse.json({
-      currency: actualCurrency,
+      currency: finalCurrency,
       prices,
-      cached: false,
     });
   } catch (error) {
     console.error('Error fetching Stripe prices:', error);

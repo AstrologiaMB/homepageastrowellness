@@ -3,8 +3,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { stripe } from '@/lib/stripe';
 import { features, isFeatureEnabled } from '@/lib/features';
-import { PRODUCT_ENTITLEMENT_MAPPING } from '@/lib/constants/stripe.constants';
+import { STRIPE_PRODUCTS, PRODUCT_ENTITLEMENT_MAPPING } from '@/lib/constants/stripe.constants';
 import prisma from '@/lib/prisma';
+
+/** Allowlist of valid product IDs — reject any price not belonging to these */
+const VALID_PRODUCT_IDS = new Set(Object.values(STRIPE_PRODUCTS));
 
 export async function POST(_request: Request) {
   try {
@@ -14,7 +17,18 @@ export async function POST(_request: Request) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    // Get User from DB to check stripeCustomerId
+    const body = await _request.json();
+    const { items, mode } = body;
+
+    // Input validation
+    if (!Array.isArray(items) || items.length === 0 || !items.every((i: unknown) => typeof i === 'string')) {
+      return new NextResponse('Invalid items', { status: 400 });
+    }
+    if (mode !== 'subscription' && mode !== 'payment') {
+      return new NextResponse('Invalid mode', { status: 400 });
+    }
+
+    // Get User from DB
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
       include: { subscription: true },
@@ -23,11 +37,6 @@ export async function POST(_request: Request) {
     if (!user) {
       return new NextResponse('User not found', { status: 404 });
     }
-
-    const body = await _request.json();
-    // items: array of Price IDs (resolved by the frontend per currency)
-    // mode: 'subscription' | 'payment'
-    const { items, mode } = body;
 
     let customerId = user.stripeCustomerId;
 
@@ -45,22 +54,27 @@ export async function POST(_request: Request) {
       });
     }
 
-    // Prepare line items
-    const line_items = items.map((priceId: string) => ({
-      price: priceId,
-      quantity: 1,
-    }));
-
-    // [SECURITY] Validate Feature Flags
-    // Fetch the price objects to get product IDs for validation
-    const priceObjects = await Promise.all(
-      items.map((priceId: string) => stripe.prices.retrieve(priceId))
+    // [SECURITY] Validate price IDs belong to known products
+    const submittedPrices = await Promise.all(
+      items.map((priceId: string) => stripe.prices.retrieve(priceId).catch(() => null))
     );
 
-    for (const price of priceObjects) {
-      const productId = typeof price.product === 'string' ? price.product : price.product.id;
-      const entitlementKey = PRODUCT_ENTITLEMENT_MAPPING[productId];
+    for (let idx = 0; idx < items.length; idx++) {
+      const price = submittedPrices[idx];
+      if (!price) {
+        return new NextResponse('Invalid price ID', { status: 400 });
+      }
 
+      const productId = typeof price.product === 'string' ? price.product : price.product.id;
+
+      // Reject prices not in our product allowlist
+      if (!VALID_PRODUCT_IDS.has(productId)) {
+        console.warn(`[SECURITY] Blocked checkout with unknown product: ${productId} by ${session.user.email}`);
+        return new NextResponse('Invalid price', { status: 403 });
+      }
+
+      // Check feature flags
+      const entitlementKey = PRODUCT_ENTITLEMENT_MAPPING[productId];
       let featureFlagKey: keyof typeof features | undefined;
       if (entitlementKey === 'hasBaseBundle') featureFlagKey = 'enablePersonalCalendar';
       if (entitlementKey === 'hasLunarCalendar') featureFlagKey = 'enableLunarCalendar';
@@ -86,9 +100,14 @@ export async function POST(_request: Request) {
       return NextResponse.json({ url: portalSession.url });
     }
 
+    const line_items = items.map((priceId: string) => ({
+      price: priceId,
+      quantity: 1,
+    }));
+
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      mode: mode || 'subscription',
+      mode,
       payment_method_types: ['card'],
       line_items,
       success_url: `${process.env.NEXTAUTH_URL}/upgrade?success=true`,

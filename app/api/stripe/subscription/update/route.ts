@@ -49,7 +49,7 @@ export async function POST(_request: Request) {
     if (action === 'add') {
       // Check if product already exists (by product ID, multi-currency safe)
       const existingItem = items.find((item) => {
-        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product;
+        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product.id;
         return itemProductId === productId;
       });
       if (existingItem) {
@@ -68,7 +68,7 @@ export async function POST(_request: Request) {
     if (action === 'remove') {
       // Find the item by product ID (multi-currency safe)
       const itemToRemove = items.find((item) => {
-        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product;
+        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product.id;
         return itemProductId === productId;
       });
       if (!itemToRemove) {
