@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
+import { useState, Suspense, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   Card,
@@ -19,14 +19,30 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { isFeatureEnabled } from '@/lib/features';
-import { STRIPE_PRICES } from '@/lib/constants/stripe.constants';
+import { detectCurrencyFromLocale, formatPrice } from '@/lib/currency';
+import type { SupportedCurrency } from '@/lib/currency';
 
-const PRICE_VALUES = {
-  BASE: 3.0,
-  LUNAR: 1.5,
-  ASTRO: 1.0,
-  ELECTIVE: 4.5,
-  DRACONIC: 25.0,
+/** Price data returned from /api/stripe/prices */
+interface ProductPrice {
+  priceId: string;
+  productId: string;
+  currency: string;
+  unitAmount: number;
+  recurring: { interval: string } | null;
+}
+
+interface PricesResponse {
+  currency: string;
+  prices: Record<string, ProductPrice>;
+}
+
+/** Fallback prices (USD) shown while loading */
+const FALLBACK_PRICES: Record<string, number> = {
+  BASE_BUNDLE: 3.0,
+  ADD_ON_LUNAR: 1.5,
+  ADD_ON_ASTROGEMATRIA: 1.0,
+  ADD_ON_ELECTIVE: 4.5,
+  ONE_TIME_DRACONIC: 25.0,
 };
 
 function UpgradePageContent() {
@@ -35,57 +51,91 @@ function UpgradePageContent() {
   const success = searchParams.get('success');
   const callbackUrl = searchParams.get('callbackUrl');
 
-  // Properly destructure session and status
   const { data: session, status, update } = useSession();
   const user = session?.user as any;
   const entitlements = user?.entitlements || {};
   const isBaseActive = entitlements.hasBaseBundle && entitlements.status === 'active';
 
-  // State for Add-ons (Base is always selected if subscribing)
+  // State
   const [selectedAddOns, setSelectedAddOns] = useState({
     lunar: false,
     astro: false,
     elective: false,
   });
-
-  // State hooks (MUST be before any conditional return)
   const [loading, setLoading] = useState(false);
+  const [prices, setPrices] = useState<PricesResponse | null>(null);
+  const [pricesLoading, setPricesLoading] = useState(true);
 
-  // 3. Side effects (Moved up to avoid conditional return violation)
+  // Detect currency and fetch prices
+  useEffect(() => {
+    const currency = detectCurrencyFromLocale();
+    fetch(`/api/stripe/prices?currency=${currency}`)
+      .then((res) => res.json())
+      .then((data) => setPrices(data))
+      .catch((err) => console.error('Error fetching prices:', err))
+      .finally(() => setPricesLoading(false));
+  }, []);
+
+  // Session refresh on success
   useEffect(() => {
     if (success) {
       update();
     }
   }, [success, update]);
 
-  // 4. Polling for activation (Race Condition Fix)
+  // Polling for activation (Race Condition Fix)
   useEffect(() => {
     let interval: NodeJS.Timeout;
-
     if (success && !isBaseActive) {
       interval = setInterval(() => {
-        update(); // Poll session every 2s until webhook updates DB
+        update();
       }, 2000);
     }
-
     return () => clearInterval(interval);
   }, [success, isBaseActive, update]);
 
-  // 1. Defensively handle loading state
+  // Helper: get price for a product key
+  const getPrice = useCallback(
+    (key: string): number => {
+      return prices?.prices?.[key]?.unitAmount ?? FALLBACK_PRICES[key] ?? 0;
+    },
+    [prices]
+  );
+
+  // Helper: get price ID for a product key
+  const getPriceId = useCallback(
+    (key: string): string => {
+      return prices?.prices?.[key]?.priceId ?? '';
+    },
+    [prices]
+  );
+
+  // Helper: format a price amount
+  const currency = (prices?.currency || 'usd') as SupportedCurrency;
+  const fmt = useCallback(
+    (amount: number): string => {
+      return formatPrice(amount, currency);
+    },
+    [currency]
+  );
+
   if (status === 'loading' && !success) {
     return <div className="container mx-auto px-4 py-16 text-center">Cargando...</div>;
   }
 
-  // 2. Safe access to entitlements (already defined above)
-
   // Calculate Monthly Total
   const monthlyTotal =
-    PRICE_VALUES.BASE +
-    (selectedAddOns.lunar ? PRICE_VALUES.LUNAR : 0) +
-    (selectedAddOns.astro ? PRICE_VALUES.ASTRO : 0) +
-    (selectedAddOns.elective ? PRICE_VALUES.ELECTIVE : 0);
+    getPrice('BASE_BUNDLE') +
+    (selectedAddOns.lunar ? getPrice('ADD_ON_LUNAR') : 0) +
+    (selectedAddOns.astro ? getPrice('ADD_ON_ASTROGEMATRIA') : 0) +
+    (selectedAddOns.elective ? getPrice('ADD_ON_ELECTIVE') : 0);
 
-  const handleUpdateSubscription = async (priceId: string, action: 'add' | 'remove') => {
+  const handleUpdateSubscription = async (productKey: string, action: 'add' | 'remove') => {
+    const priceId = getPriceId(productKey);
+    if (!priceId) {
+      toast.error('Error: precio no disponible');
+      return;
+    }
     setLoading(true);
     try {
       const response = await fetch('/api/stripe/subscription/update', {
@@ -96,9 +146,7 @@ function UpgradePageContent() {
 
       if (!response.ok) throw new Error('Failed to update subscription');
 
-      // Force session update to fetch new entitlements
       await update();
-
       toast.success(
         action === 'add'
           ? 'Complemento agregado correctamente'
@@ -114,7 +162,6 @@ function UpgradePageContent() {
   };
 
   const handleCheckout = async (mode: 'subscription' | 'payment') => {
-    // If base is active and user clicks "Subscription", send to portal for general management
     if (mode === 'subscription' && isBaseActive) {
       try {
         setLoading(true);
@@ -130,32 +177,31 @@ function UpgradePageContent() {
 
     setLoading(true);
     try {
-      let items: string[] = [];
+      const items: string[] = [];
 
       if (mode === 'subscription') {
-        items.push(STRIPE_PRICES.BASE_BUNDLE);
-        if (selectedAddOns.lunar) items.push(STRIPE_PRICES.ADD_ON_LUNAR);
-        if (selectedAddOns.astro) items.push(STRIPE_PRICES.ADD_ON_ASTROGEMATRIA);
-        if (selectedAddOns.elective) items.push(STRIPE_PRICES.ADD_ON_ELECTIVE);
+        items.push(getPriceId('BASE_BUNDLE'));
+        if (selectedAddOns.lunar) items.push(getPriceId('ADD_ON_LUNAR'));
+        if (selectedAddOns.astro) items.push(getPriceId('ADD_ON_ASTROGEMATRIA'));
+        if (selectedAddOns.elective) items.push(getPriceId('ADD_ON_ELECTIVE'));
       } else {
-        // Draconic logic
-        items.push(STRIPE_PRICES.ONE_TIME_DRACONIC);
+        items.push(getPriceId('ONE_TIME_DRACONIC'));
+      }
+
+      // Validate all price IDs were resolved
+      if (items.some((id) => !id)) {
+        toast.error('Error: precios no disponibles. Recarga la página.');
+        setLoading(false);
+        return;
       }
 
       const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          items,
-          mode,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items, mode }),
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok) throw new Error('Network response was not ok');
 
       const { url } = await response.json();
       window.location.href = url;
@@ -170,7 +216,6 @@ function UpgradePageContent() {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-md mx-auto">
-          {/* Show Syncing State if not yet active */}
           {!isBaseActive ? (
             <>
               <div className="h-20 w-20 mx-auto mb-6 flex items-center justify-center">
@@ -219,7 +264,7 @@ function UpgradePageContent() {
         <p className="text-muted-foreground text-sm sm:text-base lg:text-lg max-w-3xl mx-auto px-4">
           Personaliza tu experiencia astrológica añadiendo los módulos que necesitas. Elige los
           servicios que desees, recuerda que siempre como mínimo hay que comprar la suscripción
-          mensual de USD 3 por mes.
+          mensual de {fmt(getPrice('BASE_BUNDLE'))} por mes.
         </p>
       </div>
 
@@ -233,7 +278,7 @@ function UpgradePageContent() {
             <CardTitle className="text-xl sm:text-2xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <span>Suscripción Principal</span>
               <span className="text-lg sm:text-xl font-bold">
-                ${PRICE_VALUES.BASE.toFixed(2)}
+                {pricesLoading ? '...' : fmt(getPrice('BASE_BUNDLE'))}
                 <span className="text-xs sm:text-sm font-normal text-muted-foreground">/mes</span>
               </span>
             </CardTitle>
@@ -315,7 +360,7 @@ function UpgradePageContent() {
                           checked={selectedAddOns.lunar || entitlements.hasLunarCalendar}
                           onCheckedChange={(c) => {
                             if (isBaseActive) {
-                              handleUpdateSubscription(STRIPE_PRICES.ADD_ON_LUNAR, !!c ? 'add' : 'remove');
+                              handleUpdateSubscription('ADD_ON_LUNAR', !!c ? 'add' : 'remove');
                             } else {
                               setSelectedAddOns((prev) => ({ ...prev, lunar: !!c }));
                             }
@@ -346,7 +391,7 @@ function UpgradePageContent() {
                       <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
                         {entitlements.hasLunarCalendar
                           ? 'Activo'
-                          : `+$${PRICE_VALUES.LUNAR.toFixed(2)}/mes`}
+                          : `+${fmt(getPrice('ADD_ON_LUNAR'))}/mes`}
                       </div>
                     </div>
 
@@ -361,7 +406,7 @@ function UpgradePageContent() {
                           onCheckedChange={(c) => {
                             if (isBaseActive) {
                               handleUpdateSubscription(
-                                STRIPE_PRICES.ADD_ON_ASTROGEMATRIA,
+                                'ADD_ON_ASTROGEMATRIA',
                                 !!c ? 'add' : 'remove'
                               );
                             } else {
@@ -394,7 +439,7 @@ function UpgradePageContent() {
                       <div className="font-semibold text-xs sm:text-sm text-right sm:text-left shrink-0">
                         {entitlements.hasAstrogematria
                           ? 'Activo'
-                          : `+$${PRICE_VALUES.ASTRO.toFixed(2)}/mes`}
+                          : `+${fmt(getPrice('ADD_ON_ASTROGEMATRIA'))}/mes`}
                       </div>
                     </div>
 
@@ -438,7 +483,7 @@ function UpgradePageContent() {
                   <div className="flex justify-between items-center w-full">
                     <span className="text-base sm:text-lg font-medium">Total Mensual</span>
                     <span className="text-2xl sm:text-3xl font-bold gradient-primary">
-                      ${monthlyTotal.toFixed(2)}
+                      {fmt(monthlyTotal)}
                     </span>
                   </div>
                 )}
@@ -447,7 +492,7 @@ function UpgradePageContent() {
                   onClick={() => handleCheckout('subscription')}
                   size="lg"
                   className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-sm sm:text-base lg:text-lg shadow-md h-11 sm:h-12"
-                  disabled={loading}
+                  disabled={loading || pricesLoading}
                 >
                   {loading
                     ? 'Procesando...'
@@ -482,7 +527,7 @@ function UpgradePageContent() {
           </CardHeader>
           <CardContent className="space-y-3 sm:space-y-4">
             <div className="text-2xl sm:text-3xl font-bold text-amber-900 dark:text-amber-200">
-              ${PRICE_VALUES.DRACONIC.toFixed(2)}
+              {pricesLoading ? '...' : fmt(getPrice('ONE_TIME_DRACONIC'))}
               <span className="text-xs sm:text-sm font-normal text-muted-foreground ml-1">
                 una vez
               </span>
@@ -497,7 +542,7 @@ function UpgradePageContent() {
               onClick={() => handleCheckout('payment')}
               className="w-full h-10 sm:h-11 text-sm sm:text-base"
               variant={isBaseActive ? 'outline' : 'ghost'}
-              disabled={loading || entitlements.hasDraconicAccess || !isBaseActive}
+              disabled={loading || pricesLoading || entitlements.hasDraconicAccess || !isBaseActive}
             >
               {loading
                 ? '...'
@@ -509,12 +554,12 @@ function UpgradePageContent() {
             </Button>
           </CardFooter>
         </Card>
-      </div >
+      </div>
 
       <div className="mt-8 sm:mt-12 text-center text-xs sm:text-sm text-muted-foreground">
         <p>¿Necesitas ayuda? Contacta a soporte.</p>
       </div>
-    </div >
+    </div>
   );
 }
 

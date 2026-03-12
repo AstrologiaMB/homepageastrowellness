@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { stripe } from '@/lib/stripe';
 import { features, isFeatureEnabled } from '@/lib/features';
-import { ENTITLEMENT_MAPPING } from '@/lib/constants/stripe.constants';
+import { PRODUCT_ENTITLEMENT_MAPPING } from '@/lib/constants/stripe.constants';
 import prisma from '@/lib/prisma';
 
 export async function POST(_request: Request) {
@@ -25,18 +25,18 @@ export async function POST(_request: Request) {
     }
 
     const body = await _request.json();
-    const { items, mode } = body; // items: array of priceIds, mode: 'subscription' | 'payment'
+    // items: array of Price IDs (resolved by the frontend per currency)
+    // mode: 'subscription' | 'payment'
+    const { items, mode } = body;
 
     let customerId = user.stripeCustomerId;
 
     // If no customer ID exists, create one in Stripe and save to DB
     if (!customerId) {
-      const customerData: any = {
+      const customer = await stripe.customers.create({
         email: user.email,
         name: user.name || undefined,
-      };
-
-      const customer = await stripe.customers.create(customerData);
+      });
       customerId = customer.id;
 
       await prisma.user.update({
@@ -52,18 +52,21 @@ export async function POST(_request: Request) {
     }));
 
     // [SECURITY] Validate Feature Flags
-    // Iterate over items and check if the associated feature is enabled for this user.
-    for (const priceId of items) {
-      const featureKey = Object.entries(ENTITLEMENT_MAPPING).find(([key]) => key === priceId)?.[1];
-      // Map entitlement key to feature flag key
-      let featureFlagKey: keyof typeof features | undefined;
+    // Fetch the price objects to get product IDs for validation
+    const priceObjects = await Promise.all(
+      items.map((priceId: string) => stripe.prices.retrieve(priceId))
+    );
 
-      // Manual mapping based on ENTITLEMENT_MAPPING keys to features keys
-      if (featureKey === 'hasBaseBundle') featureFlagKey = 'enablePersonalCalendar';
-      if (featureKey === 'hasLunarCalendar') featureFlagKey = 'enableLunarCalendar';
-      if (featureKey === 'hasAstrogematria') featureFlagKey = 'enableAstrogematria';
-      if (featureKey === 'hasElectiveChart') featureFlagKey = 'enableElectional';
-      if (featureKey === 'hasDraconicAccess') featureFlagKey = 'enableDraconicChart';
+    for (const price of priceObjects) {
+      const productId = typeof price.product === 'string' ? price.product : price.product.id;
+      const entitlementKey = PRODUCT_ENTITLEMENT_MAPPING[productId];
+
+      let featureFlagKey: keyof typeof features | undefined;
+      if (entitlementKey === 'hasBaseBundle') featureFlagKey = 'enablePersonalCalendar';
+      if (entitlementKey === 'hasLunarCalendar') featureFlagKey = 'enableLunarCalendar';
+      if (entitlementKey === 'hasAstrogematria') featureFlagKey = 'enableAstrogematria';
+      if (entitlementKey === 'hasElectiveChart') featureFlagKey = 'enableElectional';
+      if (entitlementKey === 'hasDraconicAccess') featureFlagKey = 'enableDraconicChart';
 
       if (featureFlagKey) {
         const isEnabled = isFeatureEnabled(featureFlagKey, session.user.email);
@@ -74,17 +77,8 @@ export async function POST(_request: Request) {
       }
     }
 
-    // Check for Draconic logic (Prerequisite check)
-    // If buying Draconic (One-Time), user MUST have Base Bundle active technically.
-    // However, maybe they are buying them together?
-    // For simplicity, we assume frontend handles "Buy Base First" or we allow buying together if we supported mixed modes (but Stripe doesn't easily mix sub+one-time in same checkout without setup).
-    // Let's assume Draconic is a separate 'payment' mode checkout, and Add-ons are 'subscription' updates.
-
-    // Actually, for subscriptions, we usually pass price IDs.
-
     // Prevent duplicate subscriptions
     if (mode === 'subscription' && user.subscription?.status === 'active') {
-      // If user already has a subscription, create a Portal session instead
       const portalSession = await stripe.billingPortal.sessions.create({
         customer: customerId,
         return_url: `${process.env.NEXTAUTH_URL}/upgrade`,
@@ -103,8 +97,6 @@ export async function POST(_request: Request) {
         userId: user.id,
       },
       allow_promotion_codes: true,
-      // If subscription, allow them to manage it?
-      // If 'payment' (Draconic/One-time), invoice_creation is automatic usually.
     });
 
     return NextResponse.json({ url: checkoutSession.url });
