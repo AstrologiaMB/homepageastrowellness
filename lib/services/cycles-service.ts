@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { getApiUrl } from '@/lib/api-config';
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout';
 
 // TypeScript Interfaces for the Service
 export interface CyclePhase {
@@ -41,12 +42,12 @@ export async function getCycleAnalysis(
   const MICROSERVICE_URL = getApiUrl('CALENDARIO');
 
   // 1. Call Python Microservice
-  const response = await fetch(`${MICROSERVICE_URL}/calculate-cycles`, {
+  const response = await fetchWithTimeout(`${MICROSERVICE_URL}/calculate-cycles`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      birth_date: natalData.birth_date || `${natalData.year}-01-01`, // Fallback if missing, though schema requires it
-      target_date: targetDate, // YYYY-MM-DD
+      birth_date: natalData.birth_date || `${natalData.year}-01-01`,
+      target_date: targetDate,
       location: natalData.location,
     }),
   });

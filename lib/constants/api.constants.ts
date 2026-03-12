@@ -111,8 +111,8 @@ export const API_TIMEOUT = {
   DEFAULT: 30000,
   /** Short timeout for quick operations */
   SHORT: 5000,
-  /** Long timeout for heavy calculations */
-  LONG: 120000,
+  /** Long timeout for AI interpretations (300s) */
+  LONG: 300000,
 } as const;
 
 /**

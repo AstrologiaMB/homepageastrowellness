@@ -4,6 +4,8 @@
  */
 
 import { getApiUrl } from '@/lib/api-config';
+import { fetchWithTimeout } from '@/lib/fetch-with-timeout';
+import { API_TIMEOUT } from '@/lib/constants/api.constants';
 
 export interface BirthData {
   name: string;
@@ -59,7 +61,7 @@ export class PersonalCalendarDynamicAPI {
       console.log('Calling dynamic personal calendar API with birth data:', birthData);
 
       const MICROSERVICE_URL = getApiUrl('CALENDARIO');
-      const response = await fetch(`${MICROSERVICE_URL}/calculate-personal-calendar-dynamic`, {
+      const response = await fetchWithTimeout(`${MICROSERVICE_URL}/calculate-personal-calendar-dynamic`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +90,7 @@ export class PersonalCalendarDynamicAPI {
   static async checkHealth(): Promise<boolean> {
     try {
       const MICROSERVICE_URL = getApiUrl('CALENDARIO');
-      const response = await fetch(`${MICROSERVICE_URL}/health`);
+      const response = await fetchWithTimeout(`${MICROSERVICE_URL}/health`, {}, API_TIMEOUT.SHORT);
       return response.ok;
     } catch (error) {
       console.error('Microservice health check failed:', error);
@@ -102,7 +104,7 @@ export class PersonalCalendarDynamicAPI {
   static async getServiceInfo() {
     try {
       const MICROSERVICE_URL = getApiUrl('CALENDARIO');
-      const response = await fetch(`${MICROSERVICE_URL}/info`);
+      const response = await fetchWithTimeout(`${MICROSERVICE_URL}/info`, {}, API_TIMEOUT.SHORT);
       if (response.ok) {
         return await response.json();
       }
