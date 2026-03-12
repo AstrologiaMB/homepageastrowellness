@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { stripe, STRIPE_PRICES } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe';
+import { STRIPE_PRODUCTS } from '@/lib/constants/stripe.constants';
 import prisma from '@/lib/prisma';
 import Stripe from 'stripe';
 import { syncSubscription } from '@/lib/stripe-sync';
@@ -27,7 +28,10 @@ export async function POST(req: Request) {
         // 1. Handle One-Time Payments (Draconic)
         if (session.mode === 'payment' && session.payment_status === 'paid') {
             const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-            const isDraconic = lineItems.data.some(item => item.price?.id === STRIPE_PRICES.ONE_TIME_DRACONIC);
+            const isDraconic = lineItems.data.some(item => {
+                const productId = typeof item.price?.product === 'string' ? item.price.product : item.price?.product?.id;
+                return productId === STRIPE_PRODUCTS.ONE_TIME_DRACONIC;
+            });
 
             if (isDraconic && session.metadata?.userId) {
                 await prisma.user.update({

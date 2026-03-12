@@ -8,20 +8,45 @@
  */
 
 /**
- * Stripe Price IDs
- * These IDs correspond to products and prices configured in Stripe Dashboard
+ * Stripe Product IDs
+ * These are stable identifiers that don't change across currencies.
+ * Configure prices per currency in the Stripe Dashboard.
+ */
+/**
+ * Stripe Product IDs vary between test and live mode.
+ * Set STRIPE_SECRET_KEY to sk_test_* or sk_live_* accordingly.
+ */
+const isLiveMode = process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_');
+
+export const STRIPE_PRODUCTS = {
+  /** Base Bundle - Monthly subscription (Combo Carta Trópica + Calendario Personal) */
+  BASE_BUNDLE: isLiveMode ? 'prod_U0HH9GdkxPBYQ2' : 'prod_TeZffWuCsqUpig',
+  /** Add-on: Lunar Calendar (Adicional Fases Lunares) */
+  ADD_ON_LUNAR: isLiveMode ? 'prod_U0HsqF3MZJhn3W' : 'prod_TeZgBpKPLJucI8',
+  /** Add-on: Astrogematria (Adicional Astrogematria) */
+  ADD_ON_ASTROGEMATRIA: isLiveMode ? 'prod_U0Hty2QrUAZDTu' : 'prod_TeZgHqJmebqqdc',
+  /** Add-on: Elective Chart (Adicional Buenos Momentos) */
+  ADD_ON_ELECTIVE: isLiveMode ? 'prod_U0Hu3cZ8Eg9rlj' : 'prod_TeZhbLggR1OduB',
+  /** One-time: Draconic Chart (Carta Dracónica) */
+  ONE_TIME_DRACONIC: isLiveMode ? 'prod_U0HveyFXiGTUPW' : 'prod_TeZhy8nECIcM8V',
+} as const;
+
+/**
+ * Stripe Price IDs (USD defaults / legacy)
+ * These IDs correspond to products and prices configured in Stripe Dashboard.
+ * For multi-currency, use the /api/stripe/prices endpoint to fetch the correct price.
  */
 export const STRIPE_PRICES = {
   /** Base Bundle - Monthly subscription */
-  BASE_BUNDLE: 'price_1T32KRPOMkZZZyKEVJ7NLpKE',
+  BASE_BUNDLE: isLiveMode ? 'price_1T2GiVAOH46vlTg9HybM5B3g' : 'price_1ShGWULOQsTENXFlKx62Lxlx',
   /** Add-on: Lunar Calendar */
-  ADD_ON_LUNAR: 'price_1T32KcPOMkZZZyKEWmYnKZYJ',
+  ADD_ON_LUNAR: isLiveMode ? 'price_1T2HJ7AOH46vlTg9y6ijhNeo' : 'price_1ShGX9LOQsTENXFlz3FXikyg',
   /** Add-on: Astrogematria */
-  ADD_ON_ASTROGEMATRIA: 'price_1T32KjPOMkZZZyKEy9yObtO3',
+  ADD_ON_ASTROGEMATRIA: isLiveMode ? 'price_1T2HJxAOH46vlTg9LpE4TCNl' : 'price_1ShGXVLOQsTENXFlygB8zOK0',
   /** Add-on: Elective Chart */
-  ADD_ON_ELECTIVE: 'price_1T32KpPOMkZZZyKE7LF2SsA7',
+  ADD_ON_ELECTIVE: isLiveMode ? 'price_1T2HKbAOH46vlTg9TIdlPjO4' : 'price_1ShGY7LOQsTENXFlvmAt6Nk2',
   /** One-time: Draconic Chart */
-  ONE_TIME_DRACONIC: 'price_1T32KuPOMkZZZyKEa5dURS6t',
+  ONE_TIME_DRACONIC: isLiveMode ? 'price_1T2HLKAOH46vlTg9DtgeP8kR' : 'price_1ShGYSLOQsTENXFlGVyzY7t4',
 } as const;
 
 /**
@@ -140,7 +165,7 @@ export const STRIPE_PAYMENT_METHOD_TYPES = {
 } as const;
 
 /**
- * Price type mappings
+ * Price type mappings (by Price ID - legacy)
  * Maps price IDs to their type (subscription or one-time)
  */
 export const PRICE_TYPE_MAPPING: Record<string, 'subscription' | 'one_time'> = {
@@ -152,7 +177,7 @@ export const PRICE_TYPE_MAPPING: Record<string, 'subscription' | 'one_time'> = {
 } as const;
 
 /**
- * Entitlement mappings
+ * Entitlement mappings (by Price ID - legacy)
  * Maps price IDs to their corresponding entitlement flags
  */
 export const ENTITLEMENT_MAPPING: Record<string, 'hasBaseBundle' | 'hasLunarCalendar' | 'hasAstrogematria' | 'hasElectiveChart' | 'hasDraconicAccess'> = {
@@ -161,4 +186,20 @@ export const ENTITLEMENT_MAPPING: Record<string, 'hasBaseBundle' | 'hasLunarCale
   [STRIPE_PRICES.ADD_ON_ASTROGEMATRIA]: 'hasAstrogematria',
   [STRIPE_PRICES.ADD_ON_ELECTIVE]: 'hasElectiveChart',
   [STRIPE_PRICES.ONE_TIME_DRACONIC]: 'hasDraconicAccess',
+} as const;
+
+export type EntitlementKey = 'hasBaseBundle' | 'hasLunarCalendar' | 'hasAstrogematria' | 'hasElectiveChart' | 'hasDraconicAccess';
+
+/**
+ * Product-based entitlement mappings (multi-currency safe)
+ * Maps Product IDs to their corresponding entitlement flags.
+ * Use this instead of ENTITLEMENT_MAPPING when processing subscriptions
+ * that may have prices in different currencies.
+ */
+export const PRODUCT_ENTITLEMENT_MAPPING: Record<string, EntitlementKey> = {
+  [STRIPE_PRODUCTS.BASE_BUNDLE]: 'hasBaseBundle',
+  [STRIPE_PRODUCTS.ADD_ON_LUNAR]: 'hasLunarCalendar',
+  [STRIPE_PRODUCTS.ADD_ON_ASTROGEMATRIA]: 'hasAstrogematria',
+  [STRIPE_PRODUCTS.ADD_ON_ELECTIVE]: 'hasElectiveChart',
+  [STRIPE_PRODUCTS.ONE_TIME_DRACONIC]: 'hasDraconicAccess',
 } as const;

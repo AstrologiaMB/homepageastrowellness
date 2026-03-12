@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
-import { stripe, STRIPE_PRICES } from '@/lib/stripe';
+import { stripe } from '@/lib/stripe';
+import { STRIPE_PRODUCTS } from '@/lib/constants/stripe.constants';
 import { syncSubscription } from '@/lib/stripe-sync';
 import prisma from '@/lib/prisma';
 
@@ -36,41 +37,46 @@ export async function POST(_request: Request) {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     const items = subscription.items.data;
 
+    // Resolve product ID from the price to check what we're dealing with
+    const priceObj = await stripe.prices.retrieve(priceId);
+    const productId = typeof priceObj.product === 'string' ? priceObj.product : priceObj.product.id;
+
     // Security Check: Base Bundle Protection
-    // Ensure we are NOT trying to remove the Base Bundle
-    if (action === 'remove' && priceId === STRIPE_PRICES.BASE_BUNDLE) {
+    if (action === 'remove' && productId === STRIPE_PRODUCTS.BASE_BUNDLE) {
       return new NextResponse('Cannot remove Base Bundle via this endpoint', { status: 403 });
     }
 
     if (action === 'add') {
-      // Check if already exists
-      const existingItem = items.find((item) => item.price.id === priceId);
+      // Check if product already exists (by product ID, multi-currency safe)
+      const existingItem = items.find((item) => {
+        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product.id;
+        return itemProductId === productId;
+      });
       if (existingItem) {
-        // Self-healing: If it exists in Stripe but we are here, DB might be out of sync.
-        // Sync and return success.
         await syncSubscription(subscription, user.id);
         return NextResponse.json({ success: true, message: 'Already active, synced.' });
       }
 
-      // Add the item
       await stripe.subscriptionItems.create({
         subscription: subscriptionId,
         price: priceId,
         quantity: 1,
-        proration_behavior: 'always_invoice', // Invoice immediately for the difference
+        proration_behavior: 'always_invoice',
       });
     }
 
     if (action === 'remove') {
-      // Find the item to remove
-      const itemToRemove = items.find((item) => item.price.id === priceId);
+      // Find the item by product ID (multi-currency safe)
+      const itemToRemove = items.find((item) => {
+        const itemProductId = typeof item.price.product === 'string' ? item.price.product : item.price.product.id;
+        return itemProductId === productId;
+      });
       if (!itemToRemove) {
         return new NextResponse('Item not found in subscription', { status: 404 });
       }
 
-      // Remove the item
       await stripe.subscriptionItems.del(itemToRemove.id, {
-        proration_behavior: 'always_invoice', // Credit immediately if applicable
+        proration_behavior: 'always_invoice',
       });
     }
 
